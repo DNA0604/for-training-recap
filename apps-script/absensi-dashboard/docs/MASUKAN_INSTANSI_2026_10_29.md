@@ -4,10 +4,10 @@ Dokumen pendataan permintaan dan opsi pembahasan. Rekomendasi di sini belum menj
 
 | Permintaan | Status / langkah |
 | --- | --- |
-| Peran Pengajar dengan tampilan Admin | Menunggu batas kewenangan. Tambahan pilihan peran harus disertai otorisasi server, scope dan larangan penilaian pengajar oleh non-Admin. |
+| Peran Pengajar dengan tampilan Admin | Dikonfirmasi pengguna: tampilan Admin, dibatasi sesi/Jenjang mengajar; tanpa kelola akun, hapus data atau penilaian Pengajar. Belum diimplementasikan; perlu matriks tindakan dan otorisasi server. |
 | Penilaian Pengajar khusus Admin | Menunggu indikator, skala, bobot, periode evaluasi dan aturan hasil. Belum ada nilai/formula yang dibuat. |
 | Spreadsheet penilaian terpisah | Usulan: spreadsheet operasional, akses, dan penilaian tetap mempunyai fungsi masing-masing. Bahas hasil final/snapshot peserta, catatan sumber, aturan versi, kepemilikan dan migrasi sebelum memindah data. |
-| Nama Pengajar pada Sesi | Menunggu satu/beberapa pengajar per sesi. Usulan identitas Pengajar stabil dan tautan akun opsional, sehingga laporan tidak mencocokkan orang berdasarkan teks nama. |
+| Nama Pengajar pada Sesi | Dikonfirmasi pengguna: hanya satu pengajar per sesi. Usulan identitas Pengajar stabil dan tautan akun opsional, sehingga laporan tidak mencocokkan orang berdasarkan teks nama. Belum diimplementasikan. |
 | Manajemen Akses memakai sidebar | Dapat diseragamkan dengan halaman lain. Opsi memisahkan HTML dari Akses.gs perlu mempertahankan panel native pemilik dan gateway Admin. Tidak otomatis harus menambah file jika renderer bersama cukup. |
 | Kolom CSV Rekap Program | Menunggu contoh file/kolom dari pengguna. Nilai keseluruhan saat ini sengaja kosong karena aturan akhir belum disepakati. |
 | Edit / Ubah Status indikator macet | Diperbaiki di Index.html: tombol disinkronkan kembali setelah pemuatan selesai. |
