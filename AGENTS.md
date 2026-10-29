@@ -11,7 +11,8 @@ Canonical repository: DNA0604/for-training-recap. Imported application path rema
 - Describe what changed and exactly which Apps Script files must be replaced. Deliver complete changed HTML/GS files, rather than fragments, when the user needs manual installation.
 - The user cannot download chat attachments reliably. Deliver complete updated files through a dedicated GitHub branch and provide direct file links for copying with GitHub Raw; do not rely on sandbox download links. Keep main unchanged unless merging is explicitly requested.
 - Do not deploy to Google, edit real spreadsheet data, or merge branches merely to implement a UI request.
-- Keep account registration, roles, assignment forms and the separate access spreadsheet as currently implemented. The requested login simplification changes entry/presentation only; ordinary staff should use one app URL, with identity diagnostics kept separate for owner troubleshooting.
+- Account registration stays in the separate access spreadsheet. The user authorized a Pengajar role: scoped read access to assigned teaching sessions/Jenjang and six-aspect participant evaluation per session (integer 1–5). Admin views these evaluations; Pengajar cannot manage accounts/delete data/decide verification/grade instructors. Each session has one teacher. Instructor evaluation by Admin, participant grade aggregation/weights, bulk migration, CSV changes and persistent login remain separate pending work.
+- Ordinary staff use one app URL, with identity diagnostics kept separate for owner troubleshooting. Preserve the accepted sidebar animation and existing login/session policy unless implementing its explicitly scoped follow-up.
 
 ## Current accepted UI
 - Navy (#192e50/#203960), rounded white cards about 24px, pale blue-gray background.

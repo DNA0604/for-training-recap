@@ -4,14 +4,22 @@ Current accepted application source for Pusat Pengembangan Aparatur Komdigi.
 Read ../../PROJECT_CONTEXT.md and ../../AGENTS.md first. These supersede the earlier flat UI package notes and old preview/test reports.
 
 ## Files to use in Google Apps Script
-Code.gs, Laporan.gs, Hapus.gs, Jenjang.gs, Akses.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, Absensi.html, AdminQR.html, PratinjauJenjang.html.
+Code.gs, Laporan.gs, Hapus.gs, Jenjang.gs, Akses.gs, Evaluasi.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, Absensi.html, AdminQR.html, PratinjauJenjang.html.
 The project must remain bound to its existing Google Sheet. Retain the deployed manifest/scopes and deployment configuration.
 
 Replace complete contents of files changed for a task. Keep exact file names. Save, and for /exec publish a new version of the existing deployment. Keep the deployment URL so QR links remain valid.
 
 Preview files and Hasil-Pengujian.txt inherited from the older UI branch are historical and do not depict or validate this current snapshot. Do not install preview files as Apps Script application code.
 
-See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 14 current HTML/GS source files, including the Jenjang preparation tools.
+See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 15 current HTML/GS source files, including the Jenjang preparation tools.
+
+## Pengajar menilai Peserta per sesi (29 Oktober 2026)
+
+Paket **feat/evaluasi-peserta-pengajar**: tambahkan satu Script baru **Evaluasi.gs**, ganti **Akses.gs, Code.gs, Jenjang.gs, Pengelolaan.html bersama**, simpan dan update deployment yang sama ke New version. File lain tetap versi sebelumnya; Index.html memuat perbaikan indikator yang sudah dikirim.
+
+Pemilik membuka spreadsheet utama → Manajemen Pelatihan → **Penyiapan Evaluasi Peserta** untuk menghubungkan/membuat file penilaian terpisah. Admin menambahkan akun berperan **Pengajar**, lalu menetapkan pengajar pada sesi melalui Pengelolaan. Kolom pengajar juga tersedia saat membuat sesi baru. Pengajar membuka Monitoring → pilih sesi tugasnya → **Isi Evaluasi Peserta**. Enam aspek menggunakan skala 1–5, tersimpan per peserta/sesi; Admin melihat hasil tanpa menilai atas nama Pengajar. Nilai kosong tetap Belum dinilai. Nilai perilaku/JP lama belum dipindahkan/digabung dan belum ada bobot/nilai akhir program.
+
+Lihat [panduan pemasangan, penyimpanan dan pengujian](docs/EVALUASI_PESERTA_SESI.md). 246 tes backend dan Chromium lokal lulus dengan Google tiruan; setup/deployment nyata perlu diuji pengguna. Penilaian Pengajar oleh Admin, CSV tambahan, sesi persisten dan optimasi waktu muat tetap tahap terpisah.
 
 ## Perbaikan tombol indikator (29 Oktober 2026)
 

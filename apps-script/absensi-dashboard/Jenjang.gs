@@ -33,7 +33,7 @@ function konteksJenjang_(idProgram,idJenjang,wajib) {
 function kolomJenjang_(idProgram,idJenjang){const c=konteksJenjang_(idProgram,idJenjang,true);return c.aktif?{id_jenjang:c.id}:{};}
 function namaJenjangProgram_(idProgram,legacy){const c=konteksJenjang_(idProgram,'',false);return c.aktif?c.daftar.map(j=>j.nama).join(', '):String(legacy||'');}
 function muatJenjangProgramIndex(idProgram){
-  if(typeof wajibEndpointAkses_==='function')wajibEndpointAkses_('muatJenjangProgramIndex');wajibPemilikIndex_();pastikanProgramPeserta_(idProgram);const scope=konteksJenjang_(idProgram,'',false);if(typeof petugasDalamKonteksAkses_==='function'&&petugasDalamKonteksAkses_())scope.daftar=scope.daftar.filter(j=>dalamJenjangAkses_({id_program:idProgram,id_jenjang:j.id}));return Object.assign({sukses:true},scope);}
+  if(typeof wajibEndpointAkses_==='function')wajibEndpointAkses_('muatJenjangProgramIndex');wajibPemilikIndex_();pastikanProgramPeserta_(idProgram);const scope=konteksJenjang_(idProgram,'',false);if(typeof terbatasDalamKonteksAkses_==='function'&&terbatasDalamKonteksAkses_())scope.daftar=scope.daftar.filter(j=>dalamJenjangAkses_({id_program:idProgram,id_jenjang:j.id}));return Object.assign({sukses:true},scope);}
 function tambahJenjangProgramIndex(d){
   if(typeof wajibEndpointAkses_==='function')wajibEndpointAkses_('tambahJenjangProgramIndex');
   wajibPemilikIndex_();d=d||{};const p=String(d.id_program||'').trim(),nama=String(d.nama||'').trim(),request=String(d.id_permintaan||'').trim();

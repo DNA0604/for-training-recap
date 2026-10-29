@@ -15,7 +15,7 @@ Versi impor: commit `4d64d49` dari repository DNA0604/anti-slop, termasuk login 
 
 ### File untuk Apps Script
 
-Folder aplikasi berisi 14 file HTML/GS: Code.gs, Akses.gs, Hapus.gs, Laporan.gs, Jenjang.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, Absensi.html, AdminQR.html, PratinjauJenjang.html. `appsscript.json` adalah referensi; pertahankan manifest/scopes proyek Google yang sudah berjalan.
+Folder aplikasi kini berisi 15 file HTML/GS: Code.gs, Akses.gs, Evaluasi.gs, Hapus.gs, Laporan.gs, Jenjang.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, Absensi.html, AdminQR.html, PratinjauJenjang.html. `appsscript.json` adalah referensi; pertahankan manifest/scopes proyek Google yang sudah berjalan.
 
 Buka file di GitHub lalu gunakan **Raw** untuk menyalin kode lengkap. Folder tests, docs dan preview merupakan bahan pengembangan, bukan file yang ditambahkan ke editor Apps Script.
 
@@ -35,3 +35,6 @@ python apps-script/absensi-dashboard/tests/browser/akses_browser.py
 ```
 
 Pengujian lokal memakai layanan Google tiruan. Hasilnya tidak menggantikan pengujian deployment Google. Pratinjau dan laporan pengujian lama tetap disimpan sebagai riwayat; baca status terbaru di PROJECT_CONTEXT.md.
+
+
+Pembaruan setelah impor mengikuti [SOURCE_SNAPSHOT.json](apps-script/absensi-dashboard/SOURCE_SNAPSHOT.json). MIGRATION_SOURCE.json tetap mencatat versi awal yang dipindahkan. Fitur Pengajar/evaluasi enam aspek per sesi dijelaskan dalam [panduan ini](apps-script/absensi-dashboard/docs/EVALUASI_PESERTA_SESI.md).

@@ -43,7 +43,7 @@ function tabelAkses_(book,name){
 function direktoriAkses_(book){
   const pengguna=tabelAkses_(book,'Pengguna'),penugasan=tabelAkses_(book,'Penugasan_Jenjang'),history=tabelAkses_(book,'Riwayat_Akses'),ids=new Set(),emails=new Set(),subs=new Set();
   if(pengguna.records.length>1000||penugasan.records.length>5000)throw Error('Direktori dibatasi 1.000 pengguna dan 5.000 penugasan.');
-  pengguna.records.forEach(r=>{const d=r.data,id=teksAkses_(d.id_pengguna),email=emailAkses_(d.email_google),sub=teksAkses_(d.google_sub);if(!id||ids.has(id)||emails.has(email)||!teksAkses_(d.nama)||!['admin_pelatihan','petugas_kelas'].includes(teksAkses_(d.peran))||!['aktif','nonaktif'].includes(teksAkses_(d.status))||sub&&(subs.has(sub)||typeof d.google_sub!=='string'))throw Error('Pengguna memiliki ID/email/sub duplikat atau data tidak valid pada baris '+r.baris+'. google_sub wajib teks.');ids.add(id);emails.add(email);if(sub)subs.add(sub);});
+  pengguna.records.forEach(r=>{const d=r.data,id=teksAkses_(d.id_pengguna),email=emailAkses_(d.email_google),sub=teksAkses_(d.google_sub);if(!id||ids.has(id)||emails.has(email)||!teksAkses_(d.nama)||!['admin_pelatihan','petugas_kelas','pengajar'].includes(teksAkses_(d.peran))||!['aktif','nonaktif'].includes(teksAkses_(d.status))||sub&&(subs.has(sub)||typeof d.google_sub!=='string'))throw Error('Pengguna memiliki ID/email/sub duplikat atau data tidak valid pada baris '+r.baris+'. google_sub wajib teks.');ids.add(id);emails.add(email);if(sub)subs.add(sub);});
   const pi=new Set(),pairs=new Set();penugasan.records.forEach(r=>{const d=r.data,id=teksAkses_(d.id_penugasan),pair=JSON.stringify([teksAkses_(d.id_pengguna),teksAkses_(d.id_jenjang)]);if(!id||pi.has(id)||pairs.has(pair)||!ids.has(teksAkses_(d.id_pengguna))||!teksAkses_(d.id_program)||!teksAkses_(d.id_jenjang)||!['aktif','nonaktif'].includes(teksAkses_(d.status)))throw Error('Penugasan tidak valid/duplikat pada baris '+r.baris+'.');pi.add(id);pairs.add(pair);});
   return {pengguna,penugasan,history};
 }
@@ -113,7 +113,7 @@ function identitasDirektoriAkses_(identity,state){
     const d=user.data;if(d.google_sub&&d.google_sub!==identity.sub)throw Error('Identitas Google berbeda dari akun yang sudah ditautkan. Hubungi pemilik.');
     if(dir.pengguna.records.some(r=>r.data.id_pengguna!==d.id_pengguna&&teksAkses_(r.data.google_sub)===identity.sub))throw Error('Identitas Google sudah tertaut pada akun panitia lain.');
     if(!d.google_sub)perubahanAkses_(book,'GOOGLE_BIND',{id:d.id_pengguna,sub:identity.sub},'bind_'+state,identity.email,()=>({sheet:'Pengguna',id:d.id_pengguna,action:'tautkan_google',before:d,after:Object.assign({},d,{google_sub:identity.sub,updated_at:new Date()})}));
-    const levels=daftarJenjangAkses_(),scopes=dir.penugasan.records.filter(r=>r.data.id_pengguna===d.id_pengguna&&r.data.status==='aktif').map(r=>levels.find(j=>j.id===r.data.id_jenjang&&j.program===r.data.id_program)).filter(Boolean);
+    const levels=daftarJenjangAkses_(),teaching=d.peran==='pengajar'?sesiPengajarAktif_(d.id_pengguna):[],scopes=d.peran==='pengajar'?levels.filter(j=>teaching.some(s=>s.id_jenjang===j.id&&s.id_program===j.program)):dir.penugasan.records.filter(r=>r.data.id_pengguna===d.id_pengguna&&r.data.status==='aktif').map(r=>levels.find(j=>j.id===r.data.id_jenjang&&j.program===r.data.id_program)).filter(Boolean);
     return {sukses:true,tujuan:'uji_identitas',email:identity.email,nama:identity.nama,peran:d.peran,jenjang:scopes,pembatasan_aplikasi_aktif:false,pesan:'Identitas Google dan akun panitia cocok. Ini hasil uji identitas; belum membuat sesi aplikasi.'};
   }finally{lock.releaseLock();}
 }
@@ -169,7 +169,7 @@ async function complete(){if(!callback)return;busy=true;$('prepare').disabled=tr
  if(callback.error)throw Error('Login Google dibatalkan atau ditolak. Silakan mulai login baru.');
  const key=sessionStorage.getItem('AKSES-GOOGLE|'+callback.state);if(!key)throw Error('Sesi browser login tidak ditemukan. Mulai uji dari halaman ini dan gunakan tab yang sama.');
  message('Memverifikasi identitas Google dan akun panitia…');const r=await rpc('selesaikanCallbackLoginPanitia',{state:callback.state,code:callback.code,browser_key:key});
- sessionStorage.removeItem('AKSES-GOOGLE|'+callback.state);$('name').textContent=r.nama;$('email').textContent=r.email;$('role').textContent='Peran terdaftar: '+(r.peran==='admin_pelatihan'?'Admin Pelatihan':'Petugas Kelas Pelatihan');$('assignments').replaceChildren();
+ sessionStorage.removeItem('AKSES-GOOGLE|'+callback.state);$('name').textContent=r.nama;$('email').textContent=r.email;$('role').textContent='Peran terdaftar: '+(({admin_pelatihan:'Admin Pelatihan',petugas_kelas:'Petugas Kelas Pelatihan',pengajar:'Pengajar'}[r.peran]||r.peran));$('assignments').replaceChildren();
  r.jenjang.forEach(j=>{const li=document.createElement('li');li.textContent=j.nama_program+' · '+j.nama;$('assignments').append(li);});
  if(!r.jenjang.length){const li=document.createElement('li');li.textContent=r.peran==='admin_pelatihan'?'Admin tidak memerlukan penugasan Jenjang.':'Belum ada penugasan Jenjang aktif yang valid.';$('assignments').append(li);}
  if(r.tujuan==='aplikasi'){
@@ -186,7 +186,7 @@ function halamanManajemenAkses_(){return String.raw`<!doctype html><html lang="i
 <p class="notice">Data akun disimpan pada spreadsheet terpisah. Pendataan akun dan uji identitas <strong>tidak otomatis membuat sesi aplikasi</strong>. Akses operasional mengikuti aktivasi login, peran dan penugasan Jenjang.</p><p id="message" role="status" aria-live="polite">Memuat konfigurasi…</p>
 <main id="app" hidden><section id="setupCard" class="card"><h2>Spreadsheet Akses Panitia</h2><p class="muted">Isi tautan/ID file akses yang dimiliki akun pemilik database. Kosongkan untuk membuat file baru. Database pelatihan tidak digunakan sebagai direktori akun.</p><form id="setupForm"><div class="field"><label for="accessSheet">Tautan atau ID spreadsheet akses</label><input id="accessSheet" autocomplete="off" placeholder="https://docs.google.com/spreadsheets/d/…"></div><button class="primary" type="submit">Siapkan / Sambungkan File Akses</button></form></section>
 <section id="directory" hidden><section class="card"><div class="sectionhead"><h2>Direktori Panitia</h2><a id="bookLink" class="button" target="_blank" rel="noopener noreferrer">Buka Spreadsheet Akses</a></div><div class="stats"><span id="userCount"></span><span id="activeCount"></span><span id="assignmentCount"></span></div><p id="warning" class="muted"></p><div id="pending" class="notice error" hidden><p id="pendingText"></p><button id="recover" type="button">Periksa / Pulihkan Transaksi Akses</button></div></section>
-<div class="grid"><section class="card"><h2 id="userTitle">Tambah Akun Panitia</h2><form id="userForm"><div class="field"><label for="userName">Nama panitia</label><input id="userName" required maxlength="100"></div><div class="field"><label for="userEmail">Email akun Google</label><input id="userEmail" type="email" required maxlength="254" autocomplete="off"></div><div class="field"><label for="userRole">Peran</label><select id="userRole"><option value="petugas_kelas">Petugas Kelas Pelatihan</option><option value="admin_pelatihan">Admin Pelatihan</option></select></div><div class="field"><label for="userStatus">Status akun</label><select id="userStatus"><option value="aktif">Aktif</option><option value="nonaktif">Nonaktif</option></select></div><div class="actions"><button class="primary" type="submit">Simpan Akun</button><button id="resetUser" type="button">Akun Baru</button></div><p class="muted small">Email harus sama dengan email yang ditampilkan akun Google. Tidak ada kata sandi yang disimpan di spreadsheet.</p></form></section>
+<div class="grid"><section class="card"><h2 id="userTitle">Tambah Akun Panitia</h2><form id="userForm"><div class="field"><label for="userName">Nama panitia</label><input id="userName" required maxlength="100"></div><div class="field"><label for="userEmail">Email akun Google</label><input id="userEmail" type="email" required maxlength="254" autocomplete="off"></div><div class="field"><label for="userRole">Peran</label><select id="userRole"><option value="petugas_kelas">Petugas Kelas Pelatihan</option><option value="admin_pelatihan">Admin Pelatihan</option><option value="pengajar">Pengajar</option></select></div><div class="field"><label for="userStatus">Status akun</label><select id="userStatus"><option value="aktif">Aktif</option><option value="nonaktif">Nonaktif</option></select></div><div class="actions"><button class="primary" type="submit">Simpan Akun</button><button id="resetUser" type="button">Akun Baru</button></div><p class="muted small">Email harus sama dengan email yang ditampilkan akun Google. Tidak ada kata sandi yang disimpan di spreadsheet.</p></form></section>
 <section class="card"><h2>Penugasan Petugas</h2><form id="assignmentForm"><div class="field"><label for="assignmentUser">Petugas aktif</label><select id="assignmentUser" required></select></div><div class="field"><label for="assignmentProgram">Program</label><select id="assignmentProgram" required></select></div><div class="field"><label for="assignmentJenjang">Jenjang</label><select id="assignmentJenjang" required></select></div><button class="primary" type="submit">Aktifkan Penugasan</button><p class="muted small">Satu petugas dapat ditugaskan pada beberapa Jenjang. Gunakan tombol pada daftar penugasan untuk menonaktifkan tanpa menghapus riwayat.</p></form></section></div>
 <section class="card" id="appEntryCard"><h2>Tautan Masuk Aplikasi</h2><p class="muted">Bagikan tautan ini kepada panitia yang sudah didaftarkan. Verifikasi Google dan login aplikasi dilakukan dalam satu alur, tanpa tautan uji terpisah.</p><label for="appEntryUrl">Tautan aplikasi utama</label><input id="appEntryUrl" readonly><div class="actions"><button id="copyAppEntry" type="button">Salin Tautan</button><a id="appEntryLink" class="button primary" target="_blank" rel="noopener noreferrer" hidden>Buka Aplikasi</a></div><p id="appEntryMessage" class="muted small" role="status"></p></section>
 <section class="card"><h2>Daftar Akun</h2><div class="field"><label for="userSearch">Cari nama atau email</label><input id="userSearch" type="search"></div><div class="scroll"><table><thead><tr><th>Panitia</th><th>Peran</th><th>Status</th><th>Google</th><th>Tindakan</th></tr></thead><tbody id="users"></tbody></table></div><div class="pager"><span id="pageInfo"></span><div class="actions"><button id="prevUsers" type="button">Sebelumnya</button><button id="nextUsers" type="button">Berikutnya</button></div></div></section>
@@ -195,7 +195,7 @@ function halamanManajemenAkses_(){return String.raw`<!doctype html><html lang="i
 <section class="card" id="appModeCard"><h2>Login Aplikasi Utama</h2><p id="appModeStatus" class="notice"></p><p class="muted">Aktifkan pada salinan setelah seluruh file paket tahap 4 terpasang dan uji identitas Admin/Petugas berhasil. Aplikasi akan meminta login Google dan memeriksa penugasan pada setiap permintaan. Pengaturan ini hanya dapat diubah pemilik dari menu spreadsheet.</p><button id="toggleAppMode" type="button">Aktifkan Login Aplikasi</button></section><section class="card"><h2>Riwayat Perubahan Akses</h2><p class="muted small">50 baris audit terbaru. Riwayat lengkap berada pada spreadsheet akses.</p><div class="scroll"><table><thead><tr><th>Aksi / target</th><th>Pelaku</th><th>Waktu Jakarta</th><th>Status</th></tr></thead><tbody id="history"></tbody></table></div></section></section></main>
 <script>
 (function(){'use strict';const $=id=>document.getElementById(id);let data=null,busy=false,editing=null,payload=null,assignPayload=null,userPage=0;
-const role=r=>r==='admin_pelatihan'?'Admin Pelatihan':'Petugas Kelas Pelatihan';
+const role=r=>({admin_pelatihan:'Admin Pelatihan',petugas_kelas:'Petugas Kelas Pelatihan',pengajar:'Pengajar'}[r]||r);
 function rpc(name,...args){return new Promise((ok,bad)=>google.script.run.withSuccessHandler(ok).withFailureHandler(bad)[name](...args));}
 function el(tag,text,klass){const e=document.createElement(tag);if(text!=null)e.textContent=String(text);if(klass)e.className=klass;return e;}
 function cell(text,sub){const c=el('td',text);if(sub)c.append(el('span',sub,'sub'));return c;}
@@ -277,7 +277,7 @@ function muatManajemenAksesPanitia(){
 }
 function simpanPenggunaPanitia(d){
   const actor=pemilikAkses_();d=d||{};const input={id:teksAkses_(d.id),nama:teksAkses_(d.nama),email:emailAkses_(d.email),peran:teksAkses_(d.peran),status:teksAkses_(d.status),versi:teksAkses_(d.versi)};
-  if(!input.nama||input.nama.length>100||input.nama.startsWith('=')||!['admin_pelatihan','petugas_kelas'].includes(input.peran)||!['aktif','nonaktif'].includes(input.status))throw Error('Nama, peran atau status pengguna tidak valid.');
+  if(!input.nama||input.nama.length>100||input.nama.startsWith('=')||!['admin_pelatihan','petugas_kelas','pengajar'].includes(input.peran)||!['aktif','nonaktif'].includes(input.status))throw Error('Nama, peran atau status pengguna tidak valid.');
   const lock=LockService.getScriptLock();lock.waitLock(30000);
   try{const book=bukuAkses_();return perubahanAkses_(book,'PENGGUNA',input,d.id_permintaan,actor,()=>{
     const dir=direktoriAkses_(book),old=dir.pengguna.records.find(r=>r.data.id_pengguna===input.id),before=old?old.data:null;
@@ -357,15 +357,17 @@ function bacaSesiPanitiaTerkunci_(token,perbarui){
   if([...kelompokTransaksiAkses_(book).values()].some(r=>r.status_transaksi!=='SELESAI'))throw Error('AKSES_DITAHAN: Ada transaksi akses belum selesai. Hubungi Admin.');
   const found=dir.pengguna.records.find(r=>r.data.id_pengguna===saved.uid),u=found&&found.data;
   if(!u||u.status!=='aktif'||u.google_sub!==saved.sub||hashAkses_(serialAkses_(u))!==saved.versi){cache.remove(key);throw Error('SESI_BERAKHIR: Akun berubah atau dinonaktifkan. Silakan masuk kembali.');}
-  const levels=daftarJenjangAkses_(),jenjang=dir.penugasan.records.filter(r=>r.data.id_pengguna===u.id_pengguna&&r.data.status==='aktif').map(r=>levels.find(j=>j.id===r.data.id_jenjang&&j.program===r.data.id_program)).filter(Boolean);
+  const levels=daftarJenjangAkses_(),sesi=u.peran==='pengajar'?sesiPengajarAktif_(u.id_pengguna):[],jenjang=u.peran==='pengajar'?levels.filter(j=>sesi.some(s=>s.id_jenjang===j.id&&s.id_program===j.program)):dir.penugasan.records.filter(r=>r.data.id_pengguna===u.id_pengguna&&r.data.status==='aktif').map(r=>levels.find(j=>j.id===r.data.id_jenjang&&j.program===r.data.id_program)).filter(Boolean);
   if(perbarui){saved.last=now;cache.put(key,JSON.stringify(saved),Math.max(1,Math.floor((saved.expires-now)/1000)));}
-  return {id:u.id_pengguna,nama:u.nama,email:u.email_google,peran:u.peran,jenjang,expires:saved.expires};
+  return {id:u.id_pengguna,nama:u.nama,email:u.email_google,peran:u.peran,jenjang,sesi,expires:saved.expires};
 }
 function muatSesiAplikasiPanitia(token){const i=bacaSesiPanitia_(token);return Object.assign({sukses:true},i);}
 function keluarAplikasiPanitia(token){const lock=LockService.getScriptLock();lock.waitLock(10000);try{if(/^[a-f0-9]{64}$/i.test(teksAkses_(token)))cacheLoginAkses_().remove('SESI-PANITIA|'+hashAkses_(token));return {sukses:true};}finally{lock.releaseLock();}}
 function petugasDalamKonteksAkses_(){return !!konteksSesiPanitia_&&konteksSesiPanitia_.peran==='petugas_kelas';}
-function dalamJenjangAkses_(record){return !petugasDalamKonteksAkses_()||konteksSesiPanitia_.jenjang.some(j=>j.id===teksAkses_(record.id_jenjang)&&j.program===teksAkses_(record.id_program));}
-function programDalamAkses_(id){return !petugasDalamKonteksAkses_()||konteksSesiPanitia_.jenjang.some(j=>j.program===teksAkses_(id));}
+function pengajarDalamKonteksAkses_(){return !!konteksSesiPanitia_&&konteksSesiPanitia_.peran==='pengajar';}
+function terbatasDalamKonteksAkses_(){return petugasDalamKonteksAkses_()||pengajarDalamKonteksAkses_();}
+function dalamJenjangAkses_(record){if(!terbatasDalamKonteksAkses_())return true;if(!konteksSesiPanitia_.jenjang.some(j=>j.id===teksAkses_(record.id_jenjang)&&j.program===teksAkses_(record.id_program)))return false;return !pengajarDalamKonteksAkses_()||!Object.prototype.hasOwnProperty.call(record,'id_sesi')||konteksSesiPanitia_.sesi.some(s=>s.id_sesi===teksAkses_(record.id_sesi));}
+function programDalamAkses_(id){return !terbatasDalamKonteksAkses_()||konteksSesiPanitia_.jenjang.some(j=>j.program===teksAkses_(id));}
 function barisTargetAkses_(name,key,id){const t=tabelIndex_(name,[key]),r=t.records.filter(r=>teksAkses_(r[key])===teksAkses_(id));if(r.length!==1)throw Error('Target tidak tersedia dalam penugasan Anda.');return r[0];}
 function wajibJenjangTargetAkses_(r){if(!dalamJenjangAkses_(r))throw Error('AKSES_DITOLAK: Target berada di luar penugasan Jenjang Anda.');return r;}
 function wajibSesiTargetAkses_(id){return wajibJenjangTargetAkses_(barisTargetAkses_('Sesi','id_sesi',id));}
@@ -373,16 +375,23 @@ function wajibHadirTargetAkses_(id){const h=barisTargetAkses_('Kehadiran','id_ke
 function fungsiAplikasiPanitia_(){return {
  muatBerandaIndex,muatAwalIndex,muatKehadiranIndex,muatRekapJPProgramIndex,muatCatatanPerilakuIndex,muatNilaiPerilakuProgramIndex,muatDaftarIzinIndex,muatPesertaProgramIndex,muatProfilPesertaIndex,muatJenjangProgramIndex,
  terbitkanQRAbsensiDariGenerator,simpanCatatanPerilakuIndex,simpanIzinIndex,unggahBuktiIndex,simpanKoreksiIndex,
- hitungJPSesiIndex,simpanValidasiPerilakuIndex,simpanAturanPerilakuProgramIndex,muatKelolaProgramIndex,tambahProgramIndex,tambahSesiIndex,tambahJenjangProgramIndex,
+ hitungJPSesiIndex,simpanValidasiPerilakuIndex,simpanAturanPerilakuProgramIndex,muatKelolaProgramIndex,tambahProgramIndex,tambahSesiIndex:tambahSesiPengajar_,tambahJenjangProgramIndex,
  pulihkanPembuatanSesiIndex,pratinjauImporPesertaIndex,cariPesertaLamaIndex,imporPesertaProgramIndex,pulihkanImporPesertaIndex,periksaDataIndex,muatEditDataIndex,simpanEditDataIndex,pulihkanEditDataIndex,tambahIndikatorIndex,muatRingkasanPesertaIndex,
  pratinjauHapusDataIndex,hapusDataIndex,muatPenghapusanTertundaIndex,lanjutkanPenghapusanIndex,muatMasterPesertaHapusIndex,muatPratinjauLaporanProgram,buatPDFLaporanProgram,otorisasiLaporanProgram,
  muatManajemenAksesPanitia,simpanPenggunaPanitia,simpanPenugasanPanitia,pulihkanTransaksiAksesPanitia,
+ muatKelolaPengajar:muatKelolaPengajar_,tetapkanPengajarSesi:tetapkanPengajarSesi_,muatEvaluasiPesertaSesi:muatEvaluasiPesertaSesi_,simpanEvaluasiPesertaSesi:simpanEvaluasiPesertaSesi_,
  muatDaftarVerifikasiSesiPanitia:muatDaftarVerifikasiSesiPanitia_,muatVerifikasiSesiPanitia:muatVerifikasiSesiPanitia_,ajukanVerifikasiSesiPanitia:ajukanVerifikasiSesiPanitia_,putuskanVerifikasiSesiPanitia:putuskanVerifikasiSesiPanitia_,
  muatPengajuanKoreksiPanitia:muatPengajuanKoreksiPanitia_,putuskanPengajuanKoreksiPanitia:putuskanPengajuanKoreksiPanitia_
 };}
 function periksaIzinFungsiPanitia_(name,args){
-  if(!petugasDalamKonteksAkses_())return;
-  const sessionMethods=['muatVerifikasiSesiPanitia','muatKehadiranIndex','muatCatatanPerilakuIndex','muatDaftarIzinIndex','terbitkanQRAbsensiDariGenerator'];
+  if(!konteksSesiPanitia_||!['admin_pelatihan','petugas_kelas','pengajar'].includes(konteksSesiPanitia_.peran))throw Error('AKSES_DITOLAK: Peran tidak tersedia.');
+  if(pengajarDalamKonteksAkses_()){
+    const allowed=['muatAwalIndex','muatBerandaIndex','muatKehadiranIndex','muatDaftarIzinIndex','muatCatatanPerilakuIndex','muatRekapJPProgramIndex','muatNilaiPerilakuProgramIndex','muatPesertaProgramIndex','muatProfilPesertaIndex','muatJenjangProgramIndex','muatEvaluasiPesertaSesi','simpanEvaluasiPesertaSesi'];
+    if(!allowed.includes(name))throw Error('AKSES_DITOLAK: Tindakan ini tidak tersedia bagi Pengajar.');
+    if(name==='simpanEvaluasiPesertaSesi'){wajibSesiTargetAkses_((args[0]||{}).id_sesi);return;}
+  }
+  if(!terbatasDalamKonteksAkses_())return;
+  const sessionMethods=['muatEvaluasiPesertaSesi','muatVerifikasiSesiPanitia','muatKehadiranIndex','muatCatatanPerilakuIndex','muatDaftarIzinIndex','terbitkanQRAbsensiDariGenerator'];
   const programMethods=['muatRekapJPProgramIndex','muatNilaiPerilakuProgramIndex','muatPesertaProgramIndex','muatJenjangProgramIndex'];
   if(['muatAwalIndex','muatBerandaIndex','muatDaftarVerifikasiSesiPanitia','muatPengajuanKoreksiPanitia'].includes(name))return;
   if(sessionMethods.includes(name)){wajibSesiTargetAkses_(args[0]);return;}
@@ -412,9 +421,9 @@ function panggilAplikasiPanitia(d){
   try{periksaIzinFungsiPanitia_(name,d.args);return functions[name].apply(null,d.args);}finally{konteksSesiPanitia_=null;}
 }
 function periksaUlangSesiPanitia_(){if(!konteksSesiPanitia_)return;const old=konteksSesiPanitia_,current=bacaSesiPanitia_(old.token,true);konteksSesiPanitia_=Object.assign(current,{token:old.token,method:old.method,args:old.args,verifikasi_id:old.verifikasi_id});periksaIzinFungsiPanitia_(old.method,old.args);}
-function saringAwalPanitia_(r){if(!petugasDalamKonteksAkses_())return r;const data=r.data;data.program=data.program.filter(p=>programDalamAkses_(p.id_program));data.sesi=data.sesi.filter(dalamJenjangAkses_);data.jenjang=(data.jenjang||[]).filter(j=>dalamJenjangAkses_({id_jenjang:j.id,id_program:j.id_program}));data.program.forEach(p=>p.jenjang=data.jenjang.filter(j=>j.id_program===p.id_program).map(j=>j.nama).join(', '));return r;}
+function saringAwalPanitia_(r){if(!terbatasDalamKonteksAkses_())return r;const data=r.data;data.program=data.program.filter(p=>programDalamAkses_(p.id_program));data.sesi=data.sesi.filter(dalamJenjangAkses_);data.jenjang=(data.jenjang||[]).filter(j=>dalamJenjangAkses_({id_jenjang:j.id,id_program:j.id_program}));data.program.forEach(p=>p.jenjang=data.jenjang.filter(j=>j.id_program===p.id_program).map(j=>j.nama).join(', '));return r;}
 function saringBerandaPanitia_(d){
- if(!petugasDalamKonteksAkses_())return d;
+ if(!terbatasDalamKonteksAkses_())return d;
  d.program=d.program.filter(p=>programDalamAkses_(p.id_program)).map(p=>Object.assign({},p,{jenjang:konteksSesiPanitia_.jenjang.filter(j=>j.program===teksAkses_(p.id_program)).map(j=>j.nama).join(', ')}));
  d.sesi=d.sesi.filter(dalamJenjangAkses_);d.ikut=d.ikut.filter(dalamJenjangAkses_);const s=new Set(d.sesi.map(s=>teksAkses_(s.id_sesi))),k=new Set(d.ikut.map(k=>teksAkses_(k.id_keikutsertaan))),p=new Set(d.ikut.map(k=>teksAkses_(k.id_peserta)));
  d.peserta=d.peserta.filter(r=>p.has(teksAkses_(r.id_peserta)));d.hadir=d.hadir.filter(r=>s.has(teksAkses_(r.id_sesi))&&k.has(teksAkses_(r.id_keikutsertaan)));d.catatan=d.catatan.filter(r=>s.has(teksAkses_(r.id_sesi))&&k.has(teksAkses_(r.id_keikutsertaan)));return d;
@@ -581,6 +590,7 @@ function putuskanVerifikasiSesiPanitia_(d){
 /** Satu bridge disisipkan server pada halaman lama, sehingga tidak menggandakan HTML aplikasi. */
 function keluaranAplikasiPanitia_(name,title,callback){
  if(!aplikasiPanitiaAktif_())return null;
+ if(typeof skripEvaluasiPengajar_!=='function')throw Error('Paket Pengajar belum lengkap. Tambahkan Script Evaluasi.gs dan pasang seluruh file paket sebelum memperbarui deployment.');
  if(!['Beranda','Index','Pengelolaan','Peserta','Profil','ManajemenAkses'].includes(name))throw Error('Halaman aplikasi tidak tersedia.');
  const source=name==='ManajemenAkses'?halamanManajemenAkses_():HtmlService.createHtmlOutputFromFile(name).getContent();
  const html=source.replace(/google\.script\.run/g,'window.pelatihanRun').replace(/<head>/i,'<head>'+bridgeAplikasiPanitia_({page:name,base:callbackGoogleAkses_(),storage_key:kunciBrowserSesiAkses_(),callback:callback||null}));
@@ -595,6 +605,7 @@ html.role-petugas :is([data-sidebar-placeholder^="Pengaturan"],[data-dash-page="
 #panitiaRequests{padding:24px;margin:24px 0;background:white;border:1px solid #dce3ef;border-radius:24px}#panitiaRequests .request-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}#panitiaRequests h2{margin:0;font-size:20px}#panitiaRequests p{line-height:1.7}#panitiaRequests .request-row{padding:18px 0;border-bottom:1px solid #dce3ef;overflow-wrap:anywhere}#panitiaRequests .request-row:last-child{border:0}#panitiaRequests button,#panitiaReview button{font:inherit;padding:10px 15px;border-radius:11px;border:1px solid #d6dfec;background:white;color:#203960;cursor:pointer;margin-right:8px}#panitiaRequests button:disabled,#panitiaReview button:disabled{opacity:.5;cursor:wait}#panitiaReview{max-width:620px;width:90vw;box-sizing:border-box;border:1px solid #dce3ef;border-radius:22px;padding:26px;color:#192e50;background:white}#panitiaReview::backdrop{background:#192e5080}#panitiaReview textarea{font:inherit;box-sizing:border-box;width:100%;min-height:100px;padding:12px;border:1px solid #d6dfec;border-radius:11px;margin:12px 0}#panitiaReview .primary{background:#203960;color:white}#panitiaReview p{line-height:1.65}
 
 .panitia-verification{padding:24px;margin:24px 0;background:white;border:1px solid #dce3ef;border-radius:24px;color:#192e50}.verification-head{display:flex;align-items:center;justify-content:space-between;gap:20px}.panitia-verification h2{margin:0;font-size:20px}.panitia-verification p{line-height:1.6}.panitia-verification button{font:inherit;min-height:44px;border:1px solid #d6dfec;border-radius:11px;padding:10px 16px;background:white;color:#203960;cursor:pointer}.panitia-verification button.primary{background:#203960;color:white}.panitia-verification button:disabled{opacity:.5;cursor:wait}.panitia-verification [hidden]{display:none!important}#panitiaVerificationList{max-height:340px;overflow:auto}.verification-row{border-top:1px solid #dce3ef;padding:16px 0}.verification-row p{margin:8px 0}.panitia-verification dialog{box-sizing:border-box;width:94vw;max-width:960px;max-height:90vh;overflow:auto;border:1px solid #dce3ef;border-radius:24px;padding:28px;color:#192e50;background:white}.panitia-verification dialog::backdrop{background:#192e5080}.verification-notice{padding:14px;border-radius:12px;background:#edf2f9}.verification-scroll{overflow:auto;max-width:100%;border:1px solid #dce3ef;border-radius:12px}.verification-scroll table{border-collapse:collapse;width:100%;min-width:600px;text-align:left;font-size:13px}.verification-scroll th,.verification-scroll td{padding:12px;border-bottom:1px solid #dce3ef;white-space:pre-wrap;overflow-wrap:anywhere;max-width:300px}.verification-scroll th{background:#f0f3f8}.panitia-verification label{display:block;margin:18px 0 8px}.panitia-verification textarea{box-sizing:border-box;width:100%;min-height:90px;font:inherit;padding:12px;border:1px solid #d6dfec;border-radius:11px}.verification-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:10px;margin-top:18px}.panitia-verification :is(button,textarea):focus-visible{outline:3px solid #d99616;outline-offset:2px}@media(max-width:600px){.verification-head{align-items:stretch;flex-direction:column}.panitia-verification{padding:18px}.panitia-verification dialog{padding:18px}.verification-actions button{flex:1}}
+html.role-pengajar :is(#openQR,#quickBehavior,#quickLeave,#publish,#tableBody button[data-kehadiran],#behaviorBody button,#izinBody button){display:none!important}
 </style><script id="panitia-access-bridge">
 (function(){'use strict';const cfg=__CONFIG__;document.documentElement.setAttribute('data-panitia-locked','');let identity=null,generation=0,resolveReady,rejectReady,idleTimer,absoluteTimer,fadeTimer,preparedLogin=null;const pageLabel={Beranda:'Beranda',Index:'Monitoring',Pengelolaan:'Pengelolaan',Peserta:'Peserta Program',Profil:'Profil Peserta',ManajemenAkses:'Manajemen Akses'}[cfg.page]||'Halaman';const ready=new Promise((ok,bad)=>{resolveReady=ok;rejectReady=bad;});ready.catch(()=>{});
 function native(name,arg){return new Promise((ok,bad)=>google.script.run.withSuccessHandler(ok).withFailureHandler(bad)[name](arg));}
@@ -631,20 +642,22 @@ function el(tag,text){const e=document.createElement(tag);if(text!==undefined)e.
 async function logout(){const t=stored();lock('Anda sudah keluar. Masuk kembali untuk melanjutkan.',true);try{await native('keluarAplikasiPanitia',t);}catch(err){document.getElementById('panitiaAuthMessage').textContent='Sesi di browser sudah dihapus. Logout server belum terkonfirmasi; sesi server tetap memiliki batas waktu.';}}
 function refreshIdentity(){
  window.panitiaIdentity=identity;
+ const roleLabel={admin_pelatihan:'Admin Pelatihan',petugas_kelas:'Petugas Kelas',pengajar:'Pengajar'}[identity.peran]||identity.peran;
+ if(identity.peran==='pengajar'){document.documentElement.classList.add('role-pengajar');}
  if(cfg.page==='ManajemenAkses'){const actions=document.querySelector('.head .actions'),out=el('button','Log Out');out.type='button';out.id='panitiaLogout';out.addEventListener('click',logout);if(actions)actions.append(out);const close=document.getElementById('close');if(close){close.textContent='Kembali ke Beranda';close.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();window.top.location.href=cfg.base;},true);}}
- document.querySelectorAll('.sidebar-account-text').forEach(box=>{const name=box.querySelector('strong'),role=box.querySelector('small');if(name)name.textContent=identity.nama;if(role)role.textContent=identity.peran==='admin_pelatihan'?'Admin Pelatihan':'Petugas Kelas';});
- document.querySelectorAll('.sidebar-account').forEach(b=>{b.removeAttribute('data-sidebar-placeholder');b.title=identity.email;b.setAttribute('aria-label',identity.nama+', '+(identity.peran==='admin_pelatihan'?'Admin Pelatihan':'Petugas Kelas'));});
+ document.querySelectorAll('.sidebar-account-text').forEach(box=>{const name=box.querySelector('strong'),role=box.querySelector('small');if(name)name.textContent=identity.nama;if(role)role.textContent=roleLabel;});
+ document.querySelectorAll('.sidebar-account').forEach(b=>{b.removeAttribute('data-sidebar-placeholder');b.title=identity.email;b.setAttribute('aria-label',identity.nama+', '+(roleLabel));});
  document.querySelectorAll('.sidebar-tool').forEach(b=>{if(b.textContent.trim()==='Pengaturan'&&identity.peran==='admin_pelatihan'){const link=el('a');link.className=b.className;link.innerHTML=b.innerHTML;link.href=cfg.base+'?page=akses';link.target='_top';link.setAttribute('aria-label','Manajemen Akses Panitia');link.title='Manajemen Akses Panitia';const label=link.querySelector('.sidebar-tool-label');if(label)label.textContent='Manajemen Akses';b.replaceWith(link);}if(b.textContent.trim()==='Log Out'){b.removeAttribute('data-sidebar-placeholder');b.removeAttribute('aria-disabled');b.setAttribute('aria-label','Log Out');b.addEventListener('click',async e=>{e.preventDefault();e.stopImmediatePropagation();await logout();},true);}});
- if(identity.peran==='petugas_kelas'){
+ if(['petugas_kelas','pengajar'].includes(identity.peran)){
   document.documentElement.classList.add('role-petugas');
   if(cfg.page==='Peserta'){const help=document.querySelector('#participantJenjangField .foot'),label=document.querySelector('label[for=participantJenjang]'),programLabel=document.querySelector('label[for=program]'),intro=document.querySelector('.brand .muted'),programHelp=document.querySelector('#app>section.panel>p.foot');if(help)help.textContent='Pilih Jenjang penugasan untuk melihat pesertanya.';if(label)label.textContent='FILTER JENJANG';if(programLabel)programLabel.textContent='PROGRAM PENUGASAN';if(intro)intro.textContent='Daftar peserta pada Jenjang penugasan Anda';if(programHelp)programHelp.textContent='Pilihan ini menentukan daftar peserta yang ditampilkan.';}
-  if(identity.jenjang.length){const notice=el('p','Data yang ditampilkan terbatas pada Jenjang penugasan Anda.');notice.className='notice';notice.id='panitiaScopeNotice';(document.getElementById('app')||document.querySelector('main')||document.body).prepend(notice);}
+  if(identity.jenjang.length){const notice=el('p',identity.peran==='pengajar'?'Data dan ringkasan dibatasi pada sesi mengajar Anda. Evaluasi enam aspek tersedia pada Monitoring.':'Data yang ditampilkan terbatas pada Jenjang penugasan Anda.');notice.className='notice';notice.id='panitiaScopeNotice';(document.getElementById('app')||document.querySelector('main')||document.body).prepend(notice);}
   if(!identity.jenjang.length){const notice=el('p','Belum ada penugasan Jenjang aktif untuk akun ini. Hubungi Admin Pelatihan agar data kelas dapat ditampilkan.');notice.className='notice';notice.id='panitiaNoAssignment';(document.getElementById('app')||document.querySelector('main')||document.body).prepend(notice);}
 
  }
 }
 async function requests(){
- if(!['Beranda','Index'].includes(cfg.page))return;
+ if(identity.peran==='pengajar'||!['Beranda','Index'].includes(cfg.page))return;
  const target=document.getElementById('app')||document.querySelector('main')||document.body,card=el('section');card.id='panitiaRequests';const head=el('div');head.className='request-head';head.append(el('h2',identity.peran==='admin_pelatihan'?'Pengajuan Koreksi Lama':'Riwayat Pengajuan Koreksi Lama'));const refresh=el('button','Muat Ulang');refresh.type='button';head.append(refresh);const msg=el('p','Memuat pengajuan…'),list=el('div');msg.setAttribute('role','status');card.append(head,msg,list);target.append(card);
  const dialog=el('dialog');dialog.id='panitiaReview';const form=el('form'),title=el('h2','Tinjau Pengajuan Koreksi'),detail=el('p'),label=el('label','Alasan keputusan'),reason=el('textarea');reason.required=true;reason.maxLength=2000;reason.id='panitiaDecisionReason';label.htmlFor=reason.id;const result=el('p');result.setAttribute('role','status');const approve=el('button','Setujui Koreksi'),reject=el('button','Tolak'),close=el('button','Tutup');approve.className='primary';[approve,reject,close].forEach(b=>b.type='button');form.append(title,detail,label,reason,result,approve,reject,close);dialog.append(form);card.append(dialog);let selected=null,busy=false;
  function buttons(){[approve,reject,close,refresh].forEach(b=>b.disabled=busy);reason.disabled=busy;}
@@ -655,7 +668,7 @@ async function requests(){
  approve.addEventListener('click',()=>decide('setujui'));reject.addEventListener('click',()=>decide('tolak'));close.addEventListener('click',()=>{if(!busy)dialog.close();});dialog.addEventListener('cancel',e=>{if(busy)e.preventDefault();});form.addEventListener('submit',e=>e.preventDefault());refresh.addEventListener('click',load);load();
 }
 async function verification(){
- if(cfg.page!=='Index')return;
+ if(cfg.page!=='Index'||identity.peran==='pengajar')return;
  const app=document.getElementById('app'),session=document.getElementById('sesi');if(!app||!session)return;
  const admin=identity.peran==='admin_pelatihan',card=el('section');card.id='panitiaVerification';card.className='panitia-verification';
  const head=el('div');head.className='verification-head';const title=el('div');title.append(el('h2','Verifikasi Sesi'),el('p','Kehadiran, izin dan catatan sikap/perilaku diajukan bersama untuk satu sesi dalam satu Jenjang.'));const preview=el('button',admin?'Tinjau Sesi':'Ajukan Verifikasi');preview.id='panitiaVerificationOpen';preview.type='button';preview.className='primary';const tools=el('div');tools.className='verification-actions';const reload=el('button','Muat Ulang Pengajuan');reload.type='button';reload.id='panitiaVerificationReload';tools.append(reload,preview);head.append(title,tools);
@@ -680,6 +693,7 @@ async function verification(){
  reload.addEventListener('click',list);preview.addEventListener('click',()=>open(session.value));submit.addEventListener('click',()=>act(admin?'setujui':'ajukan'));reject.addEventListener('click',()=>act('tolak'));resume.addEventListener('click',()=>act('lanjutkan'));close.addEventListener('click',()=>{if(!busy)dialog.close();});dialog.addEventListener('cancel',e=>{if(busy)e.preventDefault();});form.addEventListener('submit',e=>e.preventDefault());session.addEventListener('change',controls);new MutationObserver(controls).observe(session,{childList:true});controls();list();
 }
 
+__EVALUASI_CLIENT__
 function authView(state,message){
  const a=document.getElementById('panitiaAuth');if(!a)return;
  a.hidden=false;a.dataset.authState=state;a.removeAttribute('aria-hidden');
@@ -711,14 +725,14 @@ async function boot(){
  try{
   try{await completeGoogleLogin();}catch(e){lock(e.message||'Login belum selesai. Silakan masuk kembali.',true,'login');rejectReady(e);return;}
   const t=token();identity=await native('muatSesiAplikasiPanitia',t);
-  if(identity.peran==='petugas_kelas'&&['Pengelolaan','ManajemenAkses'].includes(cfg.page)){const error=Error('Halaman ini hanya tersedia untuk Admin Pelatihan.');lock(error.message,false,'denied');rejectReady(error);return;}
-  document.documentElement.classList.add('panitia-app');refreshIdentity();document.documentElement.removeAttribute('data-panitia-locked');finishAuth();touch();absoluteTimer=setTimeout(()=>lock('Batas sesi 4 jam tercapai. Silakan masuk kembali.',true),Math.max(0,identity.expires-Date.now()));resolveReady();requests();verification();
+  if(['petugas_kelas','pengajar'].includes(identity.peran)&&['Pengelolaan','ManajemenAkses'].includes(cfg.page)){const error=Error('Halaman ini hanya tersedia untuk Admin Pelatihan.');lock(error.message,false,'denied');rejectReady(error);return;}
+  document.documentElement.classList.add('panitia-app');refreshIdentity();document.documentElement.removeAttribute('data-panitia-locked');finishAuth();touch();absoluteTimer=setTimeout(()=>lock('Batas sesi 4 jam tercapai. Silakan masuk kembali.',true),Math.max(0,identity.expires-Date.now()));resolveReady();requests();verification();evaluasiPengajar();
  }catch(e){const expired=/SESI_BERAKHIR|SESI_DIPERLUKAN/.test(e.message||'');lock(expired?'Silakan masuk dengan akun Google panitia untuk melanjutkan.':e.message||'Halaman belum dapat disiapkan. Silakan coba lagi.',expired,expired?'login':/AKSES_DITAHAN/.test(e.message||'')?'held':'error');rejectReady(e);}
 }
 window.addEventListener('pagehide',()=>document.documentElement.setAttribute('data-panitia-locked',''));
 window.addEventListener('pageshow',e=>{if(e.persisted)location.reload();});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
-}());</script>`.replace('__CONFIG__',()=>jsonHalamanAkses_(config));}
+}());</script>`.replace('__EVALUASI_CLIENT__',()=>skripEvaluasiPengajar_()).replace('__CONFIG__',()=>jsonHalamanAkses_(config));}
 
 function tujuanCallbackAkses_(state){const raw=cacheLoginAkses_().get('GOOGLE-AKSES|'+state);return raw?(JSON.parse(raw).tujuan||'uji_identitas'):'uji_identitas';}
 

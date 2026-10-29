@@ -2078,6 +2078,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           sessionPayload = {
             id_program: $("program").value,
             id_jenjang: $("sessionJenjang").value,
+            id_pengajar: document.getElementById("sessionTeacher")?.value || "",
             nama: $("sessionName").value.trim(),
             tanggal: $("sessionDate").value,
             mulai: $("sessionStart").value,

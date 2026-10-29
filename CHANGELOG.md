@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-29 — scoped Pengajar role and six-aspect participant evaluation per session
+- Added Pengajar registration and one-teacher-per-session assignment. Live session/Jenjang scope and a fixed teacher allowlist cover reads and evaluation writes; other sessions in the same Jenjang stay excluded. Admin/Petugas flows remain.
+- Added Evaluasi.gs (backend, owner setup and injected UI) using an owner-owned evaluation spreadsheet separate from operational/access files. Append-only before/after events, source/row versions and idempotent requests preserve history and avoid repeated grade writes.
+- Teacher evaluates participants per session on six agreed aspects using integer 1–5, up to 20 participants per save. Admin views results/history. No weighting/final grade, legacy data migration or Admin-to-instructor assessment is added.
+- Add Evaluasi.gs and replace Akses.gs, Code.gs, Jenjang.gs, Pengelolaan.html together. 246 Node tests and actual-renderer Chromium Teacher/Admin plus existing regression suites pass with mocked Google. Agent did not deploy or modify Google data; user setup/live checks remain.
+
 ## 2026-10-29 — restore indicator edit controls and move Add to the heading
 - Fixed Edit / Ubah Status staying disabled after asynchronous score loading; controls now synchronize indicator row buttons after load/save/program changes.
 - Moved Tambah Indikator Baru to the upper-right Nilai Sikap & Perilaku header beside Muat Ulang Nilai. Only Index.html application source changes; no grading/rule/schema/delete/access/session changes.

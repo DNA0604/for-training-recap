@@ -11,6 +11,7 @@ export function harness(options={}){
  h.c.Utilities.base64EncodeWebSafe=b=>Buffer.from(b).toString('base64url');h.c.Utilities.base64DecodeWebSafe=s=>Array.from(Buffer.from(s,'base64url'));h.c.Utilities.newBlob=b=>({getDataAsString:()=>Buffer.from(b).toString('utf8')});
  const originalHTML=h.c.HtmlService.createHtmlOutput;h.c.HtmlService.createHtmlOutput=content=>Object.assign(originalHTML(content),{setTitle(title){this.title=title;return this;},addMetaTag(){return this;}});
  vm.runInContext(fs.readFileSync(new URL('../../Akses.gs',import.meta.url),'utf8'),h.c,{filename:'Akses.gs'});
+ vm.runInContext(fs.readFileSync(new URL('../../Evaluasi.gs',import.meta.url),'utf8'),h.c,{filename:'Evaluasi.gs'});
  let profile={sub:'112233445566778899001',email:'owner@test.invalid',email_verified:true,name:'Owner Uji'},claimsPatch={},tokenPatch={},tokenStatus=200,profileStatus=200,afterToken=()=>{};
  h.c.UrlFetchApp={fetch(url,opts){assert.equal(h.locks.held,false,'HTTP requests must not hold ScriptLock');fetches.push({url,opts});if(networkFail)throw Error('simulated failure including CLIENT_SECRET_TEST');if(url==='https://oauth2.googleapis.com/token'){
    const entry=[...cache.values()].map(JSON.parse).find(p=>p.verifier===opts.payload.code_verifier)||lastPending;
