@@ -917,6 +917,8 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
                 <dd id="summaryCategory">—</dd>
                 <dt>Sesi</dt>
                 <dd id="summarySession">—</dd>
+                <dt>Pengajar</dt>
+                <dd id="summaryTeacher">—</dd>
                 <dt>Tanggal</dt>
                 <dd id="summaryDate">—</dd>
                 <dt>Jam</dt>
@@ -2015,6 +2017,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           "summaryProgram",
           "summaryCategory",
           "summarySession",
+          "summaryTeacher",
           "summaryDate",
           "summaryTime",
           "summaryLate",
@@ -2097,6 +2100,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
             ].join(" · ")
           : "—";
         $("summarySession").textContent = r.sesi.nama + " · " + r.sesi.id_sesi;
+        $("summaryTeacher").textContent = r.sesi.nama_pengajar || "Belum ditetapkan";
         $("summaryDate").textContent = r.sesi.tanggal;
         $("summaryTime").textContent =
           r.sesi.mulai + "–" + r.sesi.selesai + " (" + r.zona_waktu + ")";

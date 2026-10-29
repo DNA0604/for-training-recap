@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-29 — refine evaluation dialogs and session actions
+- Moved Pengajar/Admin evaluation actions into Ringkasan Sesi, removed the bottom evaluation card, and added the assigned teacher name for Admin/Pengajar/Petugas on the existing scoped attendance response.
+- Bounded evaluation table scrolling with sticky headings/participant names, persistent footer actions and an upper-right X; unsaved drafts and write/retry guards remain.
+- Replaced the bottom teacher assignment card with a program-filtered modal beside Add Session. Removed manual reason entry; automatic before/after audit remains.
+- Moved Program/Sesi trash icons into Edit, preserving dependency preview, delete reason/acknowledgement/final confirmation and recovery; draft edits require confirmation before switching.
+- Replace Evaluasi.gs, Code.gs, Index.html and Pengelolaan.html together. Passed 249 backend tests and mocked Chromium evaluation/deletion/app/Jenjang suites; no Google setup, data writes or deployment performed.
+
 ## 2026-10-29 — scoped Pengajar role and six-aspect participant evaluation per session
 - Added Pengajar registration and one-teacher-per-session assignment. Live session/Jenjang scope and a fixed teacher allowlist cover reads and evaluation writes; other sessions in the same Jenjang stay excluded. Admin/Petugas flows remain.
 - Added Evaluasi.gs (backend, owner setup and injected UI) using an owner-owned evaluation spreadsheet separate from operational/access files. Append-only before/after events, source/row versions and idempotent requests preserve history and avoid repeated grade writes.

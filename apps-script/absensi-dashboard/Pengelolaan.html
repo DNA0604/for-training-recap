@@ -1187,6 +1187,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         </div>
         <p id="dataEditMessage" class="help" role="status"></p>
         <div class="buttons">
+          <span id="dataEditDelete" style="margin-right:auto" hidden></span>
           <button class="btn" type="button" id="dataEditCancel">Tutup</button
           ><button class="btn primary" type="submit" id="dataEditSave">
             Simpan Perubahan
@@ -1520,6 +1521,8 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         editContext = null;
         editRequest = null;
         editBreaks = [];
+        $("dataEditDelete").replaceChildren();
+        $("dataEditDelete").hidden = true;
         $("dataEditFields").replaceChildren();
         $("dataEditBreaks").replaceChildren();
         $("dataEditReason").value = "";
@@ -1546,6 +1549,8 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         b.type = "button";
         b.className = "action";
         b.textContent = "Edit";
+        b.dataset.editKind = jenis;
+        b.dataset.editTarget = id;
         b.addEventListener("click", () => openDataEdit(jenis, id));
         return b;
       }
@@ -1555,6 +1560,8 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         editContext = null;
         editRequest = null;
         editBreaks = [];
+        $("dataEditDelete").replaceChildren();
+        $("dataEditDelete").hidden = true;
         $("dataEditFields").replaceChildren();
         $("dataEditBreaks").replaceChildren();
         $("dataEditReason").value = "";
@@ -1568,6 +1575,10 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           if (seq !== editOpenSeq) return;
           if (!r || !r.sukses) throw Error("Data edit tidak tersedia.");
           editContext = r;
+          if (["Program", "Sesi"].includes(r.jenis)) {
+            $("dataEditDelete").append(deleteButton(r.jenis, r.id, "Hapus " + r.jenis.toLowerCase()));
+            $("dataEditDelete").hidden = false;
+          }
           Object.entries(r.values).forEach(([key, value]) => {
             const f = document.createElement("div");
             f.className = "field";
@@ -1786,7 +1797,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           b.textContent = "Pilih program";
           b.disabled = saving;
           b.addEventListener("click", () => selectManageProgram(p.id));
-          actions.append(b, editButton("Program", p.id), deleteButton("Program", p.id, "Hapus program"));
+          actions.append(b, editButton("Program", p.id));
           tr.append(
             name,
             cell(p.kategori + " / " + (p.jenjang || "Belum diisi")),
@@ -1818,7 +1829,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           b.addEventListener("click", () =>
             selectManageProgram($("program").value, s.id),
           );
-          actions.append(b, editButton("Sesi", s.id), deleteButton("Sesi", s.id, "Hapus sesi"));
+          actions.append(b, editButton("Sesi", s.id));
           tr.append(
             name,
             cell(s.tanggal + " · " + s.mulai + "–" + s.selesai),
@@ -2254,7 +2265,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
       let deleteContext=null, deleteRequest=null, deleteChecking=false, deleteConfirming=false, finalDeleteResolve=null;
       function updateDeleteControls() {
         const busy=saving||Boolean(importRun)||deleteChecking||deleteConfirming;
-        document.querySelectorAll('[data-delete-target]').forEach(b=>b.disabled=busy);
+        document.querySelectorAll('[data-delete-target]').forEach(b=>b.disabled=busy||Boolean(editRequest&&b.closest('#dataEditDialog')));
         $('refreshDeleteRecovery').disabled=busy;
         $('closeDeleteData').disabled=saving||deleteConfirming;
         ['deleteDataReason','deleteDataAgree'].forEach(id=>$(id).disabled=saving||deleteConfirming||!deleteContext||Boolean(deleteRequest));
@@ -2268,7 +2279,15 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         Object.entries({viewBox:'0 0 24 24',width:'20',height:'20',fill:'none',stroke:'currentColor','stroke-width':'1.8','stroke-linecap':'round','stroke-linejoin':'round','aria-hidden':'true',focusable:'false'}).forEach(([k,v])=>svg.setAttribute(k,v));
         ['M4 7h16','M10 11v6M14 11v6','M5 7l1 13h12l1-13','M9 7V4h6v3'].forEach(d=>{const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',d);svg.append(path);});b.append(svg);b.title=(label||'Hapus')+' '+id;
         b.setAttribute('aria-label',(label||'Hapus')+' '+id);b.disabled=saving||Boolean(importRun);
-        b.addEventListener('click',()=>openDeleteData(jenis,id));return b;
+        b.addEventListener('click',()=>{
+          if(saving||importRun||deleteChecking||deleteConfirming||editRequest)return;
+          if($('dataEditDialog').open){
+            const changed=Object.entries(editContext.values).some(([key,value])=>String($('dataEdit_'+key).value)!==String(value==null?'':value))||JSON.stringify(editBreaks.map(x=>({mulai:x.mulai.value,selesai:x.selesai.value,keterangan:x.keterangan.value})))!==JSON.stringify(editContext.jeda)||$('dataEditReason').value.trim();
+            if(changed&&!confirm('Buka penghapusan dan abaikan perubahan edit yang belum disimpan?'))return;
+            tutupFormEdit();
+          }
+          openDeleteData(jenis,id);
+        });return b;
       }
       function renderDeletePreview(r) {
         deleteContext=r;$('deleteDataTarget').textContent=r.nama+' · '+r.id;

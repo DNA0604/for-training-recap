@@ -13,6 +13,14 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 15 current HTML/GS source files, including the Jenjang preparation tools.
 
+## Perapian tampilan Pengajar dan Admin (29 Oktober 2026)
+
+Paket **ui/rapikan-evaluasi-pengajar**, melanjutkan e063681: jika paket Pengajar sebelumnya sudah terpasang, cukup ganti lengkap **Evaluasi.gs, Code.gs, Index.html dan Pengelolaan.html** bersama-sama. Simpan dan perbarui versi deployment yang sama. Tidak perlu Script baru, setup ulang atau spreadsheet baru.
+
+Tombol evaluasi kini ada di Ringkasan Sesi; modal memakai scroll tabel terpisah, header terkunci dan X di kanan atas. Ringkasan menampilkan nama Pengajar untuk semua peran. Pengajar Sesi menjadi tombol/modal di samping Tambah Sesi dan Jeda tanpa isian Alasan. Ikon hapus Program/Sesi tersedia di modal Edit dengan konfirmasi lama tetap berlaku.
+
+[Panduan pemasangan dan pengujian terbaru](docs/EVALUASI_PESERTA_SESI.md). 249 tes backend dan uji browser lokal dengan Google tiruan lulus; deployment Google tetap perlu diuji.
+
 ## Pengajar menilai Peserta per sesi (29 Oktober 2026)
 
 Paket **feat/evaluasi-peserta-pengajar**: tambahkan satu Script baru **Evaluasi.gs**, ganti **Akses.gs, Code.gs, Jenjang.gs, Pengelolaan.html bersama**, simpan dan update deployment yang sama ke New version. File lain tetap versi sebelumnya; Index.html memuat perbaikan indikator yang sudah dikirim.

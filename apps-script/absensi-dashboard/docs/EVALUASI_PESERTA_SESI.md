@@ -1,6 +1,24 @@
 # Evaluasi Pengajar terhadap Peserta — tahap 1
 
-Branch feat/evaluasi-peserta-pengajar, 29 Oktober 2026, Asia/Jakarta. Melanjutkan perbaikan indikator 23d898e pada repository DNA0604/for-training-recap.
+Versi terbaru: branch **ui/rapikan-evaluasi-pengajar**, 29 Oktober 2026, Asia/Jakarta. Melanjutkan paket Pengajar e063681 pada repository DNA0604/for-training-recap.
+
+## Pembaruan UI setelah paket Pengajar terpasang
+
+Ganti seluruh isi **Evaluasi.gs, Code.gs, Index.html dan Pengelolaan.html** dari branch terbaru secara bersamaan. Simpan, lalu Manage deployments → Edit deployment yang sama → New version → Deploy. Pertahankan file Akses.gs/Jenjang.gs, konfigurasi dan spreadsheet penilaian sebelumnya. Tidak perlu file baru, setup ulang atau migrasi.
+
+- Tombol **Isi Evaluasi Peserta** (Pengajar) / **Lihat Evaluasi Peserta** (Admin) berada di **Ringkasan Sesi**, tepat setelah Catat Sikap & Perilaku; card evaluasi di bawah halaman dihapus.
+- Tabel evaluasi mempunyai scroll sendiri dan header terkunci. Nama peserta tetap terlihat saat tabel digeser mendatar. Tombol X di kanan atas dan tombol simpan/paginasi tetap terlihat di luar scroll tabel; isian belum tersimpan tetap meminta konfirmasi saat ditutup.
+- **Nama Pengajar** tampil di Ringkasan Sesi untuk Admin, Pengajar dan Petugas. Jika belum ditugaskan, tampil Belum ditetapkan. Petugas tidak mendapatkan akses membaca/menulis evaluasi.
+- Di Pengelolaan, **Pengajar Sesi** menjadi tombol di samping Tambah Sesi dan Jeda yang membuka modal. Pilihan sesi mengikuti program aktif dan dimuat ulang saat modal dibuka. Isian Alasan dihapus; riwayat penugasan tetap menyimpan pelaku/waktu/nilai sebelum–sesudah dengan catatan otomatis.
+- Ikon tempat sampah Program/Sesi berada di **Edit** masing-masing, bukan pada tabel utama. Klik ikon membuka pratinjau penghapusan dan konfirmasi yang sama. Draft edit perlu dikonfirmasi sebelum ditinggalkan dan tidak disimpan otomatis. Alasan **penghapusan** tetap diperlukan.
+
+Uji setelah deployment: buka Monitoring melalui ketiga peran dan periksa nama Pengajar; cek posisi tombol Admin/Pengajar dan ketiadaan tombol pada Petugas; gulir banyak peserta dalam modal sambil memeriksa header/X/simpan; coba X dengan draft; buka/tutup Pengajar Sesi dan simpan tanpa alasan; buka Edit Program/Sesi lalu batalkan konfirmasi hapus. Jika menguji penghapusan sampai selesai, gunakan data dummy pada salinan.
+
+249 tes backend dan uji Chromium Google tiruan lulus, termasuk pembatasan sesi, nama semua peran, audit tanpa alasan/idempotensi, geometri scroll/header, draft dan retry, Admin readonly, modal penugasan, alur hapus dari Edit, navigasi/sidebar/verifikasi serta Jenjang. Pengujian ini tidak menggantikan deployment Google nyata.
+
+Pratinjau baru memakai data sintetis: [tabel bergulir](../preview/evaluasi-ui/Tabel-Scroll-Desktop.png), [evaluasi ponsel](../preview/evaluasi-ui/Evaluasi-Mobile.png), [Pengajar Sesi desktop](../preview/evaluasi-ui/Pengajar-Sesi-Desktop.png), [Pengajar Sesi ponsel](../preview/evaluasi-ui/Pengajar-Sesi-Mobile.png).
+
+Bagian berikut tetap menjadi acuan untuk pemasangan pertama dan mekanisme penilaiannya.
 
 ## Ruang lingkup yang disepakati
 
@@ -14,7 +32,7 @@ Branch feat/evaluasi-peserta-pengajar, 29 Oktober 2026, Asia/Jakarta. Melanjutka
 ## Pemasangan pada salinan
 
 1. Tambahkan **Script Evaluasi.gs** (jenis Script, bukan HTML). Backend, UI formulir dan panel setup berada dalam file ini sehingga tidak perlu HTML bernama sama.
-2. Ganti lengkap **Akses.gs, Code.gs, Jenjang.gs, Pengelolaan.html secara bersamaan**. Pertahankan semua file aplikasi lain, manifest/scopes, OAuth, aktivasi dan URL deployment. Versi Index.html saat ini tetap memuat perbaikan tombol indikator dari tahap sebelumnya.
+2. Ganti lengkap **Akses.gs, Code.gs, Jenjang.gs, Pengelolaan.html dan Index.html secara bersamaan**. Pertahankan semua file aplikasi lain, manifest/scopes, OAuth, aktivasi dan URL deployment. Versi Index.html saat ini tetap memuat perbaikan tombol indikator dari tahap sebelumnya.
 3. Simpan, muat ulang spreadsheet utama. Buka menu **Manajemen Pelatihan → Penyiapan Evaluasi Peserta**, bukan menjalankan opener dari editor Apps Script.
 4. Hubungkan file penilaian khusus milik pemilik database melalui ID/link, atau kosongkan isian untuk membuat file baru. Centang konfirmasi dan tekan Siapkan File Penilaian. Ikuti otorisasi Google bila diminta. File ini harus berbeda dari database utama dan file akses; data lain tidak ditimpa dan file yang sudah terhubung tidak dapat diganti sembarangan.
 5. Setup membuat tab Pengajar_Sesi dan Evaluasi_Peserta pada file penilaian, tanpa kolom/tab baru pada file utama/akses. Jika setup tertunda, buka menu yang sama dan selesaikan pada file yang sudah tercatat.
@@ -26,14 +44,14 @@ Tidak ada setup, file Google, deployment atau nilai pengguna yang diubah oleh ag
 
 Pada Manajemen Akses Panitia, Admin menambahkan akun dengan peran **Pengajar** dan status aktif. Identitas Google tetap memakai login aplikasi yang sudah berjalan; tidak perlu uji identitas terpisah untuk setiap akun.
 
-Penugasan Pengajar dilakukan di **Pengelolaan → Pengajar Sesi**: pilih sesi, pilih satu akun Pengajar aktif, tulis alasan dan simpan. Jenjang diturunkan dari sesi. Penugasan Petugas Kelas tetap melalui formulir Jenjang yang lama. Pergantian/penonaktifan akun atau pengajar langsung berlaku pada permintaan berikutnya; penulisan memeriksa ulang setelah mendapatkan kunci.
+Penugasan Pengajar dilakukan di **Pengelolaan → Pengajar Sesi**: tekan tombol Pengajar Sesi, pilih sesi, pilih satu akun Pengajar aktif dan simpan. Jenjang diturunkan dari sesi. Penugasan Petugas Kelas tetap melalui formulir Jenjang yang lama. Pergantian/penonaktifan akun atau pengajar langsung berlaku pada permintaan berikutnya; penulisan memeriksa ulang setelah mendapatkan kunci.
 
-Nama pengajar juga dapat dipilih pada formulir Tambah Sesi. Pilihan boleh ditetapkan nanti untuk kompatibilitas program lama. Buat sesi terlebih dahulu memakai transaksi pembuatan yang sudah ada, kemudian penugasan disimpan. Jika penugasan gagal, pesan menjelaskan sesi sudah dibuat tetapi pengajar tertunda; gunakan Pengajar Sesi untuk menyelesaikannya, tanpa membuat sesi duplikat. Tekan Muat Ulang Pengajar setelah membuat sesi/akun baru agar daftar pilihannya diperbarui.
+Nama pengajar juga dapat dipilih pada formulir Tambah Sesi. Pilihan boleh ditetapkan nanti untuk kompatibilitas program lama. Buat sesi terlebih dahulu memakai transaksi pembuatan yang sudah ada, kemudian penugasan disimpan. Jika penugasan gagal, pesan menjelaskan sesi sudah dibuat tetapi pengajar tertunda; gunakan Pengajar Sesi untuk menyelesaikannya, tanpa membuat sesi duplikat. Buka kembali modal Pengajar Sesi atau tekan Muat Ulang Pengajar setelah membuat sesi/akun baru agar daftar pilihannya diperbarui.
 
 ## Mengisi evaluasi
 
 1. Pengajar masuk menggunakan akun terdaftar dan membuka Monitoring.
-2. Pilih sesi penugasan, lalu **Isi Evaluasi Peserta** pada card Evaluasi Pengajar terhadap Peserta di bawah data monitoring.
+2. Pilih sesi penugasan, lalu **Isi Evaluasi Peserta** di dalam Ringkasan Sesi.
 3. Isi seluruh enam aspek untuk peserta yang dinilai. Catatan opsional maksimal 300 karakter. Nilai kosong tetap **Belum dinilai**, tidak disimpan sebagai nol.
 4. **Simpan Halaman** menyimpan perubahan maksimal 20 peserta dengan satu tindakan. Aplikasi mengirim paket sampai 10 peserta agar ukuran jurnal tetap terbatas dan menampilkan kemajuan; paket yang belum terkonfirmasi memakai ID sama saat dicoba ulang. Gunakan halaman berikutnya untuk peserta lain. Jika ada satu baris yang baru diisi sebagian, lengkapi enam aspek sebelum menyimpan.
 5. Formulir meminta konfirmasi sebelum menutup/pindah halaman dengan isian belum tersimpan. Jika respons terputus, permintaan yang sama dapat dicoba lagi lewat Simpan Halaman atau hasil diperiksa dengan Muat Ulang. Jangan mengubah payload yang hasilnya belum pasti; isian terkunci ketika permintaan belum terkonfirmasi.

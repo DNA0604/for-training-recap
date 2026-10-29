@@ -3373,7 +3373,7 @@ function muatKehadiranIndex(idSesi){
   const pesertaSesi=new Set(rows.map(r=>r.id_keikutsertaan.trim()));
   const izinSesi=tabelIndex_('Catatan_Perilaku',['id_sesi','id_keikutsertaan','id_indikator','status_validasi']).records.filter(c=>String(c.id_sesi).trim()===idSesi&&pesertaSesi.has(String(c.id_keikutsertaan).trim())&&kodeIzin.has(String(c.id_indikator).trim())&&String(c.status_validasi).trim().toLowerCase()!=='ditolak');
   const ringkasan={terlambat:rows.filter(r=>!r.peringatan_waktu&&Number.isFinite(r.terlambat_menit)&&r.terlambat_menit>10).length,izin:new Set(izinSesi.map(c=>String(c.id_keikutsertaan).trim())).size};
-  return {sukses:true,zona_waktu:zona,ringkasan:ringkasan,sesi:{id_sesi:idSesi,nama:String(s.nama_sesi),tanggal:s.tanggal_sesi instanceof Date?Utilities.formatDate(s.tanggal_sesi,zona,'yyyy-MM-dd'):String(s.tanggal_sesi||''),mulai:jam(s.jam_mulai),selesai:jam(s.jam_selesai)},peserta:rows};
+  return {sukses:true,zona_waktu:zona,ringkasan:ringkasan,sesi:{id_sesi:idSesi,nama:String(s.nama_sesi),nama_pengajar:typeof namaPengajarRingkasan_==='function'?namaPengajarRingkasan_(s):'Belum ditetapkan',tanggal:s.tanggal_sesi instanceof Date?Utilities.formatDate(s.tanggal_sesi,zona,'yyyy-MM-dd'):String(s.tanggal_sesi||''),mulai:jam(s.jam_mulai),selesai:jam(s.jam_selesai)},peserta:rows};
 }
 function dataKoreksiIndex_(d){
   if(!d||!String(d.id_kehadiran||'').trim()||!String(d.versi||'').trim())throw new Error('Pilih kehadiran yang sudah tercatat.');
