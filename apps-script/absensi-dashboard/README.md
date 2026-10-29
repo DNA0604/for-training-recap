@@ -13,6 +13,10 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 14 current HTML/GS source files, including the Jenjang preparation tools.
 
+## Perbaikan tombol indikator (29 Oktober 2026)
+
+Branch **fix/tombol-indikator-perilaku**: ganti **Index.html saja**, simpan dan perbarui versi deployment yang sama. Tombol Edit / Ubah Status kembali aktif setelah data dimuat; Tambah Indikator Baru berada di kanan atas Nilai Sikap & Perilaku. Data dan aturan lama tetap; indikator bawaan IZIN_SESI memang harus aktif sesuai aturan pencatatan izin. Fitur Pengajar, pemisahan nilai, CSV tambahan, hapus indikator dan sesi login persisten masih dalam pembahasan—lihat [masukan instansi](docs/MASUKAN_INSTANSI_2026_10_29.md).
+
 ## Posisi Verifikasi Sesi di Monitoring
 
 Paket **ui/verifikasi-sesi-di-bawah** melanjutkan login satu alur. Ganti **Akses.gs saja**, simpan dan perbarui versi deployment yang sama. Verifikasi Sesi kini berada di bawah data Monitoring, sebelum Pengajuan Koreksi Lama. Tombol dan alur verifikasi tetap sama; tidak perlu mengubah file HTML atau pendataan.

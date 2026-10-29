@@ -1,5 +1,5 @@
 {
-  "snapshot_date": "2026-10-28",
+  "snapshot_date": "2026-10-29",
   "timezone": "Asia/Jakarta",
   "files": {
     "Absensi.html": "496053b5dd8ca245d75c0db314d015e8e25d27ccf9a2d7b9f7e9416509280092",
@@ -8,7 +8,7 @@
     "Beranda.html": "35d26eb54ac7812b05003922146d99bb7d7c6144904d9565e522c0278e60225f",
     "Code.gs": "b5f22da4f8208c96cacb6beba95efa72be7d0d5ac7e0b83cdac9c56f6de8b6e9",
     "Hapus.gs": "d916fe908381bc2fe2bd00f763f0a3a5f8bd213c1f54888bcd99e0742fb1c51d",
-    "Index.html": "af7dde198b81ca61ce8a7f072367549dc23a6ad1fad7899c005e2b705b09c45b",
+    "Index.html": "fce485689bcf2f4cfb7e97e66ff243a6ae3db51917d8ab4c7eeab77965e63b4d",
     "Jenjang.gs": "e2b5637b960ac1bb056f09871ff27013194c3a2d7bd68e441a210184d8287d01",
     "Laporan.gs": "b7efac46feb6472a89dd85f54fdbcf5f013b1704db5db5d3adb84498822c064d",
     "PemetaanJenjang.gs": "8a68b67c199ff7fecf71e83eedeaa96d7bed42a06ea9dd4884dd7cd41bacd027",

@@ -1194,9 +1194,14 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
               <h2>Nilai Sikap &amp; Perilaku</h2>
               <p id="scoreInfo" class="muted">Pilih program untuk memulai.</p>
             </div>
-            <button id="refreshScore" class="btn" disabled>
-              Muat Ulang Nilai
-            </button>
+            <div class="buttons">
+              <button id="refreshScore" class="btn" disabled>
+                Muat Ulang Nilai
+              </button>
+              <button id="newIndicatorForm" class="btn primary" type="button" disabled>
+                Tambah Indikator Baru
+              </button>
+            </div>
           </div>
           <details id="indicatorDetails" style="margin-bottom: 20px">
             <summary
@@ -1222,11 +1227,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
                 <tbody id="indicatorBody"></tbody>
               </table>
             </div>
-            <div class="buttons">
-              <button id="newIndicatorForm" class="btn primary" type="button">
-                Tambah Indikator Baru
-              </button>
-            </div>
+
           </details>
           <details id="ruleDetails">
             <summary
@@ -1948,6 +1949,9 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         $("saveIndicator").disabled = !scoreProgram || scoreLoading || saving;
         $("newIndicatorForm").disabled =
           !scoreProgram || scoreLoading || saving;
+        document.querySelectorAll('#indicatorBody button').forEach(b => {
+          b.disabled = saving || scoreLoading || !scoreProgram || scoreProgram !== $("program").value;
+        });
         if (navigationBase)
           $("openPengelolaan").href =
             navigationBase +

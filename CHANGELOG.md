@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-29 — restore indicator edit controls and move Add to the heading
+- Fixed Edit / Ubah Status staying disabled after asynchronous score loading; controls now synchronize indicator row buttons after load/save/program changes.
+- Moved Tambah Indikator Baru to the upper-right Nilai Sikap & Perilaku header beside Muat Ulang Nilai. Only Index.html application source changes; no grading/rule/schema/delete/access/session changes.
+- Recorded institution feature requests and open decisions for role/teacher assignment, separate evaluation storage, CSV, persistent login and performance. These larger requests are pending, not implemented by this UI fix.
+
 ## 2026-10-28 — import into dedicated for-training-recap repository
 - Copied all 75 tracked application-folder files from DNA0604/anti-slop commit 4d64d49 byte-for-byte, including 14 application sources, manifest reference, tests, guides and historical previews.
 - Preserved the destination README notice, added project context/instructions, npm test entry point and source-hash provenance. Paths and application behavior remain unchanged; original repository, Google database and deployment remain intact.
