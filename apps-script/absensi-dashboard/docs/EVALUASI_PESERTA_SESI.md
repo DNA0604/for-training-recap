@@ -1,6 +1,8 @@
 # Evaluasi Pengajar terhadap Peserta — tahap 1
 
-Versi terbaru: branch **ui/rapikan-evaluasi-pengajar**, 29 Oktober 2026, Asia/Jakarta. Melanjutkan paket Pengajar e063681 pada repository DNA0604/for-training-recap.
+Pembaruan rekap terbaru: [rekap pada spreadsheet terhubung](REKAP_PENILAIAN_SPREADSHEET.md), branch **feat/rekap-penilaian-spreadsheet**; cukup ganti Evaluasi.gs, Akses.gs dan Code.gs jika UI sebelumnya sudah terpasang.
+
+Acuan pemasangan/UI sebelumnya: branch **ui/rapikan-evaluasi-pengajar**, 29 Oktober 2026, Asia/Jakarta. Melanjutkan paket Pengajar e063681 pada repository DNA0604/for-training-recap.
 
 ## Pembaruan UI setelah paket Pengajar terpasang
 

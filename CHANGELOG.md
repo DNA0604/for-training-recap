@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-29 — readable evaluation and integrated behavior recap in connected spreadsheet
+- Added owner/Admin manual full-file recap to the existing evaluation file: readable latest/history score rows, behavior/leave detail, active participant-session integrated view and snapshot status metadata. Blank grades, note validation states, Program/Jenjang scope and previous teacher history remain distinct; no new combined scoring formula.
+- Added owner spreadsheet menu and Admin evaluator-dialog refresh/file link. Shared-lock checks, bounds, sheet-ID ownership, literal text/NIP, verified writes, source fingerprints and failure/retry status protect derived publication; operational/access/journal sources remain unchanged.
+- Replace Evaluasi.gs, Akses.gs and Code.gs together. Passed 266 backend tests and mocked Chromium evaluation/owner/app regressions; source parsing/IDs/hashes checked. No Google deployment, trigger or real data write performed.
+
+## 2026-10-29 — UI refinement accepted by user
+- User reported installing UI 0d376d2, running several tests with good results, and considering the requested refinement sufficient. Recorded their exercised checks separately from local mocked verification; no new deployment/file change was needed for acceptance.
+
 ## 2026-10-29 — refine evaluation dialogs and session actions
 - Moved Pengajar/Admin evaluation actions into Ringkasan Sesi, removed the bottom evaluation card, and added the assigned teacher name for Admin/Pengajar/Petugas on the existing scoped attendance response.
 - Bounded evaluation table scrolling with sticky headings/participant names, persistent footer actions and an upper-right X; unsaved drafts and write/retry guards remain.

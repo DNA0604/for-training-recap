@@ -13,6 +13,14 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 15 current HTML/GS source files, including the Jenjang preparation tools.
 
+## Rekap pada spreadsheet penilaian terhubung (29 Oktober 2026)
+
+Paket **feat/rekap-penilaian-spreadsheet**: ganti lengkap **Evaluasi.gs, Akses.gs dan Code.gs bersama-sama**, simpan/muat ulang spreadsheet utama dan perbarui deployment yang sama. File penilaian yang sudah terhubung digunakan kembali; tidak perlu ID/file baru atau setup ulang.
+
+Pemilik membuka **Manajemen Pelatihan → Rekap Penilaian Terpadu → Perbarui Rekap Spreadsheet**. Admin juga dapat menekan tombol tersebut pada Monitoring → Lihat Evaluasi Peserta. Pembaruan manual mencakup seluruh program dan membuat tiga tab data terbaca serta satu tab status snapshot pada file penilaian. Nilai Pengajar dan catatan Admin/Petugas diintegrasikan berdasarkan identitas Program/Jenjang/sesi/peserta; sumber asli tetap dipakai dan belum ada nilai gabungan baru.
+
+[Panduan lengkap, arti kolom, pembaruan dan pengujian](docs/REKAP_PENILAIAN_SPREADSHEET.md). 266 tes backend dan uji browser lokal dengan Google tiruan lulus; format/izin/kuota dan deployment nyata perlu diuji pengguna.
+
 ## Perapian tampilan Pengajar dan Admin (29 Oktober 2026)
 
 Paket **ui/rapikan-evaluasi-pengajar**, melanjutkan e063681: jika paket Pengajar sebelumnya sudah terpasang, cukup ganti lengkap **Evaluasi.gs, Code.gs, Index.html dan Pengelolaan.html** bersama-sama. Simpan dan perbarui versi deployment yang sama. Tidak perlu Script baru, setup ulang atau spreadsheet baru.

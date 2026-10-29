@@ -12,6 +12,7 @@ Canonical repository: DNA0604/for-training-recap. Imported application path rema
 - The user cannot download chat attachments reliably. Deliver complete updated files through a dedicated GitHub branch and provide direct file links for copying with GitHub Raw; do not rely on sandbox download links. Keep main unchanged unless merging is explicitly requested.
 - Do not deploy to Google, edit real spreadsheet data, or merge branches merely to implement a UI request.
 - Account registration stays in the separate access spreadsheet. The user authorized a Pengajar role: scoped read access to assigned teaching sessions/Jenjang and six-aspect participant evaluation per session (integer 1–5). Admin views these evaluations; Pengajar cannot manage accounts/delete data/decide verification/grade instructors. Each session has one teacher. Instructor evaluation by Admin, participant grade aggregation/weights, bulk migration, CSV changes and persistent login remain separate pending work.
+- Evaluation spreadsheet recap is a manual owner/Admin snapshot on derived tabs; operational notes and evaluation journals remain authoritative. Do not turn it into a combined final grade or silently relocate source data. Preserve sheet-ID ownership, literal NIP/text, pending/failure/source-version checks and clear timestamp semantics.
 - Ordinary staff use one app URL, with identity diagnostics kept separate for owner troubleshooting. Preserve the accepted sidebar animation and existing login/session policy unless implementing its explicitly scoped follow-up.
 
 ## Current accepted UI

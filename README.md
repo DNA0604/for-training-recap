@@ -40,3 +40,5 @@ Pengujian lokal memakai layanan Google tiruan. Hasilnya tidak menggantikan pengu
 Pembaruan setelah impor mengikuti [SOURCE_SNAPSHOT.json](apps-script/absensi-dashboard/SOURCE_SNAPSHOT.json). MIGRATION_SOURCE.json tetap mencatat versi awal yang dipindahkan. Fitur Pengajar/evaluasi enam aspek per sesi dijelaskan dalam [panduan ini](apps-script/absensi-dashboard/docs/EVALUASI_PESERTA_SESI.md).
 
 Pembaruan UI Pengajar/Admin: branch `ui/rapikan-evaluasi-pengajar`, ganti empat file seperti dijelaskan pada [panduan evaluasi terbaru](apps-script/absensi-dashboard/docs/EVALUASI_PESERTA_SESI.md).
+
+Rekap nilai Pengajar dan catatan Admin/Petugas pada file penilaian terhubung: [panduan pembaruan tiga file](apps-script/absensi-dashboard/docs/REKAP_PENILAIAN_SPREADSHEET.md), branch `feat/rekap-penilaian-spreadsheet`.

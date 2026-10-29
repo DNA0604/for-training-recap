@@ -2725,6 +2725,7 @@ function onOpen() {
   }
   if(typeof bukaPersiapanStrukturJenjang==='function')menu.addItem('Persiapan Struktur Jenjang','bukaPersiapanStrukturJenjang');
   if(typeof bukaPenyiapanEvaluasi==='function')menu.addItem('Penyiapan Evaluasi Peserta','bukaPenyiapanEvaluasi');
+  if(typeof bukaRekapPenilaian==='function')menu.addItem('Rekap Penilaian Terpadu','bukaRekapPenilaian');
   if(typeof bukaManajemenAksesPanitia==='function')menu.addItem('Manajemen Akses Panitia','bukaManajemenAksesPanitia');
   menu.addToUi();
 }
