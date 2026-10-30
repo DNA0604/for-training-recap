@@ -4233,9 +4233,12 @@ function simpanEditDataIndex(d){
     Object.assign(patch,val);
     if(d.jenis==='Indikator_Perilaku'){
       const n=Number(val.poin_per_kejadian);if(!['positif','negatif'].includes(val.jenis_indikator)||!['aktif','nonaktif'].includes(val.status_indikator)||!Number.isFinite(n)||Math.abs(n)>1000||(val.jenis_indikator==='positif'&&n<0)||(val.jenis_indikator==='negatif'&&n>0))throw Error('Jenis, status, atau poin indikator tidak valid.');
-      const used=tabelIndex_('Catatan_Perilaku',['id_indikator']).records.some(r=>txt(r.id_indikator)===txt(d.id));
-      const ruleUsed=tabelIndex_('Aturan_Penilaian',['konfigurasi_indikator']).records.some(r=>{try{return Object.prototype.hasOwnProperty.call(JSON.parse(String(r.konfigurasi_indikator)),txt(old.kode_indikator));}catch(e){throw Error('Konfigurasi aturan penilaian tidak valid. Periksa sheet Aturan_Penilaian.');}});
-      if((used||ruleUsed)&&(val.definisi_indikator!==txt(old.definisi_indikator)||val.jenis_indikator!==txt(old.jenis_indikator)))throw Error('Definisi dan jenis indikator yang sudah digunakan pada catatan/aturan tidak dapat diubah. Buat kode baru untuk perubahan makna.');
+      // Status/default points do not reinterpret history; inspect rule usage only for meaning changes.
+      if(val.definisi_indikator!==txt(old.definisi_indikator)||val.jenis_indikator!==txt(old.jenis_indikator)){
+        const used=tabelIndex_('Catatan_Perilaku',['id_indikator']).records.some(r=>txt(r.id_indikator)===txt(d.id));
+        const ruleUsed=tabelIndex_('Aturan_Penilaian',['konfigurasi_indikator']).records.some(r=>{try{return Object.prototype.hasOwnProperty.call(JSON.parse(String(r.konfigurasi_indikator)),txt(old.kode_indikator));}catch(e){throw Error('Konfigurasi aturan penilaian tidak valid. Periksa sheet Aturan_Penilaian.');}});
+        if(used||ruleUsed)throw Error('Definisi dan jenis indikator yang sudah digunakan pada catatan/aturan tidak dapat diubah. Buat kode baru untuk perubahan makna.');
+      }
       const base=aturanPerilakuDefault_().indikator[txt(old.kode_indikator)];if(base!==undefined&&val.jenis_indikator!==(base>=0?'positif':'negatif'))throw Error('Jenis indikator bawaan tidak dapat diubah.');
       if(txt(old.kode_indikator)==='IZIN_SESI'&&val.status_indikator!=='aktif')throw Error('IZIN_SESI harus tetap aktif untuk pencatatan izin.');
       if(val.status_indikator==='aktif'&&tabelIndex_('Indikator_Perilaku',['id_indikator','kode_indikator','status_indikator']).records.some(r=>txt(r.id_indikator)!==txt(d.id)&&txt(r.kode_indikator)===txt(old.kode_indikator)&&txt(r.status_indikator)==='aktif'))throw Error('Sudah ada versi aktif untuk kode ini.');

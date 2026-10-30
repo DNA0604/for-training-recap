@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-30 — indicator status edits no longer parse unrelated legacy rules
+- User confirmed new-indicator deletion but reported Konfigurasi aturan penilaian tidak valid when disabling MAKAN_SAAT_SESI. Reproduced the failure with malformed/blank historical rule configuration: indicator edit parsed every rule even when definition/type were unchanged. The exact live rule row was not supplied.
+- Check note/rule usage only when changing definition/type. Status and default-point edits preserve all stored rules/notes/grades, with IZIN_SESI, type/sign, duplicate-active-code, permissions, stale versions and audit/retry protections retained. Meaning changes and deletion still require their existing reference checks.
+- Replace Code.gs only after the preceding two-file indicator package. Passed 308 backend tests (eight new regressions) plus all source script parsing/HTML IDs. No Google writes, schema/legacy data repair, UI change or deployment performed.
+
 ## 2026-10-30 — protected deletion of unused behavioral indicators
 - Added Admin indicator selection/deletion inside the existing Add/Edit modal, with usage proof, reason/acknowledgement and separate final confirmation. Default indicators and references in any program/rule/history/connected file remain protected; Nonaktif remains available.
 - Reused the audited backup/resume transaction, rechecked usage under lock and reserved retired IND IDs. No cascading note/rule/score/JP changes. Failed refresh keeps the result unconfirmed until a fresh catalog is available.

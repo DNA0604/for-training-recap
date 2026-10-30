@@ -48,3 +48,5 @@ Evaluasi Pengajar oleh Admin per sesi: [panduan pembaruan dua file](apps-script/
 Manajemen Akses dengan sidebar/header dashboard: [panduan satu HTML baru dan satu Script pengganti](apps-script/absensi-dashboard/docs/MANAJEMEN_AKSES_DASHBOARD.md), branch `ui/manajemen-akses-dashboard`.
 
 Hapus indikator tambahan yang belum digunakan: [panduan penggantian Hapus.gs dan Index.html](apps-script/absensi-dashboard/docs/HAPUS_INDIKATOR.md), branch `feat/hapus-indikator-belum-digunakan`. Indikator bawaan/terpakai tetap dilindungi.
+
+Perbaikan Nonaktif indikator lama yang terblokir konfigurasi aturan: branch `fix/nonaktif-indikator-aturan-lama`, ganti **Code.gs saja** sesudah paket indikator sebelumnya. [Petunjuk pemasangan](apps-script/absensi-dashboard/README.md).

@@ -13,6 +13,12 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 16 current HTML/GS source files, including the Jenjang preparation tools.
 
+## Perbaikan Nonaktif indikator lama (30 Oktober 2026)
+
+Jika paket hapus indikator sebelumnya sudah dipasang, branch **fix/nonaktif-indikator-aturan-lama** cukup mengganti lengkap **Code.gs saja**. Simpan dan update deployment yang sama ke New version. Index.html/Hapus.gs dari paket sebelumnya tetap digunakan; tidak perlu setup atau mengedit spreadsheet.
+
+Perubahan status kini tidak bergantung pada pembacaan JSON seluruh aturan lama. Uji **Edit / Ubah Status → Nonaktif → isi alasan → Simpan Indikator**, tanpa mengubah definisi/jenis. IZIN_SESI tetap wajib aktif. Riwayat catatan/aturan/nilai tetap; perlindungan perubahan makna dan penghapusan tetap berlaku. 308 tes backend lulus dengan Google tiruan; hasil deployment pengguna masih perlu dikonfirmasi.
+
 ## Hapus indikator belum digunakan (30 Oktober 2026)
 
 Paket **feat/hapus-indikator-belum-digunakan**: ganti lengkap **Hapus.gs dan Index.html bersama-sama**, simpan dan update deployment yang sama ke New version. Tidak perlu file/spreadsheet baru atau setup ulang.

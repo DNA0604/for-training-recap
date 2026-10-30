@@ -37,3 +37,9 @@ Kunci aplikasi tidak mengoordinasikan edit manual langsung di Google Sheets. Hin
 300 tes backend lokal lulus, termasuk 17 kasus baru: referensi lintas program/riwayat/file, aturan bawaan, perubahan setelah pratinjau, peran/revokasi, audit-cadangan, pemulihan, permintaan berulang dan reservasi ID. Chromium dengan layanan Google tiruan menguji desktop/ponsel, konfirmasi/Batal/Escape, respons hilang, pemulihan parsial, perubahan referensi dan kegagalan memuat ulang katalog. Regresi penghapusan Program/Sesi/Peserta serta evaluasi Pengajar/Peserta juga diperiksa.
 
 Agent tidak mengubah data/deployment Google. Pada deployment uji/salinan, buat indikator tambahan dummy yang belum dipakai; uji pembatalan dan penghapusan, lalu pastikan indikator terpakai/bawaan tetap dilindungi dan fungsi Edit/Nonaktif tetap berjalan. Pemeriksaan format/izin/kuota dan hasil deployment nyata memerlukan uji pengguna.
+
+## Perbaikan penyimpanan status indikator lama
+
+Pengguna mengonfirmasi indikator baru dapat dihapus, lalu melaporkan error konfigurasi Aturan_Penilaian saat menonaktifkan MAKAN_SAAT_SESI. Branch **fix/nonaktif-indikator-aturan-lama** memperbaiki pemeriksaan edit yang sebelumnya membaca seluruh JSON aturan meskipun hanya status yang berubah. Setelah paket dua file di atas, ganti lengkap **Code.gs saja**, simpan dan update deployment yang sama ke New version. Tidak perlu memperbaiki/menghapus aturan spreadsheet untuk menjalankan perubahan status ini.
+
+Coba kembali Nonaktif dengan definisi/jenis tetap dan alasan terisi. Status/default poin tidak menulis ulang aturan atau nilai lama. IZIN_SESI tetap aktif, perubahan makna tetap diperiksa dan penghapusan masih membutuhkan bukti referensi yang terbaca. Perbaikan ini tidak menganggap JSON aturan yang tidak terbaca sebagai aturan kosong dan tidak memperbaiki data lama secara otomatis. 308 tes backend lokal lulus; penyebab baris Google yang persis belum diketahui dan hasil deployment masih menunggu uji pengguna.
