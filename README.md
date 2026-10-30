@@ -15,7 +15,7 @@ Versi impor: commit `4d64d49` dari repository DNA0604/anti-slop, termasuk login 
 
 ### File untuk Apps Script
 
-Folder aplikasi kini berisi 15 file HTML/GS: Code.gs, Akses.gs, Evaluasi.gs, Hapus.gs, Laporan.gs, Jenjang.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, Absensi.html, AdminQR.html, PratinjauJenjang.html. `appsscript.json` adalah referensi; pertahankan manifest/scopes proyek Google yang sudah berjalan.
+Folder aplikasi kini berisi 16 file HTML/GS: Code.gs, Akses.gs, Evaluasi.gs, Hapus.gs, Laporan.gs, Jenjang.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Absensi.html, AdminQR.html, PratinjauJenjang.html. `appsscript.json` adalah referensi; pertahankan manifest/scopes proyek Google yang sudah berjalan.
 
 Buka file di GitHub lalu gunakan **Raw** untuk menyalin kode lengkap. Folder tests, docs dan preview merupakan bahan pengembangan, bukan file yang ditambahkan ke editor Apps Script.
 
@@ -44,3 +44,5 @@ Pembaruan UI Pengajar/Admin: branch `ui/rapikan-evaluasi-pengajar`, ganti empat 
 Rekap nilai Pengajar dan catatan Admin/Petugas pada file penilaian terhubung: [panduan pembaruan tiga file](apps-script/absensi-dashboard/docs/REKAP_PENILAIAN_SPREADSHEET.md), branch `feat/rekap-penilaian-spreadsheet`.
 
 Evaluasi Pengajar oleh Admin per sesi: [panduan pembaruan dua file](apps-script/absensi-dashboard/docs/EVALUASI_PENGAJAR_ADMIN.md), branch `feat/evaluasi-pengajar-admin`.
+
+Manajemen Akses dengan sidebar/header dashboard: [panduan satu HTML baru dan satu Script pengganti](apps-script/absensi-dashboard/docs/MANAJEMEN_AKSES_DASHBOARD.md), branch `ui/manajemen-akses-dashboard`.

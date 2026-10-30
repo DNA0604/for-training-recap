@@ -4,7 +4,7 @@
   "files": {
     "Absensi.html": "496053b5dd8ca245d75c0db314d015e8e25d27ccf9a2d7b9f7e9416509280092",
     "AdminQR.html": "d7d2624329bee14cc73eb3bbb5b447a9d39371ae73ae2083a94ae7774a726f43",
-    "Akses.gs": "cfdd87a9af3a217bfdedc8e6e2c4bd7a56f4c5bdd77bf95bee5a8b0affe09c56",
+    "Akses.gs": "582761c9a7b855930ddf5c239d01b179a6204c31ee5c4ca365ac7b6dda7cdc4b",
     "Beranda.html": "35d26eb54ac7812b05003922146d99bb7d7c6144904d9565e522c0278e60225f",
     "Code.gs": "a85b30b4c7f59345498cc1b8ab9fe62b0982ebffa3bae75c79d54c17aeab3274",
     "Evaluasi.gs": "481e6c51d2ad463b7d83b5bfcee9f04af2464de31ba758a38dc130e9eabc9d99",
@@ -12,6 +12,7 @@
     "Index.html": "57ffc93712d926fc887bdd37e2c32609278830b49e3ce2367c2fba3130cd8b90",
     "Jenjang.gs": "87426945420ae5453e22f56c45ec862ba605f6fa52fc4cd5eb7315cfa32be600",
     "Laporan.gs": "b7efac46feb6472a89dd85f54fdbcf5f013b1704db5db5d3adb84498822c064d",
+    "ManajemenAkses.html": "e7c7e428853eb7f1147cee43ce1f8603baf5b201b7cae85077ce243e8879c94e",
     "PemetaanJenjang.gs": "8a68b67c199ff7fecf71e83eedeaa96d7bed42a06ea9dd4884dd7cd41bacd027",
     "Pengelolaan.html": "bb0c6d5c80630a450d48c18b541d07bcb5de074300d64fcc376d42af9be768ef",
     "Peserta.html": "ab23db65852876ac38dd6660ada3942deead3c01cbfe66b4e237cbbf1ee510d9",

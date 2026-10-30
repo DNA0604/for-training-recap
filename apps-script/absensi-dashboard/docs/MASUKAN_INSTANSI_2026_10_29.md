@@ -8,7 +8,7 @@ Status diperbarui 30 Oktober 2026. Dokumen pendataan permintaan dan opsi pembaha
 | Penilaian Pengajar khusus Admin | Lima aspek dan skala 1–5 per sesi disetujui pengguna dan diimplementasikan pada feat/evaluasi-pengajar-admin, khusus Admin dengan riwayat/jurnal/rekap terpisah. Tidak ada bobot atau nilai akhir. Pengguna mengonfirmasi implementasi dan hasil berjalan normal pada 30 Oktober (7683452); fitur dinyatakan selesai. |
 | Spreadsheet penilaian terpisah | Sudah terhubung untuk jurnal penugasan/nilai Pengajar dan rekap terbaca terintegrasi dengan catatan Admin/Petugas. Rekap a8f9e16 diterima pengguna 30 Oktober. Sumber catatan/rumus lama belum dipindah; belum ada nilai akhir gabungan. |
 | Nama Pengajar pada Sesi | Sudah diimplementasikan: satu akun Pengajar stabil per sesi, pilihan saat membuat sesi dan modal Pengajar Sesi. Nama tampil pada Ringkasan Sesi ketiga peran; riwayat tetap disimpan. |
-| Manajemen Akses memakai sidebar | Dapat diseragamkan dengan halaman lain. Opsi memisahkan HTML dari Akses.gs perlu mempertahankan panel native pemilik dan gateway Admin. Tidak otomatis harus menambah file jika renderer bersama cukup. |
+| Manajemen Akses memakai sidebar | Diimplementasikan pada ui/manajemen-akses-dashboard: HTML ManajemenAkses untuk header/sidebar/card normal, tetap menggunakan formulir/handler bersama dari Akses.gs. Panel native pemilik/gateway Admin dipertahankan. Menunggu pengujian deployment pengguna. |
 | Kolom CSV Rekap Program | Menunggu contoh file/kolom dari pengguna. Nilai keseluruhan saat ini sengaja kosong karena aturan akhir belum disepakati. |
 | Edit / Ubah Status indikator macet | Diperbaiki di Index.html: tombol disinkronkan kembali setelah pemuatan selesai. |
 | Hapus indikator pada modal/card pengelolaan | Belum dibuat. Katalog indikator saat ini global untuk seluruh program. Perlu membedakan penghapusan indikator belum dipakai, penonaktifan indikator yang dirujuk dan pengaturan poin per program; riwayat nilai harus tetap dapat dibaca. IZIN_SESI wajib aktif. |
@@ -53,3 +53,5 @@ Pekerjaan lain yang masih tertunda: sidebar Manajemen Akses; penghapusan indikat
 ## Implementasi evaluasi Pengajar oleh Admin — 30 Oktober 2026
 
 Pengguna menyetujui lima aspek tanpa persentase: penguasaan materi, kejelasan penyampaian, metode/media, interaksi/respons peserta dan kedisiplinan waktu. Skala angka bulat 1–5 per sesi dengan catatan/riwayat telah diimplementasikan; baca [panduan terbaru](EVALUASI_PENGAJAR_ADMIN.md). Draf persentase sebelumnya tetap historis, tidak diterapkan. Penilaian ini tidak digabung dengan enam aspek peserta/JP.
+
+Pembaruan UI Manajemen Akses telah diimplementasikan setelah penerimaan evaluasi Pengajar: [panduan dashboard akses](MANAJEMEN_AKSES_DASHBOARD.md). Permintaan login persisten, optimasi waktu muat, hapus indikator dan CSV tetap terpisah.

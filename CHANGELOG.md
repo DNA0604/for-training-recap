@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-30 — dashboard shell for web Manajemen Akses
+- Added ManajemenAkses.html with the accepted institutional header/sidebar, active access navigation and responsive cards, reusing existing owner directory forms/handlers from Akses.gs without a Beranda data loader. Native owner setup/recovery panel and server permissions remain.
+- Scoped directory busy controls, retained sidebar interaction, preserved /dev+/exec and Program/Jenjang/session context on navigation, and made the auth overlay usable after logout from an open mobile drawer. No account/session policy changes.
+- Add HTML ManajemenAkses and replace Akses.gs together. Passed 283 backend tests, 66 source/generated script parses/IDs and mocked Chromium web/native directory, sidebar/navigation/mobile/logout and prior role/evaluation/recap regressions. No Google data/deployment/main changes.
+
 ## 2026-10-30 — Admin-to-Pengajar evaluation accepted by user
 - User confirmed implementation and normal behavior. Accepted application baseline: 7683452 on feat/evaluasi-pengajar-admin. Marked the requested feature completed while distinguishing reported acceptance from unenumerated live/fault cases.
 - Documentation only; no application/hash changes, replacement files or deployment needed.

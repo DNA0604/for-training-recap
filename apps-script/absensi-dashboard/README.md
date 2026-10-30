@@ -4,14 +4,22 @@ Current accepted application source for Pusat Pengembangan Aparatur Komdigi.
 Read ../../PROJECT_CONTEXT.md and ../../AGENTS.md first. These supersede the earlier flat UI package notes and old preview/test reports.
 
 ## Files to use in Google Apps Script
-Code.gs, Laporan.gs, Hapus.gs, Jenjang.gs, Akses.gs, Evaluasi.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, Absensi.html, AdminQR.html, PratinjauJenjang.html.
+Code.gs, Laporan.gs, Hapus.gs, Jenjang.gs, Akses.gs, Evaluasi.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Absensi.html, AdminQR.html, PratinjauJenjang.html.
 The project must remain bound to its existing Google Sheet. Retain the deployed manifest/scopes and deployment configuration.
 
 Replace complete contents of files changed for a task. Keep exact file names. Save, and for /exec publish a new version of the existing deployment. Keep the deployment URL so QR links remain valid.
 
 Preview files and Hasil-Pengujian.txt inherited from the older UI branch are historical and do not depict or validate this current snapshot. Do not install preview files as Apps Script application code.
 
-See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 15 current HTML/GS source files, including the Jenjang preparation tools.
+See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 16 current HTML/GS source files, including the Jenjang preparation tools.
+
+## Manajemen Akses dalam dashboard (30 Oktober 2026)
+
+Paket **ui/manajemen-akses-dashboard**: tambahkan **HTML baru ManajemenAkses** dan ganti lengkap **Akses.gs** dari branch yang sama. Simpan dan update deployment yang sama ke New version. Semua file/konfigurasi lain tetap; tidak perlu setup atau spreadsheet baru.
+
+Admin membuka Manajemen Akses dari sidebar. Halaman web kini menggunakan header instansi/sidebar/card seperti halaman lain dengan formulir akun/penugasan yang sama. Panel pemilik dari menu spreadsheet tetap tersedia untuk setup/konfigurasi/pemulihan. Role dan masa sesi tetap berlaku.
+
+[Panduan pemasangan serta pengujian desktop/ponsel](docs/MANAJEMEN_AKSES_DASHBOARD.md). 283 tes backend dan uji browser lokal dengan Google tiruan lulus; deployment nyata perlu diuji pengguna.
 
 ## Evaluasi Pengajar oleh Admin (30 Oktober 2026)
 

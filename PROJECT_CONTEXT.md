@@ -185,10 +185,20 @@ Validation: **283 backend tests** (17 new cases) cover roles, legacy/empty journ
 ## Instructor evaluation accepted — 30 October 2026
 User confirmed implementing the Admin-to-Pengajar evaluation and reported hasilnya berjalan normal. Treat application **7683452** on feat/evaluasi-pengajar-admin as the accepted continuation baseline, including the cumulative participant evaluation, connected recap and prior accepted UI. This records the user's reported implementation/normal behavior; the specific live checklist/fault scenarios were not enumerated and must not be claimed independently verified. The requested instructor-evaluation update is completed. Documentation only; no replacement files, source/hash change or new deployment needed for this acceptance record.
 
+## Access management dashboard — 30 October 2026
+User asked to proceed after accepting instructor evaluation. Next implemented institution request: Manajemen Akses should look like other pages with a sidebar. Branch **ui/manajemen-akses-dashboard** continues 7b9443c (accepted application 7683452). Add **HTML ManajemenAkses.html** and replace **Akses.gs together**, save and update the same deployment. All other sources and Google data/config remain unchanged; no setup/migration/new spreadsheet is needed. Current source snapshot has 16 HTML/GS files.
+
+The web renderer wraps the existing native directory body/controller in a new explicit HTML dashboard frame. Frame shell/logo/styles/sidebar interactions originate from accepted Beranda; the Beranda business script/data loader is omitted. The old native owner panel still opens via the spreadsheet menu for setup/Google configuration/activation/recovery, independently of the new HTML. Account/role/assignment/history forms, request contracts and backend permissions are reused. Web Admin sees identity, active Manajemen Akses footer navigation and one sidebar Log Out; native-only configuration remains hidden and server-protected. Petugas/Pengajar are denied before directory reads.
+
+UI disable logic is scoped to directory controls on the web page, keeping sidebar controls responsive. A delegated click guard holds page changes while a directory request is unconfirmed. Navigation preserves /exec or /dev plus live Program/Jenjang/session context, including entry/back through the shared Admin footer link. Accepted collapse/hover suppression, content push, keyboard focus and mobile drawer/focus trapping stay. A browser reproduction found auth overlay inert after mobile drawer logout; authView now clears inert on that overlay so login/error controls remain usable. This is presentation only: token storage/4h absolute/30min idle/revocation checks remain unchanged.
+
+Validation: 283 backend tests, 66 source/generated script parses and HTML IDs, unchanged embedded logo, Chromium web account create/edit/status and staff assignment, busy navigation guard/loading retry, /exec+/dev roundtrips/context, desktop hover/collapse/keyboard/content shift, mobile focus/inert-safe logout and staff/teacher denial pass. Native owner directory/setup/OAuth/proof UI and prior app verification/evaluation/recap suites pass with mocked Google. No live Google deployment/account write, source migration or main merge occurred. Guide: docs/MANAJEMEN_AKSES_DASHBOARD.md. Remaining institution requests: unused indicator deletion with reference/history protection, persistent-login design, measured loading optimization and CSV additions pending sample; no scoring weights/final grade is agreed.
+
 ## Source of truth and files
 Directory: apps-script/absensi-dashboard/.
-- Akses.gs: separate owner-managed organizer directory, account/assignment audit/recovery, OAuth configuration, and embedded identity-proof panels; not main-app RBAC.
-- Code.gs: latest backend supplied by the user as Code(1).gs. It is not copied from an unrelated older hasil/Code.gs file.
+- Akses.gs: separate organizer directory/audit/recovery, OAuth/native owner panels, authenticated app sessions/RPC gateway/role scope, and shared dashboard/access-page composition.
+- Code.gs: cumulative operational backend, originally supplied as Code(1).gs, with the accepted attendance/JP/management/report/access integrations. Do not replace it with older hasil/Code.gs.
+- ManajemenAkses.html: web Admin dashboard frame/header/sidebar; directory forms and handlers are injected from Akses.gs, preserving the native owner panel.
 - Beranda.html: default landing page, global program/participant/session overview, agenda, category/status distribution, follow-up counters and searchable/paginated program list.
 - Index.html: Monitoring at ?page=monitoring, session attendance, recap, behavioral notes, leave list, behavior scoring and settings dialogs.
 - Pengelolaan.html: programs, sessions, breaks, data checks, and summary of up to 10 participants.
@@ -203,7 +213,7 @@ Directory: apps-script/absensi-dashboard/.
 Files named with (1) in uploads were normalized for Apps Script. Use the exact names above.
 
 The app is bound to a spreadsheet with its existing sheets. This handoff contains source, not the live spreadsheet or its data. Earlier UI-only revisions required no migration. The current structural Jenjang revision explicitly requires the reviewed migration on a separate copy before modern use.
-The existing appsscript.json from the original branch is a reference. Keep the deployed project's real manifest, OAuth scopes, permissions and deployment settings. SOURCE_SNAPSHOT.json records SHA-256 hashes for all 14 HTML/GS source files, including the Jenjang and migration tools. Report export requires Docs and Drive authorization; preserve existing explicit scopes when adding those permissions.
+The existing appsscript.json from the original branch is a reference. Keep the deployed project's real manifest, OAuth scopes, permissions and deployment settings. SOURCE_SNAPSHOT.json records SHA-256 hashes for all 16 current HTML/GS source files, including the Jenjang and migration tools. Report export requires Docs and Drive authorization; preserve existing explicit scopes when adding those permissions.
 
 ## Functional scope already built
 - Categories: Manajerial, Sosial Kultural, Teknis; programs can have jenjang and multiple sessions.
