@@ -52,3 +52,5 @@ Hapus indikator tambahan yang belum digunakan: [panduan penggantian Hapus.gs dan
 Perbaikan Nonaktif indikator lama yang terblokir konfigurasi aturan: branch `fix/nonaktif-indikator-aturan-lama`, ganti **Code.gs saja** sesudah paket indikator sebelumnya. [Petunjuk pemasangan](apps-script/absensi-dashboard/README.md).
 
 Izin peserta tanpa presensi, termasuk izin satu sesi penuh: [panduan tiga file](apps-script/absensi-dashboard/docs/IZIN_TANPA_PRESENSI.md), branch `feat/izin-peserta-tanpa-presensi`. Code.gs pada paket ini sudah memuat perbaikan status indikator sebelumnya.
+
+Evaluasi peserta oleh Admin/Petugas setelah setiap sesi selesai: [panduan dua Script pengganti](apps-script/absensi-dashboard/docs/EVALUASI_PANITIA.md), branch `feat/evaluasi-peserta-panitia`. Tiga aspek per sesi, rekap pada file penilaian terhubung dan tanpa nilai akhir gabungan.

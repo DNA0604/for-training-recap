@@ -13,6 +13,14 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 16 current HTML/GS source files, including the Jenjang preparation tools.
 
+## Evaluasi peserta oleh Panitia (30 Oktober 2026)
+
+Paket **feat/evaluasi-peserta-panitia**: ganti lengkap **Evaluasi.gs dan Akses.gs bersama-sama**, simpan dan update deployment yang sama ke New version. Tidak perlu file Script/HTML baru, spreadsheet baru atau setup ulang.
+
+Admin/Petugas membuka **Monitoring → pilih sesi → Evaluasi Peserta oleh Panitia** pada Ringkasan Sesi. Tiga aspek: kedisiplinan peserta, kerja sama, prakarsa; skala 1–5, komentar opsional. Pengisian dibuka setelah jadwal setiap sesi berakhir, tanpa menunggu program selesai dan tanpa mewajibkan catatan perilaku. Nilai Panitia tetap terpisah dari Pengajar/JP. Admin memperbarui tab **Rekap_Evaluasi_Panitia** pada spreadsheet penilaian terhubung untuk melihat seluruh sesi program.
+
+[Panduan pemasangan, akses, konflik/riwayat dan uji](docs/EVALUASI_PANITIA.md). 337 tes backend dan browser lokal dengan Google tiruan lulus; deployment nyata masih perlu diuji pengguna.
+
 ## Izin peserta tanpa presensi (30 Oktober 2026)
 
 **Selesai dan dikonfirmasi pengguna:** paket e4a20e5 telah diperbarui dan diuji, dengan hasil semua normal. Pencatatan penerimaan ini tidak memerlukan penggantian file atau deployment tambahan. Daftar kasus uji nyata tidak dirinci pengguna.

@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-30 — Panitia evaluates participants after each session
+- Added the user's three aspects (discipline, cooperation, initiative), integer 1–5 per participant/session, optional comments and no dependency on detailed behavior notes or attendance. Writes open after scheduled session end, including active programs; Pengajar is denied, Admin/Petugas follow live Jenjang access.
+- A shared assessment retains verified actor and before/after history, source/row versions, batched idempotent retries and conflict protection. Added a scroll/sticky-header/X modal action in Ringkasan Sesi and Admin recap action. Existing teacher/instructor evaluation and JP/scoring remain separate.
+- Lazily adds Evaluasi_Peserta_Panitia and manual Rekap_Evaluasi_Panitia on the connected evaluation file, preserving deleted-source history, blank grades and no aggregate/final weights. Replace Evaluasi.gs and Akses.gs together; no new source/setup/book.
+- Passed 337 backend tests (17 new cases), generated/source parsing/IDs/hashes and mocked Chromium new and prior role/evaluation/leave/app/indicator flows. No real Google writes/deployment/main merge. Guide: docs/EVALUASI_PANITIA.md.
 ## 2026-10-30 — leave without attendance accepted by user
 - User confirmed installing/updating and testing the latest package, with all normal. Accepted cumulative application baseline: e4a20e5 on feat/izin-peserta-tanpa-presensi. The specific exercised live/fault cases were not enumerated; do not claim exhaustive verification of unrelated indicator/JP/upload paths.
 - Documentation only. No application/source-hash changes, replacement files or deployment needed. Pending institution work remains persistent login, measured loading optimization and CSV columns awaiting a sample.

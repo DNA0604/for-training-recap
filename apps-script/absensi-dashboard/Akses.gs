@@ -379,7 +379,7 @@ function fungsiAplikasiPanitia_(){return {
  pulihkanPembuatanSesiIndex,pratinjauImporPesertaIndex,cariPesertaLamaIndex,imporPesertaProgramIndex,pulihkanImporPesertaIndex,periksaDataIndex,muatEditDataIndex,simpanEditDataIndex,pulihkanEditDataIndex,tambahIndikatorIndex,muatRingkasanPesertaIndex,
  pratinjauHapusDataIndex,hapusDataIndex,muatPenghapusanTertundaIndex,lanjutkanPenghapusanIndex,muatMasterPesertaHapusIndex,muatPratinjauLaporanProgram,buatPDFLaporanProgram,otorisasiLaporanProgram,
  muatManajemenAksesPanitia,simpanPenggunaPanitia,simpanPenugasanPanitia,pulihkanTransaksiAksesPanitia,
- muatEvaluasiPengajarSesi:muatEvaluasiPengajarSesi_,simpanEvaluasiPengajarSesi:simpanEvaluasiPengajarSesi_,muatStatusRekapPenilaian:muatStatusRekapPenilaian_,perbaruiRekapPenilaian:perbaruiRekapPenilaian_,muatKelolaPengajar:muatKelolaPengajar_,tetapkanPengajarSesi:tetapkanPengajarSesi_,muatEvaluasiPesertaSesi:muatEvaluasiPesertaSesi_,simpanEvaluasiPesertaSesi:simpanEvaluasiPesertaSesi_,
+ muatEvaluasiPanitiaSesi:muatEvaluasiPanitiaSesi_,simpanEvaluasiPanitiaSesi:simpanEvaluasiPanitiaSesi_,muatEvaluasiPengajarSesi:muatEvaluasiPengajarSesi_,simpanEvaluasiPengajarSesi:simpanEvaluasiPengajarSesi_,muatStatusRekapPenilaian:muatStatusRekapPenilaian_,perbaruiRekapPenilaian:perbaruiRekapPenilaian_,muatKelolaPengajar:muatKelolaPengajar_,tetapkanPengajarSesi:tetapkanPengajarSesi_,muatEvaluasiPesertaSesi:muatEvaluasiPesertaSesi_,simpanEvaluasiPesertaSesi:simpanEvaluasiPesertaSesi_,
  muatDaftarVerifikasiSesiPanitia:muatDaftarVerifikasiSesiPanitia_,muatVerifikasiSesiPanitia:muatVerifikasiSesiPanitia_,ajukanVerifikasiSesiPanitia:ajukanVerifikasiSesiPanitia_,putuskanVerifikasiSesiPanitia:putuskanVerifikasiSesiPanitia_,
  muatPengajuanKoreksiPanitia:muatPengajuanKoreksiPanitia_,putuskanPengajuanKoreksiPanitia:putuskanPengajuanKoreksiPanitia_
 };}
@@ -391,7 +391,7 @@ function periksaIzinFungsiPanitia_(name,args){
     if(name==='simpanEvaluasiPesertaSesi'){wajibSesiTargetAkses_((args[0]||{}).id_sesi);return;}
   }
   if(!terbatasDalamKonteksAkses_())return;
-  const sessionMethods=['muatEvaluasiPesertaSesi','muatVerifikasiSesiPanitia','muatKehadiranIndex','muatCatatanPerilakuIndex','muatDaftarIzinIndex','terbitkanQRAbsensiDariGenerator'];
+  const sessionMethods=['muatEvaluasiPanitiaSesi','muatEvaluasiPesertaSesi','muatVerifikasiSesiPanitia','muatKehadiranIndex','muatCatatanPerilakuIndex','muatDaftarIzinIndex','terbitkanQRAbsensiDariGenerator'];
   const programMethods=['muatRekapJPProgramIndex','muatNilaiPerilakuProgramIndex','muatPesertaProgramIndex','muatJenjangProgramIndex'];
   if(['muatAwalIndex','muatBerandaIndex','muatDaftarVerifikasiSesiPanitia','muatPengajuanKoreksiPanitia'].includes(name))return;
   if(sessionMethods.includes(name)){wajibSesiTargetAkses_(args[0]);return;}
@@ -400,6 +400,7 @@ function periksaIzinFungsiPanitia_(name,args){
     if(name==='muatPesertaProgramIndex'&&teksAkses_(args[3]))wajibJenjangTargetAkses_({id_program:args[0],id_jenjang:args[3]});return;
   }
   const d=args[0]||{};
+  if(name==='simpanEvaluasiPanitiaSesi'){wajibSesiTargetAkses_(d.id_sesi);return;}
   if(name==='muatProfilPesertaIndex'){
     const memberships=tabelIndex_('Keikutsertaan',['id_keikutsertaan','id_peserta','id_program']).records;
     const matches=memberships.filter(k=>dalamJenjangAkses_(k)&&(!d.id_keikutsertaan||teksAkses_(k.id_keikutsertaan)===teksAkses_(d.id_keikutsertaan))&&(!d.id_peserta||teksAkses_(k.id_peserta)===teksAkses_(d.id_peserta))&&(!d.id_program||teksAkses_(k.id_program)===teksAkses_(d.id_program)));
