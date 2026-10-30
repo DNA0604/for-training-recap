@@ -1,13 +1,13 @@
 # Masukan instansi — 29 Oktober 2026
 
-Dokumen pendataan permintaan dan opsi pembahasan. Rekomendasi di sini belum menjadi keputusan format penilaian atau migrasi.
+Status diperbarui 30 Oktober 2026. Dokumen pendataan permintaan dan opsi pembahasan; rekomendasi/rubrik draf belum menjadi keputusan format penilaian atau migrasi.
 
 | Permintaan | Status / langkah |
 | --- | --- |
-| Peran Pengajar dengan tampilan Admin | Dikonfirmasi pengguna: tampilan Admin, dibatasi sesi/Jenjang mengajar; tanpa kelola akun, hapus data atau penilaian Pengajar. Belum diimplementasikan; perlu matriks tindakan dan otorisasi server. |
+| Peran Pengajar dengan tampilan Admin | Sudah diimplementasikan: tampilan yang sama, akses sesi/Jenjang mengajar dan evaluasi peserta enam aspek per sesi; tanpa kelola akun/hapus/penilaian Pengajar. Tampilan diperbaiki dan diterima pengguna. |
 | Penilaian Pengajar khusus Admin | Dikonfirmasi pengguna: belum ada format instansi; perlu dirancang bersama. Indikator/skala/bobot/finalisasi belum disepakati atau diterapkan dalam kode. |
-| Spreadsheet penilaian terpisah | Usulan: spreadsheet operasional, akses, dan penilaian tetap mempunyai fungsi masing-masing. Bahas hasil final/snapshot peserta, catatan sumber, aturan versi, kepemilikan dan migrasi sebelum memindah data. |
-| Nama Pengajar pada Sesi | Dikonfirmasi pengguna: hanya satu pengajar per sesi. Usulan identitas Pengajar stabil dan tautan akun opsional, sehingga laporan tidak mencocokkan orang berdasarkan teks nama. Belum diimplementasikan. |
+| Spreadsheet penilaian terpisah | Sudah terhubung untuk jurnal penugasan/nilai Pengajar dan rekap terbaca terintegrasi dengan catatan Admin/Petugas. Rekap a8f9e16 diterima pengguna 30 Oktober. Sumber catatan/rumus lama belum dipindah; belum ada nilai akhir gabungan. |
+| Nama Pengajar pada Sesi | Sudah diimplementasikan: satu akun Pengajar stabil per sesi, pilihan saat membuat sesi dan modal Pengajar Sesi. Nama tampil pada Ringkasan Sesi ketiga peran; riwayat tetap disimpan. |
 | Manajemen Akses memakai sidebar | Dapat diseragamkan dengan halaman lain. Opsi memisahkan HTML dari Akses.gs perlu mempertahankan panel native pemilik dan gateway Admin. Tidak otomatis harus menambah file jika renderer bersama cukup. |
 | Kolom CSV Rekap Program | Menunggu contoh file/kolom dari pengguna. Nilai keseluruhan saat ini sengaja kosong karena aturan akhir belum disepakati. |
 | Edit / Ubah Status indikator macet | Diperbaiki di Index.html: tombol disinkronkan kembali setelah pemuatan selesai. |
@@ -22,7 +22,7 @@ Dokumen pendataan permintaan dan opsi pembahasan. Rekomendasi di sini belum menj
 - Code.gs: muatNilaiPerilakuProgramIndex menghitung hasil dari Program, aturan versi, keikutsertaan, kehadiran dan Catatan_Perilaku. Pemindahan hasil peserta tidak sama dengan menyalin satu tab nilai final.
 - Code.gs/Jenjang.gs: tabelIndex membaca seluruh data range, lalu validasi relasi dapat membaca Jenjang/Sesi/Keikutsertaan lagi. Akses.gs membaca direktori dan riwayat pada setiap pemeriksaan sesi. Ini kandidat biaya, bukan pengukuran latensi Google yang terbukti.
 
-## Urutan kerja yang diusulkan
+## Urutan kerja awal yang diusulkan (historis)
 
 1. Perbaikan kecil yang jelas: kontrol indikator dan letak tombol (paket ini).
 2. Pengukuran/optimasi pemuatan dan desain sesi login persisten; seragamkan tampilan Manajemen Akses.
@@ -43,3 +43,9 @@ Usulan pemisahan bertahap: file utama untuk kegiatan/kehadiran/catatan sumber; f
 ## Keputusan lanjutan dan tahap implementasi
 
 Pengguna menegaskan bahwa Pengajar juga menilai Peserta menggunakan enam aspek dari instansi (keaktifan, kedisiplinan, kerapian, kesopanan, kreativitas, kerja sama), **setiap sesi**, dan menyetujui skala **1–5**. Branch feat/evaluasi-peserta-pengajar mengimplementasikan peran terbatas, satu pengajar pada sesi, serta evaluasi peserta dalam spreadsheet terpisah. Lihat EVALUASI_PESERTA_SESI.md. Bobot/rumus akhir dan penilaian Pengajar oleh Admin tetap belum disepakati. Tabel status/rubrik draf sebelumnya adalah catatan urutan pembahasan, bukan pengganti keputusan enam aspek ini.
+
+## Status dan langkah berikutnya — 30 Oktober 2026
+
+Pengguna menerima rekap pada file penilaian terhubung (a8f9e16). Rekomendasi diskusi berikutnya: **penilaian Pengajar oleh Admin**, karena relasi sesi/Pengajar dan file penilaian sudah tersedia. Mulai dengan menyepakati indikator dan skala; persentase/bobot pada draf lama tidak otomatis berlaku. Satu evaluasi per sesi/Pengajar dan akses Admin adalah usulan alur yang konsisten dengan kebutuhan sebelumnya, bukan formula penilaian baru yang sudah diimplementasikan.
+
+Pekerjaan lain yang masih tertunda: sidebar Manajemen Akses; penghapusan indikator belum dipakai dengan perlindungan referensi/riwayat; sesi login persisten beserta batas idle/absolut; pengukuran dan optimasi pemuatan; kolom CSV menunggu contoh pengguna. Belum ada perubahan kode untuk kandidat-kandidat ini.

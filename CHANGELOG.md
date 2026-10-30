@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-30 — connected spreadsheet recap accepted by user
+- User confirmed the recap matches expectations. Accepted application baseline is a8f9e16 on feat/rekap-penilaian-spreadsheet. Recorded user acceptance separately from local mocked checks and unexercised live cases.
+- Updated pending institution-request statuses and the proposed next discussion. Documentation only; no source/hash changes, replacement files or deployment needed.
+
 ## 2026-10-29 — readable evaluation and integrated behavior recap in connected spreadsheet
 - Added owner/Admin manual full-file recap to the existing evaluation file: readable latest/history score rows, behavior/leave detail, active participant-session integrated view and snapshot status metadata. Blank grades, note validation states, Program/Jenjang scope and previous teacher history remain distinct; no new combined scoring formula.
 - Added owner spreadsheet menu and Admin evaluator-dialog refresh/file link. Shared-lock checks, bounds, sheet-ID ownership, literal text/NIP, verified writes, source fingerprints and failure/retry status protect derived publication; operational/access/journal sources remain unchanged.

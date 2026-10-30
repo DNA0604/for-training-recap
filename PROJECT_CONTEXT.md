@@ -166,6 +166,11 @@ Headers/filters/frozen identity and wrapped text are configured; all text is wri
 
 Validation: **266 backend tests** (17 new recap cases) and real-renderer Chromium with Google mocks for Admin full-file update/status/failure/retry/link, native owner panel and prior teacher/staff UI flows; application login/navigation/sidebar/verification regression passes. Source/generated scripts/IDs and source hashes checked. Google sheet formatting/permissions/quotas/live writes remain user tests. See docs/REKAP_PENILAIAN_SPREADSHEET.md. No agent Google action, real migration, new trigger, deployment or main merge occurred.
 
+## Recap acceptance — 30 October 2026
+User confirmed the connected-spreadsheet recap is sesuai dengan harapan and asked which work comes next. Treat application **a8f9e16** on feat/rekap-penilaian-spreadsheet as the accepted continuation baseline. This records their reported acceptance, not independent logs or an exhaustive live test of every failure/format/quota case. No application change, new deployment or replacement file is needed for this acceptance record.
+
+Remaining institution work: Admin-to-instructor evaluation (rubric/scale/weights still require agreement), access-page sidebar, unused-indicator deletion with global/history protections, persistent login within the intended four-hour policy, measured load optimization, and CSV columns pending the user's sample. Participant score weights/final aggregation and wholesale relocation of legacy note/scoring sources are not agreed. Recommended next discussion: define the Admin-to-instructor rubric, using the existing one-teacher/session relation and separate evaluation file; do not implement draft percentages as accepted rules.
+
 ## Source of truth and files
 Directory: apps-script/absensi-dashboard/.
 - Akses.gs: separate owner-managed organizer directory, account/assignment audit/recovery, OAuth configuration, and embedded identity-proof panels; not main-app RBAC.
