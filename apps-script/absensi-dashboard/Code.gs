@@ -3331,9 +3331,9 @@ function sesuaiJenjang_(s,k){
 function kolomJenjangData_(p,j){return typeof kolomJenjang_==='function'?kolomJenjang_(p,j):{};}
 function tabelIndex_(nama,wajib){
   if(typeof pastikanMigrasiJenjangSiap_==='function')pastikanMigrasiJenjangSiap_();
-  const sheet=databasePelatihan_().getSheetByName(nama);
+  const book=databasePelatihan_(),sheet=book.getSheetByName(nama);
   if(!sheet)throw new Error('Sheet tidak ditemukan: '+nama);
-  const v=sheet.getDataRange().getValues(),h=v[0].map(x=>String(x).trim());
+  const v=typeof nilaiSheetPermintaan_==='function'?nilaiSheetPermintaan_(sheet,book.getId()):sheet.getDataRange().getValues(),h=v[0].map(x=>String(x).trim());
   wajib.forEach(x=>{if(!h.includes(x))throw new Error('Kolom '+x+' tidak ditemukan di '+nama);});
   const result={header:h,rows:v.slice(1).filter(r=>r.some(x=>x!=='')),records:v.slice(1).filter(r=>r.some(x=>x!=='')).map(r=>{const o={};h.forEach((x,n)=>{if(x)o[x]=r[n];});return o;})};
   if(typeof validasiTabelJenjang_==='function')validasiTabelJenjang_(nama,result);

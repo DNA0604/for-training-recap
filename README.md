@@ -54,3 +54,5 @@ Perbaikan Nonaktif indikator lama yang terblokir konfigurasi aturan: branch `fix
 Izin peserta tanpa presensi, termasuk izin satu sesi penuh: [panduan tiga file](apps-script/absensi-dashboard/docs/IZIN_TANPA_PRESENSI.md), branch `feat/izin-peserta-tanpa-presensi`. Code.gs pada paket ini sudah memuat perbaikan status indikator sebelumnya.
 
 Evaluasi peserta oleh Admin/Petugas setelah setiap sesi selesai: [panduan dua Script pengganti](apps-script/absensi-dashboard/docs/EVALUASI_PANITIA.md), branch `feat/evaluasi-peserta-panitia`. Tiga aspek per sesi, rekap pada file penilaian terhubung dan tanpa nilai akhir gabungan.
+
+Login tersimpan maksimal empat jam dan pengurangan pembacaan sheet berulang: [panduan tiga Script pengganti](apps-script/absensi-dashboard/docs/LOGIN_PERSISTEN_PEMUATAN.md), branch `feat/login-tersimpan-pemuatan-data`.

@@ -13,7 +13,15 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 16 current HTML/GS source files, including the Jenjang preparation tools.
 
+## Login tersimpan dan pemuatan data (30 Oktober 2026)
+
+Paket **feat/login-tersimpan-pemuatan-data**: ganti lengkap **Akses.gs, Code.gs dan Jenjang.gs bersama-sama**, simpan dan update deployment yang sama ke New version. Tidak perlu file, spreadsheet, migrasi atau setup baru. Evaluasi.gs tetap versi terakhir.
+
+Login diingat hingga **4 jam sejak login**, termasuk saat web ditutup; tidak lagi keluar setelah 30 menit tanpa aktivitas. Log Out/pencabutan akses tetap berlaku. Pembacaan sheet berulang dikurangi dalam setiap permintaan baca, tanpa cache data lintas pengguna/permintaan. [Panduan pemasangan, batas penyimpanan dan uji](docs/LOGIN_PERSISTEN_PEMUATAN.md). 351 tes backend dan browser lokal dengan Google tiruan lulus; penyimpanan browser/waktu muat deployment nyata perlu diuji pengguna.
+
 ## Evaluasi peserta oleh Panitia (30 Oktober 2026)
+
+**Diterima pengguna:** sumber e7cfaa7 dilaporkan sudah aman. Tidak ada file/deployment tambahan untuk mencatat penerimaan ini.
 
 Paket **feat/evaluasi-peserta-panitia**: ganti lengkap **Evaluasi.gs dan Akses.gs bersama-sama**, simpan dan update deployment yang sama ke New version. Tidak perlu file Script/HTML baru, spreadsheet baru atau setup ulang.
 

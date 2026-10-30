@@ -2,6 +2,8 @@
 
 Paket `feat/evaluasi-peserta-panitia`, melanjutkan sumber izin tanpa presensi `e4a20e5` yang sudah diterima pengguna. Instansi membutuhkan evaluasi umum peserta tanpa mewajibkan catatan kejadian terperinci. Aspek dari pengguna: **kedisiplinan peserta, kerja sama, prakarsa**. Pengisian dilakukan setelah setiap sesi selesai; hasil semua sesi digunakan ketika program berakhir.
 
+**Penerimaan pengguna:** paket e7cfaa7 dilaporkan sudah aman. Ini mencatat hasil uji yang dilaporkan pengguna tanpa mengklaim pengujian independen seluruh kasus Google. Tidak perlu kode/deployment tambahan untuk pencatatan penerimaan.
+
 ## Pemasangan
 
 Ganti isi lengkap **Evaluasi.gs dan Akses.gs bersama-sama** dari branch ini. Simpan, lalu **Manage deployments → Edit deployment yang sama → New version → Deploy**. Gunakan URL deployment lama.

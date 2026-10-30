@@ -1,8 +1,8 @@
 /** Struktur operasional Jenjang. Identitas/aturan penilaian tetap pada model lama. */
 function bacaMentahJenjang_(name, optional) {
-  const sheet=databasePelatihan_().getSheetByName(name);
+  const book=databasePelatihan_(),sheet=book.getSheetByName(name);
   if(!sheet){if(optional)return null;throw Error('Sheet '+name+' belum tersedia.');}
-  const values=sheet.getDataRange().getValues(),header=(values[0]||[]).map(v=>String(v==null?'':v).trim());
+  const values=typeof nilaiSheetPermintaan_==='function'?nilaiSheetPermintaan_(sheet,book.getId()):sheet.getDataRange().getValues(),header=(values[0]||[]).map(v=>String(v==null?'':v).trim());
   if(new Set(header.filter(Boolean)).size!==header.filter(Boolean).length)throw Error('Header duplikat pada '+name+'.');
   return {header,records:values.slice(1).filter(row=>row.some(v=>v!==''&&v!=null)).map(row=>Object.fromEntries(header.map((h,i)=>[h,row[i]])))};
 }

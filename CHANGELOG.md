@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-30 — persistent four-hour login and request-scoped read deduplication
+- User selected an absolute four-hour session including closed web pages, with no 30-minute idle logout. Added browser persistent storage with tab/memory fallback, server metadata independent of cache eviction, durable logout markers, cross-tab logout/account-change handling and preserved live scope/revocation checks.
+- Deduplicated values/formulas within allowlisted read requests only; new requests read afresh and lock-time rechecks discard the old snapshot. Operational write paths remain uncached. Local fixture data-range reads fall from 30 to 13 for Beranda and 26 to 14 for Monitoring; no claim of measured Google latency improvement.
+- Replace Akses.gs, Code.gs and Jenjang.gs together. No new source/book/setup. Passed 351 backend tests, source/generated parsing/IDs/hashes and mocked Chromium persistence/expiry plus prior app/evaluation/leave/access flows. No real Google writes/deployment/main merge. Guide: docs/LOGIN_PERSISTEN_PEMUATAN.md.
+
+## 2026-10-30 — Panitia evaluation accepted by user
+- User confirmed “sip, sudah aman” and requested login/loading next, postponing other work. Accepted cumulative application baseline: e7cfaa7 on feat/evaluasi-peserta-panitia. Specific live checks were not enumerated; do not claim exhaustive unrelated fault/Google coverage.
+
 ## 2026-10-30 — Panitia evaluates participants after each session
 - Added the user's three aspects (discipline, cooperation, initiative), integer 1–5 per participant/session, optional comments and no dependency on detailed behavior notes or attendance. Writes open after scheduled session end, including active programs; Pengajar is denied, Admin/Petugas follow live Jenjang access.
 - A shared assessment retains verified actor and before/after history, source/row versions, batched idempotent retries and conflict protection. Added a scroll/sticky-header/X modal action in Ringkasan Sesi and Admin recap action. Existing teacher/instructor evaluation and JP/scoring remain separate.
