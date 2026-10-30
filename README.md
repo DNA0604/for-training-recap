@@ -7,6 +7,7 @@ Repository khusus kode aplikasi Google Apps Script untuk rekapitulasi dan monito
 
 - [Kode aplikasi lengkap](apps-script/absensi-dashboard/)
 - [Panduan file Apps Script dan pemasangan](apps-script/absensi-dashboard/README.md)
+- [Pemuatan data utama dan Rekap](apps-script/absensi-dashboard/docs/PEMUATAN_DASHBOARD.md)
 - [Konteks dan status proyek](PROJECT_CONTEXT.md)
 - [Catatan perubahan](CHANGELOG.md)
 - [Asal dan hash file impor](MIGRATION_SOURCE.json)

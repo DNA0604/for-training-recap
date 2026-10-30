@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-30 — prioritize primary dashboard data and group parallel recap/history reads
+- Load Beranda/Monitoring primary data before starting supplementary correction/verification history. Group the two Monitoring history reads and the JP/behavior recap pair into bounded read-only requests; refresh still reads new sources.
+- Fixed server allowlist and argument limits, live session/directory validation and per-member role/target checks retain isolation. No write/export/evaluation batching, cross-request business cache, sidebar or four-hour login-policy change. Failed members remain explicit errors; late results stay masked after logout/account change.
+- Only Akses.gs changes from c939a2b. If the login package is not installed yet, replace Akses.gs, Code.gs and Jenjang.gs together. Local fixture data-range reads fall 20→11 for Monitoring histories and 25→16 for recap; these are not production timing measurements. 359 backend tests and mocked Chromium application/evaluation suites pass; no Google data/deployment/main change. Guide: docs/PEMUATAN_DASHBOARD.md.
+
 ## 2026-10-30 — persistent four-hour login and request-scoped read deduplication
 - User selected an absolute four-hour session including closed web pages, with no 30-minute idle logout. Added browser persistent storage with tab/memory fallback, server metadata independent of cache eviction, durable logout markers, cross-tab logout/account-change handling and preserved live scope/revocation checks.
 - Deduplicated values/formulas within allowlisted read requests only; new requests read afresh and lock-time rechecks discard the old snapshot. Operational write paths remain uncached. Local fixture data-range reads fall from 30 to 13 for Beranda and 26 to 14 for Monitoring; no claim of measured Google latency improvement.

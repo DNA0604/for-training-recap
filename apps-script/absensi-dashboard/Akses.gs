@@ -447,6 +447,24 @@ function panggilAplikasiPanitia(d){
   return denganBacaanPermintaan_(pembacaanRinganAkses_(name),()=>{const context=bacaSesiPanitia_(d.token);context.token=d.token;context.method=name;context.args=d.args;konteksSesiPanitia_=context;
   try{periksaIzinFungsiPanitia_(name,d.args);return functions[name].apply(null,d.args);}finally{konteksSesiPanitia_=null;}});
 }
+/** Fixed, read-only dashboard group. Never accept mutation names or arbitrary payloads. */
+function bacaanDashboardPanitia_(){return {
+ muatPengajuanKoreksiPanitia:0,muatDaftarVerifikasiSesiPanitia:0,
+ muatRekapJPProgramIndex:1,muatNilaiPerilakuProgramIndex:1
+};}
+function panggilBacaanDashboardPanitia(d){
+ d=d||{};const allowed=bacaanDashboardPanitia_(),calls=d.permintaan;
+ if(!Array.isArray(calls)||!calls.length||calls.length>6||calls.some(p=>!p||!Object.prototype.hasOwnProperty.call(allowed,p.nama)||!Array.isArray(p.args)||p.args.length!==allowed[p.nama]||p.args.some(v=>typeof v!=='string'||!v.trim()||v.length>200)))throw Error('Kelompok pembacaan dashboard tidak valid.');
+ if(konteksSesiPanitia_)throw Error('Permintaan aplikasi bertingkat tidak diizinkan.');
+ return denganBacaanPermintaan_(true,()=>{
+  const context=bacaSesiPanitia_(d.token),functions=fungsiAplikasiPanitia_();
+  try{return {sukses:true,hasil:calls.map(p=>{
+   konteksSesiPanitia_=Object.assign({},context,{token:d.token,method:p.nama,args:p.args});
+   try{periksaIzinFungsiPanitia_(p.nama,p.args);return {sukses:true,data:functions[p.nama].apply(null,p.args)};}
+   catch(e){if(/SESI_BERAKHIR|SESI_DIPERLUKAN|AKSES_DITAHAN/.test(e.message||''))throw e;return {sukses:false,pesan:e.message||'Data belum dapat dimuat.'};}
+  })};}finally{konteksSesiPanitia_=null;}
+ });
+}
 function periksaUlangSesiPanitia_(){if(!konteksSesiPanitia_)return;if(bacaanPermintaanAkses_)bacaanPermintaanAkses_={nilai:new Map(),rumus:new Map()};const old=konteksSesiPanitia_,current=bacaSesiPanitia_(old.token,true);konteksSesiPanitia_=Object.assign(current,{token:old.token,method:old.method,args:old.args,verifikasi_id:old.verifikasi_id});periksaIzinFungsiPanitia_(old.method,old.args);}
 function saringAwalPanitia_(r){if(!terbatasDalamKonteksAkses_())return r;const data=r.data;data.program=data.program.filter(p=>programDalamAkses_(p.id_program));data.sesi=data.sesi.filter(dalamJenjangAkses_);data.jenjang=(data.jenjang||[]).filter(j=>dalamJenjangAkses_({id_jenjang:j.id,id_program:j.id_program}));data.program.forEach(p=>p.jenjang=data.jenjang.filter(j=>j.id_program===p.id_program).map(j=>j.nama).join(', '));return r;}
 function saringBerandaPanitia_(d){
@@ -685,7 +703,24 @@ function clearStoredToken(expected){
 }
 function token(){const t=stored();if(!t)throw Error('SESI_BERAKHIR: Silakan masuk kembali.');return t;}
 function lock(message,clear,state){generation++;clearTimeout(absoluteTimer);clearTimeout(fadeTimer);document.documentElement.setAttribute('data-panitia-locked','');if(clear)clearStoredToken(activeToken||stored());authView(state||(clear?'login':'error'),message);if((state||(clear?'login':'error'))==='login')prepareGoogleLogin();}
-async function send(name,args){const g=generation,t=token();if(!activeToken||t!==activeToken)throw Error('SESI_BERAKHIR: Akun di browser berubah. Buka ulang halaman.');try{const r=await native('panggilAplikasiPanitia',{token:t,nama:name,args});if(g!==generation||t!==stored())throw Error('SESI_BERAKHIR: Sesi halaman sudah berakhir.');return r;}catch(e){if(/SESI_BERAKHIR|SESI_DIPERLUKAN/.test(e.message||''))lock('Sesi Anda berakhir. Silakan masuk kembali.',!stored()||t===stored());else if(/AKSES_DITAHAN/.test(e.message||''))lock(e.message,false,'held');throw e;}}
+const dashboardReads=new Set(['muatPengajuanKoreksiPanitia','muatDaftarVerifikasiSesiPanitia','muatRekapJPProgramIndex','muatNilaiPerilakuProgramIndex']);let readQueue=[],readTimer=null,extrasStarted=false;
+function startDashboardExtras(){if(extrasStarted||!['Beranda','Index'].includes(cfg.page))return;extrasStarted=true;requests();verification();}
+function readTransport(name,args,t,g){
+ if(!dashboardReads.has(name))return native('panggilAplikasiPanitia',{token:t,nama:name,args});
+ return new Promise((ok,bad)=>{readQueue.push({name,args,t,g,ok,bad});if(readTimer===null)readTimer=setTimeout(flushDashboardReads,0);});
+}
+function flushDashboardReads(){
+ readTimer=null;const queued=readQueue;readQueue=[];const valid=[];
+ queued.forEach(p=>{if(p.g!==generation||p.t!==activeToken||p.t!==stored())p.bad(Error('SESI_BERAKHIR: Sesi halaman sudah berakhir.'));else valid.push(p);});
+ for(let i=0;i<valid.length;i+=6){const group=valid.slice(i,i+6),first=group[0];
+  if(group.length===1){native('panggilAplikasiPanitia',{token:first.t,nama:first.name,args:first.args}).then(first.ok,first.bad);continue;}
+  native('panggilBacaanDashboardPanitia',{token:first.t,permintaan:group.map(p=>({nama:p.name,args:p.args}))}).then(r=>{
+   if(!r||!r.sukses||!Array.isArray(r.hasil)||r.hasil.length!==group.length||r.hasil.some(item=>!item||typeof item.sukses!=='boolean'))throw Error('Hasil pembacaan dashboard tidak lengkap. Muat ulang data.');
+   r.hasil.forEach((item,n)=>{if(item.sukses)group[n].ok(item.data);else group[n].bad(Error(item.pesan||'Data belum dapat dimuat.'));});
+  }).catch(e=>group.forEach(p=>p.bad(e)));
+ }
+}
+async function send(name,args){const g=generation,t=token();if(!activeToken||t!==activeToken)throw Error('SESI_BERAKHIR: Akun di browser berubah. Buka ulang halaman.');try{const r=await readTransport(name,args,t,g);if(g!==generation||t!==stored())throw Error('SESI_BERAKHIR: Sesi halaman sudah berakhir.');if(r&&r.sukses&&['muatAwalIndex','muatBerandaIndex'].includes(name))startDashboardExtras();return r;}catch(e){if(/SESI_BERAKHIR|SESI_DIPERLUKAN/.test(e.message||''))lock('Sesi Anda berakhir. Silakan masuk kembali.',!stored()||t===stored());else if(/AKSES_DITAHAN/.test(e.message||''))lock(e.message,false,'held');throw e;}}
 function bridge(ok,bad,user){return new Proxy({}, {get(target,name){if(name==='withSuccessHandler')return f=>bridge(f,bad,user);if(name==='withFailureHandler')return f=>bridge(ok,f,user);if(name==='withUserObject')return u=>bridge(ok,bad,u);return (...args)=>{const g=generation;ready.then(()=>send(String(name),args)).then(r=>{if(g===generation)ok&&ok(r,user);},e=>bad&&bad(e,user));};}});}
 window.pelatihanRun=bridge();
 function el(tag,text){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;return e;}
@@ -776,7 +811,7 @@ async function boot(){
   try{await completeGoogleLogin();}catch(e){lock(e.message||'Login belum selesai. Silakan masuk kembali.',true,'login');rejectReady(e);return;}
   const t=token();identity=await native('muatSesiAplikasiPanitia',t);if(stored()!==t)throw Error('Akun browser berubah selama pemeriksaan. Buka ulang halaman.');rememberToken(t,identity.expires);activeToken=t;
   if(['petugas_kelas','pengajar'].includes(identity.peran)&&['Pengelolaan','ManajemenAkses'].includes(cfg.page)){const error=Error('Halaman ini hanya tersedia untuk Admin Pelatihan.');lock(error.message,false,'denied');rejectReady(error);return;}
-  document.documentElement.classList.add('panitia-app');refreshIdentity();document.documentElement.removeAttribute('data-panitia-locked');finishAuth();absoluteTimer=setTimeout(()=>lock('Batas sesi 4 jam tercapai. Silakan masuk kembali.',true),Math.max(0,identity.expires-Date.now()));resolveReady();requests();verification();evaluasiPengajar();if(!persistenceAvailable){const notice=el('p','Browser ini tidak mengizinkan penyimpanan login antarpenutupan. Login tetap berlaku di tab ini; izinkan penyimpanan situs agar tetap masuk saat dibuka kembali.');notice.id='panitiaPersistenceNotice';notice.className='notice';(document.getElementById('app')||document.body).prepend(notice);}
+  document.documentElement.classList.add('panitia-app');refreshIdentity();document.documentElement.removeAttribute('data-panitia-locked');finishAuth();absoluteTimer=setTimeout(()=>lock('Batas sesi 4 jam tercapai. Silakan masuk kembali.',true),Math.max(0,identity.expires-Date.now()));resolveReady();evaluasiPengajar();if(!persistenceAvailable){const notice=el('p','Browser ini tidak mengizinkan penyimpanan login antarpenutupan. Login tetap berlaku di tab ini; izinkan penyimpanan situs agar tetap masuk saat dibuka kembali.');notice.id='panitiaPersistenceNotice';notice.className='notice';(document.getElementById('app')||document.body).prepend(notice);}
  }catch(e){const expired=/SESI_BERAKHIR|SESI_DIPERLUKAN/.test(e.message||'');lock(expired?'Silakan masuk dengan akun Google panitia untuk melanjutkan.':e.message||'Halaman belum dapat disiapkan. Silakan coba lagi.',expired,expired?'login':/AKSES_DITAHAN/.test(e.message||'')?'held':'error');rejectReady(e);}
 }
 window.addEventListener('storage',e=>{if(e.key!==cfg.storage_key||!activeToken)return;const next=rememberedToken();if(next===activeToken)return;clearStoredToken(activeToken);activeToken=null;lock(next?'Akun berubah di tab lain. Buka ulang halaman untuk memuat akun yang aktif.':'Anda sudah keluar melalui tab lain. Silakan masuk kembali.',false,next?'error':'login');});

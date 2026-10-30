@@ -14,6 +14,12 @@ function value(name,arg){const f=window.__f,role=window.__role;
  if(name==='keluarAplikasiPanitia'){window.__logout=true;return {sukses:true};}
  if(name==='mulaiLoginAplikasiPanitia')return f.flow;
  if(name==='selesaikanCallbackLoginPanitia'){if(window.__callbackError)throw Error(window.__callbackError);return f.callbackResult;}
+ if(name==='panggilBacaanDashboardPanitia'){
+  if(window.__expired||arg.token!==f.sessions[role].token)throw Error('SESI_BERAKHIR: Silakan masuk kembali.');
+  if(window.__batchNetworkFail){window.__batchNetworkFail=false;throw Error('Jaringan batch terputus');}
+  if(window.__batchMalformed)return {sukses:true,hasil:[]};
+  return {sukses:true,hasil:arg.permintaan.map(p=>{try{return {sukses:true,data:value('panggilAplikasiPanitia',{token:arg.token,nama:p.nama,args:p.args})};}catch(e){if(/SESI_BERAKHIR|AKSES_DITAHAN/.test(e.message))throw e;return {sukses:false,pesan:e.message};}})};
+ }
  if(name!=='panggilAplikasiPanitia')throw Error('Unexpected native RPC '+name);
  if(window.__expired||arg.token!==f.sessions[role].token)throw Error('SESI_BERAKHIR: Silakan masuk kembali.');
  const rpc=arg.nama,args=arg.args,r=f.responses[role][rpc];if(window.__fail===rpc){window.__fail='';throw Error('Direktori sementara tidak tersedia');}
@@ -41,7 +47,7 @@ function value(name,arg){const f=window.__f,role=window.__role;
  if(rpc==='putuskanPengajuanKoreksiPanitia'){f.responses.admin.muatPengajuanKoreksiPanitia.pengajuan[0].status=args[0].keputusan==='tolak'?'ditolak':'disetujui';return {sukses:true,pesan:'Keputusan tersimpan.'};}
  throw Error('No fixture for '+role+' '+rpc);
 }
-function bridge(ok,bad){return new Proxy({}, {get(t,name){if(name==='withSuccessHandler')return f=>bridge(f,bad);if(name==='withFailureHandler')return f=>bridge(ok,f);return arg=>{window.__calls.push({name,arg:JSON.parse(JSON.stringify(arg??null))});const work=()=>{try{ok?.(value(name,arg));}catch(e){bad?.(e);}};if(name==='panggilAplikasiPanitia'&&arg.nama==='simpanPenggunaPanitia'&&window.__holdAccountWrite)window.__pendingAccountWrites.push(work);else if(name==='muatSesiAplikasiPanitia'&&window.__holdAuth)window.__pendingAuth.push(work);else if(name==='selesaikanCallbackLoginPanitia'&&window.__holdCallback)window.__pendingCallback.push(work);else if(name==='mulaiLoginAplikasiPanitia'&&window.__holdPrepare)window.__pendingPrepare.push(work);else setTimeout(work,20);};}});}
+function bridge(ok,bad){return new Proxy({}, {get(t,name){if(name==='withSuccessHandler')return f=>bridge(f,bad);if(name==='withFailureHandler')return f=>bridge(ok,f);return arg=>{window.__calls.push({name,arg:JSON.parse(JSON.stringify(arg??null))});const work=()=>{try{ok?.(value(name,arg));}catch(e){bad?.(e);}};if(name==='panggilAplikasiPanitia'&&arg.nama==='simpanPenggunaPanitia'&&window.__holdAccountWrite)window.__pendingAccountWrites.push(work);else if(name==='panggilAplikasiPanitia'&&arg.nama==='muatAwalIndex'&&window.__holdPrimary)(window.__pendingPrimary??=[]).push(work);else if(name==='panggilBacaanDashboardPanitia'&&window.__holdBatch)(window.__pendingBatch??=[]).push(work);else if(name==='muatSesiAplikasiPanitia'&&window.__holdAuth)window.__pendingAuth.push(work);else if(name==='selesaikanCallbackLoginPanitia'&&window.__holdCallback)window.__pendingCallback.push(work);else if(name==='mulaiLoginAplikasiPanitia'&&window.__holdPrepare)window.__pendingPrepare.push(work);else setTimeout(work,20);};}});}
 window.google={script:{run:bridge(),host:{close(){}},history:{replace(a,params,hash){window.__historyCleared=true;history.replaceState({},'',location.pathname);}},url:{getLocation(fn){fn({parameter:Object.fromEntries(new URL(location.href).searchParams)});}}}};
 '''.replace('FIXTURE',json.dumps(fixture))
 out=Path(os.environ.get('SESI_SCREENSHOT_DIR','/tmp/sesi-ui-preview'));out.mkdir(parents=True,exist_ok=True)
@@ -65,6 +71,20 @@ with sync_playwright() as p:
    body=fixture['login'] if name=='__login__' else fixture['callback'] if name=='__callback__' else fixture['html'][name]
    r.fulfill(status=200,content_type='text/html',body=body)
   page.route('**/*',route);page.clock.install() if clock else None;page.goto('https://script.google.com/macros/s/COPY/'+endpoint+('?' + query if query else ''));return page,errors
+ # Primary data starts first; secondary histories share one RPC after primary succeeds.
+ prioritized,pre=page_for('Index',role='admin',query='page=monitoring&program=PRG001&jenjang=JEN001&sesi=SES001',init='window.__holdPrimary=true;')
+ prioritized.wait_for_function('window.__pendingPrimary?.length===1');assert not prioritized.evaluate("window.__calls.some(c=>c.name==='panggilBacaanDashboardPanitia')");assert prioritized.locator('#panitiaVerification').count()==0
+ prioritized.evaluate('window.__pendingPrimary.splice(0).forEach(fn=>fn())');expect(prioritized.locator('#total')).to_have_text('1');prioritized.wait_for_function("window.__calls.some(c=>c.name==='panggilBacaanDashboardPanitia'&&c.arg.permintaan.length===2)")
+ group=prioritized.evaluate("window.__calls.find(c=>c.name==='panggilBacaanDashboardPanitia').arg.permintaan.map(p=>p.nama)");assert set(group)=={'muatPengajuanKoreksiPanitia','muatDaftarVerifikasiSesiPanitia'}
+ # JP + behavior recap is one transport request; a reload always goes back to the server.
+ prioritized.locator('#tabRekap').click();expect(prioritized.locator('#downloadRecap')).to_be_enabled();before=prioritized.evaluate("window.__calls.filter(c=>c.name==='panggilBacaanDashboardPanitia').length")
+ assert set(prioritized.evaluate("window.__calls.filter(c=>c.name==='panggilBacaanDashboardPanitia').at(-1).arg.permintaan.map(p=>p.nama)"))=={'muatRekapJPProgramIndex','muatNilaiPerilakuProgramIndex'}
+ prioritized.locator('#refreshRecap').click();prioritized.wait_for_function("window.__calls.filter(c=>c.name==='panggilBacaanDashboardPanitia').length>"+str(before));expect(prioritized.locator('#downloadRecap')).to_be_enabled()
+ # A per-member error, a lost response and a malformed envelope keep export disabled; retry recovers.
+ for setup,text in [("window.__fail='muatNilaiPerilakuProgramIndex'",'Direktori sementara'),('window.__batchNetworkFail=true','Jaringan batch'),('window.__batchMalformed=true','tidak lengkap')]:
+  prioritized.evaluate(setup);prioritized.locator('#refreshRecap').click();expect(prioritized.locator('#recapInfo')).to_contain_text(text);expect(prioritized.locator('#downloadRecap')).to_be_disabled();prioritized.evaluate("window.__fail='';window.__batchMalformed=false;");prioritized.locator('#refreshRecap').click();expect(prioritized.locator('#downloadRecap')).to_be_enabled()
+ # A late group cannot display protected data after Log Out.
+ prioritized.evaluate('window.__holdBatch=true');prioritized.locator('#refreshRecap').click();prioritized.wait_for_function('window.__pendingBatch?.length===1');prioritized.locator('.sidebar-tool').filter(has_text='Log Out').click();expect(prioritized.locator('#panitiaAuth')).to_be_visible();prioritized.evaluate('window.__pendingBatch.splice(0).forEach(fn=>fn())');expect(prioritized.locator('#panitiaAuth')).to_be_visible();assert prioritized.evaluate('localStorage.getItem(window.__f.storageKey)') is None;assert not pre,pre;prioritized.close()
  # No authenticated operational RPC runs until a valid server session has been checked.
  guest,ge=page_for(logged=False);expect(guest.locator('#panitiaAuth')).to_be_visible();expect(guest.locator('#panitiaLogin')).to_have_attribute('href',re.compile(r'^https://accounts\.google\.com/o/oauth2/v2/auth\?'));assert guest.evaluate("window.__calls.filter(c=>c.name==='panggilAplikasiPanitia').length")==0;assert not ge,ge
  # Pending verification uses a neutral loader with no login/action/data, on desktop and mobile.

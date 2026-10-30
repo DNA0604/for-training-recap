@@ -17,6 +17,7 @@ Canonical repository: DNA0604/for-training-recap. Imported application path rema
 - Behavioral indicator catalog is global. Delete only custom indicators proven unused across current/historical sources and connected files; preserve default codes, IZIN_SESI, audited backups/resume and retired IND IDs. Referenced indicators may be deactivated without deleting history; no cascade or scoring-rule changes.
 - Ordinary staff use one app URL, with identity diagnostics kept separate for owner troubleshooting. Preserve the accepted sidebar animation and existing login/session policy unless implementing its explicitly scoped follow-up.
 - The user selected persistent login until four hours from issuance, including closed pages, without the prior 30-minute idle expiry. Preserve the absolute deadline, durable server revocation and live account/Jenjang checks. Data snapshots are scoped to allowlisted read RPCs only, cleared at request exit and before lock-time rechecks; do not cache authorization/data across requests or enable operational write snapshots.
+- Dashboard read grouping has a separate fixed four-method allowlist, bounded arguments and per-member role/target authorization. Never broaden it to mutations, export or arbitrary RPCs for performance. Primary Beranda/Monitoring data precedes supplementary history; failed groups do not publish partial recap/CSV.
 
 ## Current accepted UI
 - Navy (#192e50/#203960), rounded white cards about 24px, pale blue-gray background.
