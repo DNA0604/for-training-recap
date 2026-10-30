@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-30 — Admin evaluation of Pengajar per session
+- Implemented the agreed five aspects on integer 1–5, with optional comments, verified Admin identity, before/after history, source/row versions and idempotent retry. Pengajar/Petugas cannot read/write instructor assessments. No weights/final grade.
+- Added the Admin session-summary action/modal and a lazily initialized Evaluasi_Pengajar journal on the existing evaluation file; legacy/empty journals remain compatible. Existing manual recap adds Rekap_Evaluasi_Pengajar with current and retained historical/deleted-source values.
+- Replace Evaluasi.gs and Akses.gs together. Passed 283 backend tests, mocked Chromium Admin/Teacher/Staff plus prior app/directory regressions and parsing/IDs. No Google data/deployment or main merge performed.
+
 ## 2026-10-30 — connected spreadsheet recap accepted by user
 - User confirmed the recap matches expectations. Accepted application baseline is a8f9e16 on feat/rekap-penilaian-spreadsheet. Recorded user acceptance separately from local mocked checks and unexercised live cases.
 - Updated pending institution-request statuses and the proposed next discussion. Documentation only; no source/hash changes, replacement files or deployment needed.

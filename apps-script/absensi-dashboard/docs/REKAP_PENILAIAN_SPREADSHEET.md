@@ -1,6 +1,8 @@
 # Rekap penilaian pada spreadsheet terhubung
 
-Branch **feat/rekap-penilaian-spreadsheet**, 29 Oktober 2026, Asia/Jakarta. Melanjutkan UI 0d376d2 yang telah dipasang, diuji dan dinyatakan cukup oleh pengguna. Konfirmasi tersebut mencakup pengujian yang pengguna lakukan; bukan klaim bahwa seluruh skenario Google telah diuji.
+Pembaruan berikutnya menambahkan [evaluasi Pengajar oleh Admin](EVALUASI_PENGAJAR_ADMIN.md), tab jurnal Evaluasi_Pengajar dan tab keluaran Rekap_Evaluasi_Pengajar. Setelah tahap itu dipasang, rekap memiliki empat tab data dan satu tab status; mekanisme pembaruan tetap sama.
+
+Acuan paket rekap awal: branch **feat/rekap-penilaian-spreadsheet**, 29 Oktober 2026, Asia/Jakarta. Melanjutkan UI 0d376d2 yang telah dipasang, diuji dan dinyatakan cukup oleh pengguna. Konfirmasi tersebut mencakup pengujian yang pengguna lakukan; bukan klaim bahwa seluruh skenario Google telah diuji.
 
 ## Pemasangan setelah paket Pengajar terpasang
 
