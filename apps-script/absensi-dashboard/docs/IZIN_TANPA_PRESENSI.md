@@ -2,6 +2,8 @@
 
 Branch `feat/izin-peserta-tanpa-presensi`, melanjutkan perbaikan Nonaktif indikator `69ceb08`. Berlaku untuk pencatatan izin pada web Monitoring, oleh Admin atau Petugas sesuai Jenjang tugasnya. Pengajar tetap tidak dapat mencatat izin.
 
+**Status penerimaan:** pengguna mengonfirmasi telah memperbarui dan menguji paket e4a20e5, dengan hasil semua normal. Fitur izin tanpa presensi dinyatakan selesai. Ini mencatat hasil yang dilaporkan pengguna, bukan pengujian independen seluruh skenario Google. Tidak ada file aplikasi/deployment tambahan untuk penerimaan ini.
+
 ## Pemasangan
 
 Ganti isi lengkap **Code.gs, Akses.gs dan Index.html bersama-sama** dari branch ini. Code.gs sudah mencakup perbaikan Nonaktif indikator lama; tidak perlu memasang paket itu lagi secara terpisah. Hapus.gs dan semua sumber lain tetap versi terakhir yang sudah dipasang.

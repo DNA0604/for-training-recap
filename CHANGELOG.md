@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-30 — leave without attendance accepted by user
+- User confirmed installing/updating and testing the latest package, with all normal. Accepted cumulative application baseline: e4a20e5 on feat/izin-peserta-tanpa-presensi. The specific exercised live/fault cases were not enumerated; do not claim exhaustive verification of unrelated indicator/JP/upload paths.
+- Documentation only. No application/source-hash changes, replacement files or deployment needed. Pending institution work remains persistent login, measured loading optimization and CSV columns awaiting a sample.
+
 ## 2026-10-30 — leave notes for participants without attendance
 - Removed the web picker/save/upload dependency on an existing attendance row. Admin/scoped Petugas may record partial or full-session leave for active participants; Pengajar remains denied. Added a fill-session-times button and clearer leave guidance.
 - No synthetic attendance/scans or automatic JP. Notes use the existing session/membership relationship; later attendance calculations already match it. Existing attendance keeps version checks and JP invalidation. Pair-bound evidence, scope/revocation checks, same-interval duplicate prevention and pending audit checks cover unscanned targets.

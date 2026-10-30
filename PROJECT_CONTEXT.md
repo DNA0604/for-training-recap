@@ -221,6 +221,11 @@ No attendance row or scan/time is manufactured. Notes with no attendance ID rema
 
 Validation: **320 backend tests** including 12 new cases for full/partial absence, existing blank scans, legacy versions, no synthetic presence/JP, registration/scope/revocation, invalid schedules, stable evidence, duplication, approval/recap integration, later-attendance JP and interrupted writes. Mocked Chromium actual server-injected HTML passes Admin/staff desktop/mobile participant selection/full-time fill/cancel/upload/save/list plus prior auth/access/navigation/sidebar/verification/indicator flows; source/generated parsing/IDs/hashes checked. No real Google data write/deployment/main merge. See [IZIN_TANPA_PRESENSI.md](apps-script/absensi-dashboard/docs/IZIN_TANPA_PRESENSI.md). User deployment confirmation pending.
 
+## Latest user acceptance — 30 October 2026
+User confirmed the latest leave package: “oke ini sudah saya perbarui dan sudah saya uji cobakan, semua normal”. Treat **e4a20e5** on **feat/izin-peserta-tanpa-presensi** as the accepted cumulative continuation baseline and the requested leave-without-presence update as completed. It includes prior indicator-status code, but the user did not enumerate specific separate indicator/fault/JP/upload scenarios; keep their reported normal outcome distinct from exhaustive independent live verification. This acceptance record changes documentation only, with no new application/source-hash, Google data or deployment change.
+
+Recommended next discussion: persistent login after closing/reopening the app, preserving explicit logout, live access revocation and a clear absolute/idle policy; then measure loading latency before optimizing. CSV column additions still await the user's example. These are pending candidates, not newly authorized implementation in this acceptance turn.
+
 ## Source of truth and files
 Directory: apps-script/absensi-dashboard/.
 - Akses.gs: separate organizer directory/audit/recovery, OAuth/native owner panels, authenticated app sessions/RPC gateway/role scope, and shared dashboard/access-page composition.
