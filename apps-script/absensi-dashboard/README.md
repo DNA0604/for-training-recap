@@ -13,13 +13,19 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 16 current HTML/GS source files, including the Jenjang preparation tools.
 
+## Hapus indikator belum digunakan (30 Oktober 2026)
+
+Paket **feat/hapus-indikator-belum-digunakan**: ganti lengkap **Hapus.gs dan Index.html bersama-sama**, simpan dan update deployment yang sama ke New version. Tidak perlu file/spreadsheet baru atau setup ulang.
+
+Admin membuka **Monitoring → Nilai Sikap & Perilaku → Tambah Indikator Baru**, lalu memilih indikator lama; Edit / Ubah Status pada katalog juga membuka modal yang sama. Hanya indikator tambahan yang belum dirujuk boleh dihapus, dengan alasan/persetujuan/konfirmasi akhir. Indikator bawaan dan yang masih dirujuk seluruh program/riwayat tetap dilindungi; Nonaktif tetap tersedia. [Panduan serta pengujian dan pemulihan](docs/HAPUS_INDIKATOR.md). 300 tes backend dan Chromium lokal dengan Google tiruan lulus; deployment nyata perlu diuji pengguna.
+
 ## Manajemen Akses dalam dashboard (30 Oktober 2026)
 
 Paket **ui/manajemen-akses-dashboard**: tambahkan **HTML baru ManajemenAkses** dan ganti lengkap **Akses.gs** dari branch yang sama. Simpan dan update deployment yang sama ke New version. Semua file/konfigurasi lain tetap; tidak perlu setup atau spreadsheet baru.
 
 Admin membuka Manajemen Akses dari sidebar. Halaman web kini menggunakan header instansi/sidebar/card seperti halaman lain dengan formulir akun/penugasan yang sama. Panel pemilik dari menu spreadsheet tetap tersedia untuk setup/konfigurasi/pemulihan. Role dan masa sesi tetap berlaku.
 
-[Panduan pemasangan serta pengujian desktop/ponsel](docs/MANAJEMEN_AKSES_DASHBOARD.md). 283 tes backend dan uji browser lokal dengan Google tiruan lulus; deployment nyata perlu diuji pengguna.
+[Panduan pemasangan serta pengujian desktop/ponsel](docs/MANAJEMEN_AKSES_DASHBOARD.md). 283 tes backend dan uji browser lokal dengan Google tiruan lulus. Pengguna mengonfirmasi semua berjalan normal pada baseline 8e9a01b, 30 Oktober 2026.
 
 ## Evaluasi Pengajar oleh Admin (30 Oktober 2026)
 

@@ -129,6 +129,7 @@ function bacaTabelHapus_(name,required) {
 }
 function rencanaHapus_(jenis,id,seed) {
   if(typeof pastikanMigrasiJenjangSiap_==='function')pastikanMigrasiJenjangSiap_();
+  if(jenis==='Indikator_Perilaku')return rencanaHapusIndikator_(id,seed);
   if(!['Program','Sesi','Keikutsertaan','Peserta'].includes(jenis)||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,99}$/.test(id))throw Error('Target penghapusan tidak valid.');
   const spec=skemaHapus_(),tables={};Object.keys(spec).forEach(n=>tables[n]=bacaTabelHapus_(n,spec[n]));
   const root=tables[jenis].rows.find(r=>r.id===id);
@@ -174,12 +175,13 @@ function rencanaHapus_(jenis,id,seed) {
   return plan;
 }
 function ringkasanHapus_(plan) {
+  if(plan.jenis==='Indikator_Perilaku')return {jenis:plan.jenis,id:plan.id,nama:plan.nama,jumlah:plan.tables.map(t=>({sheet:t.name,jumlah:t.rows.length})),total:plan.tables.reduce((n,t)=>n+t.rows.length,0),catatan:'Hanya indikator yang belum dirujuk yang dihapus dari katalog bersama seluruh program. Cadangan/audit tetap disimpan; ID indikator tidak dipakai ulang. Catatan, aturan, nilai dan JP tidak dihapus atau dihitung ulang.'};
   return {jenis:plan.jenis,id:plan.id,nama:plan.nama,jumlah:plan.tables.map(t=>({sheet:t.name,jumlah:t.rows.length})),total:plan.tables.reduce((n,t)=>n+t.rows.length,0),catatan:'Data terkait akan dihapus dari sheet operasional. Cadangan dan riwayat audit, identitas peserta pada penghapusan program/pendaftaran, katalog indikator, aturan penilaian, serta file bukti di Drive tetap disimpan. Laporan/rekap berikutnya mengikuti data yang tersisa. Tidak tersedia pemulihan otomatis data yang sudah selesai dihapus.'};
 }
 function pratinjauHapusDataIndex(jenis,id) {
   if(typeof wajibEndpointAkses_==='function')wajibEndpointAkses_('pratinjauHapusDataIndex');
   wajibPemilikIndex_();const lock=LockService.getScriptLock();lock.waitLock(30000);
-  try{const plan=rencanaHapus_(teksHapus_(jenis),teksHapus_(id));pastikanTransaksiSebelumHapus_(plan);return Object.assign({sukses:true,versi:versiBarisIndex_(plan)},ringkasanHapus_(plan));}finally{lock.releaseLock();}
+  try{let plan;if(teksHapus_(jenis)==='Indikator_Perilaku'){const used=penggunaanIndikatorHapus_(teksHapus_(id));if(!used.boleh_hapus)return {sukses:true,jenis:'Indikator_Perilaku',id:used.id,nama:used.nama,boleh_hapus:false,bawaan:used.bawaan,referensi:used.referensi,pesan:used.pesan};plan=rencanaHapusIndikator_(used.id,null,used);}else plan=rencanaHapus_(teksHapus_(jenis),teksHapus_(id));pastikanTransaksiSebelumHapus_(plan);return Object.assign({sukses:true,boleh_hapus:true,referensi:[],versi:versiBarisIndex_(plan)},ringkasanHapus_(plan));}finally{lock.releaseLock();}
 }
 function batasNomorIdHapus_(prefix) {
   const ss=databasePelatihan_(),v=PropertiesService.getScriptProperties().getProperty('BATAS_ID_HAPUS|'+ss.getId());
@@ -187,7 +189,7 @@ function batasNomorIdHapus_(prefix) {
 }
 function simpanBatasIdHapus_(plan) {
   const props=PropertiesService.getScriptProperties(),key='BATAS_ID_HAPUS|'+databasePelatihan_().getId(),raw=props.getProperty(key),map=raw?JSON.parse(raw):{};
-  plan.tables.forEach(t=>t.rows.forEach(r=>{const m=r.id.match(/^(PRG|SES|KST|PST|JDA|JEN)(\d+)$/);if(m)map[m[1]]=Math.max(Number(map[m[1]]||0),Number(m[2]));}));
+  plan.tables.forEach(t=>t.rows.forEach(r=>{const m=r.id.match(/^(PRG|SES|KST|PST|JDA|JEN|IND)(\d+)$/);if(m)map[m[1]]=Math.max(Number(map[m[1]]||0),Number(m[2]));}));
   const value=JSON.stringify(map);props.setProperty(key,value);if(props.getProperty(key)!==value)throw Error('Penyimpanan batas ID gagal. Belum melanjutkan penghapusan.');
 }
 function tulisAuditHapus_(tx,meta,status,petugas,before,action,header) {
@@ -218,7 +220,7 @@ function jalankanHapus_(tx,meta,plan,petugas) {
   }
   const remaining=rencanaHapus_(plan.jenis,plan.id,plan);if(remaining.tables.some(t=>t.rows.length))throw Error('Masih ada data terkait. Gunakan Penghapusan tertunda untuk memeriksa.');
   tulisAuditHapus_(tx,meta,'SELESAI',petugas);
-  return {sukses:true,pesan:'Penghapusan '+meta.jenis+' '+meta.id+' selesai. Cadangan tersimpan pada Riwayat_Validasi.',jenis:meta.jenis,id:meta.id};
+  return {sukses:true,pesan:'Penghapusan '+(meta.jenis==='Indikator_Perilaku'?'indikator':meta.jenis)+' '+meta.id+' selesai. Cadangan tersimpan pada Riwayat_Validasi.',jenis:meta.jenis,id:meta.id};
 }
 function hapusDataIndex(d) {
   if(typeof wajibEndpointAkses_==='function')wajibEndpointAkses_('hapusDataIndex');
@@ -266,4 +268,62 @@ function muatMasterPesertaHapusIndex(q,page) {
   const counts=new Map();k.forEach(r=>{const id=teksHapus_(r.id_peserta);counts.set(id,(counts.get(id)||0)+1);});
   const all=p.filter(r=>[r.id_peserta,r.nama_pegawai,r.nip,r.unit_kerja].some(v=>teksHapus_(v).toLowerCase().includes(q))).sort((a,b)=>teksHapus_(a.nama_pegawai).localeCompare(teksHapus_(b.nama_pegawai),'id'));
   return {sukses:true,total:all.length,page,peserta:all.slice(page*50,page*50+50).map(r=>({id:teksHapus_(r.id_peserta),nama:teksHapus_(r.nama_pegawai),nip:teksHapus_(r.nip),unit:teksHapus_(r.unit_kerja),program:counts.get(teksHapus_(r.id_peserta))||0}))};
+}
+
+/** Read-only proof of global indicator use before the existing audited deletion transaction. */
+function penggunaanIndikatorHapus_(id,seed){
+ if(typeof periksaUlangSesiPanitia_==='function')periksaUlangSesiPanitia_();wajibPemilikIndex_();if(typeof pastikanTidakAdaVerifikasiTertunda_==='function')pastikanTidakAdaVerifikasiTertunda_();
+ if(!/^[A-Za-z0-9][A-Za-z0-9_-]{0,99}$/.test(id))throw Error('ID indikator tidak valid.');
+ const catalog=bacaTabelHapus_('Indikator_Perilaku',['id_indikator','kode_indikator']),root=catalog.rows.find(r=>r.id===id),saved=seed&&seed.tables.find(t=>t.name==='Indikator_Perilaku'),old=saved&&saved.rows.find(r=>r.id===id),record=root?root.record:old?Object.fromEntries(saved.header.map((h,i)=>[h,old.values[i]])):null;
+ if(!record)throw Error('Indikator tidak ditemukan. Muat ulang katalog.');
+ const code=teksHapus_(record.kode_indikator).toUpperCase();if(!code)throw Error('Kode indikator kosong. Periksa katalog terlebih dahulu.');
+ const groups=new Map(),txt=teksHapus_,key=h=>txt(h).toLowerCase().replace(/[\s-]+/g,'_');let budget=1000000,characters=0,rowsRead=0;
+ function add(source,row,why){const label=source+' · '+why;if(!groups.has(label))groups.set(label,new Set());groups.get(label).add(String(row));}
+ function matchesId(v){return txt(v)===id;}
+ function matchesCode(v){return txt(v).toUpperCase()===code;}
+ function json(value,source,row,config,depth){
+  if(--budget<0||depth>30)throw Error('Pemeriksaan referensi indikator terlalu besar/dalam. Penghapusan dihentikan.');
+  if(typeof value==='string'){
+   const raw=value.trim();if(!raw)return;characters+=raw.length;if(characters>8000000)throw Error('Pemeriksaan dibatasi 8 juta karakter JSON. Penghapusan dihentikan.');
+   if(/^[{[\"]/.test(raw)){let parsed;try{parsed=JSON.parse(raw);}catch(e){throw Error('JSON referensi tidak dapat diperiksa pada '+source+' baris '+row+'.');}if(parsed!==value)json(parsed,source,row,config,depth+1);}else if(config&&(matchesId(raw)||matchesCode(raw)))add(source,row,'referensi konfigurasi');return;
+  }
+  if(!value||typeof value!=='object')return;
+  if(Array.isArray(value)){value.forEach(v=>{if(config&&typeof v==='string'&&(matchesId(v)||matchesCode(v)))add(source,row,'referensi konfigurasi');else if(v&&typeof v==='object')json(v,source,row,config,depth+1);});return;}
+  if(Array.isArray(value.header)&&Array.isArray(value.rows))value.rows.forEach(r=>{const values=Array.isArray(r)?r:r&&r.values;if(Array.isArray(values))json(Object.fromEntries(value.header.map((h,i)=>[h,values[i]])),source,row,false,depth+1);});
+  Object.entries(value).forEach(([rawKey,v])=>{
+   const k=key(rawKey);
+   if(config&&(matchesCode(rawKey)||matchesId(rawKey)))add(source,row,'referensi konfigurasi');
+   if(['id_indikator','id_versi_sebelumnya'].includes(k)&&matchesId(v)||k==='kode_indikator'&&matchesCode(v))add(source,row,'referensi indikator');
+   if((key(value.sheet||value.jenis)==='indikator_perilaku')&&matchesId(value.id))add(source,row,'referensi indikator');
+   const cfg=['konfigurasi_indikator','indikator'].includes(k);
+   if(v&&typeof v==='object'||typeof v==='string'&&(cfg||['payload','nilai_sebelum','nilai_sesudah','sebelum','sesudah','konfigurasi_perhitungan'].includes(k)))json(v,source,row,config||cfg,depth+1);else if(typeof v==='string'&&/^[{[]/.test(v.trim())){let parsed;try{parsed=JSON.parse(v);}catch(ignored){}if(parsed&&typeof parsed==='object')json(parsed,source,row,false,depth+1);}
+  });
+ }
+ const defaults=aturanPerilakuDefault_().indikator;if(Object.prototype.hasOwnProperty.call(defaults,code))add('Aturan bawaan','default','indikator bawaan dilindungi');
+ function scan(book,label){
+  book.getSheets().forEach(sheet=>{
+   const name=sheet.getName(),source=label+' / '+name,values=sheet.getDataRange().getValues(),header=(values[0]||[]).map(key);if(new Set(header.filter(Boolean)).size!==header.filter(Boolean).length)throw Error('Header duplikat pada '+source+'.');
+   const records=values.slice(1).map((r,i)=>({data:Object.fromEntries(header.map((h,c)=>[h,r[c]])),row:i+2})).filter(r=>Object.values(r.data).some(v=>v!==''&&v!=null));rowsRead+=records.length;if(rowsRead>30000)throw Error('Pemeriksaan indikator dibatasi 30.000 baris. Penghapusan dihentikan.');
+   records.forEach(({data:r,row})=>{
+    if(label==='Database utama'&&name==='Indikator_Perilaku'&&matchesId(r.id_indikator))return;
+    if(label==='Database utama'&&name==='Riwayat_Validasi'){
+     if(key(r.jenis_data)==='indikator_perilaku'&&matchesId(r.id_referensi))return; // own creation/edit/delete audit remains as history
+     if(key(r.jenis_tindakan)==='cadangan_hapus')return; // verify/reassemble complete plans below
+    }
+    if(matchesId(r.id_indikator)||matchesCode(r.kode_indikator))add(source,row,'referensi indikator');
+    json(r,source,row,false,0);
+   });
+  });
+ }
+ scan(databasePelatihan_(),'Database utama');
+ const audit=auditHapus_().records,backupTx=new Set(audit.filter(r=>key(r.jenis_tindakan)==='cadangan_hapus'&&!(key(r.jenis_data)==='indikator_perilaku'&&matchesId(r.id_referensi))).map(r=>txt(r.id_transaksi_perubahan)));
+ backupTx.forEach(tx=>{const state=transaksiHapus_().get(tx);if(!state)throw Error('Cadangan '+tx+' belum dapat dicocokkan dengan transaksi.');let meta;try{meta=JSON.parse(state.nilai_sesudah);}catch(e){throw Error('Metadata cadangan '+tx+' tidak dapat dibaca.');}if(key(meta.jenis)==='indikator_perilaku'&&matchesId(meta.id))return;const plan=bacaCadanganHapus_(tx,meta);json(plan,'Database utama / Cadangan penghapusan',tx,false,0);});
+ if(typeof konfigurasiAkses_==='function'&&konfigurasiAkses_())scan(bukuAkses_(),'File akses');
+ if(typeof konfigurasiEvaluasi_==='function'&&konfigurasiEvaluasi_())scan(bukuEvaluasi_(),'File penilaian');
+ const references=[...groups].map(([s,g])=>({sumber:s,jumlah:g.size})),protectedDefault=Object.prototype.hasOwnProperty.call(defaults,code);
+ return {catalog,root,id,kode:code,nama:code+' · '+txt(record.definisi_indikator),boleh_hapus:references.length===0,bawaan:protectedDefault,referensi:references,pesan:references.length?(code==='IZIN_SESI'?'IZIN_SESI wajib tetap ada dan aktif untuk pencatatan izin.':protectedDefault?'Indikator bawaan dilindungi oleh aturan dasar. Gunakan Nonaktif bila tidak dipakai.':'Indikator masih dirujuk data/aturan/riwayat. Gunakan Nonaktif agar riwayat tetap terbaca.'):'Indikator belum dirujuk oleh data, aturan, atau riwayat lain. Katalog ini dipakai bersama seluruh program.'};
+}
+function rencanaHapusIndikator_(id,seed,proof){
+ const used=proof||penggunaanIndikatorHapus_(id,seed);if(!used.boleh_hapus)throw Error(used.pesan+' '+used.referensi.slice(0,5).map(r=>r.sumber+': '+r.jumlah).join('; '));
+ return {schema:1,jenis:'Indikator_Perilaku',id,nama:seed?seed.nama:used.nama,tables:used.root?[{name:'Indikator_Perilaku',key:'id_indikator',header:used.catalog.header,rows:[{id:used.root.id,values:used.root.values,formulas:used.root.formulas}]}]:[]};
 }

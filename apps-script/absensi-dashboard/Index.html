@@ -1306,6 +1306,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
             Tutup
           </button>
         </div>
+        <div class="field"><label for="indicatorManageSelect">Tambah atau kelola indikator tersimpan</label><select id="indicatorManageSelect"><option value="">Tambah indikator baru</option></select></div>
         <form id="indicatorForm">
           <div class="dialog-fields">
             <div class="field">
@@ -1368,9 +1369,15 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           <button id="saveIndicator" class="btn primary" type="submit">
             Simpan Indikator
           </button>
+          <section id="indicatorDeletePanel" hidden style="margin-top:24px;padding-top:18px;border-top:1px solid #dce3ef">
+            <h3>Hapus Indikator</h3><p id="indicatorDeleteInfo" class="help" role="status"></p><ul id="indicatorDeleteRefs" class="help"></ul>
+            <label style="display:flex;align-items:flex-start;gap:10px"><input id="indicatorDeleteAgree" type="checkbox" style="width:20px;min-height:20px;flex:0 0 20px">Saya memahami indikator dihapus dari katalog bersama seluruh program; cadangan dan audit tetap disimpan.</label>
+            <div class="buttons"><button id="deleteIndicator" type="button" class="btn" style="color:#a12c42;border-color:#eab3bc" disabled>Hapus Indikator</button><button id="indicatorDeleteCheck" type="button" class="btn" hidden>Periksa Hasil Penghapusan</button></div>
+          </section>
         </form>
       </div>
     </dialog>
+    <dialog id="indicatorDeleteConfirmDialog" style="width:min(560px,94vw)" aria-labelledby="indicatorDeleteConfirmTitle"><div class="dialog-body"><h2 id="indicatorDeleteConfirmTitle">Yakin menghapus indikator ini?</h2><p id="indicatorDeleteConfirmText" class="help"></p><p class="help">Penghapusan hanya dilanjutkan setelah referensi diperiksa kembali oleh server. Pemulihan otomatis data yang sudah selesai dihapus belum tersedia.</p><div class="buttons"><button id="cancelIndicatorDelete" class="btn" type="button">Batal</button><button id="approveIndicatorDelete" class="btn primary" type="button">Ya, Hapus Indikator</button></div></div></dialog>
     <dialog
       id="proofPreviewDialog"
       aria-labelledby="proofPreviewTitle"
@@ -1951,6 +1958,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         $("saveIndicator").disabled = !scoreProgram || scoreLoading || saving;
         $("newIndicatorForm").disabled =
           !scoreProgram || scoreLoading || saving;
+        updateIndicatorDeleteControls();
         document.querySelectorAll('#indicatorBody button').forEach(b => {
           b.disabled = saving || scoreLoading || !scoreProgram || scoreProgram !== $("program").value;
         });
@@ -3902,7 +3910,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           seq = ++scoreSeq;
         if (!id) {
           resetScore();
-          return;
+          return false;
         }
         scoreLoading = true;
         controls();
@@ -3931,6 +3939,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           $("ruleDetails").open = !r.aturan;
           $("ruleMessage").textContent = "";
           renderScore();
+          return true;
         } catch (e) {
           if (seq === scoreSeq) {
             scoreProgram = "";
@@ -3938,6 +3947,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
             renderScore();
             $("scoreInfo").textContent = e.message || "Gagal memuat nilai.";
           }
+          return false;
         } finally {
           if (seq === scoreSeq) {
             scoreLoading = false;
@@ -4043,9 +4053,62 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
       }
       let indicatorEdit = null,
         indicatorPayload = null;
+      let indicatorDeleteContext=null,indicatorDeleteRequest=null,indicatorDeletePending=null,indicatorDeleteChecking=false,indicatorDeleteSequence=0,indicatorDeleteConfirming=false,indicatorDeleteResolve=null;
+      function resetIndicatorDelete(){++indicatorDeleteSequence;indicatorDeleteContext=null;indicatorDeleteRequest=null;indicatorDeletePending=null;indicatorDeleteChecking=false;$('indicatorDeletePanel').hidden=!indicatorEdit;$('indicatorDeleteAgree').checked=false;$('indicatorDeleteRefs').replaceChildren();$('indicatorDeleteCheck').hidden=true;$('indicatorDeleteInfo').textContent='';$('deleteIndicator').textContent='Hapus Indikator';}
+      function updateIndicatorDeleteControls(){
+        const frozen=saving||scoreLoading||indicatorDeleteConfirming;
+        $('indicatorManageSelect').disabled=frozen||!!indicatorDeleteRequest;
+        $('closeIndicatorDialog').disabled=saving||indicatorDeleteConfirming;
+        if(indicatorDeleteRequest){$('indicatorForm').querySelectorAll('input,select,textarea').forEach(e=>e.disabled=true);$('saveIndicator').disabled=true;}
+        $('indicatorDeleteAgree').disabled=frozen||indicatorDeleteChecking||!indicatorDeleteContext||!indicatorDeleteContext.boleh_hapus;
+        $('indicatorDeleteCheck').disabled=frozen||indicatorDeleteChecking;
+        $('deleteIndicator').disabled=frozen||indicatorDeleteChecking||!indicatorEdit||!indicatorDeleteContext||!indicatorDeleteContext.boleh_hapus||!!indicatorPayload||!$('indicatorReason').value.trim()||!$('indicatorDeleteAgree').checked;
+        if(indicatorDeleteRequest&&!frozen)$('indicatorDeleteAgree').disabled=false;
+        if(indicatorDeleteRequest)$('saveIndicator').disabled=true;
+      }
+      function indicatorChoices(){const select=$('indicatorManageSelect');select.replaceChildren();const blank=document.createElement('option');blank.value='';blank.textContent='Tambah indikator baru';select.append(blank);scoreCatalog.forEach(i=>{const option=document.createElement('option');option.value=i.id;option.textContent=i.kode+' · '+i.id+' · '+i.status;select.append(option);});select.value=indicatorEdit?indicatorEdit.id:'';}
+      async function inspectIndicatorDelete(){
+        const target=indicatorEdit;if(!target)return;const seq=++indicatorDeleteSequence;indicatorDeleteChecking=true;indicatorDeleteContext=null;$('indicatorDeletePanel').hidden=false;$('indicatorDeleteInfo').textContent='Memeriksa pemakaian indikator pada seluruh program dan riwayat…';$('indicatorDeleteRefs').replaceChildren();$('indicatorDeleteAgree').checked=false;updateIndicatorDeleteControls();
+        try{const r=await rpc('pratinjauHapusDataIndex','Indikator_Perilaku',target.id);if(seq!==indicatorDeleteSequence||!indicatorEdit||indicatorEdit.id!==target.id)return;if(!r||!r.sukses)throw Error('Pemeriksaan indikator belum tersedia.');indicatorDeleteContext=r;$('indicatorDeleteInfo').textContent=r.boleh_hapus?r.catatan:r.pesan;(r.referensi||[]).forEach(x=>{const li=document.createElement('li');li.textContent=x.sumber+': '+x.jumlah+' referensi';$('indicatorDeleteRefs').append(li);});}
+        catch(e){if(seq===indicatorDeleteSequence){$('indicatorDeleteInfo').textContent=e.message||'Pemeriksaan belum berhasil.';$('indicatorDeleteCheck').hidden=false;}}
+        finally{if(seq===indicatorDeleteSequence){indicatorDeleteChecking=false;updateIndicatorDeleteControls();}}
+      }
+      function openIndicatorEdit(i){
+        indicatorEdit=i;indicatorPayload=null;resetIndicatorDelete();indicatorChoices();$('indicatorCode').value=i.kode;$('indicatorCode').readOnly=true;$('indicatorDefinition').value=i.definisi;$('indicatorKind').value=i.jenis;$('indicatorDefault').value=Number.isFinite(i.poin)?i.poin:'';$('indicatorStatus').value=i.status==='aktif'?'aktif':'nonaktif';$('indicatorReason').value='';$('indicatorFormTitle').textContent='Edit Indikator · '+i.id;$('indicatorMessage').textContent='Kode dan ID tetap. Indikator ini dipakai bersama seluruh program. Gunakan Nonaktif untuk indikator yang masih dirujuk; hapus hanya jika pemeriksaan mengizinkan.';if(!$('indicatorDialog').open)$('indicatorDialog').showModal();$('indicatorDefinition').focus();inspectIndicatorDelete();
+      }
+      function finishIndicatorDeleteConfirm(approved){if(!indicatorDeleteResolve)return;const resolve=indicatorDeleteResolve;indicatorDeleteResolve=null;if($('indicatorDeleteConfirmDialog').open)$('indicatorDeleteConfirmDialog').close();indicatorDeleteConfirming=false;kunciIndikator(false);controls();resolve(approved);}
+      function askIndicatorDelete(){
+        $('approveIndicatorDelete').textContent=indicatorDeletePending?'Ya, Lanjutkan':'Ya, Hapus Indikator';$('indicatorDeleteConfirmTitle').textContent=indicatorDeletePending?'Lanjutkan penghapusan indikator?':'Yakin menghapus indikator ini?';$('indicatorDeleteConfirmText').textContent=indicatorEdit.kode+' · '+indicatorEdit.id+'. Indikator akan dihapus dari katalog bersama seluruh program. Daftar/pengaturan nilai akan dimuat ulang; isian yang belum disimpan diabaikan. Alasan: '+$('indicatorReason').value.trim();
+        return new Promise(resolve=>{indicatorDeleteResolve=resolve;indicatorDeleteConfirming=true;kunciIndikator(true);controls();$('indicatorDeleteConfirmDialog').showModal();$('cancelIndicatorDelete').focus();});
+      }
+      $('cancelIndicatorDelete').addEventListener('click',()=>finishIndicatorDeleteConfirm(false));$('approveIndicatorDelete').addEventListener('click',()=>finishIndicatorDeleteConfirm(true));$('indicatorDeleteConfirmDialog').addEventListener('cancel',e=>{e.preventDefault();finishIndicatorDeleteConfirm(false);});
+      async function finishIndicatorDeletion(result,target){
+        saving=false;kunciIndikator(false);if(!await loadScore())throw Error('Hasil transaksi diterima, tetapi katalog belum berhasil dimuat ulang.');const still=scoreCatalog.find(i=>i.id===target.id);
+        if(!still){$('indicatorDialog').close();resetIndicatorForm();message(result.pesan,'success');}
+        else{indicatorDeleteRequest=null;indicatorDeletePending=null;openIndicatorEdit(still);$('indicatorMessage').textContent=result.pesan;}
+      }
+      $('deleteIndicator').addEventListener('click',async()=>{
+        if($('deleteIndicator').disabled||!indicatorEdit||indicatorDeleteConfirming)return;const target=indicatorEdit;if(!await askIndicatorDelete())return;if(indicatorEdit!==target)return;
+        if(!indicatorDeleteRequest)indicatorDeleteRequest={jenis:'Indikator_Perilaku',id:target.id,versi:indicatorDeleteContext.versi,alasan:$('indicatorReason').value.trim(),konfirmasi:target.id,setuju:true,id_permintaan:idUnggah()};
+        saving=true;controls();kunciIndikator(true);$('indicatorDeleteInfo').textContent='Menyimpan cadangan dan menghapus indikator. Tunggu hasil terkonfirmasi…';
+        try{const r=await rpc(indicatorDeletePending?'lanjutkanPenghapusanIndex':'hapusDataIndex',indicatorDeletePending?{id_transaksi:indicatorDeletePending.id_transaksi,konfirmasi:target.id,setuju:true}:indicatorDeleteRequest);if(!r||!r.sukses)throw Error('Hasil penghapusan belum terkonfirmasi.');await finishIndicatorDeletion(r,target);}
+        catch(e){$('indicatorDeleteInfo').textContent=e.message+' Jika hasil belum pasti, Periksa Hasil Penghapusan sebelum mengubah isian. Simpan ulang memakai permintaan yang sama.';$('indicatorDeleteCheck').hidden=false;}
+        finally{saving=false;kunciIndikator(false);controls();updateIndicatorDeleteControls();}
+      });
+      $('indicatorDeleteCheck').addEventListener('click',async()=>{
+        if(saving||indicatorDeleteChecking||!indicatorEdit)return;const target=indicatorEdit;indicatorDeleteChecking=true;updateIndicatorDeleteControls();
+        try{const r=await rpc('muatPenghapusanTertundaIndex'),pending=r.transaksi.find(t=>t.jenis==='Indikator_Perilaku'&&t.id===target.id);if(pending){indicatorDeletePending=pending;indicatorDeleteContext={boleh_hapus:true};$('indicatorReason').value=pending.alasan;$('indicatorDeleteAgree').checked=false;$('deleteIndicator').textContent='Lanjutkan Penghapusan';$('indicatorDeleteInfo').textContent='Transaksi '+pending.status+'. Periksa dan setujui kembali untuk melanjutkan.';}else{if(!await loadScore())throw Error('Katalog belum berhasil dimuat ulang. Periksa hasil kembali.');if(!scoreCatalog.some(i=>i.id===target.id)){$('indicatorDialog').close();resetIndicatorForm();message('Penghapusan indikator sudah selesai.','success');}else{indicatorDeleteRequest=null;indicatorDeletePending=null;await inspectIndicatorDelete();$('indicatorDeleteCheck').hidden=true;$('indicatorMessage').textContent='Belum ada penghapusan tertunda untuk indikator ini. Periksa dampak sebelum mencoba lagi.';}}}
+        catch(e){$('indicatorDeleteInfo').textContent=e.message||'Hasil belum dapat diperiksa.';}
+        finally{indicatorDeleteChecking=false;updateIndicatorDeleteControls();}
+      });
+      $('indicatorManageSelect').addEventListener('change',()=>{if(saving||indicatorDeleteRequest)return;const item=scoreCatalog.find(i=>i.id===$('indicatorManageSelect').value);if(item)openIndicatorEdit(item);else resetIndicatorForm();});
+      $('indicatorDeleteAgree').addEventListener('change',updateIndicatorDeleteControls);
+      $('indicatorDialog').addEventListener('close',resetIndicatorDelete);
+
       function resetIndicatorForm() {
         indicatorEdit = null;
         indicatorPayload = null;
+        resetIndicatorDelete();indicatorChoices();
         $("indicatorForm").reset();
         $("indicatorCode").readOnly = false;
         $("indicatorFormTitle").textContent = "Tambah Indikator";
@@ -4065,21 +4128,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           b.disabled = saving || scoreLoading;
           b.addEventListener("click", () => {
             if (saving || scoreLoading) return;
-            indicatorEdit = i;
-            indicatorPayload = null;
-            $("indicatorCode").value = i.kode;
-            $("indicatorCode").readOnly = true;
-            $("indicatorDefinition").value = i.definisi;
-            $("indicatorKind").value = i.jenis;
-            $("indicatorDefault").value = Number.isFinite(i.poin) ? i.poin : "";
-            $("indicatorStatus").value =
-              i.status === "aktif" ? "aktif" : "nonaktif";
-            $("indicatorReason").value = "";
-            $("indicatorFormTitle").textContent = "Edit Indikator · " + i.id;
-            $("indicatorMessage").textContent =
-              "Kode dan ID tetap. Definisi/jenis yang sudah dipakai dalam catatan tidak dapat diubah. Perubahan poin bawaan tidak mengubah aturan program yang tersimpan.";
-            if (!$("indicatorDialog").open) $("indicatorDialog").showModal();
-            $("indicatorDefinition").focus();
+            openIndicatorEdit(i);
           });
           action.append(b);
           tr.append(
@@ -4169,6 +4218,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           .querySelectorAll("input,select,textarea,button")
           .forEach((el) => (el.disabled = disabled));
         $("newIndicatorForm").disabled = disabled;
+        updateIndicatorDeleteControls();
       }
       $("indicatorForm").addEventListener("submit", saveIndicator);
       $("newIndicatorForm").addEventListener("click", () => {
@@ -4185,6 +4235,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
       });
       $("indicatorForm").addEventListener("input", () => {
         if (!saving) indicatorPayload = null;
+        updateIndicatorDeleteControls();
       });
 
       $("tabNilai").addEventListener("click", () => pilihTab("nilai"));

@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-30 — protected deletion of unused behavioral indicators
+- Added Admin indicator selection/deletion inside the existing Add/Edit modal, with usage proof, reason/acknowledgement and separate final confirmation. Default indicators and references in any program/rule/history/connected file remain protected; Nonaktif remains available.
+- Reused the audited backup/resume transaction, rechecked usage under lock and reserved retired IND IDs. No cascading note/rule/score/JP changes. Failed refresh keeps the result unconfirmed until a fresh catalog is available.
+- Replace Hapus.gs and Index.html together. Passed 300 backend tests and mocked Chromium indicator/retry/recovery plus existing app/evaluation/deletion regression checks. No Google data/deployment/main changes. Guide: docs/HAPUS_INDIKATOR.md.
+
+## 2026-10-30 — access dashboard accepted by user
+- User confirmed all behavior normal and requested the next stage. Accepted application baseline: 8e9a01b on ui/manajemen-akses-dashboard. This records reported acceptance without claiming exhaustive live fault/Google cases.
+
 ## 2026-10-30 — dashboard shell for web Manajemen Akses
 - Added ManajemenAkses.html with the accepted institutional header/sidebar, active access navigation and responsive cards, reusing existing owner directory forms/handlers from Akses.gs without a Beranda data loader. Native owner setup/recovery panel and server permissions remain.
 - Scoped directory busy controls, retained sidebar interaction, preserved /dev+/exec and Program/Jenjang/session context on navigation, and made the auth overlay usable after logout from an open mobile drawer. No account/session policy changes.
