@@ -406,8 +406,13 @@ function periksaIzinFungsiPanitia_(name,args){
     if((!d.id_peserta&&!d.id_keikutsertaan)||!matches.length)throw Error('AKSES_DITOLAK: Peserta tidak termasuk penugasan Anda.');return;
   }
   if(name==='ajukanVerifikasiSesiPanitia'){wajibSesiTargetAkses_(d.id_sesi);return;}
-  if(['simpanIzinIndex','simpanKoreksiIndex'].includes(name)){wajibHadirTargetAkses_(d.id_kehadiran);return;}
-  if(name==='unggahBuktiIndex'&&d.jenis==='izin'){wajibHadirTargetAkses_(d.id_kehadiran);return;}
+  if(name==='simpanKoreksiIndex'){wajibHadirTargetAkses_(d.id_kehadiran);return;}
+  if(name==='simpanIzinIndex'||name==='unggahBuktiIndex'&&d.jenis==='izin'){
+    // Preserve the attendance route; unscanned participants use the same live session/Jenjang scope.
+    if(d.id_kehadiran)wajibHadirTargetAkses_(d.id_kehadiran);
+    else{const s=wajibSesiTargetAkses_(d.id_sesi),k=wajibJenjangTargetAkses_(barisTargetAkses_('Keikutsertaan','id_keikutsertaan',d.id_keikutsertaan));if(!sesuaiJenjang_(s,k))throw Error('Relasi peserta/sesi tidak sesuai.');}
+    return;
+  }
   if(name==='simpanCatatanPerilakuIndex'||name==='unggahBuktiIndex'&&d.jenis==='perilaku'){
     const s=wajibSesiTargetAkses_(d.id_sesi),k=wajibJenjangTargetAkses_(barisTargetAkses_('Keikutsertaan','id_keikutsertaan',d.id_keikutsertaan));if(!sesuaiJenjang_(s,k))throw Error('Relasi peserta/sesi tidak sesuai.');return;
   }

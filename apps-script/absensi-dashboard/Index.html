@@ -1677,6 +1677,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
             autocomplete="off"
           />
           <div id="leaveResults" class="foot" role="status"></div>
+          <button id="fullSessionLeave" type="button" class="btn" style="margin-top:10px">Isi Waktu Izin Satu Sesi Penuh</button>
         </section>
         <div class="dialog-fields">
           <div class="field">
@@ -1940,6 +1941,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         $("quickBehavior").disabled = !ready;
         $("quickLeave").disabled = !ready;
         $("leaveSearch").disabled = saving || leaveLoading;
+        $("fullSessionLeave").disabled = saving || leaveLoading || !selected;
         $("refreshLeavePeople").disabled = saving || leaveLoading;
         $("calculate").disabled = !ready;
         $("kategori").disabled = saving || publishing;
@@ -2269,7 +2271,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         if (!q) {
           box.textContent =
             leavePeople.length +
-            " peserta memiliki data kehadiran. Ketik nama untuk memilih. Tidak perlu menunggu absen pulang.";
+            " peserta terdaftar. Ketik nama untuk memilih, termasuk peserta yang belum presensi.";
           return;
         }
         const found = leavePeople
@@ -2281,7 +2283,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           .slice(0, 10);
         if (!found.length) {
           box.textContent =
-            "Peserta tidak ditemukan atau belum memiliki data kehadiran. Muat ulang setelah peserta absen.";
+            "Peserta tidak ditemukan dalam daftar aktif sesi/Jenjang ini. Coba nama lain atau muat ulang.";
           return;
         }
         found.forEach((p) => {
@@ -2312,7 +2314,8 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         $("dialogPerson").textContent =
           p.nama + " · " + p.unit + " · " + leaveContext.nama;
         $("dialogMessage").textContent =
-          "Isi rentang waktu izin dan alasan. Tidak perlu menunggu absen pulang.";
+          "Isi rentang waktu izin dan alasan. Peserta tidak harus presensi terlebih dahulu.";
+        $("fullSessionLeave").disabled = false;
         $("saveEdit").disabled = false;
       }
       async function refreshLeavePeople() {
@@ -2329,10 +2332,9 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
             return;
           if (!r || !r.sukses) throw Error("Data peserta tidak tersedia.");
           leavePeople = r.peserta.filter(
-            (p) =>
-              p.id_kehadiran &&
-              String(p.status_peserta).toLowerCase() === "terdaftar",
+            (p) => String(p.status_peserta).toLowerCase() === "terdaftar",
           );
+          leaveContext.jadwal = r.sesi;
           if (selected) {
             selected =
               leavePeople.find(
@@ -2372,9 +2374,17 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
       }
       $("quickLeave").addEventListener("click", openLeave);
       $("refreshLeavePeople").addEventListener("click", refreshLeavePeople);
+      $("fullSessionLeave").addEventListener("click", () => {
+        if (saving || leaveLoading || !selected || !leaveContext || !leaveContext.jadwal) return;
+        const s = leaveContext.jadwal;
+        $("startTime").value = s.tanggal + "T" + s.mulai;
+        $("endTime").value = s.tanggal + "T" + s.selesai;
+        $("dialogMessage").textContent = "Waktu izin diisi sesuai jadwal sesi. Periksa alasan dan bukti sebelum menyimpan; ini tidak mencatat kehadiran.";
+      });
       $("leaveSearch").addEventListener("input", () => {
         if (saving || leaveLoading) return;
         selected = null;
+        $("fullSessionLeave").disabled = true;
         $("saveEdit").disabled = true;
         $("dialogPerson").textContent =
           (leaveContext ? leaveContext.nama : "") + " · pilih peserta";
@@ -2418,12 +2428,12 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         $("startLabel").textContent =
           kind === "izin" ? "Mulai izin" : "Datang terverifikasi";
         $("endLabel").textContent =
-          kind === "izin" ? "Kembali dari izin" : "Pulang terverifikasi";
+          kind === "izin" ? "Selesai izin" : "Pulang terverifikasi";
         $("startTime").required = kind === "izin";
         $("endTime").required = kind === "izin";
         $("dialogHelp").textContent =
           (kind === "izin"
-            ? "Isi setelah waktu kembali diketahui. Rentang izin harus berada dalam jadwal sesi. Poin perilaku belum dihitung."
+            ? "Izin dapat dicatat tanpa presensi. Untuk izin satu sesi penuh, gunakan tombol Isi Waktu Izin Satu Sesi Penuh. Rentang harus berada dalam jadwal sesi. Izin tidak membuat kehadiran atau memberikan JP otomatis; poin perilaku tetap mengikuti validasi dan aturan program."
             : "Scan datang: " +
               (p.datang || "—") +
               "\nScan pulang: " +
@@ -2467,6 +2477,8 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           return;
         }
         if (mode === "izin") {
+          data.id_sesi = leaveContext.id_sesi;
+          data.id_keikutsertaan = selected.id_keikutsertaan;
           data.mulai = start;
           data.selesai = end;
         } else {
@@ -2485,7 +2497,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
             const lampiran = await siapkanLampiran(
               "leaveEvidenceFile",
               "izin",
-              { id_kehadiran: data.id_kehadiran },
+              { id_kehadiran: data.id_kehadiran, id_sesi: data.id_sesi, id_keikutsertaan: data.id_keikutsertaan },
             );
             data.id_bukti = lampiran ? lampiran.id : "";
           }

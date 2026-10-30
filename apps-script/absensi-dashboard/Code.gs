@@ -3245,14 +3245,17 @@ function simpanIzinSesi_(d){
     const i=baca('Indikator_Perilaku',['id_indikator','kode_indikator','status_indikator']);
     const a=baca('Riwayat_Validasi',['id_riwayat','jenis_data','id_referensi','jenis_tindakan','kolom_diubah','nilai_sebelum','nilai_sesudah','alasan_perubahan','bukti_pendukung','diubah_oleh','waktu_perubahan','id_transaksi_perubahan','status_transaksi']);
     const ik=x=>k.h.indexOf(x),ic=x=>c.h.indexOf(x),ii=x=>i.h.indexOf(x),ia=x=>a.h.indexOf(x);
-    const matches=k.rows.map((r,n)=>({r:r,n:n+2})).filter(o=>text(o.r[ik('id_kehadiran')])===d.id);
-    if(matches.length!==1)throw new Error('Kehadiran tidak ditemukan atau duplikat.');
-    const old=matches[0].r;if(JSON.stringify(old)!==d.snapshot)throw new Error('Kehadiran berubah. Buka ulang formulir.');
+    const matches=k.rows.map((r,n)=>({r:r,n:n+2})).filter(o=>d.id?text(o.r[ik('id_kehadiran')])===d.id:text(o.r[ik('id_sesi')])===text(d.id_sesi)&&text(o.r[ik('id_keikutsertaan')])===text(d.id_keikutsertaan));
+    if(matches.length>1||d.id&&matches.length!==1)throw new Error('Kehadiran tidak ditemukan atau duplikat.');
+    const old=matches.length?matches[0].r:null;
+    if(old?JSON.stringify(old)!==d.snapshot:!!d.snapshot)throw new Error('Kehadiran berubah. Buka ulang formulir.');
     if(!(d.mulai instanceof Date)||!(d.selesai instanceof Date)||!Number.isFinite(d.mulai.getTime())||!Number.isFinite(d.selesai.getTime())||d.selesai<=d.mulai)throw new Error('Rentang izin tidak valid.');
     if(!text(d.alasan)||!text(d.petugas))throw new Error('Alasan dan petugas pencatatan wajib lengkap.');
     const indicators=i.rows.filter(r=>text(r[ii('kode_indikator')])==='IZIN_SESI'&&text(r[ii('status_indikator')]).toLowerCase()==='aktif');
     if(indicators.length!==1||!text(indicators[0][ii('id_indikator')]))throw new Error('Harus ada tepat satu indikator IZIN_SESI yang aktif dan memiliki ID.');
-    const sesi=text(old[ik('id_sesi')]),ikut=text(old[ik('id_keikutsertaan')]);
+    const sesi=old?text(old[ik('id_sesi')]):text(d.id_sesi),ikut=old?text(old[ik('id_keikutsertaan')]):text(d.id_keikutsertaan);
+    // A leave note belongs to a session/membership even when no attendance row exists.
+    targetIzinIndex_({id_sesi:sesi,id_keikutsertaan:ikut,id_kehadiran:d.id});
     // Pastikan rentang izin ada di dalam jadwal sesi, bukan pada tanggal sesi lain.
     const s=baca('Sesi',['id_sesi','tanggal_sesi','jam_mulai','jam_selesai']);
     const sesiRows=s.rows.filter(r=>text(r[s.h.indexOf('id_sesi')])===sesi);
@@ -3269,20 +3272,25 @@ function simpanIzinSesi_(d){
     const awalSesi=parseWaktuAbsensiManual_(tanggalTeks+' '+jam(sr[s.h.indexOf('jam_mulai')]),zona);
     const akhirSesi=parseWaktuAbsensiManual_(tanggalTeks+' '+jam(sr[s.h.indexOf('jam_selesai')]),zona);
     if(d.mulai<awalSesi||d.selesai>akhirSesi)throw new Error('Rentang izin harus berada di dalam jadwal sesi.');
-    const key=['IZIN',d.id,d.mulai.toISOString(),d.selesai.toISOString()].join('|');
-    if(c.rows.some(r=>text(r[ic('kunci_kejadian')])===key))throw new Error('Rentang izin yang sama sudah dicatat. Periksa Catatan_Perilaku.');
+    const key=['IZIN',sesi,ikut,d.mulai.toISOString(),d.selesai.toISOString()].join('|');
+    if(c.rows.some(r=>text(r[ic('kunci_kejadian')])===key||text(r[ic('id_sesi')])===sesi&&text(r[ic('id_keikutsertaan')])===ikut&&text(r[ic('id_indikator')])===text(indicators[0][ii('id_indikator')])&&r[ic('waktu_mulai_izin')] instanceof Date&&r[ic('waktu_selesai_izin')] instanceof Date&&r[ic('waktu_mulai_izin')].getTime()===d.mulai.getTime()&&r[ic('waktu_selesai_izin')].getTime()===d.selesai.getTime()))throw new Error('Rentang izin yang sama sudah dicatat. Periksa Catatan_Perilaku.');
     const status=new Map();a.rows.forEach(r=>{
-      if(r[ia('jenis_data')]==='Kehadiran'&&text(r[ia('id_referensi')])===d.id&&r[ia('id_transaksi_perubahan')])status.set(r[ia('id_transaksi_perubahan')],r[ia('status_transaksi')]);
+      let related=d.id&&r[ia('jenis_data')]==='Kehadiran'&&text(r[ia('id_referensi')])===d.id;
+      if(r[ia('jenis_tindakan')]==='tambah_izin_sesi'&&r[ia('jenis_data')]==='Catatan_Perilaku'){
+        let plan;try{plan=JSON.parse(String(r[ia('nilai_sesudah')]));}catch(e){throw Error('Riwayat izin tidak dapat dibaca. Periksa Riwayat_Validasi.');}
+        related=plan.catatan&&text(plan.catatan.id_sesi)===sesi&&text(plan.catatan.id_keikutsertaan)===ikut;
+      }
+      if(related&&r[ia('id_transaksi_perubahan')])status.set(r[ia('id_transaksi_perubahan')],r[ia('status_transaksi')]);
     });
-    if(Array.from(status.values()).some(x=>x!=='SELESAI'))throw new Error('Ada transaksi tertunda untuk kehadiran ini. Periksa Riwayat_Validasi.');
+    if(Array.from(status.values()).some(x=>x!=='SELESAI'))throw new Error('Ada transaksi tertunda untuk peserta pada sesi ini. Periksa Riwayat_Validasi.');
     const now=new Date(),tx=Utilities.getUuid();
-    const catatan={id_catatan:'CTP-'+Utilities.getUuid(),id_keikutsertaan:ikut,id_sesi:sesi,cakupan_kejadian:'sesi',id_indikator:text(indicators[0][ii('id_indikator')]),id_kehadiran:d.id,kunci_kejadian:key,waktu_kejadian:d.mulai,keterangan:d.alasan,bukti_pendukung:d.bukti,sumber_catatan:'petugas_kelas: '+d.petugas,status_validasi:'belum_divalidasi',created_at:now,updated_at:now,waktu_mulai_izin:d.mulai,waktu_selesai_izin:d.selesai,status_pengurangan_jp:'diperhitungkan'};
+    const catatan={id_catatan:'CTP-'+Utilities.getUuid(),id_keikutsertaan:ikut,id_sesi:sesi,cakupan_kejadian:'sesi',id_indikator:text(indicators[0][ii('id_indikator')]),id_kehadiran:d.id||'',kunci_kejadian:key,waktu_kejadian:d.mulai,keterangan:d.alasan,bukti_pendukung:d.bukti,sumber_catatan:'petugas_kelas: '+d.petugas,status_validasi:'belum_divalidasi',created_at:now,updated_at:now,waktu_mulai_izin:d.mulai,waktu_selesai_izin:d.selesai,status_pengurangan_jp:'diperhitungkan'};
     const perubahan={status_perhitungan_ulang:'menunggu_perhitungan',alasan_perhitungan_ulang:'Penambahan rentang izin '+catatan.id_catatan,updated_at:now};
     ['durasi_aktual_menit','durasi_diakui_menit','menit_terlambat','menit_pengurang_jp','jp_diakui_presisi','usulan_durasi_diakui_menit','usulan_jp_diakui_presisi'].forEach(x=>{if(k.h.includes(x))perubahan[x]='';});
-    const before={},next=old.slice();Object.keys(perubahan).forEach(x=>{before[x]=old[ik(x)];next[ik(x)]=perubahan[x];});
+    const before={},next=old?old.slice():null;if(old)Object.keys(perubahan).forEach(x=>{before[x]=old[ik(x)];next[ik(x)]=perubahan[x];});
     const email=wajibPemilikIndex_();
     function audit(st){
-      const r={id_riwayat:'RV-'+Utilities.getUuid(),jenis_data:'Kehadiran',id_referensi:d.id,jenis_tindakan:'tambah_izin_sesi',kolom_diubah:JSON.stringify(Object.keys(perubahan).concat(['Catatan_Perilaku'])),nilai_sebelum:JSON.stringify({kehadiran:before,catatan:null}),nilai_sesudah:JSON.stringify({kehadiran:perubahan,catatan:catatan}),alasan_perubahan:d.alasan,bukti_pendukung:d.bukti,diubah_oleh:d.petugas+(email?' ('+email+')':''),waktu_perubahan:new Date(),id_transaksi_perubahan:tx,status_transaksi:st};
+      const r={id_riwayat:'RV-'+Utilities.getUuid(),jenis_data:old?'Kehadiran':'Catatan_Perilaku',id_referensi:old?d.id:catatan.id_catatan,jenis_tindakan:'tambah_izin_sesi',kolom_diubah:JSON.stringify((old?Object.keys(perubahan):[]).concat(['Catatan_Perilaku'])),nilai_sebelum:JSON.stringify({kehadiran:old?before:null,catatan:null}),nilai_sesudah:JSON.stringify({kehadiran:old?perubahan:null,catatan:catatan}),alasan_perubahan:d.alasan,bukti_pendukung:d.bukti,diubah_oleh:d.petugas+(email?' ('+email+')':''),waktu_perubahan:new Date(),id_transaksi_perubahan:tx,status_transaksi:st};
       a.sheet.appendRow(a.h.map(x=>r[x]===undefined?'':r[x]));SpreadsheetApp.flush();
     }
     audit('PENDING');
@@ -3291,11 +3299,11 @@ function simpanIzinSesi_(d){
       c.sheet.appendRow(catRow);SpreadsheetApp.flush();
       const saved=c.sheet.getDataRange().getValues().slice(1).filter(r=>text(r[ic('id_catatan')])===catatan.id_catatan);
       if(saved.length!==1||JSON.stringify(saved[0])!==JSON.stringify(catRow))throw new Error('Verifikasi catatan izin gagal.');
-      k.sheet.getRange(matches[0].n,1,1,next.length).setValues([next]);SpreadsheetApp.flush();
-      if(JSON.stringify(k.sheet.getRange(matches[0].n,1,1,next.length).getValues()[0])!==JSON.stringify(next))throw new Error('Verifikasi pembaruan Kehadiran gagal.');
+      if(old){k.sheet.getRange(matches[0].n,1,1,next.length).setValues([next]);SpreadsheetApp.flush();
+        if(JSON.stringify(k.sheet.getRange(matches[0].n,1,1,next.length).getValues()[0])!==JSON.stringify(next))throw new Error('Verifikasi pembaruan Kehadiran gagal.');}
       audit('SELESAI');
     }catch(e){try{audit('PERLU_PEMULIHAN');}catch(ignored){}throw new Error('Transaksi '+tx+' perlu diperiksa. Jangan menambah ulang sebelum pemeriksaan. '+e.message);}
-    return 'Izin berhasil dicatat: '+catatan.id_catatan+'.\nStatus pengurangan JP: diperhitungkan.\nPoin perilaku belum ditetapkan. JP menunggu perhitungan.';
+    return 'Izin berhasil dicatat: '+catatan.id_catatan+'.\nStatus pengurangan JP: diperhitungkan.\nPoin perilaku belum ditetapkan. '+(old?'JP menunggu perhitungan.':'Tidak membuat presensi atau memberikan JP kehadiran.');
   }finally{lock.releaseLock();}
 }
 
@@ -3400,11 +3408,35 @@ function simpanKoreksiIndex(d){
   if(datang&&pulang&&pulang<=datang)throw new Error('Waktu pulang harus setelah waktu datang.');
   return {sukses:true,pesan:simpanKoreksiAbsensiManual_({id:base.id,snapshot:base.snapshot,perubahan:perubahan,alasan:alasan,dasar:dasar,petugas:email,id_transaksi:typeof konteksSesiPanitia_!=='undefined'&&konteksSesiPanitia_&&konteksSesiPanitia_.koreksi_tx||''})};
 }
+function targetIzinIndex_(d){
+  d=d||{};const txt=v=>String(v==null?'':v).trim();
+  const t=tabelIndex_('Kehadiran',['id_kehadiran','id_sesi','id_keikutsertaan']);
+  let sesi=txt(d.id_sesi),ikut=txt(d.id_keikutsertaan);
+  if(txt(d.id_kehadiran)){
+    const found=t.records.filter(r=>txt(r.id_kehadiran)===txt(d.id_kehadiran));
+    if(found.length!==1)throw Error('Kehadiran untuk izin tidak ditemukan atau duplikat.');
+    if(sesi&&sesi!==txt(found[0].id_sesi)||ikut&&ikut!==txt(found[0].id_keikutsertaan))throw Error('Relasi peserta/sesi izin tidak sesuai.');
+    sesi=txt(found[0].id_sesi);ikut=txt(found[0].id_keikutsertaan);
+  }
+  if(!sesi||!ikut)throw Error('Pilih sesi dan peserta untuk pencatatan izin.');
+  const sessions=tabelIndex_('Sesi',['id_sesi','id_program']).records.filter(s=>txt(s.id_sesi)===sesi);
+  const members=tabelIndex_('Keikutsertaan',['id_keikutsertaan','id_program','status_keikutsertaan']).records.filter(k=>txt(k.id_keikutsertaan)===ikut);
+  if(sessions.length!==1||members.length!==1||!sesuaiJenjang_(sessions[0],members[0])||txt(members[0].status_keikutsertaan).toLowerCase()!=='terdaftar')throw Error('Peserta tidak terdaftar aktif pada program/Jenjang sesi ini.');
+  const rows=t.rows.filter(r=>txt(r[t.header.indexOf('id_sesi')])===sesi&&txt(r[t.header.indexOf('id_keikutsertaan')])===ikut);
+  if(rows.length>1)throw Error('Kehadiran peserta duplikat. Periksa spreadsheet.');
+  const row=rows[0];if(row&&!txt(row[t.header.indexOf('id_kehadiran')]))throw Error('ID kehadiran kosong. Periksa spreadsheet.');
+  return {sesi:sessions[0],ikut:members[0],id:row?txt(row[t.header.indexOf('id_kehadiran')]):'',snapshot:row?JSON.stringify(row):'',row:row||null,header:t.header};
+}
+function targetBuktiIzin_(d){
+  const target=targetIzinIndex_(d);
+  return d.id_sesi&&d.id_keikutsertaan?'IZIN|'+String(target.sesi.id_sesi).trim()+'|'+String(target.ikut.id_keikutsertaan).trim():'IZIN|'+target.id;
+}
 function simpanIzinIndex(d){
   if(typeof wajibEndpointAkses_==='function')wajibEndpointAkses_('simpanIzinIndex');
-  const email=wajibPemilikIndex_(),base=dataKoreksiIndex_(d),zona=databasePelatihan_().getSpreadsheetTimeZone();
+  const email=wajibPemilikIndex_(),base=targetIzinIndex_(d),zona=databasePelatihan_().getSpreadsheetTimeZone();
+  if(d.id_kehadiran)dataKoreksiIndex_(d);
   const mulai=parseWaktuAbsensiManual_(String(d.mulai||'').replace('T',' '),zona),selesai=parseWaktuAbsensiManual_(String(d.selesai||'').replace('T',' '),zona);
-  return {sukses:true,pesan:simpanIzinSesi_({id:base.id,snapshot:base.snapshot,mulai:mulai,selesai:selesai,alasan:String(d.alasan||'').trim(),bukti:buktiDenganLampiran_(d.dasar,d.id_bukti,'IZIN|'+base.id),petugas:email})};
+  return {sukses:true,pesan:simpanIzinSesi_({id:base.id,snapshot:base.snapshot,id_sesi:String(base.sesi.id_sesi).trim(),id_keikutsertaan:String(base.ikut.id_keikutsertaan).trim(),mulai:mulai,selesai:selesai,alasan:String(d.alasan||'').trim(),bukti:buktiDenganLampiran_(d.dasar,d.id_bukti,targetBuktiIzin_(d)),petugas:email})};
 }
 
 /** Aturan prototipe JP v1: toleransi datang <= 10 menit; pulang lebih awal tanpa toleransi. */
@@ -4309,7 +4341,7 @@ function siapkanPenyimpananBukti(){
     pastikanTidakAdaHapusTertunda_();return {sukses:true,pesan:'Folder bukti siap. Sistem tidak mengaktifkan berbagi publik.',url:folderBuktiPelatihan_().getUrl()};}finally{lock.releaseLock();}}
 function targetBukti_(d){
   const txt=v=>String(v||'').trim();
-  if(d.jenis==='izin'){const t=tabelIndex_('Kehadiran',['id_kehadiran']).records.filter(r=>txt(r.id_kehadiran)===txt(d.id_kehadiran));if(t.length!==1)throw Error('Kehadiran untuk lampiran tidak ditemukan atau duplikat.');return 'IZIN|'+txt(d.id_kehadiran);}
+  if(d.jenis==='izin')return targetBuktiIzin_(d);
   if(d.jenis==='perilaku'){
     const s=tabelIndex_('Sesi',['id_sesi','id_program']).records.filter(r=>txt(r.id_sesi)===txt(d.id_sesi));if(s.length!==1)throw Error('Sesi untuk lampiran tidak ditemukan.');
     const k=tabelIndex_('Keikutsertaan',['id_keikutsertaan','id_program','status_keikutsertaan']).records.filter(r=>txt(r.id_keikutsertaan)===txt(d.id_keikutsertaan)&&txt(r.id_program)===txt(s[0].id_program)&&sesuaiJenjang_(s[0],r)&&txt(r.status_keikutsertaan).toLowerCase()==='terdaftar');if(k.length!==1)throw Error('Peserta lampiran tidak terdaftar aktif pada program sesi.');

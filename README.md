@@ -50,3 +50,5 @@ Manajemen Akses dengan sidebar/header dashboard: [panduan satu HTML baru dan sat
 Hapus indikator tambahan yang belum digunakan: [panduan penggantian Hapus.gs dan Index.html](apps-script/absensi-dashboard/docs/HAPUS_INDIKATOR.md), branch `feat/hapus-indikator-belum-digunakan`. Indikator bawaan/terpakai tetap dilindungi.
 
 Perbaikan Nonaktif indikator lama yang terblokir konfigurasi aturan: branch `fix/nonaktif-indikator-aturan-lama`, ganti **Code.gs saja** sesudah paket indikator sebelumnya. [Petunjuk pemasangan](apps-script/absensi-dashboard/README.md).
+
+Izin peserta tanpa presensi, termasuk izin satu sesi penuh: [panduan tiga file](apps-script/absensi-dashboard/docs/IZIN_TANPA_PRESENSI.md), branch `feat/izin-peserta-tanpa-presensi`. Code.gs pada paket ini sudah memuat perbaikan status indikator sebelumnya.

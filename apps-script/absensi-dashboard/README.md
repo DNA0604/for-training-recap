@@ -13,6 +13,12 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 16 current HTML/GS source files, including the Jenjang preparation tools.
 
+## Izin peserta tanpa presensi (30 Oktober 2026)
+
+Paket **feat/izin-peserta-tanpa-presensi**: ganti lengkap **Code.gs, Akses.gs dan Index.html bersama-sama**, simpan dan update deployment yang sama ke New version. Perbaikan Nonaktif indikator sebelumnya sudah termasuk. Tidak perlu file/tab/setup baru.
+
+Admin/Petugas membuka **Monitoring → Ringkasan Sesi → Catat Izin**. Semua peserta terdaftar aktif pada Jenjang sesi dapat dipilih, termasuk yang belum presensi. Tombol **Isi Waktu Izin Satu Sesi Penuh** memakai jadwal sesi. Izin tidak membuat kehadiran atau memberi JP otomatis; daftar izin/validasi/rekap tetap tersedia. [Panduan pemasangan, arti JP dan pengujian](docs/IZIN_TANPA_PRESENSI.md). 320 tes backend serta browser desktop/ponsel lulus dengan Google tiruan; deployment nyata menunggu uji pengguna.
+
 ## Perbaikan Nonaktif indikator lama (30 Oktober 2026)
 
 Jika paket hapus indikator sebelumnya sudah dipasang, branch **fix/nonaktif-indikator-aturan-lama** cukup mengganti lengkap **Code.gs saja**. Simpan dan update deployment yang sama ke New version. Index.html/Hapus.gs dari paket sebelumnya tetap digunakan; tidak perlu setup atau mengedit spreadsheet.

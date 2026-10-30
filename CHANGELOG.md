@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-30 — leave notes for participants without attendance
+- Removed the web picker/save/upload dependency on an existing attendance row. Admin/scoped Petugas may record partial or full-session leave for active participants; Pengajar remains denied. Added a fill-session-times button and clearer leave guidance.
+- No synthetic attendance/scans or automatic JP. Notes use the existing session/membership relationship; later attendance calculations already match it. Existing attendance keeps version checks and JP invalidation. Pair-bound evidence, scope/revocation checks, same-interval duplicate prevention and pending audit checks cover unscanned targets.
+- Replace Code.gs, Akses.gs and Index.html together; includes 69ceb08 indicator-status fix. No new schema/setup/files. Passed 320 backend tests (12 new regressions), source/generated parsing/IDs/hashes and mocked Chromium Admin/staff desktop/mobile plus prior app/access/indicator flows. No real Google writes or deployment. Guide: docs/IZIN_TANPA_PRESENSI.md.
+
 ## 2026-10-30 — indicator status edits no longer parse unrelated legacy rules
 - User confirmed new-indicator deletion but reported Konfigurasi aturan penilaian tidak valid when disabling MAKAN_SAAT_SESI. Reproduced the failure with malformed/blank historical rule configuration: indicator edit parsed every rule even when definition/type were unchanged. The exact live rule row was not supplied.
 - Check note/rule usage only when changing definition/type. Status and default-point edits preserve all stored rules/notes/grades, with IZIN_SESI, type/sign, duplicate-active-code, permissions, stale versions and audit/retry protections retained. Meaning changes and deletion still require their existing reference checks.
