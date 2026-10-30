@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-30 — Admin-to-Pengajar evaluation accepted by user
+- User confirmed implementation and normal behavior. Accepted application baseline: 7683452 on feat/evaluasi-pengajar-admin. Marked the requested feature completed while distinguishing reported acceptance from unenumerated live/fault cases.
+- Documentation only; no application/hash changes, replacement files or deployment needed.
+
 ## 2026-10-30 — Admin evaluation of Pengajar per session
 - Implemented the agreed five aspects on integer 1–5, with optional comments, verified Admin identity, before/after history, source/row versions and idempotent retry. Pengajar/Petugas cannot read/write instructor assessments. No weights/final grade.
 - Added the Admin session-summary action/modal and a lazily initialized Evaluasi_Pengajar journal on the existing evaluation file; legacy/empty journals remain compatible. Existing manual recap adds Rekap_Evaluasi_Pengajar with current and retained historical/deleted-source values.

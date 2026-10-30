@@ -182,6 +182,9 @@ The existing manual all-program recap adds **Rekap_Evaluasi_Pengajar** for curre
 
 Validation: **283 backend tests** (17 new cases) cover roles, legacy/empty journal compatibility, exact scores/actor integrity, receipt retry, conflicting Admin edits/history, session/assignment changes, disabled teacher, revoked Admin, foreign tab preservation, manual recap and retained grades after actual operational deletion. Chromium actual generated HTML with mocks passes Admin desktop/390px input/required validation, X/draft/scroll/footer, lost-response retry/history/safe text/unassigned session, teacher/staff exclusion, and prior student/recap flows. App login/navigation/sidebar/verification and directory suites pass; source/generated parsing and IDs checked. Live Google setup/permissions/quotas/deployment remain user checks; no Google writes/deployment/main merge by agent. Guide: docs/EVALUASI_PENGAJAR_ADMIN.md; previews use synthetic data.
 
+## Instructor evaluation accepted — 30 October 2026
+User confirmed implementing the Admin-to-Pengajar evaluation and reported hasilnya berjalan normal. Treat application **7683452** on feat/evaluasi-pengajar-admin as the accepted continuation baseline, including the cumulative participant evaluation, connected recap and prior accepted UI. This records the user's reported implementation/normal behavior; the specific live checklist/fault scenarios were not enumerated and must not be claimed independently verified. The requested instructor-evaluation update is completed. Documentation only; no replacement files, source/hash change or new deployment needed for this acceptance record.
+
 ## Source of truth and files
 Directory: apps-script/absensi-dashboard/.
 - Akses.gs: separate owner-managed organizer directory, account/assignment audit/recovery, OAuth configuration, and embedded identity-proof panels; not main-app RBAC.

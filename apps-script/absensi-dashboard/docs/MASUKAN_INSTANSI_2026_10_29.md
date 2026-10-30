@@ -5,7 +5,7 @@ Status diperbarui 30 Oktober 2026. Dokumen pendataan permintaan dan opsi pembaha
 | Permintaan | Status / langkah |
 | --- | --- |
 | Peran Pengajar dengan tampilan Admin | Sudah diimplementasikan: tampilan yang sama, akses sesi/Jenjang mengajar dan evaluasi peserta enam aspek per sesi; tanpa kelola akun/hapus/penilaian Pengajar. Tampilan diperbaiki dan diterima pengguna. |
-| Penilaian Pengajar khusus Admin | Lima aspek dan skala 1–5 per sesi disetujui pengguna dan diimplementasikan pada feat/evaluasi-pengajar-admin, khusus Admin dengan riwayat/jurnal/rekap terpisah. Tidak ada bobot atau nilai akhir; deployment terbaru masih perlu diuji pengguna. |
+| Penilaian Pengajar khusus Admin | Lima aspek dan skala 1–5 per sesi disetujui pengguna dan diimplementasikan pada feat/evaluasi-pengajar-admin, khusus Admin dengan riwayat/jurnal/rekap terpisah. Tidak ada bobot atau nilai akhir. Pengguna mengonfirmasi implementasi dan hasil berjalan normal pada 30 Oktober (7683452); fitur dinyatakan selesai. |
 | Spreadsheet penilaian terpisah | Sudah terhubung untuk jurnal penugasan/nilai Pengajar dan rekap terbaca terintegrasi dengan catatan Admin/Petugas. Rekap a8f9e16 diterima pengguna 30 Oktober. Sumber catatan/rumus lama belum dipindah; belum ada nilai akhir gabungan. |
 | Nama Pengajar pada Sesi | Sudah diimplementasikan: satu akun Pengajar stabil per sesi, pilihan saat membuat sesi dan modal Pengajar Sesi. Nama tampil pada Ringkasan Sesi ketiga peran; riwayat tetap disimpan. |
 | Manajemen Akses memakai sidebar | Dapat diseragamkan dengan halaman lain. Opsi memisahkan HTML dari Akses.gs perlu mempertahankan panel native pemilik dan gateway Admin. Tidak otomatis harus menambah file jika renderer bersama cukup. |
