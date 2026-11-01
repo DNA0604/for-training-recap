@@ -52,6 +52,17 @@ test('long text/XML characters are preserved across pages, TOC is bounded and no
  const h=reportHarness(),r=h.report();r.catatan=[{id:'NOTE',id_keikutsertaan:'KST001',nama:'Nama <&>',sesi:'Sesi',waktu:'2026-10-20 08:00:00',indikator:'Indikator',jenis:'positif',status:'disetujui',keterangan:('Keterangan panjang & < > " '.repeat(80))}];
  const layout=h.renderer.susunHalamanLaporan_(r),all=layout.pages.flatMap(p=>p.parts).join('');assert.ok(all.includes('&amp;'));assert.ok(all.includes('&lt;'));assert.ok(all.includes('&quot;'));assert.ok(layout.pages.every(p=>p.parts.length));assert.ok(layout.pages.slice(1).every(p=>p.used<=p.height));assert.ok(layout.toc.every(e=>e.page>=2&&e.page<=layout.pages.length));
 });
+test('narrative uses flowing justified LTR paragraphs without artificial soft returns; headings and table alignment stay explicit',()=>{
+ const h=reportHarness(),r=h.report(),layout=h.renderer.susunHalamanLaporan_(r),paragraph=layout.pages.flatMap(p=>p.parts).find(p=>p.includes('Program '+r.program.nama+' merupakan'));
+ assert.ok(paragraph.includes('<w:jc w:val="both"/>'));assert.ok(paragraph.includes('<w:bidi w:val="0"/>'));assert.ok(paragraph.includes('<w:rtl w:val="0"/>'));assert.ok(!paragraph.includes('<w:br/>'));
+ assert.ok(layout.pages.flatMap(p=>p.parts).find(p=>p.includes('1. Ringkasan Eksekutif')).includes('<w:jc w:val="left"/>'));
+ assert.ok(layout.pages.flatMap(p=>p.parts).filter(p=>p.startsWith('<w:tbl>')).some(p=>p.includes('<w:jc w:val="right"/>')));
+});
+test('page splitting preserves original words, whitespace and Unicode, while explicit user line breaks remain intentional',()=>{
+ const h=reportHarness(),c=h.renderer,source=('Narasi  asli dengan spasi, angka 12 dan aksen é. '.repeat(80))+'https://contoh.invalid/'+('a'.repeat(150))+' 😀 selesai';let rest=source,combined='',count=0;
+ while(rest){const part=c.potongTeksMengalirLaporan_(rest,300,12,5);assert.ok(part.head.length);assert.ok(c.barisTeksLaporan_(part.head,300,12).length<=5);assert.ok(!/[\uD800-\uDBFF]$/.test(part.head));combined+=part.head;rest=part.tail;assert.ok(++count<100);}
+ assert.equal(combined,source);assert.ok(count>1);assert.ok(c.paragrafXMLLaporan_('Baris pertama\nBaris kedua').includes('<w:br/>'));
+});
 test('PDF converter cleans imported private temp, validates physical page count and rechecks permission before delivery',()=>{
  const h=reportHarness(),r=h.report(),draft={blob:h.blob('DOCX'),halaman:25},n=net(h);let checks=0;h.renderer.periksaIzinLaporanKini_=()=>checks++;
  const out=h.renderer.konversiLaporanPDF_(draft,r);assert.ok(Buffer.from(out).toString().startsWith('%PDF'));assert.deepEqual(n.trash,['TEMP-ID']);assert.equal(checks,2);assert.equal(n.calls.length,1);assert.ok(!n.calls[0].opt.payload.toString().includes('anyone'));

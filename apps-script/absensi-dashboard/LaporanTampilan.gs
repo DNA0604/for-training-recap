@@ -6,7 +6,7 @@ function angkaLaporan_(v){return typeof v==='number'&&Number.isFinite(v)?v.toLoc
 function persenLaporan_(n,d){return d>0?(100*n/d).toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2})+'%':'Belum tersedia';}
 function paragrafXMLLaporan_(text,opt){
  const o=opt||{},color=o.color||'17324D',size=o.size||12;
- return '<w:p><w:pPr><w:spacing w:before="0" w:after="'+Math.round((o.after==null?8:o.after)*20)+'" w:line="276" w:lineRule="auto"/><w:jc w:val="'+(o.align||'both')+'"/>'+(o.keep?'<w:keepNext/>':'')+'<w:keepLines/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/><w:sz w:val="'+(size*2)+'"/><w:color w:val="'+color+'"/>'+(o.bold?'<w:b/>':'')+'</w:rPr>'+String(text).split('\n').map((t,i)=>(i?'<w:br/>':'')+'<w:t xml:space="preserve">'+xmlLaporan_(t)+'</w:t>').join('')+'</w:r></w:p>';
+ return '<w:p><w:pPr><w:bidi w:val="0"/><w:spacing w:before="0" w:after="'+Math.round((o.after==null?8:o.after)*20)+'" w:line="276" w:lineRule="auto"/><w:jc w:val="'+(o.align||'both')+'"/>'+(o.keep?'<w:keepNext/>':'')+'<w:keepLines/></w:pPr><w:r><w:rPr><w:rtl w:val="0"/><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/><w:sz w:val="'+(size*2)+'"/><w:color w:val="'+color+'"/>'+(o.bold?'<w:b/>':'')+'</w:rPr>'+String(text).split('\n').map((t,i)=>(i?'<w:br/>':'')+'<w:t xml:space="preserve">'+xmlLaporan_(t)+'</w:t>').join('')+'</w:r></w:p>';
 }
 function gambarXMLLaporan_(rel,width,height,index,background){
  const cx=Math.round(width*12700),cy=Math.round(height*12700),drawing='<wp:extent cx="'+cx+'" cy="'+cy+'"/><wp:docPr id="'+index+'" name="Gambar '+index+'"/><a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="'+index+'" name="Gambar"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="'+rel+'"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="'+cx+'" cy="'+cy+'"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic>';
@@ -27,12 +27,31 @@ function barisTeksLaporan_(text,width,size){
  }
  return lines.length?lines:[''];
 }
+/** Keep original words/whitespace; estimated wraps are never written as soft line breaks. */
+function potongTeksMengalirLaporan_(text,width,size,maxLines){
+ const source=String(text);if(barisTeksLaporan_(source,width,size).length<=maxLines)return {head:source,tail:''};
+ let low=1,high=source.length,fit=0;
+ while(low<=high){const mid=Math.floor((low+high)/2);if(barisTeksLaporan_(source.slice(0,mid),width,size).length<=maxLines){fit=mid;low=mid+1;}else high=mid-1;}
+ if(!fit)throw Error('Area paragraf laporan terlalu sempit.');
+ const boundary=source.lastIndexOf(' ',fit-1)+1;if(boundary>fit/2)fit=boundary;
+ if(fit<source.length&&/[\uD800-\uDBFF]/.test(source[fit-1]))fit--;
+ if(!fit)fit=2;return {head:source.slice(0,fit),tail:source.slice(fit)};
+}
 function susunHalamanLaporan_(r){
  const D=desainLaporan_(),pages=[],toc=[],images=[],num=angkaLaporan_,pct=persenLaporan_,date=tanggalBacaLaporan_;let page;
  const active=r.peserta.filter(p=>p.status==='terdaftar'),charts=active.length>12;
  function newPage(landscape){const dims=landscape?D.landscape:D.portrait;page={landscape:!!landscape,width:dims[0]-2*D.side,height:dims[1]-D.top-D.bottom-28,used:0,parts:[]};pages.push(page);if(pages.length>240)throw Error('Laporan melebihi 240 halaman.');return page;}
  function room(height){if(height>page.height)throw Error('Satu blok laporan terlalu panjang untuk halaman.');if(page.used+height>page.height){const old=page,pending=old.pendingHeading&&old.pendingHeading.index===old.parts.length-1?old.pendingHeading:null,heading=pending?old.parts.pop():null;if(pending)old.used-=pending.height;newPage(old.landscape);if(heading){page.parts.push(heading);page.used=pending.height;page.pendingHeading={index:0,height:pending.height};if(page.used+height>page.height)throw Error('Judul dan blok laporan terlalu panjang.');}}}
- function text(t,opt){const o=opt||{},size=o.size||12,lines=barisTeksLaporan_(t,page.width,size),perLine=Math.max(D.line,size*1.15);if(lines.length*perLine+12<=page.height)room(lines.length*perLine+12);let rest=lines.slice();while(rest.length){const count=Math.max(1,Math.min(rest.length,Math.floor((page.height-page.used-12)/perLine)));if(page.used+perLine+12>page.height){newPage(page.landscape);continue;}const chunk=rest.splice(0,count),height=chunk.length*perLine+12;room(height);page.parts.push(paragrafXMLLaporan_(chunk.join('\n'),o));page.used+=height;page.pendingHeading=o.keep?{index:page.parts.length-1,height}:null;}}
+ function text(t,opt){
+  const o=opt||{},size=o.size||12,perLine=Math.max(D.line,size*1.15);let rest=String(t);
+  const fullHeight=barisTeksLaporan_(rest,page.width,size).length*perLine+12;if(fullHeight<=page.height)room(fullHeight);
+  do{
+   if(page.used+perLine+12>page.height)newPage(page.landscape);
+   const maxLines=Math.max(1,Math.floor((page.height-page.used-12)/perLine)),piece=potongTeksMengalirLaporan_(rest,page.width,size,maxLines),height=barisTeksLaporan_(piece.head,page.width,size).length*perLine+12;
+   room(height);page.parts.push(paragrafXMLLaporan_(piece.head,o));page.used+=height;page.pendingHeading=o.keep?{index:page.parts.length-1,height}:null;rest=piece.tail;
+  }while(rest);
+ }
+
  function title(t,level){room(62);text(t,{bold:true,size:level?13:16,align:'left',keep:true});}
  function section(t,landscape){newPage(landscape);toc.push({text:t,page:pages.length+1});title(t);}
  function table(headers,rows,widths){

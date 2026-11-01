@@ -13,6 +13,10 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 17 current HTML/GS source files, including the Jenjang preparation tools and report layout/assets.
 
+## Perataan paragraf laporan (1 November 2026)
+
+Paket **fix/paragraf-laporan-rata-kanan-kiri**: jika paket laporan sudah terpasang, cukup ganti lengkap **LaporanTampilan.gs**, lalu update versi deployment yang sama. Narasi mengalir secara alami dengan rata kanan-kiri dan arah kiri-ke-kanan, tanpa pemotongan baris buatan. Isi dan desain tetap. [Panduan singkat dan verifikasi](docs/LAPORAN_RATA_KANAN_KIRI.md).
+
 ## Laporan PDF sesuai template instansi (1 November 2026)
 
 Paket **feat/laporan-program-template**: tambahkan Script **LaporanTampilan.gs**, ganti lengkap **Laporan.gs dan Pengelolaan.html**, simpan dan update deployment yang sama. Sampul/logo sudah tertanam. Tujuh bagian, daftar isi/nomor halaman, evaluasi terpisah, rincian landscape dan batas tabel/grafik 12 peserta mengikuti keputusan pengguna. Tidak ada sheet, migrasi, AI, penyuntingan atau nilai akhir baru. Konversi memakai **Google Drive API**, perlu diaktifkan pada proyek Cloud yang terhubung bila belum tersedia. [Panduan pemasangan dan uji Google](docs/LAPORAN_TEMPLATE.md), [pratinjau PDF sintetis lokal](previews/laporan-template/README.md). Hasil Google nyata masih perlu pengujian pengguna.

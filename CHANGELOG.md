@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-01 — flowing justified report paragraphs
+- User reported report output safe with improved design, requested tidier writing/alignment and retained current content. Replaced artificial per-line soft returns in narrative with original flowing paragraphs, explicit justified alignment and LTR direction; page splitting preserves original words/whitespace/Unicode. Explicit metadata breaks, heading/table alignment, data and section content stay intact. No AI added.
+- Replace LaporanTampilan.gs only after the report package. 379 backend tests pass, including two typography regressions. Regenerated local 2/13 participant PDFs keep 25/42 pages with matching TOC/footer, no blank body/overflow, and measured non-final narrative word edges aligned at both margins. Google conversion must still be checked on deployment. No Google writes/deployments/main merge.
+
 ## 2026-11-01 — formal program PDF using the agreed institution template
 - Implemented the audited/clarified template: original cover, dynamic program/date, corrected distinct cover/body headers, Arial page standards, automatic TOC/page numbering, seven formal sections and landscape data appendices. Tables-only at ≤12 active participants; meaningful bounded charts above that threshold.
 - Added current three-rubric evaluations from existing validated journals, expected/filled/missing/stale counts and descriptive aspect means with explicit denominators. JP/behavior calculations, Jenjang obligations, account permissions and source sheets remain unchanged; no new score, sign-off, AI or text editor. Report ID/time/source hash distinguish publications.

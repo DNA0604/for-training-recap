@@ -7,6 +7,8 @@ Contoh memakai data dummy, aset sampul/logo yang diberikan pengguna, dan sumber 
 
 PDF di folder ini dirender secara lokal menggunakan LibreOffice. Grafik contoh dirender melalui matplotlib sebagai pengganti Charts Google. Ini membantu pemeriksaan susunan dan tata letak; **bukan bukti hasil konversi Google Drive pada deployment nyata**.
 
+Pratinjau diperbarui pada fix/paragraf-laporan-rata-kanan-kiri: narasi menggunakan paragraf mengalir, bukan pemotongan baris otomatis yang ditulis sebagai soft return. Pemeriksaan lokal mengukur tepi kata pada kedua sisi paragraf, dengan baris terakhir mengikuti penulisan paragraf normal.
+
 JSON pendamping berisi jumlah halaman rancangan, ID contoh dan daftar isi untuk pemeriksaan otomatis. Jangan memasang folder ini sebagai Script/HTML Apps Script.
 
 Reproduksi lokal dari root repository:
