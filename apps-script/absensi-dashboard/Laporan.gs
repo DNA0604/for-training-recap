@@ -10,6 +10,7 @@ function dataLaporanProgram_(id) {
   wajibPemilikIndex_();
   const lock=LockService.getScriptLock();lock.waitLock(30000);
   try {
+    if(typeof periksaUlangSesiPanitia_==='function')periksaUlangSesiPanitia_();
     pastikanTidakAdaHapusTertunda_();
     const program = programLaporanSelesai_(id), txt = v => String(v == null ? '' : v).trim();
     const zona = databasePelatihan_().getSpreadsheetTimeZone();
@@ -33,6 +34,9 @@ function dataLaporanProgram_(id) {
     try { r.jadwal = muatKelolaProgramIndex(id).sesi; } catch(e) { r.jadwal=[];r.peringatan.push('Rincian jeda/durasi tidak tersedia: '+e.message); }
     try { r.jp = muatRekapJPProgramIndex(id); } catch(e) { r.peringatan.push('Rekap JP tidak tersedia: '+e.message); }
     try { r.nilai = muatNilaiPerilakuProgramIndex(id); if (!r.nilai.aturan) r.peringatan.push('Aturan nilai perilaku belum tersedia.'); } catch(e) { r.peringatan.push('Nilai perilaku tidak tersedia: '+e.message); }
+    try { r.evaluasi=evaluasiUntukLaporan_(r); } catch(e) { r.evaluasi={tersedia:false,alasan:e.message,kelompok:[]};r.peringatan.push('Evaluasi belum tersedia: '+e.message); }
+    r.id_laporan='LAP-'+Utilities.getUuid();
+    r.versi_sumber=typeof hashAkses_==='function'?hashAkses_(JSON.stringify([data,r.jadwal,r.jp,r.nilai,r.evaluasi])):'';
     programLaporanSelesai_(id);
     return r;
   } finally {lock.releaseLock();}
@@ -56,10 +60,10 @@ function ringkasLaporanProgram_(d, now, zona) {
   const tanggal=v=>v instanceof Date?Utilities.formatDate(v,zona,'yyyy-MM-dd'):txt(v);
   const jam=v=>v instanceof Date?Utilities.formatDate(v,zona,'HH:mm'):txt(v);
   const sesi=d.sesi.map(s=>{
-    const row={id:txt(s.id_sesi),nama_jenjang:levelNames.get(txt(s.id_jenjang))||'',nama:txt(s.nama_sesi),tanggal:tanggal(s.tanggal_sesi),mulai:jam(s.jam_mulai),selesai:jam(s.jam_selesai),jp:txt(s.status_jp),lengkap:0,belum_lengkap:0,belum_tercatat:0,verifikasi:0,sasaran:0,status:'jadwal_bermasalah'};
+    const row={id:txt(s.id_sesi),id_jenjang:txt(s.id_jenjang),nama_jenjang:levelNames.get(txt(s.id_jenjang))||'',nama:txt(s.nama_sesi),tanggal:tanggal(s.tanggal_sesi),mulai:jam(s.jam_mulai),selesai:jam(s.jam_selesai),jp:txt(s.status_jp),lengkap:0,belum_lengkap:0,belum_tercatat:0,verifikasi:0,sasaran:0,status:'jadwal_bermasalah'};
     let end;try{const start=waktuJadwalJP_(s.tanggal_sesi,s.jam_mulai,zona);end=waktuJadwalJP_(s.tanggal_sesi,s.jam_selesai,zona);if(end<=start)throw Error('Jam tidak valid');}catch(e){invalid++;return row;}
     if(end>now){mendatang++;row.status='belum_selesai';return row;}selesai++;row.status='selesai';
-    aktif.filter(p=>sejenjang(s,members.get(p.id))).forEach(p=>{const state=statusKehadiranProfil_(s,records.get(JSON.stringify([row.id,p.id])),now,zona);const key=state.status==='hadir_lengkap'?'lengkap':state.status==='belum_lengkap'?'belum_lengkap':state.status==='belum_tercatat_hadir'?'belum_tercatat':'verifikasi';p[key]++;row[key]++;total[key]++;p.sasaran++;row.sasaran++;total.sasaran++;if(Number.isFinite(state.terlambat)&&state.terlambat>10){p.terlambat++;total.terlambat++;}});
+    aktif.filter(p=>sejenjang(s,members.get(p.id))).forEach(p=>{const state=statusKehadiranProfil_(s,records.get(JSON.stringify([row.id,p.id])),now,zona);const key=state.status==='hadir_lengkap'?'lengkap':state.status==='belum_lengkap'?'belum_lengkap':state.status==='belum_tercatat_hadir'?'belum_tercatat':'verifikasi';p[key]++;row[key]++;total[key]++;p.sasaran++;row.sasaran++;total.sasaran++;if(Number.isFinite(state.terlambat)&&state.terlambat>10){p.terlambat++;row.terlambat=(row.terlambat||0)+1;total.terlambat++;}});
     return row;
   }).sort((a,b)=>a.tanggal.localeCompare(b.tanggal)||a.mulai.localeCompare(b.mulai));
   const validasi={disetujui:0,belum_divalidasi:0,ditolak:0,lainnya:0}, jenis={positif:0,negatif:0,izin:0,lainnya:0}, byIndicator=new Map(), seenNotes=new Set();
@@ -73,8 +77,9 @@ function ringkasLaporanProgram_(d, now, zona) {
     const tipe=i&&txt(i.kode_indikator)==='IZIN_SESI'?'izin':i&&['positif','negatif'].includes(norm(i.jenis_indikator))?norm(i.jenis_indikator):'lainnya';jenis[tipe]++;
     const label=i?(txt(i.definisi_indikator)||txt(i.kode_indikator)):'Indikator tidak tersedia';
     if(status==='disetujui')byIndicator.set(label,(byIndicator.get(label)||0)+1);
-    catatan.push({nama:people.get(txt(members.get(kid).id_peserta)).nama_pegawai,sesi:sid?txt(sessions.get(sid).nama_sesi):'Cakupan program',waktu:c.waktu_kejadian instanceof Date?Utilities.formatDate(c.waktu_kejadian,zona,'yyyy-MM-dd HH:mm:ss'):txt(c.waktu_kejadian),indikator:label,jenis:tipe,status:status,keterangan:txt(c.keterangan)});
+    catatan.push({id:id,id_keikutsertaan:kid,id_sesi:sid,nama:people.get(txt(members.get(kid).id_peserta)).nama_pegawai,sesi:sid?txt(sessions.get(sid).nama_sesi):'Cakupan program',waktu:c.waktu_kejadian instanceof Date?Utilities.formatDate(c.waktu_kejadian,zona,'yyyy-MM-dd HH:mm:ss'):txt(c.waktu_kejadian),indikator:label,jenis:tipe,status:status,keterangan:txt(c.keterangan)});
   });
+  catatan.sort((a,b)=>a.waktu.localeCompare(b.waktu)||a.id.localeCompare(b.id));
   if(catatan.length>3000)throw Error('Laporan mendukung maksimal 3.000 catatan per program.');
   if(!d.sesi.length)peringatan.push('Program tidak memiliki sesi.');if(!aktif.length)peringatan.push('Tidak ada peserta berstatus terdaftar.');
   if(mendatang)peringatan.push(mendatang+' sesi belum selesai menurut jadwal; tidak dihitung dalam persentase kehadiran.');
@@ -92,82 +97,71 @@ function muatPratinjauLaporanProgram(id) {
 function buatPDFLaporanProgram(id) {
   if(typeof wajibEndpointAkses_==='function')wajibEndpointAkses_('buatPDFLaporanProgram');
   wajibPemilikIndex_();const lock=LockService.getUserLock();if(!lock.tryLock(1000))throw Error('Pembuatan laporan masih berjalan. Tunggu proses sebelumnya.');
-  let doc=null,docId='',result=null;
-  try {
-    const r=dataLaporanProgram_(String(id||'').trim());
-    const filename=('Laporan '+r.program.nama).replace(/[\\/:*?"<>|\r\n]/g,' ').slice(0,130)+'.pdf';
-    doc=DocumentApp.create('TEMP Laporan Pelatihan '+Utilities.getUuid());docId=doc.getId();
-    tulisDokumenLaporan_(doc,r);doc.saveAndClose();
-    programLaporanSelesai_(id);
-    const blob=DriveApp.getFileById(docId).getAs('application/pdf').setName(filename),bytes=blob.getBytes();
-    if(bytes.length>8*1024*1024)throw Error('PDF melebihi 8 MB. Kurangi ukuran data melalui evaluasi laporan terpisah.');
-    programLaporanSelesai_(id);
-    result={sukses:true,nama:filename,mime:'application/pdf',base64:Utilities.base64Encode(bytes),waktu:r.waktu,peringatan:r.peringatan};
-    return result;
-  } finally {
-    try { if(doc)doc.saveAndClose(); } catch(ignored) {}
-    try { if(docId)DriveApp.getFileById(docId).setTrashed(true); } catch(e) { console.error('Pembersihan dokumen sementara laporan gagal.');if(result)result.peringatan.push('Dokumen TEMP Laporan Pelatihan belum dapat dipindahkan ke Sampah. Hapus manual melalui Drive pemilik.'); } finally { lock.releaseLock(); }
-  }
-}
-function tulisDokumenLaporan_(doc,r) {
-  const b=doc.getBody(),H=DocumentApp.ParagraphHeading;
-  b.setPageWidth(595.28).setPageHeight(841.89).setMarginTop(48).setMarginBottom(48).setMarginLeft(44).setMarginRight(44);
-  b.setAttributes({[DocumentApp.Attribute.FONT_FAMILY]:'Arial',[DocumentApp.Attribute.FONT_SIZE]:10,[DocumentApp.Attribute.FOREGROUND_COLOR]:'#192e50'});
-  function p(text){return b.appendParagraph(String(text)).setSpacingAfter(8);}
-  function h(text){return b.appendParagraph(text).setHeading(H.HEADING1).setSpacingBefore(16).setSpacingAfter(10);}
-  function table(headers,rows){const t=b.appendTable([headers,...rows.map(row=>row.map(x=>String(x==null?'—':x)))]);for(let c=0;c<headers.length;c++){t.getCell(0,c).setBackgroundColor('#203960').editAsText().setBold(true).setForegroundColor('#ffffff');}return t;}
-  const num=v=>v==null||v===''||!Number.isFinite(Number(v))?'—':Number(v).toLocaleString('id-ID',{maximumFractionDigits:2});
-  const percent=(n,d)=>d?num(100*n/d)+'%':'Tidak tersedia';
-  function chart(title,headers,rows,pie){
-    if(!rows.length||!rows.some(x=>Number(x[1])>0)){p(title+': belum ada data untuk grafik.');return;}
-    const data=Charts.newDataTable().addColumn(Charts.ColumnType.STRING,headers[0]).addColumn(Charts.ColumnType.NUMBER,headers[1]);rows.forEach(row=>data.addRow(row));
-    const chart=(pie?Charts.newPieChart():Charts.newBarChart()).setDataTable(data.build()).setTitle(title).setDimensions(660,320).setColors(['#203960','#4b8d9b','#d6a64e','#a35b62']).build();
-    b.appendImage(chart.getAs('image/png')).setWidth(480).setHeight(233);
-  }
-  doc.addHeader().appendParagraph('PUSAT PENGEMBANGAN APARATUR KOMDIGI').editAsText().setFontSize(9);
-  doc.addFooter().appendParagraph('Bahan evaluasi internal • Snapshot '+r.waktu+' ('+r.zona+')').editAsText().setFontSize(8);
-  p('Kementerian Komunikasi dan Digital').editAsText().setFontSize(12);
-  p('LAPORAN EVALUASI\nPELAKSANAAN PROGRAM PELATIHAN').setHeading(H.TITLE);
-  p(r.program.nama).setHeading(H.SUBTITLE);
-  table(['Identitas','Keterangan'],[['Program',r.program.id],['Kategori / jenjang',r.program.kategori+' / '+(r.program.jenjang||'—')],['Periode tercatat',r.program.mulai+' s.d. '+r.program.selesai],['Status program','Selesai'],['Data dihimpun',r.waktu+' ('+r.zona+')']]);
-  p('Dokumen ini merupakan rangkuman administratif untuk evaluasi, bukan sertifikat kelulusan atau penetapan nilai akhir. Status selesai mengikuti penandaan pengelola. Jadwal bukan bukti otomatis bahwa seluruh sesi telah terlaksana.');
-  p(r.peringatan.length?'STATUS DATA: PERLU TINDAK LANJUT — baca bagian keterbatasan dan rekomendasi.':'STATUS DATA: ringkasan tersedia berdasarkan catatan saat laporan dibuat.');
-  b.appendPageBreak();h('1. Ringkasan eksekutif');
-  table(['Indikator','Hasil'],[['Peserta tercatat',r.peserta.length],['Peserta berstatus terdaftar',r.peserta.filter(x=>x.status==='terdaftar').length],['Sesi tercatat / selesai menurut jadwal',r.sesi.length+' / '+r.sesi_selesai],['Kehadiran lengkap / kesempatan peserta-sesi',r.total.lengkap+' / '+r.total.sasaran],['Persentase kelengkapan',percent(r.total.lengkap,r.total.sasaran)],['Catatan perilaku dan izin',r.catatan.length]]);
-  p('Penyebut kehadiran adalah jumlah kesempatan peserta berstatus terdaftar pada sesi Jenjangnya yang berjadwal valid dan sudah berakhir. Sesi tanpa JP tetap termasuk. Peserta berstatus lain tidak masuk penyebut. Perubahan pendaftaran historis tidak dapat direkonstruksi dari snapshot ini.');
-  h('2. Jadwal dan rekap sesi');
-  const jadwal=new Map((r.jadwal||[]).map(x=>[x.id,x]));
-  table(['Tanggal / sesi / Jenjang','Jam / jeda / efektif','Lengkap / sasaran','Kelengkapan','Status'],r.sesi.map(s=>{const j=jadwal.get(s.id);return [s.tanggal+'\n'+s.nama+(s.nama_jenjang?'\nJenjang: '+s.nama_jenjang:''),s.mulai+'–'+s.selesai+'\nJeda: '+(j?j.jeda||'Tidak ada':'—')+'\nEfektif: '+(j?num(j.durasi_efektif):'—')+' menit',s.lengkap+' / '+s.sasaran,percent(s.lengkap,s.sasaran),s.status.replace(/_/g,' ')];}));
-  p('Jadwal jeda dan durasi efektif mengikuti pengaturan sesi pada aplikasi; rekap JP di bagian 5 menggunakan hasil perhitungan yang telah tersedia, tanpa menjalankan hitung ulang.');
-  h('3. Kehadiran peserta');
-  chart('Distribusi kesempatan kehadiran peserta-sesi',['Kondisi','Jumlah'],[['Lengkap',r.total.lengkap],['Belum lengkap',r.total.belum_lengkap],['Belum tercatat',r.total.belum_tercatat],['Perlu verifikasi',r.total.verifikasi]],false);
-  p('Belum tercatat tidak otomatis berarti tidak hadir. Waktu terverifikasi digunakan bila tersedia. Terlambat dihitung hanya bila melewati toleransi 10 menit dan waktunya dapat dinilai; dapat beririsan dengan kategori kehadiran lain.');
-  table(['Peserta / Jenjang / unit','Status','Lengkap / sasaran','Belum lengkap / tercatat','Verifikasi / terlambat'],r.peserta.map(x=>[x.nama+(x.nama_jenjang?'\nJenjang: '+x.nama_jenjang:'')+'\n'+x.unit,x.status,x.lengkap+' / '+x.sasaran+' ('+percent(x.lengkap,x.sasaran)+')',x.belum_lengkap+' / '+x.belum_tercatat,x.verifikasi+' / '+x.terlambat]));
-  h('4. Aktivitas, perilaku dan izin');
-  table(['Jenis catatan (semua status)','Jumlah'],Object.entries(r.jenis));
-  chart('Status validasi catatan (termasuk izin)',['Status','Catatan'],Object.entries(r.validasi).map(([k,v])=>[k.replace(/_/g,' '),v]),true);
-  chart('Indikator dengan catatan disetujui terbanyak',['Indikator','Catatan'],r.indikator.slice(0,10).map(x=>[x.nama.length>80?x.nama.slice(0,77)+'…':x.nama,x.jumlah]),false);
-  p('Grafik indikator menampilkan maksimal 10 indikator menurut jumlah catatan disetujui, bukan peringkat peserta. Catatan pending/ditolak tidak dianggap sebagai temuan yang telah disahkan. Jenis izin dipisahkan dari positif/negatif agar tidak dihitung dua kali.');
-  h('5. Rekap JP dan nilai perilaku');
-  p('Angka berikut memakai rekap aplikasi yang sudah ada. Status sementara berarti data belum lengkap. Nilai perilaku dan kontribusi berbobot bukan nilai akhir keseluruhan pelatihan. Tanda — berarti belum tersedia; nol hanya ditampilkan bila memang bernilai nol.');
-  if(r.nilai&&r.nilai.aturan)p('Aturan perilaku: '+String(r.nilai.aturan.nama||'')+'; versi '+String(r.nilai.aturan.versi||'—')+'.');
-  const jp=new Map((r.jp&&r.jp.peserta||[]).map(x=>[x.id_keikutsertaan,x])),nilai=new Map((r.nilai&&r.nilai.peserta||[]).map(x=>[x.id_keikutsertaan,x]));
-  table(['Peserta','JP diperoleh / acuan','Status JP','Nilai perilaku','Status nilai'],r.peserta.map(x=>{const j=jp.get(x.id),n=nilai.get(x.id);return [x.nama,j?num(j.jp_diperoleh)+' / '+num(j.jp_acuan):'—',j?j.status:'Tidak tersedia',n?num(n.nilai):'—',n?n.status:'Tidak tersedia'];}));
-  h('6. Keterbatasan dan tindak lanjut');
-  const notes=[...r.peringatan];if(r.total.belum_tercatat)notes.push('Konfirmasi '+r.total.belum_tercatat+' kesempatan kehadiran yang belum tercatat sebelum menyimpulkan ketidakhadiran.');
-  if(!notes.length)notes.push('Lakukan pemeriksaan silang dengan penyelenggara sebelum laporan disahkan. Kelengkapan catatan bukan bukti kelulusan atau efektivitas pelatihan.');
-  notes.forEach((x,i)=>p((i+1)+'. '+x));
-  p('Sumber: Program, Sesi, Keikutsertaan, Peserta, Kehadiran, Catatan_Perilaku, Indikator_Perilaku serta rekap JP/perilaku aplikasi. Data merupakan snapshot pada waktu pengambilan; perubahan setelah waktu tersebut tidak tercermin. Tidak ada formula penilaian institusi baru yang diterapkan.');
-  b.appendPageBreak();h('Lampiran. Riwayat aktivitas peserta');
-  p('Seluruh status catatan terkait program disertakan, termasuk peserta dengan status keikutsertaan nonaktif. Bukti lampiran tidak disalin ke PDF; periksa melalui aplikasi dengan akun yang berhak.');
-  if(!r.catatan.length)p('Belum ada catatan aktivitas/perilaku/izin pada program ini.');
-  else table(['Peserta / waktu','Sesi / indikator','Jenis / validasi','Keterangan'],r.catatan.map(c=>[c.nama+'\n'+c.waktu,c.sesi+'\n'+c.indikator,c.jenis+' / '+c.status,c.keterangan]));
+  try{
+    const r=dataLaporanProgram_(String(id||'').trim()),draft=bangunDOCXLaporan_(r),bytes=konversiLaporanPDF_(draft,r);
+    const filename=('Laporan '+r.program.nama+' '+r.id_laporan.slice(-8)).replace(/[\\/:*?"<>|\r\n]/g,' ').slice(0,150)+'.pdf';
+    return {sukses:true,nama:filename,mime:'application/pdf',base64:Utilities.base64Encode(bytes),waktu:r.waktu,id_laporan:r.id_laporan,peringatan:r.peringatan};
+  }finally{lock.releaseLock();}
 }
 
-// Run manually in the Apps Script editor as the owner to grant Docs/Drive access.
-function otorisasiLaporanProgram() {
-  if(typeof wajibEndpointAkses_==='function')wajibEndpointAkses_('otorisasiLaporanProgram');
-  wajibPemilikIndex_();let id='';
-  try {const doc=DocumentApp.create('TEMP Otorisasi Laporan');id=doc.getId();doc.getBody().appendParagraph('Pemeriksaan izin laporan.');doc.saveAndClose();DriveApp.getFileById(id).getAs('application/pdf');return 'Izin laporan siap. Kembali ke Pengelolaan.';}
-  finally {if(id)DriveApp.getFileById(id).setTrashed(true);}
+/** Build descriptive evaluations from the same validated journal readers as spreadsheet recap. No writes. */
+function evaluasiUntukLaporan_(r) {
+  if(typeof konfigurasiEvaluasi_!=='function'||!konfigurasiEvaluasi_())return {tersedia:false,alasan:'Spreadsheet penilaian belum dihubungkan.',kelompok:[]};
+  const d=bacaSumberRekapEvaluasi_(),pid=r.program.id;
+  for(const name of ['Program','Jenjang','Sesi','Keikutsertaan'])d[name]=d[name].filter(x=>String(x.id_program).trim()===pid);
+  const sids=new Set(d.Sesi.map(x=>String(x.id_sesi).trim())),kids=new Set(d.Keikutsertaan.map(x=>String(x.id_keikutsertaan).trim())),pids=new Set(d.Keikutsertaan.map(x=>String(x.id_peserta).trim()));
+  d.Peserta=d.Peserta.filter(x=>pids.has(String(x.id_peserta).trim()));d.Catatan_Perilaku=d.Catatan_Perilaku.filter(x=>kids.has(String(x.id_keikutsertaan).trim()));
+  for(const name of ['penugasan','evaluasi','evaluasi_pengajar','evaluasi_panitia'])d[name]=d[name].filter(e=>sids.has(e.id_sesi));
+  const built=bangunRekapEvaluasi_(d,r.zona),schema=skemaRekapEvaluasi_();
+  const ended=new Set(r.sesi.filter(s=>s.status==='selesai').map(s=>s.id)),active=new Set(r.peserta.filter(p=>p.status==='terdaftar').map(p=>p.id));
+  const objects=name=>(built.rows[name]||[]).map(row=>Object.fromEntries(schema[name].map((k,i)=>[k,row[i]]))).filter(x=>x['ID Program']===r.program.id&&ended.has(x['ID Sesi']));
+  const selected=objects('Rekap_Penilaian_Terpadu').filter(x=>active.has(x['ID Keikutsertaan']));
+  const teacherNames=new Map();petaPengajarSesi_(d.penugasan).forEach(a=>{if(a.status==='aktif')teacherNames.set(a.id_sesi,a.nama_pengajar||'Belum ditetapkan');});
+  r.sesi.forEach(s=>s.pengajar=teacherNames.get(s.id)||'Belum ditetapkan');
+  const defs=[['pengajar','Pengajar terhadap Peserta',aspekEvaluasi_(),selected,'Catatan Pengajar','Waktu Penilaian'],['panitia','Admin/Petugas terhadap Peserta',aspekPanitia_(),objects('Rekap_Evaluasi_Panitia').filter(x=>x['Status Rekaman']==='terkini'&&active.has(x['ID Keikutsertaan'])),'Catatan Panitia','Waktu Penilaian'],['instruktur','Admin terhadap Pengajar',aspekPengajarAdmin_(),objects('Rekap_Evaluasi_Pengajar').filter(x=>x['Status Rekaman']==='terkini'),'Catatan Admin','Waktu Penilaian']];
+  const groups=defs.map(([id,nama,aspek,rows,note,time])=>{
+    const seen=new Set(),detail=rows.map(x=>{
+      const key=JSON.stringify([x['ID Sesi'],id==='instruktur'?x['ID Pengajar']:x['ID Keikutsertaan']]);if(seen.has(key))throw Error('Duplikat pasangan evaluasi laporan.');seen.add(key);
+      const skor=aspek.map(a=>typeof x[a.nama]==='number'&&Number.isInteger(x[a.nama])&&x[a.nama]>=1&&x[a.nama]<=5?x[a.nama]:null),filled=skor.every(n=>n!==null),stale=filled&&x['Status Sumber']!=='sesuai';
+      return {sesi:x.Sesi,jenjang:x.Jenjang,nama:id==='instruktur'?x.Pengajar:x['Nama Peserta'],unit:id==='instruktur'?'':x['Unit Saat Pelatihan'],pengajar:x.Pengajar||'',skor,diisi:filled,berubah:stale,status:!filled?'Belum diisi':stale?'Sumber berubah; periksa kembali':'Terisi; sumber sesuai',catatan:String(x[note]||''),waktu:String(x[time]||'')};
+    });
+    const filled=detail.filter(x=>x.diisi),valid=filled.filter(x=>!x.berubah);
+    return {id,nama,aspek:aspek.map(a=>a.nama),diharapkan:detail.length,diisi:filled.length,belum:detail.length-filled.length,berubah:filled.length-valid.length,dasar_rata:valid.length,rata:aspek.map((a,i)=>valid.length?valid.reduce((n,x)=>n+x.skor[i],0)/valid.length:null),detail};
+  });
+  return {tersedia:true,alasan:'Skala 1–5 per aspek. Rata-rata deskriptif hanya dari penilaian terisi dengan sumber sesuai; bukan nilai akhir gabungan.',kelompok:groups};
+}
+function periksaIzinLaporanKini_(id){
+  const lock=LockService.getScriptLock();lock.waitLock(30000);
+  try{if(typeof periksaUlangSesiPanitia_==='function')periksaUlangSesiPanitia_();wajibPemilikIndex_();pastikanTidakAdaHapusTertunda_();programLaporanSelesai_(id);}finally{lock.releaseLock();}
+}
+/** Convert controlled DOCX pages using Drive; only temporary files, no public sharing. */
+function konversiLaporanPDF_(draft,r,afterImport){
+  const token=ScriptApp.getOAuthToken(),tag='laporan-'+Utilities.getUuid(),boundary='laporan_'+Utilities.getUuid().replace(/-/g,''),meta={name:'TEMP Laporan '+tag,mimeType:'application/vnd.google-apps.document',appProperties:{monitoringLaporan:tag}};
+  const part='--'+boundary+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n'+JSON.stringify(meta)+'\r\n--'+boundary+'\r\nContent-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document\r\n\r\n';
+  const start=Utilities.newBlob(part).getBytes(),end=Utilities.newBlob('\r\n--'+boundary+'--\r\n').getBytes();let id='',result=null,responded=false;
+  try{
+    const response=UrlFetchApp.fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id',{method:'post',contentType:'multipart/related; boundary='+boundary,headers:{Authorization:'Bearer '+token},payload:start.concat(draft.blob.getBytes(),end),muteHttpExceptions:true});
+    responded=true;
+    if(response.getResponseCode()<200||response.getResponseCode()>=300)throw Error('Konversi dokumen laporan ditolak Google (HTTP '+response.getResponseCode()+'). Pastikan Google Drive API aktif pada proyek Google Cloud Apps Script dan otorisasi pemilik sudah diperbarui.');
+    id=JSON.parse(response.getContentText()).id;if(!id)throw Error('ID dokumen sementara tidak diterima.');if(afterImport)afterImport(id);
+    periksaIzinLaporanKini_(r.program.id);
+    const blob=DriveApp.getFileById(id).getAs('application/pdf'),bytes=blob.getBytes();
+    if(bytes.length>8*1024*1024)throw Error('PDF melebihi batas 8 MB.');
+    // Google Docs may reflow imported pages. Refuse a misleading automatic TOC.
+    const raw=Utilities.newBlob(bytes).getDataAsString('ISO-8859-1'),pages=(raw.match(/\/Type\s*\/Page\b/g)||[]).length;
+    if(pages!==draft.halaman)throw Error('Tata letak PDF berubah saat konversi ('+pages+' halaman; rancangan '+draft.halaman+'). Daftar isi belum dapat dipastikan. Coba ulang; laporkan ID '+r.id_laporan+' bila tetap terjadi.');
+    periksaIzinLaporanKini_(r.program.id);result=bytes;return bytes;
+  }catch(e){if(!id&&!responded)throw Error('Konversi belum terkonfirmasi. Periksa dokumen TEMP Laporan '+tag+' di Drive pemilik bila pembersihan belum berhasil. '+e.message);throw e;}finally{
+    try{
+      if(id)DriveApp.getFileById(id).setTrashed(true);
+      else{const q=encodeURIComponent("trashed = false and appProperties has { key='monitoringLaporan' and value='"+tag+"' }");const res=UrlFetchApp.fetch('https://www.googleapis.com/drive/v3/files?q='+q+'&fields=files(id)&pageSize=100',{headers:{Authorization:'Bearer '+token},muteHttpExceptions:true});if(res.getResponseCode()!==200)throw Error('Pencarian dokumen sementara gagal');JSON.parse(res.getContentText()).files.forEach(f=>DriveApp.getFileById(f.id).setTrashed(true));}
+    }catch(e){if(result)r.peringatan.push('Dokumen TEMP Laporan '+tag+' belum dapat dibersihkan. Hapus melalui Drive pemilik.');else console.error('Periksa dokumen TEMP Laporan '+tag+' di Drive pemilik; pembersihan belum terkonfirmasi.');}
+  }
+}
+
+// Authorize native document/Drive export when prompted by Google.
+function otorisasiLaporanProgram(){
+  if(typeof konteksSesiPanitia_!=='undefined'&&konteksSesiPanitia_){if(typeof wajibEndpointAkses_==='function')wajibEndpointAkses_('otorisasiLaporanProgram');wajibPemilikIndex_();}
+  else if(typeof wajibPemilikAsliAkses_==='function')wajibPemilikAsliAkses_();else wajibPemilikIndex_();
+  let id='';try{const doc=DocumentApp.create('TEMP Otorisasi Laporan');id=doc.getId();doc.getBody().appendParagraph('Pemeriksaan izin laporan.');doc.saveAndClose();DriveApp.getFileById(id).getAs('application/pdf');return 'Izin laporan siap. Kembali ke Pengelolaan.';}finally{if(id)DriveApp.getFileById(id).setTrashed(true);}
 }

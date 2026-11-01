@@ -1153,7 +1153,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
     <dialog id="newJenjangDialog" class="creation-dialog" aria-labelledby="newJenjangTitle"><div class="creation-heading"><h2 id="newJenjangTitle">Tambah Jenjang Program</h2><button type="button" class="btn" id="closeJenjang">Tutup</button></div><form id="jenjangForm"><label for="jenjangName">Nama Jenjang</label><input id="jenjangName" required maxlength="100" placeholder="Contoh: Jenjang 2"><p class="foot">Jenjang ditambahkan pada program yang sedang dipilih. Peserta dan sesi lama tidak dipindahkan.</p><p id="jenjangMessage" role="status"></p><button class="btn primary" id="saveJenjang" type="submit">Simpan Jenjang</button></form></dialog>
     <dialog id="programReportDialog" class="creation-dialog" aria-labelledby="programReportDialogTitle">
       <div class="creation-heading"><div><h2 id="programReportDialogTitle">Laporan Evaluasi Program</h2><p class="muted creation-context" id="reportProgramName"></p></div><button type="button" class="btn" id="closeProgramReport">Tutup</button></div>
-      <p>Susunan laporan: identitas dan ringkasan eksekutif; jadwal sesi; kehadiran peserta; aktivitas, perilaku dan izin; rekap JP/nilai; keterbatasan dan tindak lanjut; lampiran aktivitas.</p>
+      <p>Susunan laporan: sampul dan daftar isi; ringkasan eksekutif; gambaran program; evaluasi kehadiran, JP, sikap/perilaku, peserta dan Pengajar; kesimpulan dan rekomendasi; lampiran rincian.</p>
       <p class="help">Grafik dan tabel menggunakan data yang tercatat saat laporan dibuat. Belum tercatat tidak otomatis berarti tidak hadir. Data sementara/pending ditandai. PDF adalah bahan evaluasi, bukan penetapan kelulusan.</p>
       <p id="reportPreview" class="notice" role="status" aria-live="polite">Memuat pratinjau…</p>
       <ul id="reportWarnings" class="foot"></ul>
@@ -2253,7 +2253,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         try {const r=await rpc('buatPDFLaporanProgram',reportProgram);if(!r||!r.sukses||r.mime!=='application/pdf'||!r.base64)throw Error('PDF belum tersedia.');
           const raw=atob(r.base64),bytes=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);
           reportURL=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));const a=$("downloadProgramReport");a.href=reportURL;a.download=r.nama;a.hidden=false;
-          $("reportDownloadNote").textContent='PDF siap. Klik Unduh PDF untuk menyimpan. Data diambil '+r.waktu+'.';reportWarnings(r.peringatan);
+          $("reportDownloadNote").textContent='PDF siap. Klik Unduh PDF untuk menyimpan. '+(r.id_laporan?'ID '+r.id_laporan+'. ':'')+'Data diambil '+r.waktu+'.';reportWarnings(r.peringatan);
         } catch(e){$("reportDownloadNote").textContent=e.message||'Pembuatan PDF gagal. Periksa izin dan coba lagi.';}
         finally {reportBusy=false;$("generateProgramReport").disabled=false;$("closeProgramReport").disabled=false;updateReportControls();}
       });

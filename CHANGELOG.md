@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-01 — formal program PDF using the agreed institution template
+- Implemented the audited/clarified template: original cover, dynamic program/date, corrected distinct cover/body headers, Arial page standards, automatic TOC/page numbering, seven formal sections and landscape data appendices. Tables-only at ≤12 active participants; meaningful bounded charts above that threshold.
+- Added current three-rubric evaluations from existing validated journals, expected/filled/missing/stale counts and descriptive aspect means with explicit denominators. JP/behavior calculations, Jenjang obligations, account permissions and source sheets remain unchanged; no new score, sign-off, AI or text editor. Report ID/time/source hash distinguish publications.
+- Controlled DOCX is converted privately through Google Drive API; verify resulting PDF page count before download, recheck current access/program status and clean temporary imports including uncertain-response lookup. No operational writes. Replace Laporan.gs/Pengelolaan.html and add LaporanTampilan.gs; no sheet/migration needed.
+- 377 backend tests and mocked Chromium app/report/evaluation regressions pass. Local LibreOffice previews (2/13 participants and long-text stress) match TOC/page plans; source/IDs/hashes checked. Real Google conversion/deployment remains for user testing; Google Drive API must be enabled. Guide: docs/LAPORAN_TEMPLATE.md. No agent Google writes/deployment/main merge.
+
 ## 2026-11-01 — six additional attendance/behavior statistics in program CSV
 - User supplied the legacy CSV and approved counts from approved notes only, distinct-session leave and rule point totals before positive cap/base. Added arrival/late/leave/positive/negative counts and net behavior points; keep existing headers including Jenjang and final-grade placeholders.
 - Attendance counts valid effective arrivals including non-JP sessions, lateness >10 minutes; no artificial attendance for leave. Approved leave is separate from negative event count. Scoring uses existing rule output and temporary status, not new grade formulas. Counts work without a scoring rule; absent points stay blank. Scope follows existing Program/Jenjang/teaching-session restrictions.

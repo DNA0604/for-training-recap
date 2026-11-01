@@ -8,6 +8,7 @@ Repository khusus kode aplikasi Google Apps Script untuk rekapitulasi dan monito
 - [Kode aplikasi lengkap](apps-script/absensi-dashboard/)
 - [Panduan file Apps Script dan pemasangan](apps-script/absensi-dashboard/README.md)
 - [Pemuatan data utama dan Rekap](apps-script/absensi-dashboard/docs/PEMUATAN_DASHBOARD.md)
+- [Laporan PDF sesuai template instansi](apps-script/absensi-dashboard/docs/LAPORAN_TEMPLATE.md)
 - [Konteks dan status proyek](PROJECT_CONTEXT.md)
 - [Catatan perubahan](CHANGELOG.md)
 - [Asal dan hash file impor](MIGRATION_SOURCE.json)
@@ -16,7 +17,7 @@ Versi impor: commit `4d64d49` dari repository DNA0604/anti-slop, termasuk login 
 
 ### File untuk Apps Script
 
-Folder aplikasi kini berisi 16 file HTML/GS: Code.gs, Akses.gs, Evaluasi.gs, Hapus.gs, Laporan.gs, Jenjang.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Absensi.html, AdminQR.html, PratinjauJenjang.html. `appsscript.json` adalah referensi; pertahankan manifest/scopes proyek Google yang sudah berjalan.
+Folder aplikasi kini berisi 17 file HTML/GS: Code.gs, Akses.gs, Evaluasi.gs, Hapus.gs, Laporan.gs, LaporanTampilan.gs, Jenjang.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Absensi.html, AdminQR.html, PratinjauJenjang.html. `appsscript.json` adalah referensi; pertahankan manifest/scopes proyek Google yang sudah berjalan.
 
 Buka file di GitHub lalu gunakan **Raw** untuk menyalin kode lengkap. Folder tests, docs dan preview merupakan bahan pengembangan, bukan file yang ditambahkan ke editor Apps Script.
 

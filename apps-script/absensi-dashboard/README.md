@@ -4,14 +4,18 @@ Current accepted application source for Pusat Pengembangan Aparatur Komdigi.
 Read ../../PROJECT_CONTEXT.md and ../../AGENTS.md first. These supersede the earlier flat UI package notes and old preview/test reports.
 
 ## Files to use in Google Apps Script
-Code.gs, Laporan.gs, Hapus.gs, Jenjang.gs, Akses.gs, Evaluasi.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Absensi.html, AdminQR.html, PratinjauJenjang.html.
+Code.gs, Laporan.gs, LaporanTampilan.gs, Hapus.gs, Jenjang.gs, Akses.gs, Evaluasi.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Absensi.html, AdminQR.html, PratinjauJenjang.html.
 The project must remain bound to its existing Google Sheet. Retain the deployed manifest/scopes and deployment configuration.
 
 Replace complete contents of files changed for a task. Keep exact file names. Save, and for /exec publish a new version of the existing deployment. Keep the deployment URL so QR links remain valid.
 
 Preview files and Hasil-Pengujian.txt inherited from the older UI branch are historical and do not depict or validate this current snapshot. Do not install preview files as Apps Script application code.
 
-See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 16 current HTML/GS source files, including the Jenjang preparation tools.
+See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 17 current HTML/GS source files, including the Jenjang preparation tools and report layout/assets.
+
+## Laporan PDF sesuai template instansi (1 November 2026)
+
+Paket **feat/laporan-program-template**: tambahkan Script **LaporanTampilan.gs**, ganti lengkap **Laporan.gs dan Pengelolaan.html**, simpan dan update deployment yang sama. Sampul/logo sudah tertanam. Tujuh bagian, daftar isi/nomor halaman, evaluasi terpisah, rincian landscape dan batas tabel/grafik 12 peserta mengikuti keputusan pengguna. Tidak ada sheet, migrasi, AI, penyuntingan atau nilai akhir baru. Konversi memakai **Google Drive API**, perlu diaktifkan pada proyek Cloud yang terhubung bila belum tersedia. [Panduan pemasangan dan uji Google](docs/LAPORAN_TEMPLATE.md), [pratinjau PDF sintetis lokal](previews/laporan-template/README.md). Hasil Google nyata masih perlu pengujian pengguna.
 
 ## Tambahan statistik CSV (1 November 2026)
 
