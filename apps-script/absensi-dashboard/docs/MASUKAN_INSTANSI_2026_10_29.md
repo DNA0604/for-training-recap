@@ -1,6 +1,6 @@
 # Masukan instansi — 29 Oktober 2026
 
-Status diperbarui 30 Oktober 2026. Dokumen pendataan permintaan dan opsi pembahasan; rekomendasi/rubrik draf belum menjadi keputusan format penilaian atau migrasi.
+Status diperbarui 1 November 2026. Dokumen pendataan permintaan dan opsi pembahasan; rekomendasi/rubrik draf belum menjadi keputusan format penilaian atau migrasi.
 
 | Permintaan | Status / langkah |
 | --- | --- |
@@ -10,7 +10,7 @@ Status diperbarui 30 Oktober 2026. Dokumen pendataan permintaan dan opsi pembaha
 | Spreadsheet penilaian terpisah | Sudah terhubung untuk jurnal penugasan/nilai Pengajar dan rekap terbaca terintegrasi dengan catatan Admin/Petugas. Rekap a8f9e16 diterima pengguna 30 Oktober. Sumber catatan/rumus lama belum dipindah; belum ada nilai akhir gabungan. |
 | Nama Pengajar pada Sesi | Sudah diimplementasikan: satu akun Pengajar stabil per sesi, pilihan saat membuat sesi dan modal Pengajar Sesi. Nama tampil pada Ringkasan Sesi ketiga peran; riwayat tetap disimpan. |
 | Manajemen Akses memakai sidebar | Diimplementasikan pada ui/manajemen-akses-dashboard: HTML ManajemenAkses untuk header/sidebar/card normal, tetap menggunakan formulir/handler bersama dari Akses.gs. Panel native pemilik/gateway Admin dipertahankan. Pengguna mengonfirmasi semua berjalan normal pada 30 Oktober (8e9a01b). |
-| Kolom CSV Rekap Program | Menunggu contoh file/kolom dari pengguna. Nilai keseluruhan saat ini sengaja kosong karena aturan akhir belum disepakati. |
+| Kolom CSV Rekap Program | Contoh diterima 1 November; enam kolom statistik diimplementasikan pada feat/csv-statistik-kehadiran-perilaku. Pengguna menyetujui hanya catatan disetujui, izin per sesi dan total poin sebelum cap/nilai dasar. Ganti Code.gs + Index.html; menunggu uji deployment. Nilai keseluruhan tetap kosong. [Definisi/uji](CSV_STATISTIK_PROGRAM.md). |
 | Edit / Ubah Status indikator macet | Tombol diperbaiki di Index.html. Laporan lanjutan Nonaktif gagal karena pembacaan konfigurasi aturan diperbaiki pada fix/nonaktif-indikator-aturan-lama: ganti Code.gs saja setelah paket sebelumnya. Menunggu uji ulang pengguna. |
 | Hapus indikator pada modal/card pengelolaan | Diimplementasikan pada feat/hapus-indikator-belum-digunakan: katalog global, hanya indikator tambahan belum dirujuk; bawaan dan seluruh referensi/riwayat dilindungi, alasan/persetujuan/konfirmasi dan cadangan/pemulihan. Yang terpakai dapat dinonaktifkan; IZIN_SESI wajib aktif. Ganti Hapus.gs + Index.html; menunggu uji deployment pengguna. |
 | Tambah Indikator Baru di kanan atas | Dipindahkan ke heading Nilai Sikap & Perilaku, di samping Muat Ulang Nilai. |

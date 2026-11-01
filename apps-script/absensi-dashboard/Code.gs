@@ -3550,6 +3550,30 @@ function hitungJPSesiIndex(idSesi) {
 }
 
 /** Rekap dibaca langsung dari sumber; tidak membuat sheet baru. */
+/** Counts actual arrival sessions, including sessions without JP; never grants attendance/JP. */
+function statistikCSVRekap_(member,sessions,attendance,notes,indicators,zona){
+  const txt=v=>String(v==null?'':v).trim(),id=txt(member.id_keikutsertaan);
+  const own=sessions.filter(s=>sesuaiJenjang_(s,member)),sm=new Map(),im=new Map();
+  own.forEach(s=>{const sid=txt(s.id_sesi);if(!sid||sm.has(sid))throw Error('ID sesi kosong atau duplikat pada rekap CSV.');sm.set(sid,s);});
+  indicators.forEach(i=>{const iid=txt(i.id_indikator);if(!iid||im.has(iid))throw Error('ID indikator kosong atau duplikat pada rekap CSV.');im.set(iid,i);});
+  const stats={jumlah_kehadiran:0,jumlah_keterlambatan:0,jumlah_izin:0,jumlah_catatan_positif:0,jumlah_catatan_negatif:0},seen=new Set();
+  attendance.filter(h=>txt(h.id_keikutsertaan)===id&&sm.has(txt(h.id_sesi))).forEach(h=>{
+    const sid=txt(h.id_sesi),s=sm.get(sid);if(seen.has(sid))throw Error('Kehadiran peserta duplikat pada rekap CSV.');seen.add(sid);
+    const arrival=h.waktu_datang_terverifikasi||h.waktu_datang;if(!arrival)return;
+    if(!(arrival instanceof Date)||!Number.isFinite(arrival.getTime())||peringatanWaktuKehadiran_(arrival,null,s.tanggal_sesi,zona)){stats.jumlah_kehadiran=null;stats.jumlah_keterlambatan=null;return;}
+    if(stats.jumlah_kehadiran!==null)stats.jumlah_kehadiran++;
+    try{const start=waktuJadwalJP_(s.tanggal_sesi,s.jam_mulai,zona);if(stats.jumlah_keterlambatan!==null&&(arrival.getTime()-start)/60000>10)stats.jumlah_keterlambatan++;}catch(e){stats.jumlah_keterlambatan=null;}
+  });
+  const izin=new Set(),noteIds=new Set();
+  notes.filter(c=>txt(c.id_keikutsertaan)===id&&sm.has(txt(c.id_sesi))&&txt(c.status_validasi)==='disetujui').forEach(c=>{
+    const cid=txt(c.id_catatan);if(!cid||noteIds.has(cid))throw Error('ID catatan kosong atau duplikat pada rekap CSV.');noteIds.add(cid);
+    const i=im.get(txt(c.id_indikator));if(!i)throw Error('Indikator catatan rekap CSV tidak ditemukan.');
+    if(txt(i.kode_indikator)==='IZIN_SESI'){izin.add(txt(c.id_sesi));return;}
+    const kind=txt(i.jenis_indikator);if(!['positif','negatif'].includes(kind))throw Error('Jenis indikator rekap CSV tidak valid.');
+    stats[kind==='positif'?'jumlah_catatan_positif':'jumlah_catatan_negatif']++;
+  });
+  stats.jumlah_izin=izin.size;return stats;
+}
 function muatRekapJPProgramIndex(idProgram){
   if(typeof wajibEndpointAkses_==='function')wajibEndpointAkses_('muatRekapJPProgramIndex');
   wajibPemilikIndex_();blokirEditTertunda_();
@@ -3562,7 +3586,8 @@ function muatRekapJPProgramIndex(idProgram){
   const sesi=tabelIndex_('Sesi',['id_sesi','id_program','tanggal_sesi','jam_mulai','jam_selesai','status_jp']).records.filter(s=>txt(s.id_program)===idProgram&&(typeof dalamJenjangAkses_!=='function'||dalamJenjangAkses_(s)));
   const jeda=tabelIndex_('Jeda_Sesi',['id_sesi','jam_mulai_jeda','jam_selesai_jeda']).records;
   const k=tabelIndex_('Kehadiran',['id_kehadiran','id_sesi','id_keikutsertaan','waktu_datang','waktu_pulang','waktu_datang_terverifikasi','waktu_pulang_terverifikasi','durasi_diakui_menit','jp_diakui_presisi','status_perhitungan_ulang']).records;
-  const catatan=tabelIndex_('Catatan_Perilaku',['id_catatan','id_sesi','id_kehadiran','id_keikutsertaan','waktu_mulai_izin','waktu_selesai_izin','status_pengurangan_jp']).records;
+  const catatan=tabelIndex_('Catatan_Perilaku',['id_catatan','id_sesi','id_kehadiran','id_keikutsertaan','id_indikator','status_validasi','waktu_mulai_izin','waktu_selesai_izin','status_pengurangan_jp']).records;
+  const indikatorCSV=tabelIndex_('Indikator_Perilaku',['id_indikator','kode_indikator','jenis_indikator']).records;
   const peserta=tabelIndex_('Peserta',['id_peserta','nama_pegawai']).records;
   const ikut=tabelIndex_('Keikutsertaan',['id_program','id_peserta','id_keikutsertaan','unit_kerja_saat_pelatihan','status_keikutsertaan']).records.filter(t=>txt(t.id_program)===idProgram&&(typeof dalamJenjangAkses_!=='function'||dalamJenjangAkses_(t)));
   const levelNames=new Map((typeof konteksJenjang_==='function'?konteksJenjang_(idProgram,'',false).daftar:[]).map(j=>[j.id,j.nama]));
@@ -3590,7 +3615,10 @@ function muatRekapJPProgramIndex(idProgram){
     }catch(e){masalah.push(id+': '+e.message);tambahan.push({id_jenjang:txt(s.id_jenjang),id_sesi:id,nama_sesi:txt(s.nama_sesi)||id,tanggal:tanggalSesi(s.tanggal_sesi),status:'perlu_verifikasi',keterangan:e.message,jp:null,durasi_diakui:null,terlambat:null});}
   });
   const seen=new Set();
+  const groupCSV=list=>{const map=new Map();list.forEach(r=>{const id=txt(r.id_keikutsertaan);if(!map.has(id))map.set(id,[]);map.get(id).push(r);});return map;};
+  const hadirCSV=groupCSV(k),catatanCSV=groupCSV(catatan);
   const hasil=ikut.map(t=>{
+    const statistikCSV=statistikCSVRekap_(t,sesi,hadirCSV.get(txt(t.id_keikutsertaan))||[],catatanCSV.get(txt(t.id_keikutsertaan))||[],indikatorCSV,zona);
     const metaPeserta=meta.filter(s=>!t.id_jenjang||s.id_jenjang===txt(t.id_jenjang)),acuan=metaPeserta.reduce((n,s)=>n+s.menit,0),ownMasalah=tambahan.filter(r=>(!t.id_jenjang||r.id_jenjang===txt(t.id_jenjang))&&r.status==='perlu_verifikasi');
     const id=txt(t.id_keikutsertaan);if(!id||seen.has(id))throw new Error('ID keikutsertaan kosong atau duplikat.');seen.add(id);
     let menit=0,selesai=0,belumAbsen=0,belumLengkap=0,belumHitung=0;const detail=[],rincian=tambahan.filter(r=>!t.id_jenjang||r.id_jenjang===txt(t.id_jenjang)).map(r=>Object.assign({},r));
@@ -3627,7 +3655,7 @@ function muatRekapJPProgramIndex(idProgram){
       }catch(e){info.status='perlu_dihitung_atau_diperiksa';info.keterangan=e.message;belumHitung++;detail.push(s.id+': '+e.message);}
     });
     const lengkap=metaPeserta.length>0&&!ownMasalah.length&&!belumAbsen&&!belumLengkap&&!belumHitung;
-    return {id_jenjang:txt(t.id_jenjang),nama_jenjang:levelNames.get(txt(t.id_jenjang))||'',id_keikutsertaan:id,nama:nama.get(txt(t.id_peserta))||'(peserta tidak ditemukan)',unit:txt(t.unit_kerja_saat_pelatihan),status_peserta:txt(t.status_keikutsertaan),jp_diperoleh:menit/45,jp_acuan:ownMasalah.length?null:acuan/45,kekurangan_jp:ownMasalah.length?null:Math.max(0,acuan-menit)/45,persentase:!ownMasalah.length&&acuan>0?Math.min(100,menit/acuan*100):null,sesi_dihitung:selesai,belum_absen:belumAbsen,belum_lengkap:belumLengkap,belum_dihitung:belumHitung,status:lengkap?'lengkap':'sementara',detail:detail,rincian:rincian.sort((a,b)=>String(a.tanggal).localeCompare(String(b.tanggal))||a.id_sesi.localeCompare(b.id_sesi))};
+    return {statistik_csv:statistikCSV,id_jenjang:txt(t.id_jenjang),nama_jenjang:levelNames.get(txt(t.id_jenjang))||'',id_keikutsertaan:id,nama:nama.get(txt(t.id_peserta))||'(peserta tidak ditemukan)',unit:txt(t.unit_kerja_saat_pelatihan),status_peserta:txt(t.status_keikutsertaan),jp_diperoleh:menit/45,jp_acuan:ownMasalah.length?null:acuan/45,kekurangan_jp:ownMasalah.length?null:Math.max(0,acuan-menit)/45,persentase:!ownMasalah.length&&acuan>0?Math.min(100,menit/acuan*100):null,sesi_dihitung:selesai,belum_absen:belumAbsen,belum_lengkap:belumLengkap,belum_dihitung:belumHitung,status:lengkap?'lengkap':'sementara',detail:detail,rincian:rincian.sort((a,b)=>String(a.tanggal).localeCompare(String(b.tanggal))||a.id_sesi.localeCompare(b.id_sesi))};
   }).sort((a,b)=>a.nama.localeCompare(b.nama,'id'));
   return {sukses:true,id_program:idProgram,nama_program:txt(program[0].nama_program),jp_acuan:masalah.length||new Set(sesi.map(t=>txt(t.id_jenjang))).size>1?null:totalMenit/45,jumlah_sesi:meta.length,sesi_diabaikan:diabaikan,masalah:masalah,peserta:hasil};
 }

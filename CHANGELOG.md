@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-01 — six additional attendance/behavior statistics in program CSV
+- User supplied the legacy CSV and approved counts from approved notes only, distinct-session leave and rule point totals before positive cap/base. Added arrival/late/leave/positive/negative counts and net behavior points; keep existing headers including Jenjang and final-grade placeholders.
+- Attendance counts valid effective arrivals including non-JP sessions, lateness >10 minutes; no artificial attendance for leave. Approved leave is separate from negative event count. Scoring uses existing rule output and temporary status, not new grade formulas. Counts work without a scoring rule; absent points stay blank. Scope follows existing Program/Jenjang/teaching-session restrictions.
+- Replace Code.gs and Index.html together. 368 backend tests, actual Blob CSV downloads in mocked Chromium Admin/Petugas and app/evaluation regressions, syntax/ID/hash checks pass. No schema, Google write/deployment or main change. Guide: docs/CSV_STATISTIK_PROGRAM.md. Real deployment verification remains pending.
+
 ## 2026-10-30 — prioritize primary dashboard data and group parallel recap/history reads
 - Load Beranda/Monitoring primary data before starting supplementary correction/verification history. Group the two Monitoring history reads and the JP/behavior recap pair into bounded read-only requests; refresh still reads new sources.
 - Fixed server allowlist and argument limits, live session/directory validation and per-member role/target checks retain isolation. No write/export/evaluation batching, cross-request business cache, sidebar or four-hour login-policy change. Failed members remain explicit errors; late results stay masked after logout/account change.

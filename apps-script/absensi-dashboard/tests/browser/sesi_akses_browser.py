@@ -1,5 +1,5 @@
 """Actual server-injected application HTML in Chromium; service bridge uses synthetic backend fixtures."""
-import json,subprocess,os,re
+import json,subprocess,os,re,csv,io
 from pathlib import Path
 from urllib.parse import urlparse,parse_qs
 from playwright.sync_api import sync_playwright,expect
@@ -85,6 +85,15 @@ with sync_playwright() as p:
   prioritized.evaluate(setup);prioritized.locator('#refreshRecap').click();expect(prioritized.locator('#recapInfo')).to_contain_text(text);expect(prioritized.locator('#downloadRecap')).to_be_disabled();prioritized.evaluate("window.__fail='';window.__batchMalformed=false;");prioritized.locator('#refreshRecap').click();expect(prioritized.locator('#downloadRecap')).to_be_enabled()
  # A late group cannot display protected data after Log Out.
  prioritized.evaluate('window.__holdBatch=true');prioritized.locator('#refreshRecap').click();prioritized.wait_for_function('window.__pendingBatch?.length===1');prioritized.locator('.sidebar-tool').filter(has_text='Log Out').click();expect(prioritized.locator('#panitiaAuth')).to_be_visible();prioritized.evaluate('window.__pendingBatch.splice(0).forEach(fn=>fn())');expect(prioritized.locator('#panitiaAuth')).to_be_visible();assert prioritized.evaluate('localStorage.getItem(window.__f.storageKey)') is None;assert not pre,pre;prioritized.close()
+ # Actual CSV Blob download preserves old headers/Jenjang and adds scoped statistics even without rules.
+ for role,width in [('admin',1440),('staff',390)]:
+  export,exe=page_for('Index',role=role,width=width,query='page=monitoring&program=PRG001&jenjang=JEN001&sesi=SES001');expect(export.locator('#total')).to_have_text('1');export.locator('#tabRekap').click();expect(export.locator('#downloadRecap')).to_be_enabled();calls_before=export.evaluate('window.__calls.length')
+  with export.expect_download() as download_info:export.locator('#downloadRecap').click()
+  download=download_info.value;assert download.suggested_filename.startswith('Rekap_PRG001_');reader=csv.DictReader(io.StringIO(Path(download.path()).read_text(encoding='utf-8-sig')));csv_rows=list(reader);assert len(reader.fieldnames)==23;assert len(csv_rows)==len(fixture['responses'][role]['muatRekapJPProgramIndex']['peserta'])
+  for row in csv_rows:
+   source=next(p for p in fixture['responses'][role]['muatRekapJPProgramIndex']['peserta'] if p['id_keikutsertaan']==row['id_keikutsertaan']);assert row['id_jenjang']==source['id_jenjang'];assert row['total_poin_catatan_perilaku']==''
+   for key,value in source['statistik_csv'].items():assert row[key]==('' if value is None else str(value))
+  assert export.evaluate('window.__calls.length')==calls_before;assert not exe,exe;export.close()
  # No authenticated operational RPC runs until a valid server session has been checked.
  guest,ge=page_for(logged=False);expect(guest.locator('#panitiaAuth')).to_be_visible();expect(guest.locator('#panitiaLogin')).to_have_attribute('href',re.compile(r'^https://accounts\.google\.com/o/oauth2/v2/auth\?'));assert guest.evaluate("window.__calls.filter(c=>c.name==='panggilAplikasiPanitia').length")==0;assert not ge,ge
  # Pending verification uses a neutral loader with no login/action/data, on desktop and mobile.

@@ -1,15 +1,15 @@
 {
-  "snapshot_date": "2026-10-30",
+  "snapshot_date": "2026-11-01",
   "timezone": "Asia/Jakarta",
   "files": {
     "Absensi.html": "496053b5dd8ca245d75c0db314d015e8e25d27ccf9a2d7b9f7e9416509280092",
     "AdminQR.html": "d7d2624329bee14cc73eb3bbb5b447a9d39371ae73ae2083a94ae7774a726f43",
     "Akses.gs": "118b352c17371b00a059cefb8e535fb0f07812cca0b478ea5c72af6137aaf29a",
     "Beranda.html": "35d26eb54ac7812b05003922146d99bb7d7c6144904d9565e522c0278e60225f",
-    "Code.gs": "e55535ad7b78db96dd7cb02733401e423e62e8023360abbecf122c3a547c690e",
+    "Code.gs": "27fefaace7c7e5ba8da1286c0780ce24f354fac418cfc3fb20b8de425f288dd6",
     "Evaluasi.gs": "f9fa1b3081d3053524ffd66466d3392a6817b872881f47676d9bcad6f3604da6",
     "Hapus.gs": "9e7fb3de2ac67b55864a558b94612b5c45d8e1869e9f3e56cb7d4d264b1344e7",
-    "Index.html": "e76213a13585888f81f14298dd0a652d95998dc9ab8217f76afd1534c7dbbbee",
+    "Index.html": "ef64bc73a6a089ccb0bfe05a8917b742dd521c9fd49261d20aa632258da0a1bb",
     "Jenjang.gs": "913e1d1a016930da08d6dba4aabf64f3dc1022ba07fbe937b573dcf0a7224d16",
     "Laporan.gs": "b7efac46feb6472a89dd85f54fdbcf5f013b1704db5db5d3adb84498822c064d",
     "ManajemenAkses.html": "e7c7e428853eb7f1147cee43ce1f8603baf5b201b7cae85077ce243e8879c94e",

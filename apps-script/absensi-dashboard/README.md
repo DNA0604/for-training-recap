@@ -13,6 +13,10 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 16 current HTML/GS source files, including the Jenjang preparation tools.
 
+## Tambahan statistik CSV (1 November 2026)
+
+Paket **feat/csv-statistik-kehadiran-perilaku**: ganti lengkap **Code.gs dan Index.html bersama-sama**, lalu update deployment yang sama. CSV menambahkan jumlah hadir, terlambat, sesi izin disetujui, catatan positif/negatif disetujui dan total poin catatan sebelum cap/nilai dasar. Semua sumber lain tetap versi terakhir. Tidak perlu sheet/migrasi baru. [Definisi kolom, batas dan uji](docs/CSV_STATISTIK_PROGRAM.md).
+
 ## Pemuatan data utama dan Rekap (30 Oktober 2026)
 
 Paket **perf/pemuatan-dashboard-bertahap**: ganti **Akses.gs saja** jika paket login di bawah sudah dipasang lengkap. Data utama Beranda/Monitoring dimuat dahulu; dua riwayat Monitoring dan pasangan JP/nilai perilaku Rekap masing-masing memakai satu panggilan server. Muat Ulang tetap membaca sumber terkini, dengan pemeriksaan sesi/peran/target. [Panduan pemasangan, pengukuran lokal dan uji deployment](docs/PEMUATAN_DASHBOARD.md). Jika paket login belum dipasang, ganti Akses.gs, Code.gs dan Jenjang.gs bersama-sama dari branch terbaru. Simpan dan update deployment yang sama ke New version.

@@ -4259,7 +4259,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
 
       function csvRecapCell(value) {
         let t = String(value == null ? "" : value);
-        if (/^[\s]*[=+@-]/.test(t)) t = "'" + t;
+        if (typeof value !== "number" && /^[\s]*[=+@-]/.test(t)) t = "'" + t;
         return '"' + t.replace(/"/g, '""') + '"';
       }
       function buatCSVRekap() {
@@ -4280,11 +4280,18 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           "versi_aturan_perilaku",
           "nilai_keseluruhan",
           "status_nilai_keseluruhan",
+          "jumlah_kehadiran",
+          "jumlah_keterlambatan",
+          "jumlah_izin",
+          "jumlah_catatan_positif",
+          "jumlah_catatan_negatif",
+          "total_poin_catatan_perilaku",
           "dimuat_pada",
         ];
-        const num = (n) => (Number.isFinite(n) ? String(n) : "");
+        const num = (n) => (Number.isFinite(n) ? n : "");
         const rows = recapRows.map((p) => {
           const n = recapScores.get(p.id_keikutsertaan);
+          const stats = p.statistik_csv || {};
           return [
             recapProgram,
             p.id_keikutsertaan,
@@ -4306,6 +4313,12 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
             recapRule ? recapRule.versi : "",
             "",
             "aturan_penilaian_belum_lengkap",
+            num(stats.jumlah_kehadiran),
+            num(stats.jumlah_keterlambatan),
+            num(stats.jumlah_izin),
+            num(stats.jumlah_catatan_positif),
+            num(stats.jumlah_catatan_negatif),
+            n && recapRule ? num(n.positif - n.pengurangan) : "",
             recapAt,
           ];
         });
