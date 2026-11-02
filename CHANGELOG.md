@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-02 — one Evaluasi chooser and spaced summary actions
+- Added one Evaluasi action opening existing forms in the requested Admin order: Evaluasi Peserta (Panitia), Evaluasi Pengajar, Lihat Evaluasi Peserta (Pengajar). Descriptions clarify each purpose. Staff/teacher keep only their authorized choices; readonly Admin teacher results remain readonly. No backend/RPC/scoring/permission change.
+- Grouped Ringkasan Sesi buttons with a 12 px gap. Choice dialog closes before the target form, supports X/Escape/focus, makes no evaluation RPC itself, and follows existing disabled/form/draft/save/retry/recap behavior.
+- Replace Index.html and Evaluasi.gs together after fcb4c4f; no new source/sheet/migration. 407 backend tests and Chromium three-role desktop/mobile chooser plus evaluation and Presensi regressions pass; syntax/IDs/hashes checked. Deployment Google still needs user confirmation; no live data/deployment/main change. Guide: docs/PILIHAN_EVALUASI.md.
+
 ## 2026-11-02 — compact Presensi UI and optional Sakit/Izin evidence
 - User requested five summary cards in one desktop row, a single clearable participant search with row prefill/blank standalone, Hadir/Tidak Hadir radio and conditional status list, optional Sakit/Izin evidence, and one Presensi chooser for manual/QR/izin. Implemented with responsive mobile/keyboard behavior; existing sidebar, pagination, JP, QR and scoring rules remain.
 - Existing scoped uploader validates optional PDF/JPG/PNG ≤5 MB. Store reference in Kehadiran.dasar_verifikasi and existing audit; combine typed Sakit/Izin with old leave notes in Daftar Izin & Sakit and verification without creating new behavior/leave notes. Sakit does not increment izin statistics; Tanpa Keterangan retains alpa. Preserve existing proof on edit, update on replacement and clear current reference on non-proof status; keep files/history. Upload/manual retries preserve their IDs and old pending payloads without evidence stay compatible.

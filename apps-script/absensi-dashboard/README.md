@@ -13,6 +13,10 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 18 current HTML/GS source files, including the Jenjang preparation tools and report layout/assets.
 
+## Tombol Evaluasi dan jarak Ringkasan Sesi (2 November 2026)
+
+Branch **ui/pilihan-evaluasi**: sesudah paket sebelumnya, ganti lengkap **Index.html dan Evaluasi.gs** bersama-sama. Evaluasi membuka pilihan berurutan sesuai peran, dan tombol Ringkasan Sesi berjarak 12 piksel. Form, penilaian dan kewenangan tetap. [Pemasangan dan pengujian](docs/PILIHAN_EVALUASI.md).
+
 ## Penyesuaian form Presensi dan bukti (2 November 2026)
 
 Branch **ui/presensi-ringkas-bukti**: sesudah paket presensi manual terpasang, cukup ganti **Index.html, PresensiManual.gs dan Akses.gs** bersama-sama. Lima kartu satu baris desktop, satu kolom nama, Hadir/Tidak Hadir beserta pilihan rinci, bukti Sakit/Izin opsional dan tombol Presensi yang membuka tiga tindakan. Tidak perlu sheet/file Apps Script baru; aturan QR/JP/poin tetap. [Panduan lengkap](docs/PRESENSI_RINGKAS_BUKTI.md).
