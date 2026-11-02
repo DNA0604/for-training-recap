@@ -1,17 +1,22 @@
 /** Struktur operasional Jenjang. Identitas/aturan penilaian tetap pada model lama. */
 function bacaMentahJenjang_(name, optional) {
-  const book=databasePelatihan_(),sheet=book.getSheetByName(name);
-  if(!sheet){if(optional)return null;throw Error('Sheet '+name+' belum tersedia.');}
-  const values=typeof nilaiSheetPermintaan_==='function'?nilaiSheetPermintaan_(sheet,book.getId()):sheet.getDataRange().getValues(),header=(values[0]||[]).map(v=>String(v==null?'':v).trim());
-  if(new Set(header.filter(Boolean)).size!==header.filter(Boolean).length)throw Error('Header duplikat pada '+name+'.');
-  return {header,records:values.slice(1).filter(row=>row.some(v=>v!==''&&v!=null)).map(row=>Object.fromEntries(header.map((h,i)=>[h,row[i]])))};
+  const book=databasePelatihan_(),read=()=>{
+    const sheet=typeof sheetBacaanPermintaan_==='function'?sheetBacaanPermintaan_(book,name):book.getSheetByName(name);
+    if(!sheet)return null;
+    const values=typeof nilaiSheetPermintaan_==='function'?nilaiSheetPermintaan_(sheet,book.getId()):sheet.getDataRange().getValues(),header=(values[0]||[]).map(v=>String(v==null?'':v).trim());
+    if(new Set(header.filter(Boolean)).size!==header.filter(Boolean).length)throw Error('Header duplikat pada '+name+'.');
+    return {header,records:values.slice(1).filter(row=>row.some(v=>v!==''&&v!=null)).map(row=>Object.fromEntries(header.map((h,i)=>[h,row[i]])))};
+  };
+  const result=typeof tabelBacaanPermintaan_==='function'?tabelBacaanPermintaan_('jenjang|'+book.getId()+'|'+name,read):read();
+  if(!result&&!optional)throw Error('Sheet '+name+' belum tersedia.');return result;
 }
 function kunciMigrasiJenjang_(){return 'MIGRASI_JENJANG|'+databasePelatihan_().getId();}
 function statusMigrasiJenjang_(){const raw=PropertiesService.getScriptProperties().getProperty(kunciMigrasiJenjang_());return raw?JSON.parse(raw):null;}
 function pastikanMigrasiJenjangSiap_(){
   const state=statusMigrasiJenjang_();
   if(state&&!['SELESAI','DIBATALKAN'].includes(state.status))throw Error('Migrasi Jenjang belum selesai. Buka menu Persiapan Struktur Jenjang pada salinan spreadsheet untuk memeriksa / melanjutkan.');
-  if(databasePelatihan_().getSheetByName('Jenjang')&&(!state||state.status!=='SELESAI'||state.schema!==1))throw Error('Versi struktur Jenjang belum terverifikasi. Periksa rencana migrasi dan properti proyek salinan; jangan menambah kolom secara manual.');
+  const book=databasePelatihan_(),sheet=typeof sheetBacaanPermintaan_==='function'?sheetBacaanPermintaan_(book,'Jenjang'):book.getSheetByName('Jenjang');
+  if(sheet&&(!state||state.status!=='SELESAI'||state.schema!==1))throw Error('Versi struktur Jenjang belum terverifikasi. Periksa rencana migrasi dan properti proyek salinan; jangan menambah kolom secara manual.');
 }
 function konteksJenjang_(idProgram,idJenjang,wajib) {
   pastikanMigrasiJenjangSiap_();

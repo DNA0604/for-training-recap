@@ -30,6 +30,7 @@ function dataLaporanProgram_(id) {
       catatan: tabelIndex_('Catatan_Perilaku',['id_catatan','id_keikutsertaan','id_sesi','id_indikator','status_validasi','keterangan','waktu_kejadian']).records,
       indikator: tabelIndex_('Indikator_Perilaku',['id_indikator','kode_indikator','jenis_indikator','definisi_indikator']).records
     };
+    if(typeof pastikanTidakAdaPresensiManualTertunda_==='function')pastikanTidakAdaPresensiManualTertunda_(data.sesi.map(s=>txt(s.id_sesi)));
     const r = ringkasLaporanProgram_(data, Date.now(), zona);
     try { r.jadwal = muatKelolaProgramIndex(id).sesi; } catch(e) { r.jadwal=[];r.peringatan.push('Rincian jeda/durasi tidak tersedia: '+e.message); }
     try { r.jp = muatRekapJPProgramIndex(id); } catch(e) { r.peringatan.push('Rekap JP tidak tersedia: '+e.message); }
@@ -52,18 +53,18 @@ function ringkasLaporanProgram_(d, now, zona) {
   const seenPeople=new Set(), peringatan=[];
   const peserta=d.ikut.map(k=>{
     const person=people.get(txt(k.id_peserta));if(!person||seenPeople.has(txt(k.id_peserta)))throw Error('Relasi peserta hilang/duplikat dalam program.');seenPeople.add(txt(k.id_peserta));
-    return {id:txt(k.id_keikutsertaan),id_jenjang:txt(k.id_jenjang),nama_jenjang:levelNames.get(txt(k.id_jenjang))||'',nama:txt(person.nama_pegawai),unit:txt(k.unit_kerja_saat_pelatihan),status:norm(k.status_keikutsertaan),lengkap:0,belum_lengkap:0,belum_tercatat:0,verifikasi:0,terlambat:0,sasaran:0};
+    return {id:txt(k.id_keikutsertaan),id_jenjang:txt(k.id_jenjang),nama_jenjang:levelNames.get(txt(k.id_jenjang))||'',nama:txt(person.nama_pegawai),unit:txt(k.unit_kerja_saat_pelatihan),status:norm(k.status_keikutsertaan),sakit:0,izin_manual:0,alpa:0,lengkap:0,belum_lengkap:0,belum_tercatat:0,verifikasi:0,terlambat:0,sasaran:0};
   }).sort((a,b)=>a.nama.localeCompare(b.nama,'id'));
   const aktif=peserta.filter(p=>p.status==='terdaftar'), records=new Map();let foreign=0;
   d.hadir.forEach(h=>{const sid=txt(h.id_sesi),kid=txt(h.id_keikutsertaan);if(!sessions.has(sid))return;if(!members.has(kid)||!sejenjang(sessions.get(sid),members.get(kid))){foreign++;return;}const key=JSON.stringify([sid,kid]);if(records.has(key))throw Error('Kehadiran duplikat pada sesi '+sid);records.set(key,h);});
-  const total={lengkap:0,belum_lengkap:0,belum_tercatat:0,verifikasi:0,sasaran:0,terlambat:0};let selesai=0,mendatang=0,invalid=0;
+  const total={sakit:0,izin_manual:0,alpa:0,lengkap:0,belum_lengkap:0,belum_tercatat:0,verifikasi:0,sasaran:0,terlambat:0};let selesai=0,mendatang=0,invalid=0;
   const tanggal=v=>v instanceof Date?Utilities.formatDate(v,zona,'yyyy-MM-dd'):txt(v);
   const jam=v=>v instanceof Date?Utilities.formatDate(v,zona,'HH:mm'):txt(v);
   const sesi=d.sesi.map(s=>{
-    const row={id:txt(s.id_sesi),id_jenjang:txt(s.id_jenjang),nama_jenjang:levelNames.get(txt(s.id_jenjang))||'',nama:txt(s.nama_sesi),tanggal:tanggal(s.tanggal_sesi),mulai:jam(s.jam_mulai),selesai:jam(s.jam_selesai),jp:txt(s.status_jp),lengkap:0,belum_lengkap:0,belum_tercatat:0,verifikasi:0,sasaran:0,status:'jadwal_bermasalah'};
+    const row={id:txt(s.id_sesi),id_jenjang:txt(s.id_jenjang),nama_jenjang:levelNames.get(txt(s.id_jenjang))||'',nama:txt(s.nama_sesi),tanggal:tanggal(s.tanggal_sesi),mulai:jam(s.jam_mulai),selesai:jam(s.jam_selesai),jp:txt(s.status_jp),sakit:0,izin_manual:0,alpa:0,lengkap:0,belum_lengkap:0,belum_tercatat:0,verifikasi:0,sasaran:0,status:'jadwal_bermasalah'};
     let end;try{const start=waktuJadwalJP_(s.tanggal_sesi,s.jam_mulai,zona);end=waktuJadwalJP_(s.tanggal_sesi,s.jam_selesai,zona);if(end<=start)throw Error('Jam tidak valid');}catch(e){invalid++;return row;}
     if(end>now){mendatang++;row.status='belum_selesai';return row;}selesai++;row.status='selesai';
-    aktif.filter(p=>sejenjang(s,members.get(p.id))).forEach(p=>{const state=statusKehadiranProfil_(s,records.get(JSON.stringify([row.id,p.id])),now,zona);const key=state.status==='hadir_lengkap'?'lengkap':state.status==='belum_lengkap'?'belum_lengkap':state.status==='belum_tercatat_hadir'?'belum_tercatat':'verifikasi';p[key]++;row[key]++;total[key]++;p.sasaran++;row.sasaran++;total.sasaran++;if(Number.isFinite(state.terlambat)&&state.terlambat>10){p.terlambat++;row.terlambat=(row.terlambat||0)+1;total.terlambat++;}});
+    aktif.filter(p=>sejenjang(s,members.get(p.id))).forEach(p=>{const state=statusKehadiranProfil_(s,records.get(JSON.stringify([row.id,p.id])),now,zona);const key=state.status==='sakit'?'sakit':state.status==='izin'?'izin_manual':state.status==='alpa'?'alpa':state.status==='hadir_lengkap'?'lengkap':state.status==='belum_lengkap'?'belum_lengkap':state.status==='belum_tercatat_hadir'?'belum_tercatat':'verifikasi';p[key]++;row[key]++;total[key]++;p.sasaran++;row.sasaran++;total.sasaran++;if(state.terlambat_manual||Number.isFinite(state.terlambat)&&state.terlambat>10){p.terlambat++;row.terlambat=(row.terlambat||0)+1;total.terlambat++;}});
     return row;
   }).sort((a,b)=>a.tanggal.localeCompare(b.tanggal)||a.mulai.localeCompare(b.mulai));
   const validasi={disetujui:0,belum_divalidasi:0,ditolak:0,lainnya:0}, jenis={positif:0,negatif:0,izin:0,lainnya:0}, byIndicator=new Map(), seenNotes=new Set();

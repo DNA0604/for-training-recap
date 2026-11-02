@@ -4,14 +4,18 @@ Current accepted application source for Pusat Pengembangan Aparatur Komdigi.
 Read ../../PROJECT_CONTEXT.md and ../../AGENTS.md first. These supersede the earlier flat UI package notes and old preview/test reports.
 
 ## Files to use in Google Apps Script
-Code.gs, Laporan.gs, LaporanTampilan.gs, Hapus.gs, Jenjang.gs, Akses.gs, Evaluasi.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Absensi.html, AdminQR.html, PratinjauJenjang.html.
+PresensiManual.gs, Code.gs, Laporan.gs, LaporanTampilan.gs, Hapus.gs, Jenjang.gs, Akses.gs, Evaluasi.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Absensi.html, AdminQR.html, PratinjauJenjang.html.
 The project must remain bound to its existing Google Sheet. Retain the deployed manifest/scopes and deployment configuration.
 
 Replace complete contents of files changed for a task. Keep exact file names. Save, and for /exec publish a new version of the existing deployment. Keep the deployment URL so QR links remain valid.
 
 Preview files and Hasil-Pengujian.txt inherited from the older UI branch are historical and do not depict or validate this current snapshot. Do not install preview files as Apps Script application code.
 
-See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 17 current HTML/GS source files, including the Jenjang preparation tools and report layout/assets.
+See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 18 current HTML/GS source files, including the Jenjang preparation tools and report layout/assets.
+
+## Presensi manual dan Monitoring (2 November 2026)
+
+Branch **feat/presensi-manual-monitoring**: tambahkan **PresensiManual.gs**; ganti lengkap **Code.gs, Akses.gs, Jenjang.gs, Index.html, Profil.html, Laporan.gs, LaporanTampilan.gs** bersama-sama. Hadir = JP sesuai durasi efektif; Terlambat manual dipotong tetap 15 menit; Sakit/Izin/Alpa = JP 0, tanpa catatan/poin otomatis. Aturan QR tetap. Card Absensi & Izin, pemulihan simpan dan tabel 10 peserta per halaman/tinggi tetap disertakan. Tidak perlu sheet/spreadsheet/kolom/migrasi baru. Simpan dan update versi deployment yang sama. [Pemasangan, aturan, batas pemuatan dan daftar uji](docs/PRESENSI_MANUAL_MONITORING.md). Hasil deployment Google belum diuji agent.
 
 ## Perataan paragraf laporan (1 November 2026)
 
