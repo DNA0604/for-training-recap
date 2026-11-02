@@ -1,10 +1,11 @@
 /** Presensi berbasis status. Tidak menciptakan waktu scan atau catatan/poin perilaku. */
 function statusPresensiManual_(r){
   if(!r||String(r.metode_input||'').trim()!=='manual_status_v1')return null;
-  const status=String(r.status_kehadiran||'').replace(/^manual_/,''),labels={hadir:'Hadir',terlambat:'Terlambat',sakit:'Sakit',izin:'Izin',alpa:'Alpa'};
+  const status=String(r.status_kehadiran||'').replace(/^manual_/,''),labels={hadir:'Hadir',terlambat:'Terlambat',sakit:'Sakit',izin:'Izin',alpa:'Tanpa Keterangan'};
   if(!Object.prototype.hasOwnProperty.call(labels,status)||String(r.status_kehadiran)!=='manual_'+status)throw Error('Status presensi manual tidak valid.');
   if(['waktu_datang','waktu_pulang','waktu_datang_terverifikasi','waktu_pulang_terverifikasi'].some(k=>r[k]!==''&&r[k]!=null))throw Error('Presensi status bercampur dengan waktu scan. Periksa Kehadiran.');
-  return {status,label:labels[status],hadir:['hadir','terlambat'].includes(status),terlambat:status==='terlambat',keterangan:String(r.alasan_koreksi||'')};
+  const lampiran=String(r.dasar_verifikasi||'').match(/Lampiran: https:\/\/drive\.google\.com\/file\/d\/[A-Za-z0-9_-]{10,150}\/view/);
+  return {status,label:labels[status],bukti:lampiran?lampiran[0]:'',hadir:['hadir','terlambat'].includes(status),terlambat:status==='terlambat',keterangan:String(r.alasan_koreksi||'')};
 }
 function hitungJPManual_(r,p){
   const m=statusPresensiManual_(r);if(!m)throw Error('Sumber bukan presensi manual berbasis status.');
@@ -29,6 +30,8 @@ function simpanPresensiManualIndex(d){
   if(typeof wajibEndpointAkses_==='function')wajibEndpointAkses_('simpanPresensiManualIndex');
   const actor=wajibPemilikIndex_(),txt=v=>String(v==null?'':v).trim();d=d||{};
   const input={id_sesi:txt(d.id_sesi),id_keikutsertaan:txt(d.id_keikutsertaan),versi:txt(d.versi),status:txt(d.status),keterangan:txt(d.keterangan)};
+  if(txt(d.id_bukti))input.id_bukti=txt(d.id_bukti);
+  if(input.id_bukti&&!['sakit','izin'].includes(input.status))throw Error('Bukti manual hanya dapat dilampirkan untuk Sakit atau Izin.');
   const req=txt(d.id_permintaan);if(!/^[a-zA-Z0-9_-]{16,100}$/.test(req))throw Error('ID permintaan manual tidak valid.');
   if(!['hadir','terlambat','sakit','izin','alpa'].includes(input.status)||!input.id_sesi||!input.id_keikutsertaan)throw Error('Pilih peserta, sesi dan status presensi.');
   if(input.keterangan.length>2000||/^=/.test(input.keterangan))throw Error('Keterangan maksimal 2.000 karakter dan tidak boleh berupa rumus.');
@@ -59,9 +62,11 @@ function simpanPresensiManualIndex(d){
     if(current&&!statusPresensiManual_(current))throw Error('Kehadiran sudah menggunakan pencatatan waktu. Gunakan koreksi waktu.');
     const pending=new Map();a.records.filter(r=>r.jenis_data==='Kehadiran'&&r.id_transaksi_perubahan).forEach(r=>pending.set(r.id_transaksi_perubahan,r));
     if([...pending.values()].some(r=>r.id_transaksi_perubahan!==tx&&txt(r.id_referensi)===txt(current&&current.id_kehadiran)&&txt(r.status_transaksi)&&!['SELESAI','DIBATALKAN'].includes(txt(r.status_transaksi).toUpperCase())))throw Error('Ada transaksi kehadiran tertunda. Pulihkan sebelum mengubah presensi.');
+    const buktiBaru=input.id_bukti?buktiDenganLampiran_('',input.id_bukti,'IZIN|'+input.id_sesi+'|'+input.id_keikutsertaan):'';
     if(!plan){
       if((row?versiBarisIndex_(row):'')!==input.versi)throw Error('Data sudah berubah. Muat ulang peserta sebelum menyimpan.');
-      const now=new Date(),id=current?txt(current.id_kehadiran):'HDR-'+Utilities.getUuid(),patch={id_kehadiran:id,id_sesi:input.id_sesi,id_keikutsertaan:input.id_keikutsertaan,metode_input:'manual_status_v1',status_kehadiran:'manual_'+input.status,status_validasi:typeof petugasDalamKonteksAkses_==='function'&&petugasDalamKonteksAkses_()?'belum_divalidasi':'terverifikasi',status_scan_pulang:'tidak_diperlukan',alasan_koreksi:input.keterangan,dasar_verifikasi:'PRESENSI_MANUAL_V1',diverifikasi_oleh:typeof petugasDalamKonteksAkses_==='function'&&petugasDalamKonteksAkses_()?'':actor,diverifikasi_pada:typeof petugasDalamKonteksAkses_==='function'&&petugasDalamKonteksAkses_()?'':now,status_perhitungan_ulang:'menunggu_perhitungan',alasan_perhitungan_ulang:'Status manual diperbarui; hitung ulang JP. Tanpa poin perilaku otomatis.',updated_at:now};
+      const bukti=buktiBaru||(['sakit','izin'].includes(input.status)&&current?statusPresensiManual_(current).bukti:'');
+      const now=new Date(),id=current?txt(current.id_kehadiran):'HDR-'+Utilities.getUuid(),patch={id_kehadiran:id,id_sesi:input.id_sesi,id_keikutsertaan:input.id_keikutsertaan,metode_input:'manual_status_v1',status_kehadiran:'manual_'+input.status,status_validasi:typeof petugasDalamKonteksAkses_==='function'&&petugasDalamKonteksAkses_()?'belum_divalidasi':'terverifikasi',status_scan_pulang:'tidak_diperlukan',alasan_koreksi:input.keterangan,dasar_verifikasi:'PRESENSI_MANUAL_V1'+(bukti?'\n'+bukti:''),diverifikasi_oleh:typeof petugasDalamKonteksAkses_==='function'&&petugasDalamKonteksAkses_()?'':actor,diverifikasi_pada:typeof petugasDalamKonteksAkses_==='function'&&petugasDalamKonteksAkses_()?'':now,status_perhitungan_ulang:'menunggu_perhitungan',alasan_perhitungan_ulang:'Status manual diperbarui; hitung ulang JP. Tanpa poin perilaku otomatis.',updated_at:now};
       kolomJPManual_().forEach(h=>patch[h]='');
       const after=(row||k.header.map(()=>'' )).slice();Object.keys(patch).forEach(h=>after[k.header.indexOf(h)]=patch[h]);
       plan={schema:1,input,header:k.header,id,before:row?row.map(nilaiHapus_):null,after:after.map(nilaiHapus_)};
@@ -101,5 +106,5 @@ function drafPresensiManualSesi_(id){
 function izinManualSesi_(id){
   const txt=v=>String(v==null?'':v).trim(),sessions=tabelIndex_('Sesi',['id_sesi','id_program']).records.filter(s=>txt(s.id_sesi)===id);if(sessions.length!==1)throw Error('Sesi izin tidak ditemukan atau duplikat.');
   const members=tabelIndex_('Keikutsertaan',['id_keikutsertaan','id_program','id_peserta']).records.filter(k=>sesuaiJenjang_(sessions[0],k)),people=new Map(tabelIndex_('Peserta',['id_peserta','nama_pegawai']).records.map(p=>[txt(p.id_peserta),txt(p.nama_pegawai)])),map=new Map(members.map(k=>[txt(k.id_keikutsertaan),k]));
-  return tabelIndex_('Kehadiran',['id_kehadiran','id_sesi','id_keikutsertaan','metode_input','status_kehadiran','status_validasi']).records.filter(r=>txt(r.id_sesi)===id&&map.has(txt(r.id_keikutsertaan))).flatMap(r=>{const manual=statusPresensiManual_(r);if(!manual||manual.status!=='izin')return [];return [{id:txt(r.id_kehadiran),id_keikutsertaan:txt(r.id_keikutsertaan),nama:people.get(txt(map.get(txt(r.id_keikutsertaan)).id_peserta))||'(peserta tidak ditemukan)',kode:'IZIN_SESI_MANUAL',sumber:'presensi_manual',status:r.status_validasi==='terverifikasi'?'disetujui':'belum_divalidasi',mulai_izin:'Satu sesi penuh',selesai_izin:'Sesuai jadwal sesi',durasi_izin_menit:null,keterangan:manual.keterangan||'Izin tidak mengikuti sesi.',bukti:'',status_pengurangan_jp:'JP 0; tanpa poin otomatis'}];});
+  return tabelIndex_('Kehadiran',['id_kehadiran','id_sesi','id_keikutsertaan','metode_input','status_kehadiran','status_validasi']).records.filter(r=>txt(r.id_sesi)===id&&map.has(txt(r.id_keikutsertaan))).flatMap(r=>{const manual=statusPresensiManual_(r);if(!manual||!['sakit','izin'].includes(manual.status))return [];return [{id:txt(r.id_kehadiran),id_keikutsertaan:txt(r.id_keikutsertaan),nama:people.get(txt(map.get(txt(r.id_keikutsertaan)).id_peserta))||'(peserta tidak ditemukan)',kode:manual.status==='sakit'?'SAKIT_SESI_MANUAL':'IZIN_SESI_MANUAL',jenis_ketidakhadiran:manual.label,sumber:'presensi_manual',status:r.status_validasi==='terverifikasi'?'disetujui':'belum_divalidasi',mulai_izin:'Satu sesi penuh',selesai_izin:'Sesuai jadwal sesi',durasi_izin_menit:null,keterangan:manual.keterangan||manual.label+' tidak mengikuti sesi.',bukti:manual.bukti,status_pengurangan_jp:'JP 0; tanpa poin otomatis'}];});
 }

@@ -4,12 +4,12 @@
   "files": {
     "Absensi.html": "496053b5dd8ca245d75c0db314d015e8e25d27ccf9a2d7b9f7e9416509280092",
     "AdminQR.html": "d7d2624329bee14cc73eb3bbb5b447a9d39371ae73ae2083a94ae7774a726f43",
-    "Akses.gs": "9d659e7772a4a0a1404b3e142c7ef90285cd749713337db118cdf04d0ab530e9",
+    "Akses.gs": "03d769b764f393a2482711cefbce7c5d16a1d926221528d8ec3c0af604ca85cd",
     "Beranda.html": "35d26eb54ac7812b05003922146d99bb7d7c6144904d9565e522c0278e60225f",
     "Code.gs": "8c8f4ee23fd8febd3c9de8a67f96a52b36a7578e4af30bd83df7697260cb6104",
     "Evaluasi.gs": "f9fa1b3081d3053524ffd66466d3392a6817b872881f47676d9bcad6f3604da6",
     "Hapus.gs": "9e7fb3de2ac67b55864a558b94612b5c45d8e1869e9f3e56cb7d4d264b1344e7",
-    "Index.html": "4431f0dacb9f9b367610a2e92c56889632dcef55804b870cd008d28a1c1bb055",
+    "Index.html": "aefddf91bcdce28e3c432a65add39c0480eb9a8011d4476b2a1e82ca52b1fb63",
     "Jenjang.gs": "e3c3e83ac0a0fbdd5e257caf4de2f83a329bdf9e4fcbeedadc4c798044bdac85",
     "Laporan.gs": "1723aa1d28a05c82e0cf193ee67886ba1808d147f784588ca222b45647545f5f",
     "LaporanTampilan.gs": "844947e9a3ecfec630b2fda1b078d1be136e3cf6dab44dc670d86ba59531108c",
@@ -18,7 +18,7 @@
     "Pengelolaan.html": "e9bd0ad85ef9be88ab61b33419e574d8d5fad4996141662df4d3d590e4d036a8",
     "Peserta.html": "ab23db65852876ac38dd6660ada3942deead3c01cbfe66b4e237cbbf1ee510d9",
     "PratinjauJenjang.html": "d849c1678abaa32090161c3a72ee5f847eeb7dd329f787385cd922da3d297f67",
-    "PresensiManual.gs": "fb245f092029c56b37971540b8d853507e37885bad0c4a271d1ff96aaae4f955",
+    "PresensiManual.gs": "2dae93df928993700c86b89cecaf4e5ffd70ff5ebaa4e016cdf11b9740387aee",
     "Profil.html": "bec8c922b543e53425b5c070e4b3724f7f01f25847b6d565cfac75a32351f92f"
   }
 }

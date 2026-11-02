@@ -610,9 +610,6 @@ body.flat-dashboard {font:14px/1.6 'Segoe UI',Arial,sans-serif; background:var(-
 .flat-dashboard .dash-status-filter button[aria-pressed=true] {color:#096e5d;background:#e9f5ee;border-color:#bddbc9;font-weight:650}
 .dash-status-filter>span {font-size:10px;color:#5d7468}
 .flat-dashboard tr[hidden],.flat-dashboard #dashStatusEmpty[hidden] {display:none!important}
- .flat-dashboard .attendance-tools {margin:18px 0;padding:16px;border:1px solid var(--line);border-radius:16px;background:#f5f7fb;}
-      .attendance-tools h3 {margin:0;font-size:15px;}
-      .attendance-tools .btn {margin-top:8px;}
       #manualDialog .sectionhead {flex-direction:row;align-items:center;gap:12px;}
       #manualDialog h2 {margin:0;color:var(--ink);}
       #manualClose {flex:none;min-width:44px;padding:10px;}
@@ -761,6 +758,26 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
 }
 @media(prefers-reduced-motion:no-preference){.sidebar-toggle-label,.sidebar-account-text,.sidebar-tool-label {transition:opacity .16s ease}}
 </style>
+    <style>
+      .flat-dashboard #sessionPanel > .stats .stat {min-width:0;}
+      @media(min-width:901px){.flat-dashboard #sessionPanel > .stats{grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;}.flat-dashboard #sessionPanel > .stats .stat{padding:18px 16px;min-height:118px;}.flat-dashboard #sessionPanel > .stats .stat span{font-size:11.5px;line-height:1.45;display:block;min-height:34px;}.flat-dashboard #sessionPanel > .stats .stat strong{font-size:30px;}}
+      #presensiDialog {width:min(520px,94vw);}
+      #presensiDialog .sectionhead {flex-direction:row;align-items:center;gap:12px;}
+      #presensiDialog h2 {margin:0;color:var(--ink);}
+      #presensiClose {min-width:44px;flex:none;}
+      .presensi-options {display:grid;gap:12px;margin-top:22px;}
+      .presensi-options .btn {text-align:left;white-space:normal;padding:16px;}
+      .presensi-options span {display:block;font-size:12px;font-weight:400;color:var(--muted);margin-top:6px;line-height:1.5;}
+      .manual-results {max-height:200px;overflow:auto;overscroll-behavior:contain;}
+      .manual-results button {display:block;width:100%;text-align:left;margin-top:6px;white-space:normal;}
+      .manual-category {padding:0;margin:18px 0;border:0;min-width:0;}
+      .manual-category legend {font-size:13px;font-weight:600;margin-bottom:10px;color:var(--muted);}
+      .manual-category > div {display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+      .manual-category label {display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;min-height:48px;padding:12px;cursor:pointer;}
+      .manual-category label:has(input:checked) {background:#edf2fa;border-color:#203960;color:#203960;}
+      .manual-category input {width:18px;height:18px;margin:0;padding:0;accent-color:#203960;flex:none;}
+      #manualChosen:empty,#manualJPHelp:empty {display:none;}
+    </style>
 </head>
   <body class="flat-dashboard"><a class="dash-skip" href="#dashContent">Lewati ke konten utama</a>
   <aside id="dashSidebar" class="dash-sidebar" aria-label="Menu utama">
@@ -855,7 +872,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           ><button class="btn" id="tabPerilaku" aria-pressed="false">
             Catatan Perilaku</button
           ><button class="btn" id="tabIzin" aria-pressed="false">
-            Daftar Izin Peserta</button
+            Daftar Izin &amp; Sakit</button
           ><button class="btn" id="tabNilai" aria-pressed="false">
             Nilai Perilaku
           </button>
@@ -952,10 +969,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
                 yang tidak ditolak, termasuk yang belum divalidasi. Peserta
                 dapat termasuk kedua kelompok.
               </p>
-              <div id="attendanceTools" class="attendance-tools"><h3>Absensi &amp; Izin</h3><p class="foot">Gunakan QR atau status manual per peserta. Untuk izin sebagian sesi, gunakan Catat Izin.</p><button type="button" id="quickManual" class="btn full" disabled>Presensi Manual</button><button id="openQR" class="btn primary full" disabled>
-                QR Absensi</button
-              ><button type="button" id="quickLeave" class="btn full" disabled>
-                Catat Izin</button></div><button
+              <button id="openPresensi" type="button" class="btn primary full" disabled>Presensi</button><button
                 type="button"
                 id="quickBehavior"
                 class="btn full"
@@ -1145,7 +1159,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         <section id="izinPanel" class="panel hidden">
           <div class="sectionhead">
             <div>
-              <h2>Daftar Izin Peserta</h2>
+              <h2>Daftar Izin &amp; Sakit</h2>
               <p id="izinInfo" class="muted">Pilih sesi untuk melihat izin.</p>
             </div>
             <button id="refreshIzin" type="button" class="btn" disabled>
@@ -1158,7 +1172,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
               ><strong id="izinTotal">—</strong>
             </div>
             <div class="stat">
-              <span class="muted">Peserta dengan izin tercatat</span
+              <span class="muted">Peserta dengan izin/sakit tercatat</span
               ><strong id="izinPeople">—</strong>
             </div>
             <div class="stat">
@@ -1200,7 +1214,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
             status; jumlah peserta dengan izin tercatat tidak mencakup izin
             ditolak. Bukti file dibuka melalui Lihat bukti. Pencatatan izin
             dilakukan melalui tombol Catat Izin pada Kehadiran Sesi; validasi
-            tersedia pada Catatan Perilaku untuk izin sebagian sesi. Izin satu sesi dari presensi manual diverifikasi melalui Verifikasi Sesi dan tidak membuat catatan perilaku.
+            tersedia pada Catatan Perilaku untuk izin sebagian sesi. Sakit/izin satu sesi dari presensi manual diverifikasi melalui Verifikasi Sesi dan tidak membuat catatan perilaku.
           </p>
         </section>
         <section id="scorePanel" class="panel hidden">
@@ -1671,14 +1685,26 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         </p>
       </div>
     </dialog>
+    <dialog id="presensiDialog" aria-labelledby="presensiTitle">
+      <div class="dialog-body">
+        <div class="sectionhead"><h2 id="presensiTitle">Presensi</h2><button id="presensiClose" type="button" class="btn" aria-label="Tutup pilihan presensi">×</button></div>
+        <p class="muted">Pilih cara pencatatan untuk sesi yang sedang dibuka.</p>
+        <div class="presensi-options">
+          <button id="quickManual" type="button" class="btn full" disabled>Presensi Manual<span>Catat status Hadir atau Tidak Hadir peserta.</span></button>
+          <button id="openQR" type="button" class="btn full" disabled>QR Absensi<span>Terbitkan QR untuk scan datang dan pulang.</span></button>
+          <button id="quickLeave" type="button" class="btn full" disabled>Catat Izin<span>Catat rentang waktu izin dan bukti pendukung.</span></button>
+        </div>
+      </div>
+    </dialog>
     <dialog id="manualDialog" aria-labelledby="manualTitle">
       <form id="manualForm" class="dialog-body">
         <div class="sectionhead"><h2 id="manualTitle">Presensi Manual</h2><button type="button" id="manualClose" class="btn" aria-label="Tutup presensi manual">×</button></div>
         <p id="manualSession" class="muted"></p>
-        <p class="help">Satu catatan untuk satu peserta-sesi. Hadir: JP sesuai durasi efektif. Terlambat: potongan tetap 15 menit. Sakit, Izin satu sesi, dan Alpa: JP 0. Tanpa pengurangan poin perilaku otomatis.</p>
-        <div class="field"><label for="manualSearch">Cari peserta</label><input id="manualSearch" type="search" placeholder="Cari nama peserta…"></div>
-        <div class="field"><label for="manualPerson">Peserta</label><select id="manualPerson" required></select></div>
-        <div class="field"><label for="manualStatus">Status satu sesi</label><select id="manualStatus" required><option value="">Pilih status…</option><option value="hadir">Hadir (tepat waktu)</option><option value="terlambat">Terlambat</option><option value="sakit">Sakit</option><option value="izin">Izin satu sesi</option><option value="alpa">Alpa</option></select></div>
+        <p class="help">Pilih peserta dan status kehadiran. Pencatatan berlaku untuk satu sesi penuh.</p>
+        <div class="field"><label for="manualSearch">Nama peserta</label><input id="manualSearch" type="search" placeholder="Cari nama, unit, atau ID peserta…" autocomplete="off" required aria-describedby="manualChosen"><div id="manualResults" class="manual-results" role="region" aria-label="Hasil pencarian peserta"></div><p id="manualChosen" class="foot" role="status"></p></div>
+        <fieldset id="manualCategory" class="manual-category"><legend>Status Kehadiran</legend><div><label><input id="manualPresent" type="radio" name="manualPresence" value="hadir" required> Hadir</label><label><input id="manualAbsent" type="radio" name="manualPresence" value="tidak_hadir" required> Tidak Hadir</label></div></fieldset>
+        <div class="field"><label for="manualStatus">Keterangan Kehadiran</label><select id="manualStatus" required><option value="">Pilih Hadir atau Tidak Hadir terlebih dahulu…</option></select><p id="manualJPHelp" class="foot" aria-live="polite"></p></div>
+        <div id="manualEvidence" class="field hidden"><label for="manualEvidenceFile">Bukti pendukung (opsional)</label><input id="manualEvidenceFile" type="file" accept=".pdf,.jpg,.jpeg,.png"><p class="foot">PDF, JPG/JPEG, atau PNG, maksimal 5 MB. Bukti ditampilkan bersama daftar izin dan sakit.</p><div id="manualExistingEvidence" class="foot"></div></div>
         <div class="field"><label for="manualReason">Keterangan / alasan perubahan (opsional)</label><textarea id="manualReason" rows="2" maxlength="2000"></textarea></div>
         <p id="manualMessage" class="foot" role="status"></p><button type="submit" id="manualSave" class="btn primary full">Simpan Presensi Manual</button>
       </form>
@@ -1843,7 +1869,8 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         crypto.getRandomValues(a);
         return Array.from(a, (x) => x.toString(16).padStart(8, "0")).join("");
       }
-      async function siapkanLampiran(inputId, jenis, context) {
+      async function siapkanLampiran(inputId, jenis, context, slot) {
+        slot=slot||jenis;
         const file = $(inputId).files && $(inputId).files[0];
         if (!file) return null;
         if (
@@ -1853,7 +1880,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         )
           throw Error("Gunakan PDF, JPG/JPEG, atau PNG, maksimal 5 MB.");
         const target = JSON.stringify(context);
-        let state = buktiUploadState[jenis];
+        let state = buktiUploadState[slot];
         if (!state || state.file !== file || state.target !== target) {
           state = {
             file,
@@ -1862,7 +1889,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
             base64: null,
             result: null,
           };
-          buktiUploadState[jenis] = state;
+          buktiUploadState[slot] = state;
         }
         if (state.result) return state.result;
         if (!state.base64)
@@ -1974,6 +2001,8 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         $("quickBehavior").disabled = !ready;
         $("quickLeave").disabled = !ready;
         $("quickManual").disabled = !ready;
+        $("openPresensi").disabled = !ready;
+        $("presensiClose").disabled = saving || publishing;
         document.querySelectorAll('#tableBody button[data-manual]').forEach(b=>b.disabled=!ready);
         $("leaveSearch").disabled = saving || leaveLoading;
         $("fullSessionLeave").disabled = saving || leaveLoading || !selected;
@@ -2057,9 +2086,10 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         $("qrStatus").textContent = "QR belum diterbitkan untuk pilihan ini.";
       }
       function clearData() {
-        manualPayload=null;
+        manualPayload=null;manualSelected=null;manualDrafts.clear();
         attendancePage = 0;
         if ($("qrDialog").open) $("qrDialog").close();
+        if ($("presensiDialog").open) $("presensiDialog").close();
         [
           "summaryProgram",
           "summaryCategory",
@@ -2169,7 +2199,11 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           r.zona_waktu +
           ")";
       }
+      $("openPresensi").addEventListener("click",()=>{if(currentSession&&!loading&&!saving&&!publishing)$("presensiDialog").showModal();});
+      $("presensiClose").addEventListener("click",()=>{if(!saving&&!publishing)$("presensiDialog").close();});
+      $("presensiDialog").addEventListener("cancel",e=>{if(saving||publishing)e.preventDefault();});
       $("openQR").addEventListener("click", () => {
+        $("presensiDialog").close();
         if (currentSession && !loading && !saving && !publishing)
           $("qrDialog").showModal();
       });
@@ -2304,44 +2338,80 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         });
       }
 
-      let manualPayload=null;
-      function renderManualPeople(selectedId){
-        const q=$('manualSearch').value.trim().toLowerCase(),select=$('manualPerson');select.replaceChildren();
-        const prompt=document.createElement('option');prompt.value='';prompt.textContent='Pilih peserta…';select.append(prompt);
-        rows.filter(p=>(!p.id_kehadiran||p.manual||p.manual_pending)&&p.status_peserta.toLowerCase()==='terdaftar'&&(!q||p.nama.toLowerCase().includes(q)||p.id_keikutsertaan===selectedId)).forEach(p=>{const o=document.createElement('option');o.value=p.id_keikutsertaan;o.textContent=p.nama+(p.manual?' · '+p.manual.label:'')+(p.manual_pending?' · belum selesai':'');select.append(o);});
-        if(selectedId)select.value=selectedId;
+      let manualPayload=null,manualSelected=null;
+      const manualDrafts=new Map();
+      function manualKey(p){return currentSession.id_sesi+'|'+p.id_keikutsertaan;}
+      function eligibleManualPeople(){return rows.filter(p=>(!p.id_kehadiran||p.manual||p.manual_pending)&&String(p.status_peserta).toLowerCase()==='terdaftar');}
+      function renderManualPeople(){
+        const q=$('manualSearch').value.trim().toLowerCase(),box=$('manualResults');box.replaceChildren();
+        if(manualSelected||!q||saving)return;
+        const found=eligibleManualPeople().filter(p=>(p.nama+' '+p.unit+' '+p.id_keikutsertaan).toLowerCase().includes(q)).slice(0,10);
+        if(!found.length){box.textContent='Peserta tidak ditemukan atau sudah menggunakan presensi QR. Coba nama lain.';return;}
+        found.forEach(p=>{const b=document.createElement('button');b.type='button';b.className='btn';b.textContent=p.nama+' · '+p.unit+' · '+p.id_keikutsertaan;b.addEventListener('click',()=>chooseManualPerson(p));box.append(b);});
       }
-      function selectManualPerson(){
-        const p=rows.find(p=>p.id_keikutsertaan===$('manualPerson').value);manualPayload=p&&p.manual_pending||null;
-        $('manualStatus').value=manualPayload?manualPayload.status:p&&p.manual?p.manual.status:'';
-        $('manualReason').value=manualPayload?manualPayload.keterangan:p&&p.manual?p.manual.keterangan:'';
-        $('manualMessage').textContent=manualPayload?'Ada penyimpanan belum selesai. Klik Coba Lagi untuk melanjutkan data yang sama.':'';
-        manualControls();
+      function setManualCategory(status){
+        const present=['hadir','terlambat'].includes(status),absent=['sakit','izin','alpa'].includes(status);
+        $('manualPresent').checked=present;$('manualAbsent').checked=absent;renderManualStatuses(status);
+      }
+      function renderManualStatuses(status){
+        const category=document.querySelector('input[name="manualPresence"]:checked'),select=$('manualStatus');select.replaceChildren();
+        const options=!category?[['','Pilih Hadir atau Tidak Hadir terlebih dahulu…']]:category.value==='hadir'?[['','Pilih keterangan…'],['hadir','Tepat Waktu'],['terlambat','Terlambat']]:[['','Pilih keterangan…'],['sakit','Sakit'],['izin','Izin'],['alpa','Tanpa Keterangan']];
+        options.forEach(([value,label])=>{const o=document.createElement('option');o.value=value;o.textContent=label;select.append(o);});select.value=status||'';updateManualStatus();
+      }
+      function updateManualStatus(){
+        const status=$('manualStatus').value,proof=['sakit','izin'].includes(status);
+        $('manualEvidence').classList.toggle('hidden',!proof);
+        if(!proof){$('manualEvidenceFile').value='';buktiUploadState.manual=null;}
+        const hints={hadir:'JP sesuai durasi efektif sesi.',terlambat:'JP = durasi efektif dikurangi tetap 15 menit (minimal 0).',sakit:'Tidak menghadiri sesi; JP 0.',izin:'Izin satu sesi penuh; JP 0.',alpa:'Tidak hadir tanpa keterangan; JP 0.'};
+        $('manualJPHelp').textContent=status?hints[status]+' Tanpa poin perilaku otomatis.':'';
+      }
+      function resetManualFields(){
+        manualSelected=null;manualPayload=null;$('manualReason').value='';$('manualChosen').textContent='';$('manualMessage').textContent='';$('manualEvidenceFile').value='';$('manualExistingEvidence').replaceChildren();buktiUploadState.manual=null;setManualCategory('');manualControls();
+      }
+      function chooseManualPerson(p){
+        if(saving)return;resetManualFields();manualSelected=p;$('manualSearch').value=p.nama;$('manualResults').replaceChildren();
+        manualPayload=manualDrafts.get(manualKey(p))||p.manual_pending||null;
+        $('manualChosen').textContent=p.unit+' · '+p.id_keikutsertaan;
+        setManualCategory(manualPayload?manualPayload.status:p.manual?p.manual.status:'');
+        $('manualReason').value=manualPayload?manualPayload.keterangan:p.manual?p.manual.keterangan:'';
+        if(p.manual&&p.manual.bukti){$('manualExistingEvidence').append(document.createTextNode('Bukti tersimpan tetap digunakan jika tidak memilih file pengganti.'));tautanBukti($('manualExistingEvidence'),p.manual.bukti);}
+        $('manualMessage').textContent=manualPayload?'Ada penyimpanan belum terkonfirmasi. Klik Coba Lagi untuk melanjutkan data yang sama.':'';manualControls();
       }
       function manualControls(){
-        for(const id of ['manualSearch','manualPerson','manualStatus','manualReason'])$(id).disabled=saving||!!manualPayload;
-        $('manualSave').disabled=saving||!$('manualPerson').value;
+        for(const id of ['manualSearch','manualPresent','manualAbsent','manualStatus','manualReason','manualEvidenceFile'])$(id).disabled=saving||!!manualPayload;
+        $('manualSave').disabled=saving||!manualSelected;
         $('manualSave').textContent=saving?'Menyimpan…':manualPayload?'Coba Lagi / Lanjutkan':'Simpan Presensi Manual';$('manualClose').disabled=saving;
       }
       function openManual(p){
         if(!currentSession||loading||saving||publishing)return;
-        // Draf permintaan yang belum terkonfirmasi dipertahankan agar retry tidak menggandakan transaksi.
-        if(!manualPayload){$('manualSearch').value='';renderManualPeople(p&&p.id_keikutsertaan);selectManualPerson();}
+        $('presensiDialog').close();resetManualFields();$('manualSearch').value='';$('manualResults').replaceChildren();
+        if(p)chooseManualPerson(p);
         $('manualSession').textContent=currentSession.nama+' · '+currentSession.tanggal;
-        $('manualDialog').showModal();manualControls();
+        $('manualDialog').showModal();manualControls();$('manualSearch').focus();
       }
       $('quickManual').addEventListener('click',()=>openManual());
-      $('manualSearch').addEventListener('input',()=>renderManualPeople());
-      $('manualPerson').addEventListener('change',selectManualPerson);
+      $('manualSearch').addEventListener('input',()=>{resetManualFields();renderManualPeople();});
+      $('manualSearch').addEventListener('keydown',e=>{if(e.key==='ArrowDown'){const b=$('manualResults').querySelector('button');if(b){e.preventDefault();b.focus();}}});
+      document.querySelectorAll('input[name="manualPresence"]').forEach(r=>r.addEventListener('change',()=>renderManualStatuses('')));
+      $('manualStatus').addEventListener('change',updateManualStatus);
+      $('manualEvidenceFile').addEventListener('change',()=>{buktiUploadState.manual=null;});
       $('manualClose').addEventListener('click',()=>{if(!saving)$('manualDialog').close();});
       $('manualDialog').addEventListener('cancel',e=>{if(saving)e.preventDefault();});
       $('manualForm').addEventListener('submit',async e=>{
-        e.preventDefault();if(saving||!currentSession||!$('manualForm').reportValidity())return;
-        const p=rows.find(p=>p.id_keikutsertaan===$('manualPerson').value);if(!p)return;
-        if(!manualPayload)manualPayload={id_sesi:currentSession.id_sesi,id_keikutsertaan:p.id_keikutsertaan,versi:p.versi||'',status:$('manualStatus').value,keterangan:$('manualReason').value.trim(),id_permintaan:idUnggah()};
+        e.preventDefault();if(saving||!currentSession||!manualSelected||!$('manualForm').reportValidity())return;
+        const p=manualSelected;
         saving=true;manualControls();controls();$('manualMessage').textContent='Menyimpan presensi manual…';
-        try{const r=await rpc('simpanPresensiManualIndex',manualPayload);if(!r||!r.sukses)throw Error(r&&r.pesan||'Presensi belum tersimpan.');manualPayload=null;$('manualDialog').close();saving=false;resetRecap();resetIzin();await load();message(r.pesan,'success');}
-        catch(e){$('manualMessage').textContent=(e.message||'Penyimpanan belum terkonfirmasi.')+' Pilih Coba Lagi untuk mengirim permintaan yang sama. Jika data berubah atau ditolak, tutup dan muat ulang tabel.';}
+        try{
+          if(!manualPayload){
+            let proof=null;
+            if(['sakit','izin'].includes($('manualStatus').value))proof=await siapkanLampiran('manualEvidenceFile','izin',{id_sesi:currentSession.id_sesi,id_keikutsertaan:p.id_keikutsertaan},'manual');
+            manualPayload={id_sesi:currentSession.id_sesi,id_keikutsertaan:p.id_keikutsertaan,versi:p.versi||'',status:$('manualStatus').value,keterangan:$('manualReason').value.trim(),id_permintaan:idUnggah()};
+            if(proof)manualPayload.id_bukti=proof.id;
+            manualDrafts.set(manualKey(p),manualPayload);
+          }
+          const r=await rpc('simpanPresensiManualIndex',manualPayload);if(!r||!r.sukses)throw Error(r&&r.pesan||'Presensi belum tersimpan.');
+          manualDrafts.delete(manualKey(p));manualPayload=null;$('manualDialog').close();saving=false;resetRecap();resetIzin();await load();message(r.pesan,'success');
+        }catch(e){$('manualMessage').textContent=(e.message||'Penyimpanan belum terkonfirmasi.')+(manualPayload?' Pilih Coba Lagi untuk mengirim permintaan yang sama. Jika data berubah atau ditolak, tutup dan muat ulang tabel.':' Periksa file dan coba lagi; presensi belum dikirim.');}
         finally{saving=false;manualControls();controls();}
       });
       function renderLeavePeople() {
@@ -2445,6 +2515,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
       }
       async function openLeave() {
         if (saving || loading || publishing || !currentSession) return;
+        $("presensiDialog").close();
         leaveContext = {
           id_sesi: currentSession.id_sesi,
           nama: currentSession.nama,
@@ -3229,14 +3300,14 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         $("izinEmpty").textContent = !izinHasData
           ? "Pilih sesi lalu muat daftar izin."
           : izinRows.length
-            ? "Izin tidak ditemukan sesuai pencarian."
-            : "Belum ada izin pada sesi ini.";
+            ? "Izin/sakit tidak ditemukan sesuai pencarian."
+            : "Belum ada izin atau sakit pada sesi ini.";
         list.forEach((r) => {
           const tr = document.createElement("tr"),
             name = cell(r.nama);
           const id = document.createElement("span");
           id.className = "sub";
-          id.textContent = r.id_keikutsertaan+(r.sumber==='presensi_manual'?' · Presensi manual satu sesi':'');
+          id.textContent = r.id_keikutsertaan+(r.sumber==='presensi_manual'?' · '+(r.jenis_ketidakhadiran||'Izin')+' · Presensi manual satu sesi':'');
           name.append(id);
           const proof = cell(
             String(r.bukti || "")

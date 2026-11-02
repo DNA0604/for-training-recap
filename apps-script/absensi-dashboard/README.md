@@ -13,6 +13,10 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 18 current HTML/GS source files, including the Jenjang preparation tools and report layout/assets.
 
+## Penyesuaian form Presensi dan bukti (2 November 2026)
+
+Branch **ui/presensi-ringkas-bukti**: sesudah paket presensi manual terpasang, cukup ganti **Index.html, PresensiManual.gs dan Akses.gs** bersama-sama. Lima kartu satu baris desktop, satu kolom nama, Hadir/Tidak Hadir beserta pilihan rinci, bukti Sakit/Izin opsional dan tombol Presensi yang membuka tiga tindakan. Tidak perlu sheet/file Apps Script baru; aturan QR/JP/poin tetap. [Panduan lengkap](docs/PRESENSI_RINGKAS_BUKTI.md).
+
 ## Presensi manual dan Monitoring (2 November 2026)
 
 Branch **feat/presensi-manual-monitoring**: tambahkan **PresensiManual.gs**; ganti lengkap **Code.gs, Akses.gs, Jenjang.gs, Index.html, Profil.html, Laporan.gs, LaporanTampilan.gs** bersama-sama. Hadir = JP sesuai durasi efektif; Terlambat manual dipotong tetap 15 menit; Sakit/Izin/Alpa = JP 0, tanpa catatan/poin otomatis. Aturan QR tetap. Card Absensi & Izin, pemulihan simpan dan tabel 10 peserta per halaman/tinggi tetap disertakan. Tidak perlu sheet/spreadsheet/kolom/migrasi baru. Simpan dan update versi deployment yang sama. [Pemasangan, aturan, batas pemuatan dan daftar uji](docs/PRESENSI_MANUAL_MONITORING.md). Hasil deployment Google belum diuji agent.

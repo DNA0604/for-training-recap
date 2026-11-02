@@ -63,3 +63,34 @@ test('manual full-session leave appears in the leave view without extra notes an
  const h=fixture();h.save(h.payload('izin'),h.admin);const before=h.t.h.records('Catatan_Perilaku').length,view=h.call(h.staff,'muatDaftarIzinIndex','SES001');assert.equal(view.catatan.length,1);assert.equal(view.catatan[0].sumber,'presensi_manual');assert.equal(view.catatan[0].status,'disetujui');assert.equal(h.t.h.records('Catatan_Perilaku').length,before);
  h.append('Catatan_Perilaku',{id_catatan:'CTP-OLD',id_sesi:'SES001',id_keikutsertaan:'KST001',id_indikator:'IND001',status_validasi:'disetujui'});const r=h.call(h.admin,'muatRekapJPProgramIndex','PRG001').peserta.find(r=>r.id_keikutsertaan==='KST001');assert.equal(r.statistik_csv.jumlah_izin,1);assert.equal(r.statistik_csv.jumlah_catatan_negatif,0);
 });
+function proofDrive(h){
+ const files=new Map(),folderId='FOLDER-MANUAL-PROOFS',c=h.t.c;let created=0;
+ const iterator=values=>{let i=0;return {hasNext:()=>i<values.length,next:()=>values[i++]};};
+ const folder={getId:()=>folderId,isTrashed:()=>false,getFilesByName:name=>iterator([...files.values()].filter(f=>f.name===name)),createFile(blob){const id='PROOF-MANUAL-'+String(++created).padStart(12,'0');const f={id,name:blob.name,desc:'',trashed:false,parent:folderId,getId:()=>id,getDescription(){return this.desc;},setDescription(v){this.desc=v;},isTrashed(){return this.trashed;},getParents(){return iterator([{getId:()=>this.parent}]);}};files.set(id,f);return f;}};
+ c.PropertiesService.getScriptProperties().setProperty('FOLDER_BUKTI|COPY-DB',folderId);c.DriveApp={getFolderById:id=>{assert.equal(id,folderId);return folder;},getFileById:id=>{if(!files.has(id))throw Error('File tidak ditemukan');return files.get(id);}};
+ c.Utilities.base64Decode=s=>Array.from(Buffer.from(s,'base64'));c.Utilities.newBlob=(bytes,mime,name)=>({bytes,mime,name});
+ return {files,created:()=>created};
+}
+async function uploadFixture(status='sakit'){
+ const {createHash}=await import('node:crypto');const h=fixture(),drive=proofDrive(h),c=h.t.c;c.Utilities.computeDigest=(a,v)=>Array.from(createHash('sha256').update(typeof v==='string'?v:Buffer.from(v)).digest());
+ const upload={jenis:'izin',id_sesi:'SES001',id_keikutsertaan:'KST001',id_permintaan:'manual_upload_support_00001',nama:'surat.png',base64:Buffer.from([137,80,78,71,13,10,26,10,0]).toString('base64')};
+ const result=h.call(h.staff,'unggahBuktiIndex',upload),payload={...h.payload(status),id_bukti:result.id};return {...h,drive,upload,result,data:payload};
+}
+test('Sakit evidence uses existing private upload/leave view with no attendance, izin count or behavior points',async()=>{
+ const h=await uploadFixture();assert.equal(h.call(h.staff,'unggahBuktiIndex',h.upload).id,h.result.id);assert.equal(h.drive.created(),1);h.save(h.data);
+ assert.match(h.row().dasar_verifikasi,new RegExp(h.result.id));const list=h.call(h.staff,'muatDaftarIzinIndex','SES001');assert.equal(list.catatan[0].jenis_ketidakhadiran,'Sakit');assert.match(list.catatan[0].bukti,new RegExp(h.result.id));assert.equal(h.t.h.records('Catatan_Perilaku').length,0);const v=h.call(h.staff,'muatVerifikasiSesiPanitia','SES001');assert.match(v.kehadiran[0].bukti,new RegExp(h.result.id));assert.equal(v.ringkasan.izin_manual,0);h.call(h.admin,'hitungJPSesiIndex','SES001');const r=h.call(h.admin,'muatRekapJPProgramIndex','PRG001').peserta.find(r=>r.id_keikutsertaan==='KST001');assert.equal(r.jp_diperoleh,0);assert.equal(r.statistik_csv.jumlah_izin,0);assert.equal(r.statistik_csv.jumlah_catatan_negatif,0);
+});
+test('Izin evidence remains optional and reviewable; edits preserve it, replacement is scoped and Hadir clears current reference',async()=>{
+ const h=await uploadFixture('izin');h.save(h.data);h.save(h.payload('izin'));assert.match(h.row().dasar_verifikasi,new RegExp(h.result.id));
+ const second=h.call(h.staff,'unggahBuktiIndex',{...h.upload,id_permintaan:'manual_upload_support_00002'});h.save({...h.payload('sakit'),id_bukti:second.id});assert.match(h.row().dasar_verifikasi,new RegExp(second.id));assert.ok(!h.row().dasar_verifikasi.includes(h.result.id));h.save(h.payload('hadir'));assert.equal(h.row().dasar_verifikasi,'PRESENSI_MANUAL_V1');assert.equal(h.drive.files.size,2,'old evidence retained privately for audit');assert.equal(h.call(h.staff,'muatDaftarIzinIndex','SES001').catatan.length,0);
+});
+for(const corruption of ['target','folder','trashed'])test(`manual evidence ${corruption} mismatch cannot be saved or create an attendance audit`,async()=>{
+ const h=await uploadFixture(),f=h.drive.files.get(h.result.id);if(corruption==='target'){const meta=JSON.parse(f.desc);meta.target='IZIN|SES003|KST003';f.desc=JSON.stringify(meta);}if(corruption==='folder')f.parent='ANOTHER-FOLDER';if(corruption==='trashed')f.trashed=true;
+ const before=plain(h.t.h.store);assert.throws(()=>h.save(h.data),/sesuai|Sampah/);assert.deepEqual(plain(h.t.h.store),before);
+});
+test('evidence cannot be attached to Hadir/Terlambat/Tanpa Keterangan and forged URLs are ignored',async()=>{
+ const h=await uploadFixture();for(const status of ['hadir','terlambat','alpa'])assert.throws(()=>h.save({...h.data,status}),/hanya.*Sakit atau Izin/);h.save({...h.payload('sakit'),bukti:'https://evil.invalid/fake'});assert.equal(h.row().dasar_verifikasi,'PRESENSI_MANUAL_V1');
+});
+test('same-ID evidence retry after row write resumes with Admin and never creates a second attendance or upload',async()=>{
+ const h=await uploadFixture();let once=true;h.t.h.fault(e=>{if(once&&e.name==='Kehadiran'&&e.op==='after'){once=false;throw Error('lost proof receipt');}});assert.throws(()=>h.save(h.data),/lost proof/);h.t.h.fault(()=>{});const draft=h.call(h.admin,'muatKehadiranIndex','SES001').peserta[0].manual_pending;assert.equal(draft.id_bukti,h.result.id);h.save(draft,h.admin);assert.equal(h.drive.created(),1);assert.equal(h.t.h.records('Kehadiran').filter(r=>r.id_sesi==='SES001').length,1);assert.match(h.row().dasar_verifikasi,new RegExp(h.result.id));
+});

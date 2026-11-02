@@ -5,6 +5,7 @@ Jangan salin atau mencuri data ini tanpa persetujuan pemilik. Data ini merupakan
 
 Repository khusus kode aplikasi Google Apps Script untuk rekapitulasi dan monitoring pelatihan pegawai Pusat Pengembangan Aparatur Komdigi.
 
+- [Form Presensi ringkas dan bukti Sakit/Izin](apps-script/absensi-dashboard/docs/PRESENSI_RINGKAS_BUKTI.md)
 - [Presensi manual dan Monitoring 10 peserta per halaman](apps-script/absensi-dashboard/docs/PRESENSI_MANUAL_MONITORING.md)
 - [Kode aplikasi lengkap](apps-script/absensi-dashboard/)
 - [Panduan file Apps Script dan pemasangan](apps-script/absensi-dashboard/README.md)
