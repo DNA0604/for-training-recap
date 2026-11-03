@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-03 — agreed participant final evaluation, program weights and shared exports
+- Added NilaiAkhir.gs: equal-aspect/session normalized teacher/Panitia means, default 60/40, audited per-program Admin weights, current-source/assignment checks, explicit absence exclusions, missing/unknown/stale/provisional statuses and no fabricated zero or passing decision. JP, behavior and Admin-to-instructor evaluation remain separate.
+- Added Admin weight modal and participant session breakdown in Rekap Program, profile result, values/status in the existing 23-column CSV and PDF section 6.4. Server scopes staff and withholds Panitia/final aggregates from teachers. Child source failure blocks CSV. Settings preserve live lock-time authorization, stale versions and same-ID retry/lost-receipt behavior.
+- Existing evaluation spreadsheet gains owned derived Rekap_Nilai_Akhir only on manual recap refresh. Source-version checks include attendance/settings/session phase; JP-only attendance outputs excluded. No operational migration, new spreadsheet, automatic source movement, login/sidebar change or widened grouped-read gateway.
+- Add NilaiAkhir.gs and replace seven sources together (19 total); see docs/NILAI_AKHIR_PESERTA.md. 425 backend tests, mocked Chromium final-score/CSV/settings/profile/mobile/privacy plus app/evaluation/manual regressions and local 2/13 participant DOCX/PDF previews pass. Native Google conversion/deployment still needs user checks; no live data/deployment/main change.
+
 ## 2026-11-02 — one Evaluasi chooser and spaced summary actions
 - Added one Evaluasi action opening existing forms in the requested Admin order: Evaluasi Peserta (Panitia), Evaluasi Pengajar, Lihat Evaluasi Peserta (Pengajar). Descriptions clarify each purpose. Staff/teacher keep only their authorized choices; readonly Admin teacher results remain readonly. No backend/RPC/scoring/permission change.
 - Grouped Ringkasan Sesi buttons with a 12 px gap. Choice dialog closes before the target form, supports X/Escape/focus, makes no evaluation RPC itself, and follows existing disabled/form/draft/save/retry/recap behavior.

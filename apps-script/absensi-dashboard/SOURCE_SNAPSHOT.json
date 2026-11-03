@@ -1,24 +1,25 @@
 {
-  "snapshot_date": "2026-11-02",
+  "snapshot_date": "2026-11-03",
   "timezone": "Asia/Jakarta",
   "files": {
     "Absensi.html": "496053b5dd8ca245d75c0db314d015e8e25d27ccf9a2d7b9f7e9416509280092",
     "AdminQR.html": "d7d2624329bee14cc73eb3bbb5b447a9d39371ae73ae2083a94ae7774a726f43",
-    "Akses.gs": "03d769b764f393a2482711cefbce7c5d16a1d926221528d8ec3c0af604ca85cd",
+    "Akses.gs": "638c9b8d0cde20f124269c08dffdeae7f8e78586ad80722e8181544d8d1bee0f",
     "Beranda.html": "35d26eb54ac7812b05003922146d99bb7d7c6144904d9565e522c0278e60225f",
-    "Code.gs": "8c8f4ee23fd8febd3c9de8a67f96a52b36a7578e4af30bd83df7697260cb6104",
-    "Evaluasi.gs": "8a9dc7e332a4367f31e97cd41499e7852b41ccf1a6656286b93c8995beaa8db2",
+    "Code.gs": "b7f8c483d7e770e8b5d6d6611ea706dbac14f34148f4fbb3be7dd276ff441731",
+    "Evaluasi.gs": "7c3574a04b826ba4a6607af0915f66c108d53fdb57467174fd9017b53c5da916",
     "Hapus.gs": "9e7fb3de2ac67b55864a558b94612b5c45d8e1869e9f3e56cb7d4d264b1344e7",
-    "Index.html": "5cbd7520758654a9a999ce7e58940b294193b2517f8223ef6248563bcbdedc4d",
+    "Index.html": "2e0bc95fcf836f3d4b409affd1e75b3ebb51131c005e5495fc6f0fa92d76511e",
     "Jenjang.gs": "e3c3e83ac0a0fbdd5e257caf4de2f83a329bdf9e4fcbeedadc4c798044bdac85",
-    "Laporan.gs": "1723aa1d28a05c82e0cf193ee67886ba1808d147f784588ca222b45647545f5f",
-    "LaporanTampilan.gs": "844947e9a3ecfec630b2fda1b078d1be136e3cf6dab44dc670d86ba59531108c",
+    "Laporan.gs": "20ef05d6712cfafc67b2d1c2916e14fd4ff5d5d457e1df0e68fb3bd45a03e95d",
+    "LaporanTampilan.gs": "c9a14814c27797f60013174b9be303d7b286b20eadc563c323c2ad8a760614f9",
     "ManajemenAkses.html": "e7c7e428853eb7f1147cee43ce1f8603baf5b201b7cae85077ce243e8879c94e",
+    "NilaiAkhir.gs": "788c20a93e67f62116f6030035ba958e1295286237d95d7fa7b083d696b833d3",
     "PemetaanJenjang.gs": "8a68b67c199ff7fecf71e83eedeaa96d7bed42a06ea9dd4884dd7cd41bacd027",
     "Pengelolaan.html": "e9bd0ad85ef9be88ab61b33419e574d8d5fad4996141662df4d3d590e4d036a8",
     "Peserta.html": "ab23db65852876ac38dd6660ada3942deead3c01cbfe66b4e237cbbf1ee510d9",
     "PratinjauJenjang.html": "d849c1678abaa32090161c3a72ee5f847eeb7dd329f787385cd922da3d297f67",
     "PresensiManual.gs": "2dae93df928993700c86b89cecaf4e5ffd70ff5ebaa4e016cdf11b9740387aee",
-    "Profil.html": "bec8c922b543e53425b5c070e4b3724f7f01f25847b6d565cfac75a32351f92f"
+    "Profil.html": "b13335c8800d13ffe42d4330353bef049536ec716514968291627064d25b0da4"
   }
 }

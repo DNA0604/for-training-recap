@@ -762,6 +762,9 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
       .flat-dashboard #sessionPanel > .stats .stat {min-width:0;}
       @media(min-width:901px){.flat-dashboard #sessionPanel > .stats{grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;}.flat-dashboard #sessionPanel > .stats .stat{padding:18px 16px;min-height:118px;}.flat-dashboard #sessionPanel > .stats .stat span{font-size:11.5px;line-height:1.45;display:block;min-height:34px;}.flat-dashboard #sessionPanel > .stats .stat strong{font-size:30px;}}
       #presensiDialog {width:min(520px,94vw);}
+      #finalWeightsDialog .sectionhead,#finalScoreDialog .sectionhead {flex-direction:row;flex-wrap:nowrap;align-items:flex-start;gap:12px;}
+      #finalWeightsDialog .sectionhead h2,#finalScoreDialog .sectionhead h2 {min-width:0;margin:0;}
+      #finalWeightsDialog .sectionhead button,#finalScoreDialog .sectionhead button {flex-shrink:0;}
       #presensiDialog .sectionhead {flex-direction:row;align-items:center;gap:12px;}
       #presensiDialog h2 {margin:0;color:var(--ink);}
       #presensiClose {min-width:44px;flex:none;}
@@ -1018,6 +1021,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
                 </div>
               </div>
               <div class="buttons">
+                <button type="button" class="btn" id="openFinalWeights" disabled>Bobot Nilai Akhir</button>
                 <button class="btn" id="downloadRecap" disabled>
                   Unduh CSV Semua Peserta</button
                 ><button class="btn" id="refreshRecap" disabled>
@@ -1025,6 +1029,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
                 </button>
               </div>
             </div>
+            <p id="recapFinalInfo" class="help">Nilai akhir peserta menggunakan evaluasi Pengajar dan Panitia; JP serta catatan perilaku tetap terpisah.</p>
             <input
               id="recapSearch"
               type="search"
@@ -1060,8 +1065,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
               berubah. Status lengkap menunjukkan kelengkapan data, bukan
               keputusan kelulusan. Nilai perilaku mengikuti aturan aktif
               program; tanpa catatan, nilai awal masih digunakan. Nilai
-              keseluruhan belum dihitung karena komponen dan bobot penilaian
-              belum lengkap. Unduhan mencakup seluruh peserta, termasuk yang
+              keseluruhan memakai rata-rata evaluasi Pengajar dan Panitia (bawaan 60%/40%), setiap sesi berbobot sama. Sakit/Izin/Tanpa Keterangan tidak dinilai; evaluasi/presensi belum lengkap membuat hasil sementara. Nilai akhir bukan keputusan kelulusan. Unduhan mencakup seluruh peserta, termasuk yang
               tersembunyi oleh pencarian. Muat ulang sebelum mengunduh hasil
               terbaru.
             </p>
@@ -1689,6 +1693,13 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         </p>
       </div>
     </dialog>
+    <dialog id="finalWeightsDialog" aria-labelledby="finalWeightsTitle"><form id="finalWeightsForm" class="dialog-body">
+      <div class="sectionhead"><h2 id="finalWeightsTitle">Bobot Nilai Akhir</h2><button type="button" id="closeFinalWeights" class="btn" aria-label="Tutup bobot nilai akhir">×</button></div>
+      <p id="finalWeightsProgram" class="muted"></p><p class="help">Bobot berlaku untuk program yang dipilih. Total harus 100%. JP dan nilai perilaku tetap terpisah; nilai lama tidak ditimpa.</p>
+      <div class="dialog-fields"><div class="field"><label for="finalTeacherWeight">Pengajar (%)</label><input id="finalTeacherWeight" type="number" min="1" max="99" step="1" required></div><div class="field"><label for="finalStaffWeight">Panitia (%)</label><input id="finalStaffWeight" type="number" min="1" max="99" step="1" required></div></div>
+      <div class="field"><label for="finalWeightsReason">Alasan perubahan</label><textarea id="finalWeightsReason" maxlength="2000" rows="2" required></textarea></div><p id="finalWeightsMessage" class="foot" role="status"></p><button id="saveFinalWeights" type="submit" class="btn primary full">Simpan Bobot</button>
+    </form></dialog>
+    <dialog id="finalScoreDialog" aria-labelledby="finalScoreTitle" style="width:min(1100px,94vw)"><div class="dialog-body"><div class="sectionhead"><h2 id="finalScoreTitle">Rincian Nilai Akhir</h2><button id="closeFinalScore" type="button" class="btn" aria-label="Tutup rincian nilai akhir">×</button></div><p id="finalScoreSummary" class="help"></p><p id="finalScoreReasons" class="foot"></p><div class="tablebox" style="max-height:480px;overflow:auto"><table><thead><tr><th>SESI</th><th>STATUS</th><th>PENGAJAR (100)</th><th>PANITIA (100)</th><th>KETERANGAN</th></tr></thead><tbody id="finalScoreBody"></tbody></table></div><p class="foot">Setiap sesi memiliki bobot yang sama. Rata-rata aspek ÷ 5 × 100. Hasil akhir dihitung sebelum pembulatan tampilan; keputusan pelatihan tetap pada ketua tim kerja.</p></div></dialog>
     <dialog id="presensiDialog" aria-labelledby="presensiTitle">
       <div class="dialog-body">
         <div class="sectionhead"><h2 id="presensiTitle">Presensi</h2><button id="presensiClose" type="button" class="btn" aria-label="Tutup pilihan presensi">×</button></div>
@@ -2018,6 +2029,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         $("sesi").disabled = !$("program").value || (modernJenjang&&!$("jenjang").value) || saving || publishing;
         $("jenis").disabled = publishing;
         $("masa").disabled = publishing;
+        $("openFinalWeights").disabled = !$("program").value || recapLoading || saving || publishing;
         $("refreshRecap").disabled =
           !$("program").value || recapLoading || saving;
         $("refreshBehavior").disabled =
@@ -2845,6 +2857,8 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         }
       }
       function resetRecap() {
+        $("recapFinalInfo").textContent="Nilai akhir peserta menggunakan evaluasi Pengajar dan Panitia; JP serta catatan perilaku tetap terpisah.";
+        if($("finalScoreDialog").open)$("finalScoreDialog").close();
         if ($("detailDialog").open) $("detailDialog").close();
         ++recapSeq;
         recapLoading = false;
@@ -2869,6 +2883,9 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
             }) + suffix
           : "—";
       }
+      function statusNilaiAkhir(status){return ({lengkap:'Data lengkap',sementara:'Sementara',tidak_dinilai:'Tidak Dinilai',peserta_nonaktif:'Peserta nonaktif'})[status]||'Belum tersedia';}
+      function bukaNilaiAkhir(p){const r=p.nilai_akhir;if(!r)return;$('finalScoreTitle').textContent='Nilai Akhir · '+p.nama;$('finalScoreSummary').textContent='Nilai '+formatRekap(r.nilai)+' · '+statusNilaiAkhir(r.status)+' · Pengajar '+r.aturan.pengajar+'% + Panitia '+r.aturan.panitia+'% · '+r.sesi_tidak_dinilai+' sesi Tidak Dinilai. Versi bobot: '+r.aturan.versi;$('finalScoreReasons').textContent=r.alasan.join(' ');const body=$('finalScoreBody');body.replaceChildren();r.rincian.forEach(s=>{const tr=document.createElement('tr');tr.append(cell(s.nama_sesi),cell(s.status.replace(/_/g,' ')),cell(formatRekap(s.pengajar)),cell(formatRekap(s.panitia)),cell(s.keterangan));body.append(tr);});$('finalScoreDialog').showModal();}
+      $('closeFinalScore').addEventListener('click',()=>$('finalScoreDialog').close());
       function renderRecap() {
         const body = $("recapBody");
         body.replaceChildren();
@@ -2953,7 +2970,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
                     score.jumlah_catatan +
                     " catatan",
             ),
-            cell("Belum dapat dihitung — aturan penilaian belum lengkap"),
+            (()=>{const td=cell(''),f=p.nilai_akhir;if(!f){td.textContent='Belum tersedia';return td;}const value=document.createElement('strong');value.textContent=formatRekap(f.nilai);const badge=document.createElement('span');badge.className='sub';badge.textContent=statusNilaiAkhir(f.status);const basis=document.createElement('span');basis.className='sub';basis.textContent='Pengajar '+formatRekap(f.pengajar.nilai)+' · Panitia '+formatRekap(f.panitia.nilai);const detail=document.createElement('button');detail.type='button';detail.className='action';detail.textContent='Rincian Nilai';detail.addEventListener('click',()=>bukaNilaiAkhir(p));td.append(value,badge,basis,detail);td.title=f.alasan.join('\n');return td;})(),
           );
           body.append(tr);
         });
@@ -2982,6 +2999,9 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           if (!r || !r.sukses) throw Error("Rekap tidak tersedia.");
           if (!nilai || !nilai.sukses)
             throw Error("Nilai perilaku tidak tersedia. Muat ulang rekap.");
+          if(r.nilai_akhir&&!r.nilai_akhir.sukses)throw Error(r.nilai_akhir.pesan||'Nilai akhir tidak tersedia. Muat ulang sebelum mengunduh.');
+          const bobot=r.nilai_akhir&&r.nilai_akhir.aturan;
+          $('recapFinalInfo').textContent=bobot?'Nilai akhir: Pengajar '+bobot.pengajar+'% + Panitia '+bobot.panitia+'%. Rata-rata aspek dikonversi ke 100; setiap sesi berbobot sama. Sakit/Izin/Tanpa Keterangan dikeluarkan; data belum lengkap tetap sementara. JP dan perilaku terpisah.':r.nilai_akhir&&r.nilai_akhir.pesan||'Nilai akhir belum tersedia.';
           recapRows = r.peserta;
           recapScores = new Map(
             nilai.peserta.map((p) => [p.id_keikutsertaan, p]),
@@ -4416,6 +4436,13 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         $("scoreDetailDialog").close(),
       );
 
+      let finalWeightsModel=null,finalWeightsPayload=null,finalWeightsLoading=false;
+      function finalWeightsControls(){const locked=saving||finalWeightsLoading||!!finalWeightsPayload;for(const id of ['finalTeacherWeight','finalStaffWeight','finalWeightsReason'])$(id).disabled=locked;$('saveFinalWeights').disabled=saving||finalWeightsLoading||!finalWeightsModel;$('closeFinalWeights').disabled=saving||finalWeightsLoading;$('saveFinalWeights').textContent=saving?'Menyimpan…':finalWeightsPayload?'Coba Lagi':'Simpan Bobot';}
+      $('openFinalWeights').addEventListener('click',async()=>{if(saving||recapLoading||!$('program').value)return;finalWeightsModel=null;finalWeightsPayload=null;finalWeightsLoading=true;$('finalWeightsForm').reset();$('finalWeightsProgram').textContent='';$('finalWeightsMessage').textContent='Memuat bobot program…';$('finalWeightsDialog').showModal();finalWeightsControls();try{const r=await rpc('muatBobotNilaiAkhirIndex',$('program').value);if(!r||!r.sukses)throw Error('Bobot tidak tersedia.');finalWeightsModel=r;$('finalWeightsProgram').textContent=r.nama_program+' · '+r.aturan.id_program;$('finalTeacherWeight').value=r.aturan.pengajar;$('finalStaffWeight').value=r.aturan.panitia;$('finalWeightsMessage').textContent='Versi: '+r.aturan.versi;}catch(e){$('finalWeightsMessage').textContent=e.message;}finally{finalWeightsLoading=false;finalWeightsControls();}});
+      for(const [id,other] of [['finalTeacherWeight','finalStaffWeight'],['finalStaffWeight','finalTeacherWeight']])$(id).addEventListener('input',()=>{if(!saving&&!finalWeightsPayload){const n=Number($(id).value);if(Number.isInteger(n)&&n>=1&&n<=99)$(other).value=100-n;}});
+      $('closeFinalWeights').addEventListener('click',()=>{if(!saving&&!finalWeightsLoading)$('finalWeightsDialog').close();});$('finalWeightsDialog').addEventListener('cancel',e=>{if(saving||finalWeightsLoading)e.preventDefault();});
+      $('finalWeightsForm').addEventListener('submit',async e=>{e.preventDefault();if(saving||!finalWeightsModel||!$('finalWeightsForm').reportValidity())return;if(!finalWeightsPayload&&(!$('finalWeightsReason').value.trim()||$('finalWeightsReason').value.trim().startsWith('='))){$('finalWeightsMessage').textContent='Alasan wajib diisi dan tidak diawali tanda =.';return;}if(!finalWeightsPayload)finalWeightsPayload={id_program:finalWeightsModel.aturan.id_program,versi:finalWeightsModel.aturan.versi,pengajar:Number($('finalTeacherWeight').value),panitia:Number($('finalStaffWeight').value),alasan:$('finalWeightsReason').value.trim(),id_permintaan:idUnggah()};saving=true;finalWeightsControls();controls();try{const r=await rpc('simpanBobotNilaiAkhirIndex',finalWeightsPayload);if(!r||!r.sukses)throw Error('Penyimpanan belum terkonfirmasi.');finalWeightsPayload=null;$('finalWeightsDialog').close();saving=false;resetRecap();await loadRecap();message(r.pesan,'success');}catch(e){$('finalWeightsMessage').textContent=e.message+' Coba Lagi memakai permintaan yang sama; tutup dan buka kembali untuk memeriksa versi terbaru.';}finally{saving=false;finalWeightsControls();controls();}});
+
       function csvRecapCell(value) {
         let t = String(value == null ? "" : value);
         if (typeof value !== "number" && /^[\s]*[=+@-]/.test(t)) t = "'" + t;
@@ -4470,8 +4497,8 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
                 : "data_tidak_tersedia",
             n ? n.jumlah_catatan : "",
             recapRule ? recapRule.versi : "",
-            "",
-            "aturan_penilaian_belum_lengkap",
+            p.nilai_akhir ? num(p.nilai_akhir.nilai) : '',
+            p.nilai_akhir ? p.nilai_akhir.status : 'belum_tersedia',
             num(stats.jumlah_kehadiran),
             num(stats.jumlah_keterlambatan),
             num(stats.jumlah_izin),

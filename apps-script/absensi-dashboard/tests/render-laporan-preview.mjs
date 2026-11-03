@@ -5,8 +5,8 @@ for(const size of [2,13]){
  const h=reportHarness(),c=h.renderer;
  h.t.h.patch('Peserta','PST002','id_peserta',{nama_pegawai:'Peserta B'});h.t.h.patch('Jenjang','JEN003','id_jenjang',{nama_jenjang:'Lanjutan'});h.t.h.patch('Sesi','SES003','id_sesi',{nama_sesi:'Pendalaman AI Agent'});h.t.h.patch('Sesi','SES004','id_sesi',{nama_sesi:'Praktik AI Agent'});
  for(let i=2;i<size;i++){h.append('Peserta',{id_peserta:'PST-PREVIEW-'+i,nama_pegawai:'Peserta Contoh '+String(i+1).padStart(2,'0'),nip:'199001012020011001',unit_kerja:'Unit Contoh'});h.append('Keikutsertaan',{id_keikutsertaan:'KST-PREVIEW-'+i,id_peserta:'PST-PREVIEW-'+i,id_program:'PRG001',id_jenjang:'JEN001',unit_kerja_saat_pelatihan:'Unit Pengembangan Kompetensi Aparatur',status_keikutsertaan:'terdaftar'});}
- h.call(h.teacher,'simpanEvaluasiPesertaSesi',h.payload());h.note({keterangan:'Peserta aktif memberikan masukan dalam diskusi kelompok.'});
- const r=h.report();r.id_laporan='LAP-CONTOH-'+size+'-PESERTA';r.waktu='2026-11-01 09:00:00';const layout=c.susunHalamanLaporan_(r);
+ h.append('Kehadiran',{id_kehadiran:'KHD-PREVIEW-ABSENT',id_sesi:'SES004',id_keikutsertaan:'KST001',metode_input:'manual_status_v1',status_kehadiran:'manual_sakit',status_validasi:'terverifikasi'});const panitia=h.call(h.staff,'muatEvaluasiPanitiaSesi','SES001');h.call(h.staff,'simpanEvaluasiPanitiaSesi',{id_sesi:'SES001',rubrik:panitia.rubrik,versi_sumber:panitia.versi_sumber,id_permintaan:'report_preview_panitia_0001',nilai:[{id_keikutsertaan:'KST001',versi:'',skor:{kedisiplinan:4,kerja_sama:4,prakarsa:4},catatan:'Penilaian contoh Panitia'}]});h.call(h.teacher,'simpanEvaluasiPesertaSesi',h.payload());h.note({keterangan:'Peserta aktif memberikan masukan dalam diskusi kelompok.'});
+ const r=h.report();r.id_laporan='LAP-CONTOH-'+size+'-PESERTA';r.waktu='2026-11-03 09:00:00';const layout=c.susunHalamanLaporan_(r);
  execFileSync('python',['-c',`import sys,json,matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt

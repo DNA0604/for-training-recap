@@ -34,6 +34,7 @@ function dataLaporanProgram_(id) {
     const r = ringkasLaporanProgram_(data, Date.now(), zona);
     try { r.jadwal = muatKelolaProgramIndex(id).sesi; } catch(e) { r.jadwal=[];r.peringatan.push('Rincian jeda/durasi tidak tersedia: '+e.message); }
     try { r.jp = muatRekapJPProgramIndex(id); } catch(e) { r.peringatan.push('Rekap JP tidak tersedia: '+e.message); }
+    if(r.jp&&r.jp.nilai_akhir&&!r.jp.nilai_akhir.sukses)r.peringatan.push(r.jp.nilai_akhir.pesan||'Nilai akhir belum tersedia.');
     try { r.nilai = muatNilaiPerilakuProgramIndex(id); if (!r.nilai.aturan) r.peringatan.push('Aturan nilai perilaku belum tersedia.'); } catch(e) { r.peringatan.push('Nilai perilaku tidak tersedia: '+e.message); }
     try { r.evaluasi=evaluasiUntukLaporan_(r); } catch(e) { r.evaluasi={tersedia:false,alasan:e.message,kelompok:[]};r.peringatan.push('Evaluasi belum tersedia: '+e.message); }
     r.id_laporan='LAP-'+Utilities.getUuid();
@@ -129,7 +130,7 @@ function evaluasiUntukLaporan_(r) {
     const filled=detail.filter(x=>x.diisi),valid=filled.filter(x=>!x.berubah);
     return {id,nama,aspek:aspek.map(a=>a.nama),diharapkan:detail.length,diisi:filled.length,belum:detail.length-filled.length,berubah:filled.length-valid.length,dasar_rata:valid.length,rata:aspek.map((a,i)=>valid.length?valid.reduce((n,x)=>n+x.skor[i],0)/valid.length:null),detail};
   });
-  return {tersedia:true,alasan:'Skala 1–5 per aspek. Rata-rata deskriptif hanya dari penilaian terisi dengan sumber sesuai; bukan nilai akhir gabungan.',kelompok:groups};
+  return {tersedia:true,alasan:'Skala 1–5 per aspek. Ketiga rubrik disajikan terpisah. Rata-rata deskriptif hanya dari penilaian terisi dengan sumber sesuai. Nilai akhir evaluasi peserta dijelaskan pada bagian 6.4.',kelompok:groups};
 }
 function periksaIzinLaporanKini_(id){
   const lock=LockService.getScriptLock();lock.waitLock(30000);

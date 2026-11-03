@@ -708,10 +708,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
             </div>
           </div>
           <p class="foot" id="attendanceBasis"></p>
-          <p class="foot">
-            Nilai keseluruhan pelatihan belum dihitung karena komponen dan bobot
-            penilaian belum lengkap.
-          </p>
+          <section class="panel" aria-labelledby="profileFinalTitle"><h2 id="profileFinalTitle">Nilai Akhir Evaluasi Peserta</h2><p id="profileFinalValue">—</p><p id="profileFinalBasis" class="foot">Pengajar dan Panitia; JP serta catatan perilaku ditampilkan terpisah.</p><p id="profileFinalReason" class="foot"></p></section>
           <div class="tabs" aria-label="Rincian profil">
             <button id="tabAttendance" class="btn primary" aria-pressed="true">
               Kehadiran</button
@@ -1215,6 +1212,10 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
           " absensi belum lengkap, " +
           stat.perlu_verifikasi +
           " perlu verifikasi. Hasil masih sementara jika data belum lengkap/diverifikasi.";
+        const akhir=r.nilai_akhir;
+        $('profileFinalValue').textContent=akhir?fmt(akhir.nilai)+' · '+textStatus(akhir.status):'Belum tersedia untuk tampilan ini.';
+        $('profileFinalBasis').textContent=akhir?'Pengajar '+fmt(akhir.pengajar.nilai)+' ('+akhir.aturan.pengajar+'%) · Panitia '+fmt(akhir.panitia.nilai)+' ('+akhir.aturan.panitia+'%) · '+akhir.sesi_tidak_dinilai+' sesi Tidak Dinilai. JP dan perilaku terpisah.':'Pengajar dan Panitia; JP serta catatan perilaku ditampilkan terpisah.';
+        $('profileFinalReason').textContent=akhir?akhir.alasan.join(' '):'';
         const jp = r.jp,
           n = r.nilai;
         $("jpObtained").textContent = jp ? fmt(jp.jp_diperoleh) : "—";

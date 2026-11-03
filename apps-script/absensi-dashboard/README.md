@@ -4,14 +4,18 @@ Current accepted application source for Pusat Pengembangan Aparatur Komdigi.
 Read ../../PROJECT_CONTEXT.md and ../../AGENTS.md first. These supersede the earlier flat UI package notes and old preview/test reports.
 
 ## Files to use in Google Apps Script
-PresensiManual.gs, Code.gs, Laporan.gs, LaporanTampilan.gs, Hapus.gs, Jenjang.gs, Akses.gs, Evaluasi.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Absensi.html, AdminQR.html, PratinjauJenjang.html.
+NilaiAkhir.gs, PresensiManual.gs, Code.gs, Laporan.gs, LaporanTampilan.gs, Hapus.gs, Jenjang.gs, Akses.gs, Evaluasi.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Absensi.html, AdminQR.html, PratinjauJenjang.html.
 The project must remain bound to its existing Google Sheet. Retain the deployed manifest/scopes and deployment configuration.
 
 Replace complete contents of files changed for a task. Keep exact file names. Save, and for /exec publish a new version of the existing deployment. Keep the deployment URL so QR links remain valid.
 
 Preview files and Hasil-Pengujian.txt inherited from the older UI branch are historical and do not depict or validate this current snapshot. Do not install preview files as Apps Script application code.
 
-See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 18 current HTML/GS source files, including the Jenjang preparation tools and report layout/assets.
+See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 19 current HTML/GS source files, including the Jenjang preparation tools and report layout/assets.
+
+## Nilai akhir evaluasi peserta (3 November 2026)
+
+Branch **feat/nilai-akhir-peserta**: tambahkan **NilaiAkhir.gs**; ganti **Code.gs, Akses.gs, Evaluasi.gs, Index.html, Profil.html, Laporan.gs, LaporanTampilan.gs** bersama-sama. Bawaan Pengajar 60% + Panitia 40%; Admin dapat mengubah bobot per program melalui Rekap Program. Sesi tidak dihadiri dikeluarkan, hasil belum lengkap sementara/kosong; JP/perilaku tetap terpisah. Hasil sama pada profil, CSV, PDF dan tab turunan **Rekap_Nilai_Akhir** setelah Perbarui Rekap Spreadsheet. Tidak perlu migrasi/spreadsheet baru. [Rumus, pemasangan, pengaturan dan uji Google](docs/NILAI_AKHIR_PESERTA.md).
 
 ## Tombol Evaluasi dan jarak Ringkasan Sesi (2 November 2026)
 
