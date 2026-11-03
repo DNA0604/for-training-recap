@@ -13,6 +13,10 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 19 current HTML/GS source files, including the Jenjang preparation tools and report layout/assets.
 
+## Pemeriksaan pemuatan data (3 November 2026)
+
+Branch **perf/pemeriksaan-pemuatan-data**: setelah paket nilai akhir, ganti **Code.gs, Akses.gs dan Index.html** bersama-sama. Pustaka QR tidak menahan pemuatan Monitoring, pilihan awal menghindari pembacaan ganda dan konversi tanggal berulang dikurangi dalam satu permintaan baca. Aturan/hak akses tetap. Pencatat waktu lokal tersedia untuk membandingkan deployment dengan alur review Admin sebelumnya sekitar 2,5 menit. [Pemasangan, bukti lokal dan cara mengukur](docs/PEMERIKSAAN_PEMUATAN_DATA.md). Tidak perlu file GS/spreadsheet baru atau migrasi; hasil kecepatan Google belum diukur.
+
 ## Nilai akhir evaluasi peserta (3 November 2026)
 
 Branch **feat/nilai-akhir-peserta**: tambahkan **NilaiAkhir.gs**; ganti **Code.gs, Akses.gs, Evaluasi.gs, Index.html, Profil.html, Laporan.gs, LaporanTampilan.gs** bersama-sama. Bawaan Pengajar 60% + Panitia 40%; Admin dapat mengubah bobot per program melalui Rekap Program. Sesi tidak dihadiri dikeluarkan, hasil belum lengkap sementara/kosong; JP/perilaku tetap terpisah. Hasil sama pada profil, CSV, PDF dan tab turunan **Rekap_Nilai_Akhir** setelah Perbarui Rekap Spreadsheet. Tidak perlu migrasi/spreadsheet baru. [Rumus, pemasangan, pengaturan dan uji Google](docs/NILAI_AKHIR_PESERTA.md).

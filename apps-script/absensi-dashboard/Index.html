@@ -461,7 +461,7 @@ window.resolveDatabaseBase = function(canonical) {
         min-height: 260px;
       }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style id="flat-dashboard-theme">
 /* Shared flat dashboard skin. Embedded in every Apps Script HTML page. */
 :root { --ink:#1c3035; --muted:#607378; --line:#e0e8e7; --blue:#087f70; --bg:#f4f7f6; --nav-width:232px; --accent:#087f70; }
@@ -2697,7 +2697,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         if (publishing || !currentSession) return;
         if (typeof QRCode === "undefined") {
           message(
-            "Pustaka QR belum dimuat. Periksa koneksi lalu muat ulang halaman.",
+            "Pustaka QR masih dimuat. Tunggu sesaat lalu coba lagi; periksa koneksi bila tetap belum tersedia.",
             "error",
           );
           return;

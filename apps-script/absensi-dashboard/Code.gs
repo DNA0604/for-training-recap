@@ -3128,12 +3128,26 @@ function lengkapiAbsensiManual_() {
   }
 }
 
+/** Scalar computations only: bounded to an existing read request, never shared across requests/writes. */
+function nilaiHitungBacaan_(key,read){
+  const memo=typeof bacaanPermintaanAkses_==='undefined'?null:bacaanPermintaanAkses_;
+  if(!memo)return read();if(!memo.hitungan)memo.hitungan=new Map();
+  if(memo.hitungan.has(key))return memo.hitungan.get(key);
+  const result=read();if(memo.hitungan.size<2000&&['number','string','boolean'].includes(typeof result))memo.hitungan.set(key,result);return result;
+}
+function formatTanggalBacaan_(date,zona,format){
+  if(!(date instanceof Date)||!Number.isFinite(date.getTime()))return Utilities.formatDate(date,zona,format);
+  return nilaiHitungBacaan_('format|'+JSON.stringify([date.getTime(),zona,format]),()=>Utilities.formatDate(date,zona,format));
+}
 function parseWaktuAbsensiManual_(teks, zona) {
   if (!/^\d{4}-\d{2}-\d{2} (?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?$/.test(teks)) throw new Error('Format waktu harus YYYY-MM-DD HH:mm atau YYYY-MM-DD HH:mm:ss.');
   const lengkap = teks.length === 16 ? teks + ':00' : teks;
-  const tanggal = Utilities.parseDate(lengkap, zona, 'yyyy-MM-dd HH:mm:ss');
-  if (Utilities.formatDate(tanggal, zona, 'yyyy-MM-dd HH:mm:ss') !== lengkap) throw new Error('Tanggal atau waktu tidak valid: ' + teks);
-  return tanggal;
+  const epoch=nilaiHitungBacaan_('parse|'+JSON.stringify([lengkap,zona]),()=>{
+    const tanggal=Utilities.parseDate(lengkap,zona,'yyyy-MM-dd HH:mm:ss');
+    if(formatTanggalBacaan_(tanggal,zona,'yyyy-MM-dd HH:mm:ss')!==lengkap)throw new Error('Tanggal atau waktu tidak valid: '+teks);
+    return tanggal.getTime();
+  });
+  return new Date(epoch);
 }
 
 function simpanKoreksiAbsensiManual_(data) {
@@ -3353,7 +3367,9 @@ function versiBarisIndex_(row){return Utilities.computeDigest(Utilities.DigestAl
 function muatAwalIndex(){
   if(typeof wajibEndpointAkses_==='function')wajibEndpointAkses_('muatAwalIndex');
   wajibPemilikIndex_();
-  const data=ambilDataProgramSesiQR();
+  // The authenticated page already reads these sources in its request snapshot; do not read display ranges again.
+  const txt=v=>String(v==null?'':v).trim(),sessionTable=tabelIndex_('Sesi',['id_sesi','id_program','nama_sesi']);
+  const data={sukses:true,sesi:sessionTable.records.map(s=>Object.assign({id_sesi:txt(s.id_sesi),id_program:txt(s.id_program),nama_sesi:txt(s.nama_sesi)},sessionTable.header.includes('id_jenjang')?{id_jenjang:txt(s.id_jenjang)}:{}))};
   if(typeof bacaMentahJenjang_==='function'){const j=bacaMentahJenjang_('Jenjang',true),names=new Map((j?j.records:[]).map(j=>[String(j.id_jenjang).trim(),String(j.nama_jenjang)]));data.sesi=data.sesi.map(s=>Object.assign({},s,{nama_sesi:String(s.nama_sesi)+(names.has(s.id_jenjang)?' · '+names.get(s.id_jenjang):'')}));}
   data.program=tabelIndex_('Program',['id_program','nama_program','kategori_pelatihan','jenjang']).records
     .map(p=>({id_program:String(p.id_program||'').trim(),nama_program:String(p.nama_program||'').trim(),kategori_pelatihan:String(p.kategori_pelatihan||'').trim(),jenjang:typeof namaJenjangProgram_==='function'?namaJenjangProgram_(p.id_program,p.jenjang):String(p.jenjang||'').trim()}))
@@ -3380,8 +3396,8 @@ function muatKehadiranIndex(idSesi){
     map.set(key,{k:k,row:kehadiran.rows[n]});
   });
   const nama=new Map(peserta.map(p=>[String(p.id_peserta).trim(),String(p.nama_pegawai)]));
-  function waktu(v){return v instanceof Date&&!isNaN(v.getTime())?Utilities.formatDate(v,zona,'yyyy-MM-dd HH:mm:ss'):String(v||'');}
-  function jam(v){return v instanceof Date?Utilities.formatDate(v,zona,'HH:mm'):String(v||'');}
+  function waktu(v){return v instanceof Date&&!isNaN(v.getTime())?formatTanggalBacaan_(v,zona,'yyyy-MM-dd HH:mm:ss'):String(v||'');}
+  function jam(v){return v instanceof Date?formatTanggalBacaan_(v,zona,'HH:mm'):String(v||'');}
   const drafManual=drafPresensiManualSesi_(idSesi);
   const rows=ikut.map(t=>{
     const item=map.get(String(t.id_keikutsertaan).trim()),k=item?item.k:{};
@@ -3393,7 +3409,7 @@ function muatKehadiranIndex(idSesi){
   const pesertaSesi=new Set(rows.map(r=>r.id_keikutsertaan.trim()));
   const izinSesi=tabelIndex_('Catatan_Perilaku',['id_sesi','id_keikutsertaan','id_indikator','status_validasi']).records.filter(c=>String(c.id_sesi).trim()===idSesi&&pesertaSesi.has(String(c.id_keikutsertaan).trim())&&kodeIzin.has(String(c.id_indikator).trim())&&String(c.status_validasi).trim().toLowerCase()!=='ditolak');
   const ringkasan={terlambat:rows.filter(r=>r.manual?r.manual.terlambat:!r.peringatan_waktu&&Number.isFinite(r.terlambat_menit)&&r.terlambat_menit>10).length,izin:new Set(izinSesi.map(c=>String(c.id_keikutsertaan).trim()).concat(rows.filter(r=>r.manual&&r.manual.status==='izin').map(r=>r.id_keikutsertaan.trim()))).size};
-  return {sukses:true,zona_waktu:zona,ringkasan:ringkasan,sesi:{id_sesi:idSesi,nama:String(s.nama_sesi),nama_pengajar:typeof namaPengajarRingkasan_==='function'?namaPengajarRingkasan_(s):'Belum ditetapkan',tanggal:s.tanggal_sesi instanceof Date?Utilities.formatDate(s.tanggal_sesi,zona,'yyyy-MM-dd'):String(s.tanggal_sesi||''),mulai:jam(s.jam_mulai),selesai:jam(s.jam_selesai)},peserta:rows};
+  return {sukses:true,zona_waktu:zona,ringkasan:ringkasan,sesi:{id_sesi:idSesi,nama:String(s.nama_sesi),nama_pengajar:typeof namaPengajarRingkasan_==='function'?namaPengajarRingkasan_(s):'Belum ditetapkan',tanggal:s.tanggal_sesi instanceof Date?formatTanggalBacaan_(s.tanggal_sesi,zona,'yyyy-MM-dd'):String(s.tanggal_sesi||''),mulai:jam(s.jam_mulai),selesai:jam(s.jam_selesai)},peserta:rows};
 }
 function dataKoreksiIndex_(d){
   if(!d||!String(d.id_kehadiran||'').trim()||!String(d.versi||'').trim())throw new Error('Pilih kehadiran yang sudah tercatat.');
@@ -3472,8 +3488,8 @@ function hitungDurasiJP_(p) {
   return {durasi_aktual_menit:aktual,durasi_diakui_menit:diakui,menit_terlambat:terlambat/60000,menit_pengurang_jp:Math.max(0,rencana-diakui),jp_diakui_presisi:diakui/45};
 }
 function waktuJadwalJP_(tanggal,jam,zona) {
-  const t=tanggal instanceof Date?Utilities.formatDate(tanggal,zona,'yyyy-MM-dd'):String(tanggal||'').trim();
-  let j;if(jam instanceof Date)j=Utilities.formatDate(jam,zona,'HH:mm:ss');else{
+  const t=tanggal instanceof Date?formatTanggalBacaan_(tanggal,zona,'yyyy-MM-dd'):String(tanggal||'').trim();
+  let j;if(jam instanceof Date)j=formatTanggalBacaan_(jam,zona,'HH:mm:ss');else{
     const m=String(jam||'').trim().replace('.',':').match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
     if(!m)throw new Error('Format jam jadwal tidak valid: '+jam);
     j=m[1].padStart(2,'0')+':'+m[2]+':'+(m[3]||'00');
@@ -3611,8 +3627,8 @@ function muatRekapJPProgramIndex(idProgram){
   const pending=new Set(Array.from(transactions.values()).filter(t=>t.status!=='SELESAI').map(t=>t.id));
   const nama=new Map(peserta.map(p=>[txt(p.id_peserta),txt(p.nama_pegawai)]));
   const meta=[],tambahan=[],ids=new Set();
-  const tampilWaktu=v=>v instanceof Date&&!isNaN(v.getTime())?Utilities.formatDate(v,zona,'yyyy-MM-dd HH:mm:ss'):txt(v);
-  const tanggalSesi=v=>v instanceof Date?Utilities.formatDate(v,zona,'yyyy-MM-dd'):txt(v);
+  const tampilWaktu=v=>v instanceof Date&&!isNaN(v.getTime())?formatTanggalBacaan_(v,zona,'yyyy-MM-dd HH:mm:ss'):txt(v);
+  const tanggalSesi=v=>v instanceof Date?formatTanggalBacaan_(v,zona,'yyyy-MM-dd'):txt(v);
   let totalMenit=0,diabaikan=0;const masalah=[];
   sesi.forEach(s=>{
     const id=txt(s.id_sesi);if(!id||ids.has(id))throw new Error('ID sesi kosong atau duplikat pada program.');ids.add(id);
@@ -3631,7 +3647,9 @@ function muatRekapJPProgramIndex(idProgram){
   });
   const seen=new Set();
   const groupCSV=list=>{const map=new Map();list.forEach(r=>{const id=txt(r.id_keikutsertaan);if(!map.has(id))map.set(id,[]);map.get(id).push(r);});return map;};
-  const hadirCSV=groupCSV(k),catatanCSV=groupCSV(catatan);
+  const hadirCSV=groupCSV(k),catatanCSV=groupCSV(catatan),hadirPasangan=new Map(),catatanSesi=new Map();
+  k.forEach(r=>{const key=JSON.stringify([txt(r.id_sesi),txt(r.id_keikutsertaan)]);if(!hadirPasangan.has(key))hadirPasangan.set(key,[]);hadirPasangan.get(key).push(r);});
+  catatan.forEach(c=>{const sid=txt(c.id_sesi);if(!catatanSesi.has(sid))catatanSesi.set(sid,[]);catatanSesi.get(sid).push(c);});
   const hasil=ikut.map(t=>{
     const statistikCSV=statistikCSVRekap_(t,sesi,hadirCSV.get(txt(t.id_keikutsertaan))||[],catatanCSV.get(txt(t.id_keikutsertaan))||[],indikatorCSV,zona);
     const metaPeserta=meta.filter(s=>!t.id_jenjang||s.id_jenjang===txt(t.id_jenjang)),acuan=metaPeserta.reduce((n,s)=>n+s.menit,0),ownMasalah=tambahan.filter(r=>(!t.id_jenjang||r.id_jenjang===txt(t.id_jenjang))&&r.status==='perlu_verifikasi');
@@ -3639,7 +3657,7 @@ function muatRekapJPProgramIndex(idProgram){
     let menit=0,selesai=0,belumAbsen=0,belumLengkap=0,belumHitung=0;const detail=[],rincian=tambahan.filter(r=>!t.id_jenjang||r.id_jenjang===txt(t.id_jenjang)).map(r=>Object.assign({},r));
     metaPeserta.forEach(s=>{
       const info={id_sesi:s.id,nama_sesi:s.nama,tanggal:s.tanggal,jp_acuan:s.menit/45,datang:'',pulang:'',datang_asli:'',pulang_asli:'',sumber_datang:'',sumber_pulang:'',durasi_diakui:null,jp:null,terlambat:null,status:'belum_absen',keterangan:''};rincian.push(info);
-      const records=k.filter(r=>txt(r.id_sesi)===s.id&&txt(r.id_keikutsertaan)===id);
+      const records=hadirPasangan.get(JSON.stringify([s.id,id]))||[];
       if(!records.length){info.keterangan='Belum ada absensi pada sesi ini.';belumAbsen++;detail.push(s.id+': belum ada absensi');return;}
       if(records.length!==1){info.status='perlu_verifikasi';info.keterangan='Kehadiran duplikat; periksa spreadsheet.';belumHitung++;detail.push(s.id+': kehadiran duplikat');return;}
       const r=records[0],manual=statusPresensiManual_(r);
@@ -3653,7 +3671,7 @@ function muatRekapJPProgramIndex(idProgram){
         if(pending.has(txt(r.id_kehadiran)))throw new Error('transaksi kehadiran tertunda');
         if(!manual&&(!(d instanceof Date)||!(p instanceof Date)))throw new Error('format waktu kehadiran tidak valid');
         const izin=[];
-        catatan.filter(c=>txt(c.id_sesi)===s.id&&(txt(c.id_kehadiran)===txt(r.id_kehadiran)||(!txt(c.id_kehadiran)&&txt(c.id_keikutsertaan)===id))).forEach(c=>{
+        (catatanSesi.get(s.id)||[]).filter(c=>txt(c.id_kehadiran)===txt(r.id_kehadiran)||(!txt(c.id_kehadiran)&&txt(c.id_keikutsertaan)===id)).forEach(c=>{
           if(txt(c.id_keikutsertaan)!==id)throw new Error('relasi catatan izin tidak sesuai');
           const st=txt(c.status_pengurangan_jp);
           if(!st&&!c.waktu_mulai_izin&&!c.waktu_selesai_izin)return;
@@ -3907,7 +3925,7 @@ function muatNilaiPerilakuProgramIndex(idProgram){
     const id=txt(k.id_keikutsertaan),notes=c.filter(r=>txt(r.id_keikutsertaan)===id&&sm.has(txt(r.id_sesi))&&sesuaiJenjang_(sm.get(txt(r.id_sesi)),k)).map(r=>{
       const s=sm.get(txt(r.id_sesi)),h=hadir.filter(h=>txt(h.id_sesi)===txt(r.id_sesi)&&txt(h.id_keikutsertaan)===id);let terlambat=null;
       try{const d=h.length===1&&(h[0].waktu_datang_terverifikasi||h[0].waktu_datang);if(d instanceof Date&&Number.isFinite(d.getTime())&&!peringatanWaktuKehadiran_(d,null,s.tanggal_sesi,zona))terlambat=Math.max(0,(d.getTime()-waktuJadwalJP_(s.tanggal_sesi,s.jam_mulai,zona))/60000);}catch(ignored){}
-      return {id:txt(r.id_catatan),id_sesi:txt(r.id_sesi),kode:im.get(txt(r.id_indikator))||txt(r.id_indikator),status:txt(r.status_validasi),urutan:r.waktu_kejadian instanceof Date?r.waktu_kejadian.getTime():NaN,waktu:r.waktu_kejadian instanceof Date?Utilities.formatDate(r.waktu_kejadian,zona,'yyyy-MM-dd HH:mm:ss'):txt(r.waktu_kejadian),keterangan:txt(r.keterangan),durasi:r.durasi_kejadian_menit===''||r.durasi_kejadian_menit==null?null:Number(r.durasi_kejadian_menit),id_tugas:txt(r.id_tugas),terlambat:terlambat,transaksi_tertunda:pending.has('Catatan_Perilaku|'+txt(r.id_catatan))||h.some(h=>pending.has('Kehadiran|'+txt(h.id_kehadiran)))};
+      return {id:txt(r.id_catatan),id_sesi:txt(r.id_sesi),kode:im.get(txt(r.id_indikator))||txt(r.id_indikator),status:txt(r.status_validasi),urutan:r.waktu_kejadian instanceof Date?r.waktu_kejadian.getTime():NaN,waktu:r.waktu_kejadian instanceof Date?formatTanggalBacaan_(r.waktu_kejadian,zona,'yyyy-MM-dd HH:mm:ss'):txt(r.waktu_kejadian),keterangan:txt(r.keterangan),durasi:r.durasi_kejadian_menit===''||r.durasi_kejadian_menit==null?null:Number(r.durasi_kejadian_menit),id_tugas:txt(r.id_tugas),terlambat:terlambat,transaksi_tertunda:pending.has('Catatan_Perilaku|'+txt(r.id_catatan))||h.some(h=>pending.has('Kehadiran|'+txt(h.id_kehadiran)))};
     });
     return Object.assign({id_keikutsertaan:id,nama:names.get(txt(k.id_peserta))||'(peserta tidak ditemukan)',unit:txt(k.unit_kerja_saat_pelatihan),jumlah_catatan:notes.length},hitungNilaiPerilakuPeserta_(notes,aturan.cfg));
   }).sort((a,b)=>a.nama.localeCompare(b.nama,'id'));
@@ -4073,11 +4091,11 @@ function pulihkanPembuatanSesiIndex(idProgram){
 }
 
 function peringatanWaktuKehadiran_(datang,pulang,tanggalSesi,zona){
-  const tanggal=tanggalSesi instanceof Date?Utilities.formatDate(tanggalSesi,zona,'yyyy-MM-dd'):String(tanggalSesi||'').trim();
+  const tanggal=tanggalSesi instanceof Date?formatTanggalBacaan_(tanggalSesi,zona,'yyyy-MM-dd'):String(tanggalSesi||'').trim();
   for(const [label,v] of [['datang',datang],['pulang',pulang]]){
     if(v===''||v==null)continue;
     if(!(v instanceof Date)||!Number.isFinite(v.getTime()))return 'Waktu '+label+' tidak valid; perlu verifikasi.';
-    if(Utilities.formatDate(v,zona,'yyyy-MM-dd')!==tanggal)return 'Tanggal '+label+' berbeda dari tanggal sesi; perlu verifikasi.';
+    if(formatTanggalBacaan_(v,zona,'yyyy-MM-dd')!==tanggal)return 'Tanggal '+label+' berbeda dari tanggal sesi; perlu verifikasi.';
   }
   if(datang&&pulang&&pulang<=datang)return 'Waktu pulang tidak setelah waktu datang; perlu verifikasi.';
   return '';
@@ -4485,11 +4503,11 @@ function muatProfilPesertaIndex(d){
   const programs=tabelIndex_('Program',['id_program','nama_program','kategori_pelatihan','jenjang']).records,links=ik.filter(k=>txt(k.id_peserta)===pid),seen=new Set();
   const choices=links.map(k=>{const id=txt(k.id_program),p=programs.filter(p=>txt(p.id_program)===id);if(!id||seen.has(id)||p.length!==1)throw Error('Relasi program peserta kosong, duplikat, atau tidak ditemukan.');seen.add(id);return {id,nama:txt(p[0].nama_program),kategori:txt(p[0].kategori_pelatihan),id_jenjang:txt(k.id_jenjang),jenjang:typeof konteksJenjang_==='function'?(konteksJenjang_(id,'',false).daftar.find(j=>j.id===txt(k.id_jenjang))||{}).nama||txt(p[0].jenjang):txt(p[0].jenjang),id_keikutsertaan:txt(k.id_keikutsertaan),unit:txt(k.unit_kerja_saat_pelatihan),status:txt(k.status_keikutsertaan)};}).sort((a,b)=>a.nama.localeCompare(b.nama,'id'));
   const selected=txt(d.id_program)||choices[0]&&choices[0].id||'';if(selected&&!seen.has(selected))throw Error('Peserta tidak terdaftar pada program yang dipilih.');const program=choices.find(p=>p.id===selected)||null;
-  const result={sukses:true,peserta:{id:pid,nama:txt(person[0].nama_pegawai),nip:txt(person[0].nip),unit:txt(person[0].unit_kerja)},programs:choices,program:program,navigasi:navigasiPelatihan_(),zona,waktu:Utilities.formatDate(new Date(now),zona,'yyyy-MM-dd HH:mm:ss'),kehadiran:[],catatan:[],riwayat:[],jp:null,nilai:null,peringatan:[]};if(!program)return result;
+  const result={sukses:true,peserta:{id:pid,nama:txt(person[0].nama_pegawai),nip:txt(person[0].nip),unit:txt(person[0].unit_kerja)},programs:choices,program:program,navigasi:navigasiPelatihan_(),zona,waktu:formatTanggalBacaan_(new Date(now),zona,'yyyy-MM-dd HH:mm:ss'),kehadiran:[],catatan:[],riwayat:[],jp:null,nilai:null,peringatan:[]};if(!program)return result;
   const sesi=tabelIndex_('Sesi',['id_sesi','id_program','nama_sesi','tanggal_sesi','jam_mulai','jam_selesai']).records.filter(s=>(typeof dalamJenjangAkses_!=='function'||dalamJenjangAkses_(s))&&txt(s.id_program)===selected&&(!program.id_jenjang||sesuaiJenjang_(s,{id_program:selected,id_jenjang:program.id_jenjang}))),sids=new Set(sesi.map(s=>txt(s.id_sesi)));
   if(sids.size!==sesi.length||sids.has(''))throw Error('ID sesi kosong atau duplikat pada program.');
   const hadir=tabelIndex_('Kehadiran',['id_kehadiran','id_sesi','id_keikutsertaan','waktu_datang','waktu_pulang','waktu_datang_terverifikasi','waktu_pulang_terverifikasi','status_validasi']).records.filter(k=>txt(k.id_keikutsertaan)===program.id_keikutsertaan&&sids.has(txt(k.id_sesi)));
-  const fmt=v=>v instanceof Date&&!isNaN(v.getTime())?Utilities.formatDate(v,zona,'yyyy-MM-dd HH:mm:ss'):txt(v),date=v=>v instanceof Date?Utilities.formatDate(v,zona,'yyyy-MM-dd'):txt(v),jam=v=>v instanceof Date?Utilities.formatDate(v,zona,'HH:mm:ss'):txt(v);
+  const fmt=v=>v instanceof Date&&!isNaN(v.getTime())?formatTanggalBacaan_(v,zona,'yyyy-MM-dd HH:mm:ss'):txt(v),date=v=>v instanceof Date?formatTanggalBacaan_(v,zona,'yyyy-MM-dd'):txt(v),jam=v=>v instanceof Date?formatTanggalBacaan_(v,zona,'HH:mm:ss'):txt(v);
   const stat={sesi_selesai:0,hadir_lengkap:0,belum_lengkap:0,belum_tercatat:0,belum_berlangsung:0,berlangsung:0,perlu_verifikasi:0,terlambat:0,izin:0,persentase:null,status:'sementara'};
   result.kehadiran=sesi.map(s=>{const found=hadir.filter(k=>txt(k.id_sesi)===txt(s.id_sesi));if(found.length>1)throw Error('Kehadiran duplikat pada sesi '+txt(s.id_sesi));const k=found[0],state=statusKehadiranProfil_(s,k,now,zona);if(state.selesai)stat.sesi_selesai++;if(state.status==='hadir_lengkap'&&state.selesai)stat.hadir_lengkap++;if(state.status==='belum_lengkap')stat.belum_lengkap++;if(state.status==='belum_tercatat_hadir')stat.belum_tercatat++;if(state.status==='belum_berlangsung')stat.belum_berlangsung++;if(state.berlangsung)stat.berlangsung++;if(state.status==='perlu_verifikasi')stat.perlu_verifikasi++;if(state.terlambat_manual||state.terlambat>10)stat.terlambat++;
     return {id:txt(s.id_sesi),nama:txt(s.nama_sesi),tanggal:date(s.tanggal_sesi),mulai:jam(s.jam_mulai),selesai:jam(s.jam_selesai),status:state.status,keterangan:state.keterangan,terlambat:state.terlambat,datang:fmt(k&&(k.waktu_datang_terverifikasi||k.waktu_datang)),pulang:fmt(k&&(k.waktu_pulang_terverifikasi||k.waktu_pulang)),datang_asli:fmt(k&&k.waktu_datang),pulang_asli:fmt(k&&k.waktu_pulang),validasi:txt(k&&k.status_validasi),id_kehadiran:txt(k&&k.id_kehadiran)};
@@ -4531,8 +4549,8 @@ function muatBerandaIndex() {
 function ringkasBeranda_(data, now, zona) {
   const txt = v => String(v == null ? '' : v).trim();
   const norm = v => txt(v).toLowerCase();
-  const tanggal = v => v instanceof Date && Number.isFinite(v.getTime()) ? Utilities.formatDate(v, zona, 'yyyy-MM-dd') : txt(v);
-  const jam = v => v instanceof Date && Number.isFinite(v.getTime()) ? Utilities.formatDate(v, zona, 'HH:mm') : txt(v);
+  const tanggal = v => v instanceof Date && Number.isFinite(v.getTime()) ? formatTanggalBacaan_(v, zona, 'yyyy-MM-dd') : txt(v);
+  const jam = v => v instanceof Date && Number.isFinite(v.getTime()) ? formatTanggalBacaan_(v, zona, 'HH:mm') : txt(v);
   function byId(rows, key, label) {
     const map = new Map();
     rows.forEach(row => {
@@ -4548,7 +4566,7 @@ function ringkasBeranda_(data, now, zona) {
   const rawSessions = byId(data.sesi, 'id_sesi', 'Sesi');
   byId(data.hadir, 'id_kehadiran', 'Kehadiran');
   byId(data.catatan, 'id_catatan', 'Catatan_Perilaku');
-  const hari = Utilities.formatDate(new Date(now), zona, 'yyyy-MM-dd');
+  const hari = formatTanggalBacaan_(new Date(now), zona, 'yyyy-MM-dd');
   const members = new Map(), sessions = new Map(), perProgram = new Map();
   const category = new Map(), statuses = {draft: 0, aktif: 0, selesai: 0, lainnya: 0};
   let relasi = 0, jadwalInvalid = 0, registered = 0;
@@ -4625,7 +4643,7 @@ function ringkasBeranda_(data, now, zona) {
   if (jadwalInvalid) peringatan.push(jadwalInvalid + ' sesi memiliki jadwal tidak valid; tidak disertakan dalam agenda dan hitungan waktu.');
   if (relasi) peringatan.push(relasi + ' baris dengan relasi tidak valid atau jadwal yang tidak dapat dibaca tidak disertakan dalam ringkasan terkait. Periksa Data di Pengelolaan.');
   return {
-    sukses: true, zona_waktu: zona, waktu: Utilities.formatDate(new Date(now), zona, 'yyyy-MM-dd HH:mm:ss'),
+    sukses: true, zona_waktu: zona, waktu: formatTanggalBacaan_(new Date(now), zona, 'yyyy-MM-dd HH:mm:ss'),
     ringkasan: {program: programs.size, aktif: statuses.aktif, peserta: people.size, pendaftaran: registered, sesi: sesiTotal, hari_ini: sesiHariIni, mendatang: sesiMendatang},
     status_program: statuses, kategori: Array.from(category, ([nama, jumlah]) => ({nama:nama, jumlah:jumlah})).sort((a,b) => b.jumlah-a.jumlah || a.nama.localeCompare(b.nama,'id')),
     tindak_lanjut: {tanpa_sesi: programRows.filter(p => !p.sesi).length, tanpa_peserta: programRows.filter(p => p.status === 'aktif' && !p.peserta).length, catatan: pending, absensi: attendanceReview},

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-03 — loading audit and bounded date-computation reuse
+- User selected loading review and reported roughly 2.5 minutes across all Admin pages. Added reproducible 22/100/500 participant, seven-read before/after comparisons with identical responses; clearly distinguish mock CPU times from unmeasured Google latency.
+- Code.gs reuses bounded scalar date computations only within existing read snapshots, preserving lock-time invalidation and fresh writes. Initial selections avoid duplicate display reads; Rekap indexes attendance pairs/session notes while retaining duplicate and cross-person leave validation. Index QR library is async, allowing the page to load before the CDN completes.
+- Akses.gs exposes a bounded, in-memory per-page timing reader containing transport/method/duration/status only, no credentials, IDs, payloads, responses or error text. No schema/migration/login/scoring/permission/sidebar/grouped-read change. Replace these three files together.
+- 431 backend tests, 21 baseline comparisons and mocked Chromium delayed-CDN/QR/timing/privacy/mobile plus app/evaluation/final-score regressions pass; source parsing/IDs/hashes checked. Google deployment timing remains for user review. Guide: docs/PEMERIKSAAN_PEMUATAN_DATA.md. No live data/deployment/main change.
+
 ## 2026-11-03 — pre-handover work list expanded
 - User added a manual book for application use and an animated introduction covering feature functions and usage, with the video completed before institutional handover. Recorded both as pending work alongside the loading review and handover; final application flows should inform the guide/video.
 - Planning documentation only. No manual/video production, loading audit, application changes or new deployment in this update; delivery dates and video specifications remain unspecified.

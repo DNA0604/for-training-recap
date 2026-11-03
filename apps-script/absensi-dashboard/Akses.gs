@@ -680,7 +680,14 @@ html.role-petugas :is([data-sidebar-placeholder^="Pengaturan"],[data-dash-page="
 html.role-pengajar :is(#openPresensi,#presensiDialog,#quickManual,#manualDialog,#openQR,#quickBehavior,#quickLeave,#publish,#tableBody button[data-kehadiran],#behaviorBody button,#izinBody button){display:none!important}
 </style><script id="panitia-access-bridge">
 (function(){'use strict';const cfg=__CONFIG__;document.documentElement.setAttribute('data-panitia-locked','');let identity=null,generation=0,resolveReady,rejectReady,absoluteTimer,fadeTimer,preparedLogin=null,activeToken=null,memoryToken=null,persistenceAvailable=true;const pageLabel={Beranda:'Beranda',Index:'Monitoring',Pengelolaan:'Pengelolaan',Peserta:'Peserta Program',Profil:'Profil Peserta',ManajemenAkses:'Manajemen Akses'}[cfg.page]||'Halaman';const ready=new Promise((ok,bad)=>{resolveReady=ok;rejectReady=bad;});ready.catch(()=>{});
-function native(name,arg){return new Promise((ok,bad)=>google.script.run.withSuccessHandler(ok).withFailureHandler(bad)[name](arg));}
+// Local timing metadata only; no tokens, arguments, responses or error text are recorded.
+const loadingStarted=performance.now(),loadingSamples=[];let firstDataAt=null;
+window.pelatihanPemuatan=Object.freeze({baca:()=>({halaman:cfg.page,data_awal_ms:firstDataAt,permintaan:loadingSamples.map(r=>Object.assign({},r))})});
+function native(name,arg){
+ const started=performance.now(),methods=name==='panggilAplikasiPanitia'?[arg.nama]:name==='panggilBacaanDashboardPanitia'?arg.permintaan.map(p=>p.nama):[name];
+ const record=success=>{loadingSamples.push({transport:name,tindakan:methods.join(', '),durasi_ms:Math.round(performance.now()-started),berhasil:success});if(loadingSamples.length>100)loadingSamples.shift();};
+ return new Promise((ok,bad)=>{try{google.script.run.withSuccessHandler(r=>{record(!(r&&r.sukses===false)&&!(r&&Array.isArray(r.hasil)&&r.hasil.some(x=>x&&x.sukses===false)));ok(r);}).withFailureHandler(e=>{record(false);bad(e);})[name](arg);}catch(e){record(false);bad(e);}});
+}
 async function prepareGoogleLogin(){
  const g=generation,link=document.getElementById('panitiaLogin');preparedLogin=null;link.removeAttribute('href');link.setAttribute('aria-disabled','true');link.textContent='Menyiapkan login Google…';
  try{
@@ -738,7 +745,7 @@ function flushDashboardReads(){
   }).catch(e=>group.forEach(p=>p.bad(e)));
  }
 }
-async function send(name,args){const g=generation,t=token();if(!activeToken||t!==activeToken)throw Error('SESI_BERAKHIR: Akun di browser berubah. Buka ulang halaman.');try{const r=await readTransport(name,args,t,g);if(g!==generation||t!==stored())throw Error('SESI_BERAKHIR: Sesi halaman sudah berakhir.');if(r&&r.sukses&&['muatAwalIndex','muatBerandaIndex'].includes(name))startDashboardExtras();return r;}catch(e){if(/SESI_BERAKHIR|SESI_DIPERLUKAN/.test(e.message||''))lock('Sesi Anda berakhir. Silakan masuk kembali.',!stored()||t===stored());else if(/AKSES_DITAHAN/.test(e.message||''))lock(e.message,false,'held');throw e;}}
+async function send(name,args){const g=generation,t=token();if(!activeToken||t!==activeToken)throw Error('SESI_BERAKHIR: Akun di browser berubah. Buka ulang halaman.');try{const r=await readTransport(name,args,t,g);if(g!==generation||t!==stored())throw Error('SESI_BERAKHIR: Sesi halaman sudah berakhir.');if(r&&r.sukses&&firstDataAt===null&&['muatAwalIndex','muatBerandaIndex','muatProfilPesertaIndex','muatManajemenAksesPanitia'].includes(name))firstDataAt=Math.round(performance.now()-loadingStarted);if(r&&r.sukses&&['muatAwalIndex','muatBerandaIndex'].includes(name))startDashboardExtras();return r;}catch(e){if(/SESI_BERAKHIR|SESI_DIPERLUKAN/.test(e.message||''))lock('Sesi Anda berakhir. Silakan masuk kembali.',!stored()||t===stored());else if(/AKSES_DITAHAN/.test(e.message||''))lock(e.message,false,'held');throw e;}}
 function bridge(ok,bad,user){return new Proxy({}, {get(target,name){if(name==='withSuccessHandler')return f=>bridge(f,bad,user);if(name==='withFailureHandler')return f=>bridge(ok,f,user);if(name==='withUserObject')return u=>bridge(ok,bad,u);return (...args)=>{const g=generation;ready.then(()=>send(String(name),args)).then(r=>{if(g===generation)ok&&ok(r,user);},e=>bad&&bad(e,user));};}});}
 window.pelatihanRun=bridge();
 function el(tag,text){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;return e;}
