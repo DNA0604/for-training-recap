@@ -2,6 +2,17 @@
 
 Status updated: 3 November 2026, Asia/Jakarta. The accepted sidebar/navigation baseline originated on 24 October; the latest deletion feature and transaction fix were subsequently deployed, tested and accepted by the user on 27 October. Continue from this cumulative source, superseding the earlier flat-dashboard UI package.
 
+## Daftar pekerjaan sebelum penyerahan — 3 November 2026
+
+Pengguna menetapkan pemeriksaan pemuatan data dan penyerahan kepada instansi sebagai tahap berikutnya, lalu meminta dua pekerjaan tambahan: buku panduan penggunaan dan video animasi pengenalan/fungsi/penggunaan aplikasi. Urutan kerja yang dicatat:
+
+1. [ ] **Pemeriksaan pemuatan data.** Ukur waktu buka halaman dan pemuatan Monitoring, Rekap Program serta evaluasi dengan jumlah peserta realistis; perbaiki hambatan berdasarkan hasil pengukuran, lalu periksa kembali ketepatan data dan hak akses.
+2. [ ] **Manual book / buku panduan penggunaan.** Susun panduan untuk Admin, Petugas Kelas dan Pengajar: pengenalan aplikasi, login, fungsi fitur sesuai peran, langkah penggunaan dan penanganan kendala umum. Gunakan tampilan/alur versi final setelah pemeriksaan pemuatan selesai.
+3. [ ] **Video animasi pengenalan dan penggunaan.** Siapkan naskah, storyboard serta video yang mengenalkan aplikasi, menjelaskan fungsi setiap fitur dan menunjukkan penggunaannya. Produksi mengikuti versi aplikasi dan materi panduan final; diselesaikan sebelum penyerahan kepada instansi. Format, durasi, gaya visual dan sarana produksinya belum ditentukan.
+4. [ ] **Penyerahan kepada instansi.** Sertakan aplikasi versi final, buku panduan, video, dokumentasi maintenance/rumus, cadangan data serta pengaturan kepemilikan dan akses GitHub, spreadsheet, Apps Script dan deployment sesuai kesepakatan penyerahan.
+
+Permintaan saat ini menambahkan daftar pekerjaan; belum ada buku panduan/video yang dibuat atau audit pemuatan baru yang dijalankan. Tidak ada tanggal penyerahan atau pilihan alat produksi yang ditetapkan. Pembaruan nilai akhir yang sudah diterima tetap selesai.
+
 ## Nilai akhir evaluasi peserta — 3 November 2026
 
 **User acceptance — 3 November 2026:** After installing the package, the user tested one dummy participant and confirmed the overall score appeared in Rekap Program and the report. After the follow-up checklist (incomplete assessments, absence exclusions, changed program weights, and agreement across profile/CSV/evaluation spreadsheet), the user confirmed: "oke, semua sudah sesuai". Treat this update as completed and user-accepted for those exercised checks. Preserve the accepted source; do not reopen it as pending. This is user-reported validation, not an independent agent audit of every dataset, role, concurrency or load scenario. No new Google deployment or source replacement is needed for recording acceptance.

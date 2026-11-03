@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-03 — pre-handover work list expanded
+- User added a manual book for application use and an animated introduction covering feature functions and usage, with the video completed before institutional handover. Recorded both as pending work alongside the loading review and handover; final application flows should inform the guide/video.
+- Planning documentation only. No manual/video production, loading audit, application changes or new deployment in this update; delivery dates and video specifications remain unspecified.
+
 ## 2026-11-03 — participant final evaluation accepted by user
 - User tested one dummy participant and confirmed the overall score appeared in Rekap Program and the report, then confirmed "oke, semua sudah sesuai" after the remaining validation checklist. Close the final-evaluation update as completed for the exercised checks; do not generalize this to untested datasets/load/fault scenarios.
 - Documentation only: no application source, source hashes, spreadsheet data, Google deployment or main-branch change. No file replacement/redeployment needed.
