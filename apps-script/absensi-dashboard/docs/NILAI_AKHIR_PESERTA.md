@@ -1,6 +1,6 @@
 # Nilai akhir evaluasi peserta — 3 November 2026
 
-Branch `feat/nilai-akhir-peserta`, melanjutkan paket tombol Evaluasi `2c828ff`. Pengguna menerima hasil uji alur sebelumnya sebagai cukup bagus, lalu menyetujui penyusunan nilai akhir: Pengajar lebih besar bobotnya karena mengamati aktivitas peserta, dan sesi tidak dihadiri dikeluarkan dari rata-rata. Paket ini belum diuji di deployment Google oleh pengguna.
+Branch `feat/nilai-akhir-peserta`, melanjutkan paket tombol Evaluasi `2c828ff`. Pengguna menerima hasil uji alur sebelumnya sebagai cukup bagus, lalu menyetujui penyusunan nilai akhir: Pengajar lebih besar bobotnya karena mengamati aktivitas peserta, dan sesi tidak dihadiri dikeluarkan dari rata-rata. Pada 3 November 2026, pengguna menguji satu peserta dummy dan memastikan nilai keseluruhan muncul di Rekap Program serta laporan. Setelah daftar pemeriksaan lanjutan, pengguna mengonfirmasi "oke, semua sudah sesuai". Pembaruan dinyatakan selesai dan diterima untuk pengujian yang dilakukan; ini bukan klaim pengujian menyeluruh pada semua data/beban/kondisi kegagalan. Catatan penerimaan ini tidak memerlukan penggantian kode atau deployment ulang.
 
 ## Pemasangan
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-03 — participant final evaluation accepted by user
+- User tested one dummy participant and confirmed the overall score appeared in Rekap Program and the report, then confirmed "oke, semua sudah sesuai" after the remaining validation checklist. Close the final-evaluation update as completed for the exercised checks; do not generalize this to untested datasets/load/fault scenarios.
+- Documentation only: no application source, source hashes, spreadsheet data, Google deployment or main-branch change. No file replacement/redeployment needed.
+
 ## 2026-11-03 — agreed participant final evaluation, program weights and shared exports
 - Added NilaiAkhir.gs: equal-aspect/session normalized teacher/Panitia means, default 60/40, audited per-program Admin weights, current-source/assignment checks, explicit absence exclusions, missing/unknown/stale/provisional statuses and no fabricated zero or passing decision. JP, behavior and Admin-to-instructor evaluation remain separate.
 - Added Admin weight modal and participant session breakdown in Rekap Program, profile result, values/status in the existing 23-column CSV and PDF section 6.4. Server scopes staff and withholds Panitia/final aggregates from teachers. Child source failure blocks CSV. Settings preserve live lock-time authorization, stale versions and same-ID retry/lost-receipt behavior.
