@@ -16,7 +16,7 @@ Setelah paket sebelumnya terpasang, tambahkan satu **Script** bernama **NilaiAkh
 
 Simpan semua sebelum memperbarui versi deployment `/exec` yang sudah ada. Pertahankan URL deployment dan konfigurasi spreadsheet/login/Drive API. Jangan memasang berkas tests/docs/previews sebagai kode Apps Script. Paket aplikasi lengkap kini memiliki 19 sumber HTML/GS pada `SOURCE_SNAPSHOT.json`.
 
-Tidak ada migrasi atau pemindahan data operasional, kolom baru pada spreadsheet utama, atau spreadsheet baru. File evaluasi yang sudah terhubung tetap digunakan. Setelah pemasangan, Admin membuka **Nilai Perilaku → Perbarui Rekap Spreadsheet** melalui alur rekap yang sudah tersedia untuk membuat tab turunan **Rekap_Nilai_Akhir**. Jika ada tab pribadi bernama sama, ubah nama tab pribadi terlebih dahulu; aplikasi menolak menimpanya. Jangan menghapus atau menyalin ulang properti kepemilikan tab aplikasi.
+Tidak ada migrasi atau pemindahan data operasional, kolom baru pada spreadsheet utama, atau spreadsheet baru. File evaluasi yang sudah terhubung tetap digunakan. Setelah pemasangan, Admin membuka **Monitoring → Evaluasi → Evaluasi Peserta (Panitia) → Perbarui Rekap Spreadsheet** melalui alur rekap yang sudah tersedia untuk membuat tab turunan **Rekap_Nilai_Akhir**. Jika ada tab pribadi bernama sama, ubah nama tab pribadi terlebih dahulu; aplikasi menolak menimpanya. Jangan menghapus atau menyalin ulang properti kepemilikan tab aplikasi.
 
 ## Perhitungan yang disepakati
 
