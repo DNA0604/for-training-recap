@@ -1,0 +1,57 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {plain} from './support/rekap-evaluasi-harness.mjs';
+import {nilaiAkhirHarness as fixture} from './support/nilai-akhir-harness.mjs';
+import {reportHarness} from './support/laporan-template-harness.mjs';
+import fs from 'node:fs';import vm from 'node:vm';
+test('60/40 means normalize each rubric and weight every attended session equally, including non-JP sessions',()=>{
+ const h=fixture();h.t.h.patch('Sesi','SES004','id_sesi',{status_jp:'tidak_dihitung'});h.fill();const before=plain([h.t.h.store,h.evalBook.store]),r=h.row();assert.equal(r.nilai,84);assert.equal(r.pengajar.nilai,80);assert.equal(r.panitia.nilai,90);assert.equal(r.status,'lengkap');assert.equal(r.pengajar.terisi,2);assert.equal(r.pengajar.diharapkan,2);assert.deepEqual(plain([h.t.h.store,h.evalBook.store]),before);
+});
+for(const status of ['sakit','izin','alpa'])test(`${status} sessions excluded from both means without zero and without changing JP/behavior sources`,()=>{
+ const h=fixture();h.fill();h.absent(status);const before=plain(h.t.h.store),r=h.row();assert.equal(r.nilai,92);assert.equal(r.status,'lengkap');assert.equal(r.sesi_tidak_dinilai,1);assert.equal(r.pengajar.terisi,1);assert.equal(r.pengajar.diharapkan,1);assert.equal(r.rincian.find(s=>s.id_sesi==='SES004').pengajar,null);assert.equal(r.rincian.find(s=>s.id_sesi==='SES004').status,'tidak_dinilai');assert.deepEqual(plain(h.t.h.store),before);
+});
+test('all absent stays null/Not Assessed; no marks or missing one component never becomes a zero grade',()=>{
+ const h=fixture();assert.equal(h.row().nilai,null);h.gradeTeacher();assert.equal(h.row().nilai,null);assert.equal(h.row().status,'sementara');h.absent('izin','SES001');h.absent('sakit','SES004');const r=h.row();assert.equal(r.nilai,null);assert.equal(r.status,'tidak_dinilai');assert.equal(r.pengajar.terisi,0);
+});
+test('missing present-session marks stay provisional, and unrecorded/partial/pending/unverified attendance is not silently absence',()=>{
+ const h=fixture();h.gradeTeacher();h.gradePanitia();assert.equal(h.row().nilai,92);assert.equal(h.row().status,'sementara');h.fill();for(const patch of [{waktu_pulang:''},{status_validasi:'belum_divalidasi'}]){h.t.h.patch('Kehadiran','KHD004','id_kehadiran',patch);const r=h.row();assert.equal(r.status,'sementara');assert.equal(r.sesi_tidak_dinilai,0);assert.ok(r.presensi_perlu_diperiksa>0);h.t.h.patch('Kehadiran','KHD004','id_kehadiran',{waktu_pulang:h.t.h.date('2026-10-20T12:00:00'),status_validasi:'terverifikasi'});}
+ h.append('Riwayat_Validasi',{id_riwayat:'RV-PENDING-FINAL',jenis_data:'Kehadiran',id_referensi:'KHD004',jenis_tindakan:'koreksi_absensi_manual',id_transaksi_perubahan:'PENDING-FINAL',status_transaksi:'PENDING'});assert.equal(h.row().status,'sementara');
+});
+test('stale grades and reassigned teachers do not contribute until valid current assessments exist',()=>{
+ const h=fixture();h.fill();h.t.h.patch('Peserta','PST001','id_peserta',{nama_pegawai:'Nama diperbarui'});let r=h.row();assert.equal(r.nilai,null);assert.equal(r.status,'sementara');h.fill();r=h.row();assert.equal(r.nilai,84);const old=h.call(h.admin,'muatKelolaPengajar').penugasan.find(a=>a.id_sesi==='SES001');h.assign('SES001',h.guru2.id,'akhir_reassign_request_0001',old.versi);r=h.row();assert.equal(r.status,'sementara');assert.equal(r.pengajar.terisi,1);assert.equal(r.panitia.terisi,2);
+});
+test('future sessions, invalid schedules, active programs and inactive memberships cannot yield final complete status',()=>{
+ const h=fixture();h.fill();h.t.h.patch('Program','PRG001','id_program',{status_program:'aktif'});assert.equal(h.row().status,'sementara');h.t.h.patch('Program','PRG001','id_program',{status_program:'selesai'});h.t.h.patch('Sesi','SES004','id_sesi',{tanggal_sesi:'2099-01-01'});assert.equal(h.row().status,'sementara');h.t.h.patch('Sesi','SES004','id_sesi',{tanggal_sesi:'2026-10-20',jam_selesai:'07:00'});assert.equal(h.row().status,'sementara');h.t.h.patch('Keikutsertaan','KST001','id_keikutsertaan',{status_keikutsertaan:'batal'});assert.equal(h.row().status,'peserta_nonaktif');assert.equal(h.row().nilai,null);
+});
+test('staff receives only assigned-class aggregates; Pengajar receives no Panitia or composite data',()=>{
+ const h=fixture();h.fill();assert.equal(h.row(h.staff).nilai,84);assert.deepEqual(h.result(h.staff).peserta.map(p=>p.id_keikutsertaan),['KST001']);const r=h.result(h.teacher);assert.equal(r.nilai_akhir.tersedia,false);assert.equal(r.peserta[0].nilai_akhir,null);assert.ok(!JSON.stringify(r).includes('Praktik lanjutan'));for(const actor of [h.staff,h.teacher])for(const name of ['muatBobotNilaiAkhirIndex','simpanBobotNilaiAkhirIndex'])assert.throws(()=>h.call(actor,name,name.startsWith('muat')?'PRG001':{}),/AKSES_DITOLAK/);
+});
+test('Admin weights are per-program, sum to 100, versioned/audited, stale-safe and same-ID idempotent',()=>{
+ const h=fixture();h.fill();assert.equal(h.weights().aturan.pengajar,60);h.saveWeights();assert.equal(h.row().nilai,83);assert.equal(h.call(h.admin,'muatBobotNilaiAkhirIndex','PRG002').aturan.pengajar,60);const writes=h.t.h.writes.length;h.saveWeights({versi:'DEFAULT-60-40'});assert.equal(h.t.h.writes.length,writes);assert.throws(()=>h.saveWeights({pengajar:50,panitia:50}),/data berbeda/);assert.throws(()=>h.saveWeights({versi:'DEFAULT-60-40',id_permintaan:'akhir_weights_stale_00002'}),/Bobot sudah berubah/);assert.throws(()=>h.saveWeights({alasan:'=1+2'}),/tidak diawali/);for(const [pengajar,panitia] of [[0,100],[60,30],[60.5,39.5],['60',40]])assert.throws(()=>h.saveWeights({pengajar,panitia,id_permintaan:'akhir_weights_invalid_0002'}),/angka bulat/);
+});
+test('lost weight append receipt retries one audited settings event, then source recap becomes stale',()=>{
+ const h=fixture();h.fill();h.run();let once=true;h.t.h.fault(e=>{if(once&&e.name==='Riwayat_Validasi'&&e.op==='after'){once=false;throw Error('lost weight receipt');}});assert.throws(()=>h.saveWeights(),/lost weight/);h.t.h.fault(()=>{});const writes=h.t.h.writes.length;h.saveWeights({versi:'DEFAULT-60-40'});assert.equal(h.t.h.writes.length,writes);assert.equal(h.call(h.admin,'muatStatusRekapPenilaian').status,'USANG');h.run();const r=h.evalBook.records('Rekap_Nilai_Akhir').find(r=>r['ID Keikutsertaan']==='KST001');assert.equal(r['Nilai Akhir'],83);assert.equal(r['Status Nilai Akhir'],'lengkap');
+});
+test('profile and connected snapshot match live results and do not rewrite evaluation journals',()=>{
+ const h=fixture();h.fill();const before=plain([h.evalBook.records('Evaluasi_Peserta'),h.evalBook.records('Evaluasi_Peserta_Panitia')]);const live=h.row();const profile=h.call(h.staff,'muatProfilPesertaIndex',{id_keikutsertaan:'KST001'});assert.equal(profile.nilai_akhir.nilai,live.nilai);h.run();const row=h.evalBook.records('Rekap_Nilai_Akhir').find(r=>r['ID Keikutsertaan']==='KST001');assert.equal(row['Nilai Akhir'],live.nilai);assert.equal(row['Sesi Wajib Dinilai'],2);assert.deepEqual(plain([h.evalBook.records('Evaluasi_Peserta'),h.evalBook.records('Evaluasi_Peserta_Panitia')]),before);h.absent('izin');assert.equal(h.call(h.admin,'muatStatusRekapPenilaian').status,'USANG');
+});
+
+test('PDF report, live recap, CSV and derived spreadsheet use the same grades/status/weights',()=>{
+ const h=fixture(reportHarness());h.fill();h.absent('izin');const live=h.row(),report=h.report(),rendered=h.renderer.susunHalamanLaporan_(report).pages.flatMap(p=>p.parts).join('');assert.equal(report.jp.peserta.find(p=>p.id_keikutsertaan==='KST001').nilai_akhir.nilai,live.nilai);assert.ok(rendered.includes('6.4 Nilai Akhir Evaluasi Peserta'));assert.ok(rendered.includes('92'));assert.ok(rendered.includes('60%'));assert.ok(rendered.includes('Tidak Dinilai'));
+ const html=fs.readFileSync(new URL('../Index.html',import.meta.url),'utf8'),source=html.slice(html.indexOf('      function csvRecapCell('),html.indexOf('      function unduhRekap(')),c={recapRows:h.result().peserta,recapProgram:'PRG001',recapScores:new Map(),recapRule:null,recapAt:'2026-11-03T09:00:00.000Z'};vm.createContext(c);vm.runInContext(source,c);const rows=c.buatCSVRekap().replace(/^\uFEFF/,'').split('\r\n').map(line=>[...line.matchAll(/"((?:[^"]|"")*)"(?:,|$)/g)].map(m=>m[1].replace(/""/g,'"')));assert.equal(rows[0].length,23);assert.equal(rows[1][rows[0].indexOf('nilai_keseluruhan')],String(live.nilai));assert.equal(rows[1][rows[0].indexOf('status_nilai_keseluruhan')],live.status);h.call(h.admin,'perbaruiRekapPenilaian');assert.equal(h.evalBook.records('Rekap_Nilai_Akhir').find(p=>p['ID Keikutsertaan']==='KST001')['Nilai Akhir'],live.nilai);
+});
+test('Admin revoked while waiting for settings lock cannot append a weight event',()=>{
+ const h=fixture(),c=h.t.c,old=c.LockService.getScriptLock;c.LockService.getScriptLock=()=>{const lock=old();return {...lock,waitLock(ms){lock.waitLock(ms);const admin=h.t.access.records('Pengguna').find(p=>p.peran==='admin_pelatihan');h.t.access.patch('Pengguna',admin.id_pengguna,'id_pengguna',{status:'nonaktif'});}};};const count=h.t.h.records('Riwayat_Validasi').length;assert.throws(()=>h.saveWeights(),/SESI_BERAKHIR|AKSES_DITOLAK/);assert.equal(h.t.h.records('Riwayat_Validasi').length,count);assert.equal(h.t.h.locks.held,false);
+});
+test('JP-only recalculation does not stale final snapshot; a session schedule change does',()=>{
+ const h=fixture();h.fill();h.run();h.t.h.patch('Kehadiran','KHD001','id_kehadiran',{jp_diakui_presisi:1.5,durasi_diakui_menit:67.5});assert.equal(h.call(h.admin,'muatStatusRekapPenilaian').status,'SIAP');h.t.h.patch('Sesi','SES004','id_sesi',{tanggal_sesi:'2099-01-01'});assert.equal(h.call(h.admin,'muatStatusRekapPenilaian').status,'USANG');
+});
+test('source failure is visible in report and does not masquerade as empty successful final grades',()=>{
+ const h=fixture(reportHarness());h.t.c.bacaSumberNilaiAkhir_=()=>{throw Error('Jurnal rusak uji');};const r=h.report();assert.equal(r.jp.nilai_akhir.sukses,false);assert.ok(r.peringatan.some(p=>p.includes('Jurnal rusak uji')));const text=h.renderer.susunHalamanLaporan_(r).pages.flatMap(p=>p.parts).join('');assert.ok(text.includes('Jurnal rusak uji'));assert.ok(!text.includes('0% ×'));
+});
+
+test('final weighting uses unrounded component means rather than displayed two-decimal means',()=>{
+ const h=fixture();h.append('Sesi',{...h.t.h.records('Sesi').find(s=>s.id_sesi==='SES004'),id_sesi:'SES005',nama_sesi:'Sesi ketiga'});h.append('Kehadiran',{...h.t.h.records('Kehadiran').find(s=>s.id_kehadiran==='KHD004'),id_sesi:'SES005',id_kehadiran:'KHD005'});h.gradeTeacher('SES001',[1,1,1,1,1,2]);h.gradePanitia('SES001',[1,1,3]);h.gradePanitia('SES004',1);h.gradePanitia('SES005',1);const r=h.row();assert.equal(r.pengajar.nilai,23.33);assert.equal(r.panitia.nilai,24.44);assert.equal(r.nilai,23.78);assert.equal(r.status,'sementara');
+});
+test('snapshot source version changes when time passes a session end without any source edits',()=>{
+ const h=fixture(),c=h.t.c,RealDate=c.Date;h.t.h.patch('Sesi','SES004','id_sesi',{tanggal_sesi:'2099-01-01',jam_mulai:'08:00',jam_selesai:'09:00'});h.asOwner();let clock=Date.parse('2099-01-01T08:30:00+07:00');c.Date=new Proxy(RealDate,{get(target,key){return key==='now'?()=>clock:Reflect.get(target,key);}});const first=c.versiSumberRekapEvaluasi_(c.bacaSumberRekapEvaluasi_());clock=Date.parse('2099-01-01T09:00:01+07:00');const second=c.versiSumberRekapEvaluasi_(c.bacaSumberRekapEvaluasi_());assert.notEqual(first,second);c.Date=RealDate;
+});

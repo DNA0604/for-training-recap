@@ -1,0 +1,295 @@
+# Monitoring Pelatihan Pegawai
+
+Current accepted application source for Pusat Pengembangan Aparatur Komdigi.
+Read ../../PROJECT_CONTEXT.md and ../../AGENTS.md first. These supersede the earlier flat UI package notes and old preview/test reports.
+
+## Files to use in Google Apps Script
+NilaiAkhir.gs, PresensiManual.gs, Code.gs, Laporan.gs, LaporanTampilan.gs, Hapus.gs, Jenjang.gs, Akses.gs, Evaluasi.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Absensi.html, AdminQR.html, PratinjauJenjang.html.
+The project must remain bound to its existing Google Sheet. Retain the deployed manifest/scopes and deployment configuration.
+
+Replace complete contents of files changed for a task. Keep exact file names. Save, and for /exec publish a new version of the existing deployment. Keep the deployment URL so QR links remain valid.
+
+Preview files and Hasil-Pengujian.txt inherited from the older UI branch are historical and do not depict or validate this current snapshot. Do not install preview files as Apps Script application code.
+
+See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 19 current HTML/GS source files, including the Jenjang preparation tools and report layout/assets.
+
+## Jarak UI, X modal dan Program → Jenjang (4 November 2026)
+
+Branch **ui/jarak-tutup-modal-peserta**: setelah hasil audit disetujui, ganti **Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Akses.gs dan Evaluasi.gs** bersama-sama. Jarak tindakan/card terkait 12 px, X 44×44 di seluruh modal yang diaudit, dan Jenjang di bawah Program/nonaktif jika Program kosong. Pembatalan/penguncian/draft tetap melalui alur lama. Tidak perlu Script/sheet/migrasi baru. Jika paket pemuatan belum dipasang, sertakan Code.gs dari branch ini. [Pemasangan dan pengujian](docs/UI_JARAK_TUTUP_MODAL_PESERTA.md).
+
+## Pemeriksaan pemuatan data (3 November 2026)
+
+Branch **perf/pemeriksaan-pemuatan-data**: setelah paket nilai akhir, ganti **Code.gs, Akses.gs dan Index.html** bersama-sama. Pustaka QR tidak menahan pemuatan Monitoring, pilihan awal menghindari pembacaan ganda dan konversi tanggal berulang dikurangi dalam satu permintaan baca. Aturan/hak akses tetap. Pencatat waktu lokal tersedia untuk membandingkan deployment dengan alur review Admin sebelumnya sekitar 2,5 menit. [Pemasangan, bukti lokal dan cara mengukur](docs/PEMERIKSAAN_PEMUATAN_DATA.md). Tidak perlu file GS/spreadsheet baru atau migrasi; hasil kecepatan Google belum diukur.
+
+## Nilai akhir evaluasi peserta (3 November 2026)
+
+Branch **feat/nilai-akhir-peserta**: tambahkan **NilaiAkhir.gs**; ganti **Code.gs, Akses.gs, Evaluasi.gs, Index.html, Profil.html, Laporan.gs, LaporanTampilan.gs** bersama-sama. Bawaan Pengajar 60% + Panitia 40%; Admin dapat mengubah bobot per program melalui Rekap Program. Sesi tidak dihadiri dikeluarkan, hasil belum lengkap sementara/kosong; JP/perilaku tetap terpisah. Hasil sama pada profil, CSV, PDF dan tab turunan **Rekap_Nilai_Akhir** setelah Perbarui Rekap Spreadsheet. Tidak perlu migrasi/spreadsheet baru. [Rumus, pemasangan, pengaturan dan uji Google](docs/NILAI_AKHIR_PESERTA.md).
+
+## Tombol Evaluasi dan jarak Ringkasan Sesi (2 November 2026)
+
+Branch **ui/pilihan-evaluasi**: sesudah paket sebelumnya, ganti lengkap **Index.html dan Evaluasi.gs** bersama-sama. Evaluasi membuka pilihan berurutan sesuai peran, dan tombol Ringkasan Sesi berjarak 12 piksel. Form, penilaian dan kewenangan tetap. [Pemasangan dan pengujian](docs/PILIHAN_EVALUASI.md).
+
+## Penyesuaian form Presensi dan bukti (2 November 2026)
+
+Branch **ui/presensi-ringkas-bukti**: sesudah paket presensi manual terpasang, cukup ganti **Index.html, PresensiManual.gs dan Akses.gs** bersama-sama. Lima kartu satu baris desktop, satu kolom nama, Hadir/Tidak Hadir beserta pilihan rinci, bukti Sakit/Izin opsional dan tombol Presensi yang membuka tiga tindakan. Tidak perlu sheet/file Apps Script baru; aturan QR/JP/poin tetap. [Panduan lengkap](docs/PRESENSI_RINGKAS_BUKTI.md).
+
+## Presensi manual dan Monitoring (2 November 2026)
+
+Branch **feat/presensi-manual-monitoring**: tambahkan **PresensiManual.gs**; ganti lengkap **Code.gs, Akses.gs, Jenjang.gs, Index.html, Profil.html, Laporan.gs, LaporanTampilan.gs** bersama-sama. Hadir = JP sesuai durasi efektif; Terlambat manual dipotong tetap 15 menit; Sakit/Izin/Alpa = JP 0, tanpa catatan/poin otomatis. Aturan QR tetap. Card Absensi & Izin, pemulihan simpan dan tabel 10 peserta per halaman/tinggi tetap disertakan. Tidak perlu sheet/spreadsheet/kolom/migrasi baru. Simpan dan update versi deployment yang sama. [Pemasangan, aturan, batas pemuatan dan daftar uji](docs/PRESENSI_MANUAL_MONITORING.md). Hasil deployment Google belum diuji agent.
+
+## Perataan paragraf laporan (1 November 2026)
+
+Paket **fix/paragraf-laporan-rata-kanan-kiri**: jika paket laporan sudah terpasang, cukup ganti lengkap **LaporanTampilan.gs**, lalu update versi deployment yang sama. Narasi mengalir secara alami dengan rata kanan-kiri dan arah kiri-ke-kanan, tanpa pemotongan baris buatan. Isi dan desain tetap. [Panduan singkat dan verifikasi](docs/LAPORAN_RATA_KANAN_KIRI.md).
+
+## Laporan PDF sesuai template instansi (1 November 2026)
+
+Paket **feat/laporan-program-template**: tambahkan Script **LaporanTampilan.gs**, ganti lengkap **Laporan.gs dan Pengelolaan.html**, simpan dan update deployment yang sama. Sampul/logo sudah tertanam. Tujuh bagian, daftar isi/nomor halaman, evaluasi terpisah, rincian landscape dan batas tabel/grafik 12 peserta mengikuti keputusan pengguna. Tidak ada sheet, migrasi, AI, penyuntingan atau nilai akhir baru. Konversi memakai **Google Drive API**, perlu diaktifkan pada proyek Cloud yang terhubung bila belum tersedia. [Panduan pemasangan dan uji Google](docs/LAPORAN_TEMPLATE.md), [pratinjau PDF sintetis lokal](previews/laporan-template/README.md). Hasil Google nyata masih perlu pengujian pengguna.
+
+## Tambahan statistik CSV (1 November 2026)
+
+Paket **feat/csv-statistik-kehadiran-perilaku**: ganti lengkap **Code.gs dan Index.html bersama-sama**, lalu update deployment yang sama. CSV menambahkan jumlah hadir, terlambat, sesi izin disetujui, catatan positif/negatif disetujui dan total poin catatan sebelum cap/nilai dasar. Semua sumber lain tetap versi terakhir. Tidak perlu sheet/migrasi baru. [Definisi kolom, batas dan uji](docs/CSV_STATISTIK_PROGRAM.md).
+
+## Pemuatan data utama dan Rekap (30 Oktober 2026)
+
+Paket **perf/pemuatan-dashboard-bertahap**: ganti **Akses.gs saja** jika paket login di bawah sudah dipasang lengkap. Data utama Beranda/Monitoring dimuat dahulu; dua riwayat Monitoring dan pasangan JP/nilai perilaku Rekap masing-masing memakai satu panggilan server. Muat Ulang tetap membaca sumber terkini, dengan pemeriksaan sesi/peran/target. [Panduan pemasangan, pengukuran lokal dan uji deployment](docs/PEMUATAN_DASHBOARD.md). Jika paket login belum dipasang, ganti Akses.gs, Code.gs dan Jenjang.gs bersama-sama dari branch terbaru. Simpan dan update deployment yang sama ke New version.
+
+## Login tersimpan dan pemuatan data (30 Oktober 2026)
+
+Paket **feat/login-tersimpan-pemuatan-data**: ganti lengkap **Akses.gs, Code.gs dan Jenjang.gs bersama-sama**, simpan dan update deployment yang sama ke New version. Tidak perlu file, spreadsheet, migrasi atau setup baru. Evaluasi.gs tetap versi terakhir.
+
+Login diingat hingga **4 jam sejak login**, termasuk saat web ditutup; tidak lagi keluar setelah 30 menit tanpa aktivitas. Log Out/pencabutan akses tetap berlaku. Pembacaan sheet berulang dikurangi dalam setiap permintaan baca, tanpa cache data lintas pengguna/permintaan. [Panduan pemasangan, batas penyimpanan dan uji](docs/LOGIN_PERSISTEN_PEMUATAN.md). 351 tes backend dan browser lokal dengan Google tiruan lulus; penyimpanan browser/waktu muat deployment nyata perlu diuji pengguna.
+
+## Evaluasi peserta oleh Panitia (30 Oktober 2026)
+
+**Diterima pengguna:** sumber e7cfaa7 dilaporkan sudah aman. Tidak ada file/deployment tambahan untuk mencatat penerimaan ini.
+
+Paket **feat/evaluasi-peserta-panitia**: ganti lengkap **Evaluasi.gs dan Akses.gs bersama-sama**, simpan dan update deployment yang sama ke New version. Tidak perlu file Script/HTML baru, spreadsheet baru atau setup ulang.
+
+Admin/Petugas membuka **Monitoring → pilih sesi → Evaluasi Peserta oleh Panitia** pada Ringkasan Sesi. Tiga aspek: kedisiplinan peserta, kerja sama, prakarsa; skala 1–5, komentar opsional. Pengisian dibuka setelah jadwal setiap sesi berakhir, tanpa menunggu program selesai dan tanpa mewajibkan catatan perilaku. Nilai Panitia tetap terpisah dari Pengajar/JP. Admin memperbarui tab **Rekap_Evaluasi_Panitia** pada spreadsheet penilaian terhubung untuk melihat seluruh sesi program.
+
+[Panduan pemasangan, akses, konflik/riwayat dan uji](docs/EVALUASI_PANITIA.md). 337 tes backend dan browser lokal dengan Google tiruan lulus; deployment nyata masih perlu diuji pengguna.
+
+## Izin peserta tanpa presensi (30 Oktober 2026)
+
+**Selesai dan dikonfirmasi pengguna:** paket e4a20e5 telah diperbarui dan diuji, dengan hasil semua normal. Pencatatan penerimaan ini tidak memerlukan penggantian file atau deployment tambahan. Daftar kasus uji nyata tidak dirinci pengguna.
+
+Paket **feat/izin-peserta-tanpa-presensi**: ganti lengkap **Code.gs, Akses.gs dan Index.html bersama-sama**, simpan dan update deployment yang sama ke New version. Perbaikan Nonaktif indikator sebelumnya sudah termasuk. Tidak perlu file/tab/setup baru.
+
+Admin/Petugas membuka **Monitoring → Ringkasan Sesi → Catat Izin**. Semua peserta terdaftar aktif pada Jenjang sesi dapat dipilih, termasuk yang belum presensi. Tombol **Isi Waktu Izin Satu Sesi Penuh** memakai jadwal sesi. Izin tidak membuat kehadiran atau memberi JP otomatis; daftar izin/validasi/rekap tetap tersedia. [Panduan pemasangan, arti JP dan pengujian](docs/IZIN_TANPA_PRESENSI.md). 320 tes backend serta browser desktop/ponsel lulus dengan Google tiruan; deployment nyata menunggu uji pengguna.
+
+## Perbaikan Nonaktif indikator lama (30 Oktober 2026)
+
+Jika paket hapus indikator sebelumnya sudah dipasang, branch **fix/nonaktif-indikator-aturan-lama** cukup mengganti lengkap **Code.gs saja**. Simpan dan update deployment yang sama ke New version. Index.html/Hapus.gs dari paket sebelumnya tetap digunakan; tidak perlu setup atau mengedit spreadsheet.
+
+Perubahan status kini tidak bergantung pada pembacaan JSON seluruh aturan lama. Uji **Edit / Ubah Status → Nonaktif → isi alasan → Simpan Indikator**, tanpa mengubah definisi/jenis. IZIN_SESI tetap wajib aktif. Riwayat catatan/aturan/nilai tetap; perlindungan perubahan makna dan penghapusan tetap berlaku. 308 tes backend lulus dengan Google tiruan; hasil deployment pengguna masih perlu dikonfirmasi.
+
+## Hapus indikator belum digunakan (30 Oktober 2026)
+
+Paket **feat/hapus-indikator-belum-digunakan**: ganti lengkap **Hapus.gs dan Index.html bersama-sama**, simpan dan update deployment yang sama ke New version. Tidak perlu file/spreadsheet baru atau setup ulang.
+
+Admin membuka **Monitoring → Nilai Sikap & Perilaku → Tambah Indikator Baru**, lalu memilih indikator lama; Edit / Ubah Status pada katalog juga membuka modal yang sama. Hanya indikator tambahan yang belum dirujuk boleh dihapus, dengan alasan/persetujuan/konfirmasi akhir. Indikator bawaan dan yang masih dirujuk seluruh program/riwayat tetap dilindungi; Nonaktif tetap tersedia. [Panduan serta pengujian dan pemulihan](docs/HAPUS_INDIKATOR.md). 300 tes backend dan Chromium lokal dengan Google tiruan lulus; deployment nyata perlu diuji pengguna.
+
+## Manajemen Akses dalam dashboard (30 Oktober 2026)
+
+Paket **ui/manajemen-akses-dashboard**: tambahkan **HTML baru ManajemenAkses** dan ganti lengkap **Akses.gs** dari branch yang sama. Simpan dan update deployment yang sama ke New version. Semua file/konfigurasi lain tetap; tidak perlu setup atau spreadsheet baru.
+
+Admin membuka Manajemen Akses dari sidebar. Halaman web kini menggunakan header instansi/sidebar/card seperti halaman lain dengan formulir akun/penugasan yang sama. Panel pemilik dari menu spreadsheet tetap tersedia untuk setup/konfigurasi/pemulihan. Role dan masa sesi tetap berlaku.
+
+[Panduan pemasangan serta pengujian desktop/ponsel](docs/MANAJEMEN_AKSES_DASHBOARD.md). 283 tes backend dan uji browser lokal dengan Google tiruan lulus. Pengguna mengonfirmasi semua berjalan normal pada baseline 8e9a01b, 30 Oktober 2026.
+
+## Evaluasi Pengajar oleh Admin (30 Oktober 2026)
+
+Paket **feat/evaluasi-pengajar-admin**: setelah paket Pengajar/rekap sebelumnya terpasang, ganti lengkap **Evaluasi.gs dan Akses.gs bersama-sama**, simpan dan update deployment yang sama ke New version. Semua HTML/Script lain dan file penilaian terhubung tetap digunakan; tidak perlu file baru/ID/setup ulang.
+
+Admin membuka **Monitoring → pilih sesi → Evaluasi Pengajar** pada Ringkasan Sesi. Lima aspek menggunakan angka bulat 1–5, catatan opsional dan riwayat perubahan; Pengajar/Petugas tidak memperoleh akses. Jurnal Evaluasi_Pengajar dibuat pada penyimpanan valid pertama. Setelah **Perbarui Rekap Spreadsheet**, hasil terbaca ada pada Rekap_Evaluasi_Pengajar. Belum ada bobot/nilai akhir gabungan.
+
+[Panduan pemasangan, penggunaan dan pengujian](docs/EVALUASI_PENGAJAR_ADMIN.md). 283 tes backend dan uji browser lokal dengan Google tiruan lulus; penerapan Google perlu diuji pengguna.
+
+## Rekap pada spreadsheet penilaian terhubung (29 Oktober 2026)
+
+Paket **feat/rekap-penilaian-spreadsheet**: ganti lengkap **Evaluasi.gs, Akses.gs dan Code.gs bersama-sama**, simpan/muat ulang spreadsheet utama dan perbarui deployment yang sama. File penilaian yang sudah terhubung digunakan kembali; tidak perlu ID/file baru atau setup ulang.
+
+Pemilik membuka **Manajemen Pelatihan → Rekap Penilaian Terpadu → Perbarui Rekap Spreadsheet**. Admin juga dapat menekan tombol tersebut pada Monitoring → Lihat Evaluasi Peserta. Pembaruan manual mencakup seluruh program dan membuat tiga tab data terbaca serta satu tab status snapshot pada file penilaian. Nilai Pengajar dan catatan Admin/Petugas diintegrasikan berdasarkan identitas Program/Jenjang/sesi/peserta; sumber asli tetap dipakai dan belum ada nilai gabungan baru.
+
+[Panduan lengkap, arti kolom, pembaruan dan pengujian](docs/REKAP_PENILAIAN_SPREADSHEET.md). 266 tes backend dan uji browser lokal dengan Google tiruan lulus; format/izin/kuota dan deployment nyata perlu diuji pengguna.
+
+## Perapian tampilan Pengajar dan Admin (29 Oktober 2026)
+
+Paket **ui/rapikan-evaluasi-pengajar**, melanjutkan e063681: jika paket Pengajar sebelumnya sudah terpasang, cukup ganti lengkap **Evaluasi.gs, Code.gs, Index.html dan Pengelolaan.html** bersama-sama. Simpan dan perbarui versi deployment yang sama. Tidak perlu Script baru, setup ulang atau spreadsheet baru.
+
+Tombol evaluasi kini ada di Ringkasan Sesi; modal memakai scroll tabel terpisah, header terkunci dan X di kanan atas. Ringkasan menampilkan nama Pengajar untuk semua peran. Pengajar Sesi menjadi tombol/modal di samping Tambah Sesi dan Jeda tanpa isian Alasan. Ikon hapus Program/Sesi tersedia di modal Edit dengan konfirmasi lama tetap berlaku.
+
+[Panduan pemasangan dan pengujian terbaru](docs/EVALUASI_PESERTA_SESI.md). 249 tes backend dan uji browser lokal dengan Google tiruan lulus; deployment Google tetap perlu diuji.
+
+## Pengajar menilai Peserta per sesi (29 Oktober 2026)
+
+Paket **feat/evaluasi-peserta-pengajar**: tambahkan satu Script baru **Evaluasi.gs**, ganti **Akses.gs, Code.gs, Jenjang.gs, Pengelolaan.html bersama**, simpan dan update deployment yang sama ke New version. File lain tetap versi sebelumnya; Index.html memuat perbaikan indikator yang sudah dikirim.
+
+Pemilik membuka spreadsheet utama → Manajemen Pelatihan → **Penyiapan Evaluasi Peserta** untuk menghubungkan/membuat file penilaian terpisah. Admin menambahkan akun berperan **Pengajar**, lalu menetapkan pengajar pada sesi melalui Pengelolaan. Kolom pengajar juga tersedia saat membuat sesi baru. Pengajar membuka Monitoring → pilih sesi tugasnya → **Isi Evaluasi Peserta**. Enam aspek menggunakan skala 1–5, tersimpan per peserta/sesi; Admin melihat hasil tanpa menilai atas nama Pengajar. Nilai kosong tetap Belum dinilai. Nilai perilaku/JP lama belum dipindahkan/digabung dan belum ada bobot/nilai akhir program.
+
+Lihat [panduan pemasangan, penyimpanan dan pengujian](docs/EVALUASI_PESERTA_SESI.md). 246 tes backend dan Chromium lokal lulus dengan Google tiruan; setup/deployment nyata perlu diuji pengguna. Penilaian Pengajar oleh Admin, CSV tambahan, sesi persisten dan optimasi waktu muat tetap tahap terpisah.
+
+## Perbaikan tombol indikator (29 Oktober 2026)
+
+Branch **fix/tombol-indikator-perilaku**: ganti **Index.html saja**, simpan dan perbarui versi deployment yang sama. Tombol Edit / Ubah Status kembali aktif setelah data dimuat; Tambah Indikator Baru berada di kanan atas Nilai Sikap & Perilaku. Data dan aturan lama tetap; indikator bawaan IZIN_SESI memang harus aktif sesuai aturan pencatatan izin. Fitur Pengajar, pemisahan nilai, CSV tambahan, hapus indikator dan sesi login persisten masih dalam pembahasan—lihat [masukan instansi](docs/MASUKAN_INSTANSI_2026_10_29.md).
+
+## Posisi Verifikasi Sesi di Monitoring
+
+Paket **ui/verifikasi-sesi-di-bawah** melanjutkan login satu alur. Ganti **Akses.gs saja**, simpan dan perbarui versi deployment yang sama. Verifikasi Sesi kini berada di bawah data Monitoring, sebelum Pengajuan Koreksi Lama. Tombol dan alur verifikasi tetap sama; tidak perlu mengubah file HTML atau pendataan.
+
+## Login satu alur (28 Oktober 2026)
+
+Paket terbaru **ui/login-satu-alur**, melanjutkan versi verifikasi sesi yang sudah dikonfirmasi pengguna. Ganti **Akses.gs saja**, simpan, lalu Manage deployments → Edit deployment yang sama → New version → Deploy. Akun, penugasan, spreadsheet akses, OAuth dan aktivasi tetap dipakai; tidak perlu menyalin file lain atau membuat tab baru.
+
+Bagikan tautan aplikasi `/exec` dari card **Tautan Masuk Aplikasi** di Manajemen Akses. Petugas membuka tautan tersebut → Masuk dengan Google → memilih akun → Beranda tampil setelah verifikasi. Tautan uji tidak diperlukan untuk akun yang sudah didaftarkan. Diagnostik Identitas tetap tersedia untuk pemilik saat penyiapan/pemeriksaan masalah, dan tidak memberikan sesi aplikasi. Pendataan akun/Jenjang tetap sama. [Panduan login dan uji](docs/LOGIN_SATU_ALUR.md).
+
+220 tes backend dan Chromium lokal lulus dengan Google tiruan. Perubahan login ini belum dikonfirmasi pada deployment Google; tidak mengubah waktu proses layanan Google atau kebutuhan consent/test users.
+
+## Verifikasi sesi dan koreksi petugas (28 Oktober 2026)
+
+**Status: selesai dan dikonfirmasi pengguna pada 28 Oktober 2026.** Pengguna mengonfirmasi alur koreksi/verifikasi, penolakan dan pengajuan ulang, penolakan persetujuan versi lama setelah data berubah, serta rangkaian QR → koreksi → izin/perilaku → persetujuan → JP → rekap/profil. Source aplikasi yang diterima tetap commit **3064b70**. Pembaruan dokumentasi penerimaan tidak memerlukan penggantian kode atau deployment ulang.
+
+Paket terbaru **feat/verifikasi-sesi-panitia** melanjutkan perbaikan navigasi. Ganti lengkap **Akses.gs, Code.gs, Hapus.gs dan Index.html secara bersamaan**, simpan lalu perbarui deployment yang sama ke **New version**. Tiga HTML navigasi lainnya dari pembaruan sebelumnya tetap digunakan. Tidak perlu file/tab/kolom baru, migrasi ulang atau mengubah akun/OAuth/aktivasi.
+
+Petugas dapat langsung menyimpan koreksi kehadiran dengan alasan dan riwayat; scan asli tetap. Pada Monitoring, pilih sesi lalu gunakan **Ajukan Verifikasi** untuk paket kehadiran, izin dan sikap/perilaku. Admin meninjau ringkasan/rincian lalu menyetujui atau menolak dengan alasan. Koreksi baru setelah keputusan memerlukan pengajuan baru. Hasil perhitungan JP tidak dianggap perubahan sumber kehadiran. Pengajuan koreksi lama tetap dapat diselesaikan pada card riwayat lama.
+
+Jika persetujuan terputus, Admin membuka pengajuan berstatus diproses dan memilih **Lanjutkan Verifikasi**. Selama proses parsial, penulisan operasional ditahan; jangan mengedit sumber langsung di spreadsheet. Lihat [panduan pemasangan dan uji](docs/VERIFIKASI_SESI.md). Pengujian lokal memakai Google tiruan; agent tidak melakukan deployment atau perubahan data Google.
+
+## Perbaikan navigasi Jenjang (28 Oktober 2026)
+
+Paket **fix/navigasi-jenjang-panitia** melanjutkan perapian transisi. Ganti seluruh isi **Index.html, Pengelolaan.html, Peserta.html, Profil.html**, simpan dan perbarui deployment yang sama ke **New version**. Akses.gs dari pembaruan sebelumnya tetap dipakai. Tidak perlu membuat file baru, mengubah akun, aktivasi atau migrasi.
+
+Memperbaiki alamat sidebar yang menjadi `/exec&jenjang=…?page=…` setelah Jenjang dipilih. Tautan kini memakai `/exec?page=…&program=…&jenjang=…`; tautan kembali dari profil mempertahankan Jenjang. Animasi sidebar dan hak akses tetap. Uji setelah deploy: petugas memilih Jenjang, buka Monitoring → Peserta → Profil → kembali; Admin membuka Pengelolaan → Peserta → Monitoring. Pemeriksaan browser lokal menggunakan layanan Google tiruan; deployment Google perlu diuji pengguna.
+
+## Perapian transisi halaman
+
+Paket terbaru: **ui/transisi-halaman-panitia**, melanjutkan paket tahap 4. Jika tahap 4 sudah dipasang, cukup ganti **Akses.gs**, simpan, lalu perbarui deployment yang sama ke **New version** dan muat ulang web app. Akun, penugasan, OAuth, aktivasi login dan migrasi Jenjang tetap dipakai.
+
+Saat sesi diperiksa, tampil indikator pemuatan sesuai halaman tanpa tombol login. Setelah valid, panel menghilang perlahan; sesi yang kedaluwarsa tetap meminta login, kegagalan sementara menawarkan Coba Lagi. Animasi sidebar dan seluruh file HTML tetap. Ini merapikan transisi, tidak menghilangkan pemuatan ulang halaman atau waktu proses Google Apps Script.
+
+## Tahap 4: login aplikasi dan akses peran/Jenjang
+
+Paket terbaru: **feat/login-dan-cakupan-panitia**. Jika tahap 3 sudah terpasang dan uji identitas kedua peran berhasil, ganti **Akses.gs, Code.gs, Hapus.gs, Laporan.gs, Jenjang.gs, PemetaanJenjang.gs dan Index.html** bersama. Pertahankan file lainnya, konfigurasi OAuth, direktori akun dan hasil migrasi Jenjang.
+
+Simpan, perbarui versi deployment salinan yang sama, refresh spreadsheet, lalu buka **Manajemen Pelatihan → Manajemen Akses Panitia → Login Aplikasi Utama → Aktifkan Login Aplikasi**. Aktivasi awal nonaktif. Beranda kemudian meminta login Google; Admin dapat mengelola fitur operasional dan akun, petugas hanya mengakses Jenjang penugasan serta mengajukan koreksi untuk ditinjau Admin. Logout dan kedaluwarsa sesi sudah diterapkan pada paket ini; belum diaktifkan/dideploy pada Google oleh agent.
+
+[Panduan lengkap pemasangan tujuh file, aktivasi, hak akses dan pengajuan koreksi](tests/SESI_AKSES_VALIDATION.md). Tidak ada file/tab baru atau migrasi ulang. [Panduan tahap 3](tests/AKSES_VALIDATION.md) tetap menjadi acuan penyiapan awal direktori/OAuth.
+
+## Tahap 3: akun panitia pada spreadsheet terpisah
+
+Paket terbaru: **fix/url-uji-login-deployment** (melanjutkan feat/manajemen-akses-panitia). Tambahkan satu Script **Akses.gs** dan ganti **Code.gs** dari branch yang sama; seluruh file Jenjang satu paket dan halaman lain tetap. Simpan, refresh spreadsheet salinan, lalu buka **Manajemen Pelatihan → Manajemen Akses Panitia**. Isi tautan/ID file akses terpisah atau buat file baru melalui panel, kemudian data akun dan penugasan Jenjang.
+
+Jika tahap 3 sudah terpasang, perbaikan URL ini cukup mengganti **Akses.gs**. Pada Uji Login, isi **URL deployment web app (/exec)** dari Manage deployments, daftarkan URL sama pada OAuth Client, simpan konfigurasi dan perbarui versi deployment salinan yang sama. URL tersimpan digunakan oleh tombol uji dan callback; jangan mengandalkan deteksi otomatis jika berbeda.
+
+Tersedia konfigurasi dan halaman uji identitas Google untuk Gmail pribadi. **Pendaftaran akun/uji Google belum membuka akses petugas pada aplikasi utama**; sesi dan pembatasan semua endpoint masih tahap berikutnya. Client ID/Secret diisi pemilik pada panel setelah menyiapkan OAuth Client dan deployment salinan, tidak melalui chat atau file kode.
+
+[Panduan lengkap direktori, OAuth, scope, pemulihan dan uji Google](tests/AKSES_VALIDATION.md). Tidak ada spreadsheet/deployment Google yang dibuat dari lingkungan pengembangan ini.
+
+## Struktur Jenjang dan migrasi data dummy
+
+Paket terbaru pada branch **refactor/paket-jenjang-satu-file** mendukung beberapa Jenjang per program, sesi/pendaftaran pada satu Jenjang, acuan JP/kehadiran sesuai peserta, serta laporan dan hapus yang memahami relasi baru. Login dan pembagian akses panitia belum termasuk paket ini.
+
+**Pasang/uji pada salinan spreadsheet dan proyek Apps Script.** Tambahkan satu file Script **Jenjang.gs** yang memuat pengelolaan Jenjang, migrasi dan tampilan panel; ganti Code.gs, Hapus.gs, Laporan.gs, PemetaanJenjang.gs, Index.html, Pengelolaan.html, Peserta.html dan Profil.html dari branch yang sama. Simpan, refresh spreadsheet, lalu buka **Manajemen Pelatihan → Persiapan Struktur Jenjang**. Periksa pemetaan sebelum menekan tindakan yang mengubah struktur. Jangan menambah kolom manual atau mencampur sumber versi lama dengan struktur baru.
+
+Jika paket tahap 2 sebelumnya sudah terpasang, cukup ganti **Jenjang.gs** lalu hapus file kode **MigrasiJenjang.gs** lama jika sempat dibuat. HTML migrasi terpisah tidak dipakai lagi. Delapan file aplikasi lainnya tetap sama dengan versi 8f15cba.
+
+[Panduan pemasangan, migrasi, pemulihan dan pengujian Google lengkap](tests/JENJANG_VALIDATION.md). Migrasi lewat menu tidak memerlukan ID Spreadsheet/deployment; pengujian web app dan QR menggunakan deployment milik salinan proyek. Tidak ada migrasi/deployment utama yang dilakukan dari lingkungan ini.
+
+## Pengembangan bertahap: Jenjang dan akses panitia
+
+Bagian ini menjelaskan panel pratinjau sebelumnya. Untuk memasang paket struktur/migrasi terbaru, ikuti daftar lengkap pada bagian di atas.
+
+Lihat [rancangan tahap 1](docs/TAHAP_1_JENJANG_AKSES.md) untuk struktur Program → Jenjang → Sesi, pemetaan data lama dan pembagian akses panitia. Pratinjau telah dicoba pengguna; paket migrasi tersedia pada bagian Struktur Jenjang di atas, tetapi belum dijalankan dari lingkungan ini. Login panitia belum dibuat.
+
+Pratinjau baca saja tersedia sebagai **dua file tambahan**, PemetaanJenjang.gs dan PratinjauJenjang.html. Pada **salinan spreadsheet/proyek**, tambahkan Script `PemetaanJenjang` dan HTML `PratinjauJenjang`, salin isi lengkap keduanya dan ganti **Code.gs** untuk menambahkan menu pembuka pada onOpen. Simpan, kembali ke spreadsheet lalu refresh. Pilih **Manajemen Pelatihan → Pratinjau Pemetaan Jenjang** dengan akun pemilik; jangan mengandalkan Jalankan dari editor karena konteks getUi dapat tidak tersedia. Tidak perlu ID Spreadsheet, sheet/kolom baru, atau deployment baru. Jika dua file awal sudah dipasang, revisi ini hanya memerlukan penggantian **Code.gs + PemetaanJenjang.gs**; HTML tetap. Panduan lengkap, arti status, batas dan pemeriksaan: [PEMETAAN_JENJANG_VALIDATION.md](tests/PEMETAAN_JENJANG_VALIDATION.md).
+
+## Memasang halaman Beranda
+
+1. Tambahkan file HTML baru bernama **Beranda** di editor Apps Script, lalu salin seluruh isi Beranda.html.
+2. Ganti seluruh isi **Code.gs**, **Index.html**, **Pengelolaan.html**, **Peserta.html**, dan **Profil.html** dari branch yang sama. Menu Beranda pada semua halaman memerlukan pembaruan kelima file ini.
+3. Pertahankan **Absensi.html**, **AdminQR.html**, spreadsheet beserta datanya, manifest, dan pengaturan akses/deployment yang sudah digunakan. Folder tests dan preview tidak perlu disalin ke editor Apps Script.
+4. Simpan seluruh file. Untuk /dev, buka ulang URL pengujian. Untuk /exec, perbarui deployment yang sudah ada ke versi baru agar URL dan tautan QR tetap sama.
+5. Buka URL tanpa parameter: Beranda menjadi halaman awal. Sidebar Monitoring membuka ?page=monitoring. Tautan ?absen=... tetap membuka halaman absensi; nama file Index tetap digunakan untuk Monitoring.
+
+Beranda membaca seluruh database melalui muatBerandaIndex dengan pembatasan akun pemilik yang sudah digunakan aplikasi. Ringkasan bukan filter program terpilih. Jumlah peserta unik berbeda dari jumlah pendaftaran lintas program; program aktif mengikuti status program; sesi mendatang tidak dinilai sebagai absen. Grafik dan angka akan memakai data spreadsheet sebenarnya setelah dipasang, bukan data contoh.
+
+Ringkasan dimuat saat halaman dibuka atau saat Muat Ulang Ringkasan ditekan. Program tanpa sesi/peserta dapat ditelusuri melalui filter. Catatan pending dan absensi yang perlu diperiksa ditindaklanjuti di Monitoring dengan memilih program/sesi terkait. Beranda tidak mengubah data, menjalankan hitung JP, atau menetapkan nilai akhir.
+
+## Validasi Beranda
+
+Dari root repository: `node --test apps-script/absensi-dashboard/tests/beranda.test.mjs` (Node bawaan, tanpa dependency tambahan).
+
+Lihat tests/BERANDA_VALIDATION.md untuk cakupan pemeriksaan lokal dan batasannya. Pemeriksaan produksi tetap perlu dilakukan menggunakan akun Google dan spreadsheet yang sebenarnya. Pratinjau Beranda yang baru memakai data simulasi dan bukan bukti deployment produksi.
+
+## Pembaruan tampilan Absensi QR
+
+Pada branch ui/absensi-komdigi, ganti seluruh isi **Absensi.html** dan **Code.gs** dari branch yang sama. File HTML memakai muatTampilanAbsensiQR untuk menampilkan nama sesi, sehingga kedua file perlu disimpan bersama. Tidak perlu mengubah sheet, ID sesi, token/tautan QR, manifest, atau file admin lainnya untuk pembaruan ini.
+
+Logo sudah tertanam dan sama dengan logo header aplikasi. Halaman menampilkan nama sesi sesuai data pada sheet Sesi setelah token dinyatakan valid. Jika nama belum diisi, halaman menyatakan Nama sesi belum diisi. Pencarian, pemilihan peserta, serta konfirmasi datang/pulang tetap mengikuti backend yang sudah ada.
+
+Simpan kedua file, lalu perbarui versi deployment yang sama agar URL QR tidak berubah. Periksa dengan QR datang dan pulang yang berlaku. Pratinjau pada preview/absensi-komdigi menggunakan data simulasi. Hasil lokal terdapat pada tests/ABSENSI_DISPLAY_VALIDATION.md.
+
+Jalankan seluruh pengujian backend dari root repository: `node --test apps-script/absensi-dashboard/tests/*.test.mjs`.
+
+## Laporan evaluasi per program (PDF)
+
+Pada branch **feat/laporan-program-pdf**, tambahkan file **Script** baru bernama **Laporan** lalu salin seluruh isi **Laporan.gs**. Ganti seluruh isi **Pengelolaan.html** dari branch yang sama. Fungsi pada Laporan.gs menggunakan helper Code.gs yang sudah ada; Code.gs tidak berubah untuk fitur ini. Jangan membuat file HTML bernama Laporan untuk script backend ini.
+
+Dengan akun pemilik spreadsheet, jalankan **otorisasiLaporanProgram** sekali dari editor Apps Script untuk memberikan izin Google Docs/Drive. Helper hanya membuat dokumen uji lalu memindahkannya ke Sampah. Jika proyek memakai daftar oauthScopes eksplisit, pertahankan scopes lama dan tambahkan `https://www.googleapis.com/auth/documents` serta `https://www.googleapis.com/auth/drive` melalui manifest proyek yang sebenarnya. Tidak perlu mengubah skema sheet atau mengisi kredensial di chat. Proyek dengan deteksi scopes otomatis akan meminta izin layanan yang digunakan script.
+
+Simpan file; untuk /exec, perbarui versi deployment yang sama agar URL QR tetap berlaku. Buka **Pengelolaan**, pilih program yang statusnya **selesai**, lalu **Laporan Program → Buat PDF → Unduh PDF**. Tombol terkunci untuk status lainnya; server memeriksa ulang status dan pemilik pada setiap permintaan. Setelah mengubah status program, muat ulang daftar jika diperlukan.
+
+PDF berisi identitas instansi/program, ringkasan eksekutif, jadwal/jeda/durasi sesi, rekap kehadiran per sesi/peserta, grafik distribusi kehadiran dan status catatan, grafik hingga 10 indikator dengan catatan disetujui terbanyak, rekap JP/nilai perilaku yang sudah tersedia, keterbatasan/tindak lanjut, serta lampiran aktivitas semua status. Grafik indikator bukan peringkat peserta. Bukti file tidak dimasukkan; akses bukti tetap melalui aplikasi.
+
+Persentase kelengkapan menggunakan peserta yang saat ini berstatus terdaftar × sesi berjadwal valid yang telah berakhir, termasuk sesi tanpa JP. Peserta dengan status lain tetap tercantum tetapi dikeluarkan dari penyebut. Sesi mendatang/invalid tidak diasumsikan sebagai tidak hadir. Belum tercatat bukan otomatis tidak hadir. Catatan pending/ditolak tidak diperlakukan sebagai catatan disahkan. Data yang belum tersedia ditandai —, bukan nol; rekap sementara diberi status. Tidak ada hitung ulang atau penulisan JP/nilai, formula nilai akhir baru, atau penetapan kelulusan.
+
+Dokumen Google sementara dibuat untuk menyusun PDF beserta grafik dan dipindahkan ke Sampah setelah ekspor; fitur tidak membuat tautan berbagi publik. Jika pembersihan gagal, peringatan akan meminta pengelola menghapus dokumen TEMP Laporan Pelatihan secara manual. File hasil diunduh dari browser dengan klik eksplisit. Ukuran PDF dibatasi 8 MB, maksimal 1.000 peserta/300 sesi/3.000 catatan per program; batas ini bukan jaminan quota/waktu eksekusi Google cukup untuk seluruh data sebesar itu. Kesalahan quota/izin ditampilkan dan dokumen sementara dibersihkan sejauh diizinkan layanan.
+
+Format awal adalah PDF, belum DOCX. Baca **tests/LAPORAN_VALIDATION.md** untuk batas pengujian lokal dan checklist ekspor Google yang sebenarnya. Jangan menyalin folder tests/preview ke editor Apps Script.
+
+## Penghapusan program, sesi, dan peserta
+
+Branch **feat/hapus-data-pelatihan** melanjutkan seluruh pembaruan sebelumnya. Tambahkan file **Script** baru bernama **Hapus** dengan seluruh isi Hapus.gs. Ganti seluruh isi **Code.gs**, **Laporan.gs**, **Pengelolaan.html**, dan **Peserta.html** dari branch yang sama. Kelima file harus dipasang bersama: backend lama memakai penjagaan transaksi/ID dari Hapus.gs. File HTML/GS lain tersedia lengkap pada folder ini jika pembaruan sebelumnya belum dipasang. Jangan menyalin tests/preview ke Apps Script.
+
+Tidak menambah sheet atau kolom. Pertahankan spreadsheet terikat, manifest/scopes yang sebenarnya, dan URL deployment. Untuk /exec, simpan lalu perbarui versi deployment yang sudah ada. Izin baru tidak diperlukan untuk penghapusan; laporan PDF tetap memerlukan izin Docs/Drive yang sudah dijelaskan di atas.
+
+- **Pengelolaan → Program & Sesi → Hapus program:** menghapus program, pendaftaran, sesi/jeda, kehadiran, catatan perilaku/izin, token QR, serta log absensi terkait. Identitas peserta tetap ada, termasuk peserta yang juga mengikuti program lain.
+- **Pengelolaan → Sesi Program → Hapus sesi:** menghapus sesi/jedanya, kehadiran/catatan, token dan log terkait. Pendaftaran peserta serta sesi/program lain dipertahankan. Rekap/laporan berikutnya mengikuti sesi yang tersisa.
+- **Peserta Program → Hapus dari program:** menghapus satu keikutsertaan beserta kehadiran, catatan/izin, dan log terkait. Identitas dan riwayat program lain tetap ada.
+- **Peserta Program → Identitas Peserta di Database → Cari Identitas:** daftar seluruh database, termasuk peserta tanpa program. **Hapus identitas** hanya tersedia jika tidak ada keikutsertaan pada program mana pun. Gunakan pencarian kosong untuk menampilkan semua, maksimal 50 per halaman. Penghapusan identitas tidak dijalankan otomatis setelah menghapus pendaftaran/program.
+
+Setiap tindakan diawali pratinjau jumlah baris per sheet, alasan wajib, persetujuan dampak, dan pop-up konfirmasi terakhir. Pengelola tidak perlu mengetik ID target. Tombol hapus pada daftar memakai ikon tempat sampah dengan tooltip dan label aksesibel. Berlaku untuk draft/aktif/selesai; tidak perlu mengganti status untuk menghapus program yang dibatalkan. Belum ada status baru dibatalkan. Unduh laporan yang masih diperlukan sebelum menghapus program selesai. Perubahan data sejak pratinjau mewajibkan pemeriksaan baru.
+
+**Ini penghapusan fisik dari sheet operasional, bukan penghapusan seluruh salinan data.** Sebelum menghapus, server menyimpan dan membaca ulang cadangan bertahap di **Riwayat_Validasi**, termasuk nilai, tipe tanggal, formula, header, alasan dan petugas. Riwayat audit/cadangan, katalog indikator, versi aturan penilaian, serta file bukti di Drive tetap disimpan. Cadangan bisa berisi identitas/NIP dan harus mengikuti hak akses/retensi spreadsheet. Belum ada pemulihan otomatis untuk data yang sudah selesai dihapus; cadangan memerlukan pemeriksaan manual jika perlu rekonstruksi. Penghapusan ini bukan fitur pemusnahan data pribadi secara menyeluruh.
+
+Penghapusan hanya untuk akun pemilik dan memakai ScriptLock yang sama dengan penulisan data. Saat transaksi hapus tertunda, penambahan/perubahan lewat aplikasi dan pengambilan snapshot laporan PDF ditolak sampai transaksi ditutup. Buka **Pengelolaan** atau **Peserta**: kartu **Transaksi yang Perlu Diperiksa** otomatis muncul. Pilih **Periksa / lanjutkan**, periksa dampak, setujui, lalu konfirmasi pop-up untuk melanjutkan. Server melanjutkan baris yang tersisa, tanpa mengulang baris yang sudah dihapus. Jika persiapan cadangan terputus sebelum lengkap, proses persiapan ditutup tanpa menghapus baris operasional; buat pratinjau baru. Bila isi data/cadangan berubah di luar transaksi, proses berhenti agar data baru tidak dihapus. Jangan mengedit sheet/audit langsung ketika proses berjalan; ScriptLock mengoordinasikan aplikasi, bukan edit manual Google Sheets.
+
+ID berurutan yang sudah dihapus dicadangkan melalui ScriptProperties per spreadsheet agar PRG/SES/KST/PST/JDA tidak digunakan ulang oleh generator lama maupun baru. Pertahankan properti `BATAS_ID_HAPUS|<spreadsheet-id>` serta Riwayat_Validasi. Perubahan ini juga menambahkan pemeriksaan pemilik pada lima fungsi penulisan lama untuk peserta/keikutsertaan/sesi/jeda/konfirmasi JP. Tidak mengubah formula JP/perilaku atau menghapus file bukti di Drive.
+
+Penghapusan diblokir jika ada transaksi terkait/cakupan tak diketahui yang belum selesai, ID kosong/duplikat, relasi lintas program yang bertentangan, sheet wajib hilang, atau referensi pada sheet tambahan yang belum didukung. Perbaiki/pulihkan sumber masalah terlebih dahulu. Batas per tindakan: 3.000 baris operasional terkait dan 2 juta karakter rencana cadangan; hapus per sesi/pendaftaran untuk program lebih besar. Kuota dan durasi Google dapat membatasi lebih awal. Waktu tunggu lock 30 detik; proses panjang/terputus dapat dilanjutkan lewat kartu transaksi.
+
+Sebelum memakai pada data penting, uji pada **salinan spreadsheet dan proyek Apps Script terpisah**. Pengujian lokal belum menjalankan penghapusan pada layanan Google. Ikuti tests/HAPUS_VALIDATION.md untuk pemeriksaan pemasangan.
+
+## Revisi konfirmasi dan ikon hapus
+
+Pada branch **ui/konfirmasi-hapus**, jika fitur hapus sebelumnya sudah terpasang, cukup ganti seluruh isi **Pengelolaan.html** dan **Peserta.html** dari branch ini. Code.gs, Hapus.gs, Laporan.gs, sheet, scopes dan formula tidak berubah dalam revisi ini. Jika fitur hapus belum dipasang, ikuti pemasangan kelima file pada bagian penghapusan di atas dengan sumber dari branch ini.
+
+Kolom ketik ID Target dihapus dari dialog awal maupun kelanjutan transaksi. Nama/kode data tetap terlihat sebagai informasi; aplikasi memakai pilihan tersebut untuk mengirim ID internal dengan kontrak backend yang sama. Isi alasan dan centang persetujuan, lalu klik **Hapus Data Terkait**. Pop-up **Yakin ingin menghapus data ini?** menampilkan nama dan cakupan data. **Batal** atau Escape kembali ke formulir tanpa mengirim permintaan hapus dan mempertahankan isian. **Ya, Hapus Data** baru mengirim permintaan. Saat melanjutkan transaksi tertunda, pop-up memakai **Ya, Lanjutkan**. Fokus awal berada pada Batal.
+
+Ikon sampah menggantikan teks tindakan hapus program, sesi, pendaftaran dan identitas pada tabel; tombol konfirmasi tetap berteks agar tindakannya jelas. Ikon berukuran area klik 44 × 44 px, memiliki tooltip, label pembaca layar dan dukungan keyboard. Pratinjau gagal tetap mengunci konfirmasi. Pemeriksaan pemilik, versi data, transaksi tertunda, cadangan, dan retry dengan ID permintaan yang sama tetap berlaku.
+
+Pemeriksaan browser lokal memakai layanan tiruan, mencakup pembatalan tanpa RPC, konfirmasi terakhir, keyboard, ikon, error/retry dan kelanjutan transaksi. Pengujian deployment dan data Google yang sebenarnya tetap perlu dilakukan pada salinan proyek.
+
+## Perbaikan pesan transaksi sebelum penghapusan
+
+Pada branch **fix/transaksi-penghapusan**, ganti seluruh isi **Hapus.gs**, **Pengelolaan.html**, dan **Peserta.html** bersama. Code.gs, Laporan.gs, skema sheet, scope dan formula penilaian tidak berubah dalam perbaikan ini. Simpan proyek dan perbarui versi deployment /exec yang sama; muat ulang halaman.
+
+Pemeriksaan sebelumnya mengunci seluruh penghapusan bila ada transaksi nonterminal di mana pun pada audit, termasuk baris lama yang memiliki ID transaksi tetapi status kosong. Pemeriksaan baru memakai status eksplisit terakhir per ID transaksi, menormalkan huruf/spasi status, dan tidak memakai baris tanpa status untuk membuka atau menutup transaksi. PENDING/PERLU_PEMULIHAN sebelumnya tetap aktif jika sesudahnya hanya ada baris berstatus kosong. Tidak ada status audit yang ditulis ulang/ditandai selesai secara otomatis.
+
+Untuk transaksi non-penghapusan, server memeriksa relasi program dan seluruh ID pada snapshot/rencana audit, termasuk transaksi dengan beberapa penulisan. Transaksi program yang terbukti tidak terkait tidak mengunci penghapusan program lain. Transaksi pada program terkait, penulisan yang merujuk identitas yang akan dihapus, status tidak dikenal, audit JSON rusak, atau cakupan yang tidak dapat ditentukan tetap menahan penghapusan. Transaksi penghapusan tertunda sendiri tetap menjadi kunci global, karena penghapusan parsial harus ditutup sebelum operasi baru. Pemeriksaan diulang setelah pratinjau sebelum cadangan/penghapusan dimulai.
+
+Kartu **Transaksi yang Perlu Diperiksa** kini memuat penghapusan tertunda dan transaksi lain, bukan hanya transaksi hapus. Untuk setiap transaksi lain ditampilkan jenis/referensi, ID transaksi, status, program bila diketahui, **nomor baris fisik Riwayat_Validasi**, dan petunjuk penanganan. Tombol **Buka Pengelolaan / Buka Peserta Program** hanya menavigasi ke halaman terkait; tidak otomatis menjalankan pemulihan atau perubahan data. Detail penghalang juga ditampilkan pada pesan pratinjau, dengan tombol **Periksa Rincian Transaksi**.
+
+Pemulihan edit/impor/pembuatan sesi menggunakan kontrol yang sudah ada. Jenis transaksi lain atau audit yang rusak memerlukan pemeriksaan data/audit oleh pengelola; perbaikan ini tidak menyediakan tombol paksa selesai atau pemulihan JP otomatis. Jangan mengosongkan status atau menggantinya menjadi SELESAI untuk menghilangkan pesan tanpa memverifikasi data.
+
+Bug pembacaan status/cakupan direproduksi dengan data tiruan dan diperbaiki pada kode. Baris yang memicu error pada spreadsheet pengguna belum diketahui dari lingkungan ini. Bila setelah pemasangan masih tertahan, rincian kartu memungkinkan identifikasi transaksi sebenarnya tanpa perlu mengirim seluruh spreadsheet. Semua diagnosis otomatis hanya membaca data.

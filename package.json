@@ -1,0 +1,10 @@
+{
+  "name": "for-training-recap",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Monitoring Pelatihan Pegawai \u2014 Google Apps Script",
+  "scripts": {
+    "test": "node --test apps-script/absensi-dashboard/tests/*.test.mjs"
+  }
+}
