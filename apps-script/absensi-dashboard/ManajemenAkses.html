@@ -843,6 +843,20 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
 @media(max-width:1050px){.access-workspace .grid{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){.access-workspace .head,.access-workspace .card{padding:18px}.access-workspace h1{font-size:23px}.access-workspace .head{align-items:flex-start}.access-workspace .stats{grid-template-columns:minmax(0,1fr)}.access-workspace .pager{align-items:flex-start;flex-direction:column}.access-workspace .sectionhead{align-items:flex-start}.access-workspace .actions{gap:8px}}
 </style>
+<style id="ui-consistency">
+/* Consistent action spacing and modal close controls; sidebar/tab spacing stays separate. */
+.flat-dashboard :is(.buttons:not(:has(#tabSesi)),.creation-actions,.creation-card-actions,.verification-actions,.evaluasi-actions,.session-actions,.ui-actions),.access-workspace .actions {gap:12px!important;}
+.flat-dashboard :is(.stats,.layout),.access-workspace .grid {gap:12px!important;}
+.flat-dashboard #managePanel>.panel+.panel,.flat-dashboard #participantsPanel>.panel+.panel {margin-top:12px!important;}
+.flat-dashboard #masterParticipantsCard,.flat-dashboard #deleteRecovery {margin-top:12px!important;}
+dialog .modal-heading,dialog .sectionhead:has(>.modal-close),dialog .creation-heading:has(>.modal-close) {display:flex;flex-direction:row!important;flex-wrap:nowrap!important;align-items:flex-start;justify-content:space-between;gap:12px;margin:0 0 12px;position:sticky;top:0;z-index:5;background:white;box-shadow:0 -24px 0 24px white;}
+dialog :is(.modal-heading,.sectionhead:has(>.modal-close),.creation-heading:has(>.modal-close))>h2 {flex:1;min-width:0;margin:0;overflow-wrap:anywhere;}
+dialog :is(.modal-heading,.sectionhead:has(>.modal-close),.creation-heading:has(>.modal-close))>div {min-width:0;}
+dialog button.modal-close {box-sizing:border-box;display:inline-grid!important;place-items:center;width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;max-width:44px;max-height:44px;flex:0 0 44px!important;align-self:flex-start;padding:0!important;margin:0!important;line-height:1;border:1px solid #d6dfec;border-radius:12px!important;background:white;color:#203960;cursor:pointer;}
+dialog button.modal-close svg {width:20px;height:20px;display:block;pointer-events:none;}
+dialog button.modal-close:focus-visible {outline:3px solid #d99616;outline-offset:2px;}
+dialog button.modal-close:disabled {opacity:.5;cursor:wait;}
+</style>
 </head>
 <body class="flat-dashboard"><a class="dash-skip" href="#dashContent">Lewati ke konten utama</a>
   <aside id="dashSidebar" class="dash-sidebar" aria-label="Menu utama">

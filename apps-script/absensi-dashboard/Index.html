@@ -783,6 +783,20 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
       .manual-category input {width:18px;height:18px;margin:0;padding:0;accent-color:#203960;flex:none;}
       #manualChosen:empty,#manualJPHelp:empty {display:none;}
     </style>
+<style id="ui-consistency">
+/* Consistent action spacing and modal close controls; sidebar/tab spacing stays separate. */
+.flat-dashboard :is(.buttons:not(:has(#tabSesi)),.creation-actions,.creation-card-actions,.verification-actions,.evaluasi-actions,.session-actions,.ui-actions),.access-workspace .actions {gap:12px!important;}
+.flat-dashboard :is(.stats,.layout),.access-workspace .grid {gap:12px!important;}
+.flat-dashboard #managePanel>.panel+.panel,.flat-dashboard #participantsPanel>.panel+.panel {margin-top:12px!important;}
+.flat-dashboard #masterParticipantsCard,.flat-dashboard #deleteRecovery {margin-top:12px!important;}
+dialog .modal-heading,dialog .sectionhead:has(>.modal-close),dialog .creation-heading:has(>.modal-close) {display:flex;flex-direction:row!important;flex-wrap:nowrap!important;align-items:flex-start;justify-content:space-between;gap:12px;margin:0 0 12px;position:sticky;top:0;z-index:5;background:white;box-shadow:0 -24px 0 24px white;}
+dialog :is(.modal-heading,.sectionhead:has(>.modal-close),.creation-heading:has(>.modal-close))>h2 {flex:1;min-width:0;margin:0;overflow-wrap:anywhere;}
+dialog :is(.modal-heading,.sectionhead:has(>.modal-close),.creation-heading:has(>.modal-close))>div {min-width:0;}
+dialog button.modal-close {box-sizing:border-box;display:inline-grid!important;place-items:center;width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;max-width:44px;max-height:44px;flex:0 0 44px!important;align-self:flex-start;padding:0!important;margin:0!important;line-height:1;border:1px solid #d6dfec;border-radius:12px!important;background:white;color:#203960;cursor:pointer;}
+dialog button.modal-close svg {width:20px;height:20px;display:block;pointer-events:none;}
+dialog button.modal-close:focus-visible {outline:3px solid #d99616;outline-offset:2px;}
+dialog button.modal-close:disabled {opacity:.5;cursor:wait;}
+</style>
 </head>
   <body class="flat-dashboard"><a class="dash-skip" href="#dashContent">Lewati ke konten utama</a>
   <aside id="dashSidebar" class="dash-sidebar" aria-label="Menu utama">
@@ -859,7 +873,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
               <option value="">Pilih program terlebih dahulu</option>
             </select>
           </div>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap">
+          <div class="ui-actions" style="display:flex;gap:12px;flex-wrap:wrap">
             <button class="btn" id="refresh" disabled>Muat Ulang Data</button
             ><button class="btn primary" id="calculate" disabled>
               Hitung JP Sesi
@@ -1337,9 +1351,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
       <div class="dialog-body">
         <div class="sectionhead">
           <h2 id="indicatorFormTitle">Tambah Indikator</h2>
-          <button id="closeIndicatorDialog" class="btn" type="button">
-            Tutup
-          </button>
+          <button id="closeIndicatorDialog" class="btn modal-close" type="button" aria-label="Tutup indikator" title="Tutup indikator"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
         </div>
         <div class="field"><label for="indicatorManageSelect">Tambah atau kelola indikator tersimpan</label><select id="indicatorManageSelect"><option value="">Tambah indikator baru</option></select></div>
         <form id="indicatorForm">
@@ -1412,7 +1424,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
         </form>
       </div>
     </dialog>
-    <dialog id="indicatorDeleteConfirmDialog" style="width:min(560px,94vw)" aria-labelledby="indicatorDeleteConfirmTitle"><div class="dialog-body"><h2 id="indicatorDeleteConfirmTitle">Yakin menghapus indikator ini?</h2><p id="indicatorDeleteConfirmText" class="help"></p><p class="help">Penghapusan hanya dilanjutkan setelah referensi diperiksa kembali oleh server. Pemulihan otomatis data yang sudah selesai dihapus belum tersedia.</p><div class="buttons"><button id="cancelIndicatorDelete" class="btn" type="button">Batal</button><button id="approveIndicatorDelete" class="btn primary" type="button">Ya, Hapus Indikator</button></div></div></dialog>
+    <dialog id="indicatorDeleteConfirmDialog" style="width:min(560px,94vw)" aria-labelledby="indicatorDeleteConfirmTitle"><div class="dialog-body"><div class="modal-heading"><h2 id="indicatorDeleteConfirmTitle">Yakin menghapus indikator ini?</h2><button type="button" class="btn modal-close" id="closeIndicatorDelete" aria-label="Tutup konfirmasi hapus indikator" title="Tutup konfirmasi hapus indikator" data-close-target="cancelIndicatorDelete"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><p id="indicatorDeleteConfirmText" class="help"></p><p class="help">Penghapusan hanya dilanjutkan setelah referensi diperiksa kembali oleh server. Pemulihan otomatis data yang sudah selesai dihapus belum tersedia.</p><div class="buttons"><button id="cancelIndicatorDelete" class="btn" type="button">Batal</button><button id="approveIndicatorDelete" class="btn primary" type="button">Ya, Hapus Indikator</button></div></div></dialog>
     <dialog
       id="proofPreviewDialog"
       aria-labelledby="proofPreviewTitle"
@@ -1421,9 +1433,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
       <div class="dialog-body">
         <div class="sectionhead">
           <h2 id="proofPreviewTitle">Pratinjau Bukti Pendukung</h2>
-          <button id="closeProofPreview" class="btn" type="button">
-            Tutup
-          </button>
+          <button id="closeProofPreview" class="btn modal-close" type="button" aria-label="Tutup pratinjau bukti" title="Tutup pratinjau bukti"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
         </div>
         <p class="muted">
           Pratinjau ditampilkan dalam halaman ini. Jika akses ditolak atau
@@ -1452,7 +1462,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
       <div class="dialog-body">
         <div class="sectionhead">
           <h2 id="qrDialogTitle">QR Absensi</h2>
-          <button id="closeQR" type="button" class="btn">Tutup</button>
+          <button id="closeQR" type="button" class="btn modal-close" aria-label="Tutup QR absensi" title="Tutup QR absensi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
         </div>
         <p id="qrSessionInfo" class="help">Pilih sesi terlebih dahulu.</p>
         <div class="qr-controls">
@@ -1498,7 +1508,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
       <div class="dialog-body">
         <div class="sectionhead">
           <h2 id="scoreDetailTitle">Rincian Nilai Perilaku</h2>
-          <button type="button" id="closeScoreDetail" class="btn">Tutup</button>
+          <button type="button" id="closeScoreDetail" class="btn modal-close" aria-label="Tutup rincian nilai perilaku" title="Tutup rincian nilai perilaku"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
         </div>
         <p id="scoreDetailSummary" class="help"></p>
         <div class="tablebox">
@@ -1523,7 +1533,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
     </dialog>
     <dialog id="validationDialog">
       <form id="validationForm" class="dialog-body">
-        <h2>Validasi Catatan Perilaku</h2>
+        <div class="modal-heading"><h2>Validasi Catatan Perilaku</h2><button type="button" class="btn modal-close" id="closeValidation" aria-label="Tutup validasi catatan" title="Tutup validasi catatan" data-close-target="cancelValidation"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
         <p id="validationPerson" class="muted"></p>
         <div id="validationEvidenceLinks"></div>
         <p
@@ -1563,7 +1573,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
     </dialog>
     <dialog id="behaviorDialog">
       <form id="behaviorForm" class="dialog-body">
-        <h2>Catat Sikap &amp; Perilaku</h2>
+        <div class="modal-heading"><h2>Catat Sikap &amp; Perilaku</h2><button type="button" class="btn modal-close" id="closeBehavior" aria-label="Tutup catatan sikap dan perilaku" title="Tutup catatan sikap dan perilaku" data-close-target="cancelBehavior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
         <p id="behaviorPerson" class="muted"></p>
         <div class="field">
           <label for="behaviorParticipantSearch"
@@ -1664,7 +1674,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
             <h2 id="detailTitle">Rincian JP Peserta</h2>
             <div id="detailSubtitle" class="muted"></div>
           </div>
-          <button type="button" id="closeDetail" class="btn">Tutup</button>
+          <button type="button" id="closeDetail" class="btn modal-close" aria-label="Tutup rincian JP" title="Tutup rincian JP"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
         </div>
         <p id="detailSummary" class="help"></p>
         <div class="tablebox">
@@ -1694,15 +1704,15 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
       </div>
     </dialog>
     <dialog id="finalWeightsDialog" aria-labelledby="finalWeightsTitle"><form id="finalWeightsForm" class="dialog-body">
-      <div class="sectionhead"><h2 id="finalWeightsTitle">Bobot Nilai Akhir</h2><button type="button" id="closeFinalWeights" class="btn" aria-label="Tutup bobot nilai akhir">×</button></div>
+      <div class="sectionhead"><h2 id="finalWeightsTitle">Bobot Nilai Akhir</h2><button type="button" id="closeFinalWeights" class="btn modal-close" aria-label="Tutup bobot nilai akhir" title="Tutup bobot nilai akhir"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
       <p id="finalWeightsProgram" class="muted"></p><p class="help">Bobot berlaku untuk program yang dipilih. Total harus 100%. JP dan nilai perilaku tetap terpisah; nilai lama tidak ditimpa.</p>
       <div class="dialog-fields"><div class="field"><label for="finalTeacherWeight">Pengajar (%)</label><input id="finalTeacherWeight" type="number" min="1" max="99" step="1" required></div><div class="field"><label for="finalStaffWeight">Panitia (%)</label><input id="finalStaffWeight" type="number" min="1" max="99" step="1" required></div></div>
       <div class="field"><label for="finalWeightsReason">Alasan perubahan</label><textarea id="finalWeightsReason" maxlength="2000" rows="2" required></textarea></div><p id="finalWeightsMessage" class="foot" role="status"></p><button id="saveFinalWeights" type="submit" class="btn primary full">Simpan Bobot</button>
     </form></dialog>
-    <dialog id="finalScoreDialog" aria-labelledby="finalScoreTitle" style="width:min(1100px,94vw)"><div class="dialog-body"><div class="sectionhead"><h2 id="finalScoreTitle">Rincian Nilai Akhir</h2><button id="closeFinalScore" type="button" class="btn" aria-label="Tutup rincian nilai akhir">×</button></div><p id="finalScoreSummary" class="help"></p><p id="finalScoreReasons" class="foot"></p><div class="tablebox" style="max-height:480px;overflow:auto"><table><thead><tr><th>SESI</th><th>STATUS</th><th>PENGAJAR (100)</th><th>PANITIA (100)</th><th>KETERANGAN</th></tr></thead><tbody id="finalScoreBody"></tbody></table></div><p class="foot">Setiap sesi memiliki bobot yang sama. Rata-rata aspek ÷ 5 × 100. Hasil akhir dihitung sebelum pembulatan tampilan; keputusan pelatihan tetap pada ketua tim kerja.</p></div></dialog>
+    <dialog id="finalScoreDialog" aria-labelledby="finalScoreTitle" style="width:min(1100px,94vw)"><div class="dialog-body"><div class="sectionhead"><h2 id="finalScoreTitle">Rincian Nilai Akhir</h2><button id="closeFinalScore" type="button" class="btn modal-close" aria-label="Tutup rincian nilai akhir" title="Tutup rincian nilai akhir"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><p id="finalScoreSummary" class="help"></p><p id="finalScoreReasons" class="foot"></p><div class="tablebox" style="max-height:480px;overflow:auto"><table><thead><tr><th>SESI</th><th>STATUS</th><th>PENGAJAR (100)</th><th>PANITIA (100)</th><th>KETERANGAN</th></tr></thead><tbody id="finalScoreBody"></tbody></table></div><p class="foot">Setiap sesi memiliki bobot yang sama. Rata-rata aspek ÷ 5 × 100. Hasil akhir dihitung sebelum pembulatan tampilan; keputusan pelatihan tetap pada ketua tim kerja.</p></div></dialog>
     <dialog id="presensiDialog" aria-labelledby="presensiTitle">
       <div class="dialog-body">
-        <div class="sectionhead"><h2 id="presensiTitle">Presensi</h2><button id="presensiClose" type="button" class="btn" aria-label="Tutup pilihan presensi">×</button></div>
+        <div class="sectionhead"><h2 id="presensiTitle">Presensi</h2><button id="presensiClose" type="button" class="btn modal-close" aria-label="Tutup pilihan presensi" title="Tutup pilihan presensi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
         <p class="muted">Pilih cara pencatatan untuk sesi yang sedang dibuka.</p>
         <div class="presensi-options">
           <button id="quickManual" type="button" class="btn full" disabled>Presensi Manual<span>Catat status Hadir atau Tidak Hadir peserta.</span></button>
@@ -1713,7 +1723,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
     </dialog>
     <dialog id="manualDialog" aria-labelledby="manualTitle">
       <form id="manualForm" class="dialog-body">
-        <div class="sectionhead"><h2 id="manualTitle">Presensi Manual</h2><button type="button" id="manualClose" class="btn" aria-label="Tutup presensi manual">×</button></div>
+        <div class="sectionhead"><h2 id="manualTitle">Presensi Manual</h2><button type="button" id="manualClose" class="btn modal-close" aria-label="Tutup presensi manual" title="Tutup presensi manual"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
         <p id="manualSession" class="muted"></p>
         <p class="help">Pilih peserta dan status kehadiran. Pencatatan berlaku untuk satu sesi penuh.</p>
         <div class="field"><label for="manualSearch">Nama peserta</label><input id="manualSearch" type="search" placeholder="Cari nama, unit, atau ID peserta…" autocomplete="off" required aria-describedby="manualChosen"><div id="manualResults" class="manual-results" role="region" aria-label="Hasil pencarian peserta"></div><p id="manualChosen" class="foot" role="status"></p></div>
@@ -1726,7 +1736,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
     </dialog>
     <dialog id="editDialog">
       <form id="editForm" class="dialog-body">
-        <h2 id="dialogTitle">Koreksi waktu</h2>
+        <div class="modal-heading"><h2 id="dialogTitle">Koreksi waktu</h2><button type="button" class="btn modal-close" id="closeEdit" aria-label="Tutup form presensi atau izin" title="Tutup form presensi atau izin" data-close-target="cancelEdit"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
         <p id="dialogPerson" class="muted"></p>
         <p id="dialogHelp" class="help"></p>
         <section id="leavePicker" class="hidden" style="margin-bottom: 18px">
@@ -1799,6 +1809,14 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
     </dialog>
     <script>
       "use strict";
+      // New header controls reuse the existing cancel action, including its busy/draft guards.
+      document.querySelectorAll('button[data-close-target]').forEach(button=>{
+        const target=document.getElementById(button.dataset.closeTarget);if(!target)return;
+        const sync=()=>{button.disabled=target.disabled;};sync();
+        new MutationObserver(sync).observe(target,{attributes:true,attributeFilter:['disabled']});
+        button.addEventListener('click',()=>{if(!target.disabled)target.click();});
+      });
+
       const $ = (id) => document.getElementById(id);
       let allPrograms = [],
         allSessions = [],

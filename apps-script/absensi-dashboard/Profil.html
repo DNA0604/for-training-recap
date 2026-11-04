@@ -605,6 +605,20 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
 }
 @media(prefers-reduced-motion:no-preference){.sidebar-toggle-label,.sidebar-account-text,.sidebar-tool-label {transition:opacity .16s ease}}
 </style>
+<style id="ui-consistency">
+/* Consistent action spacing and modal close controls; sidebar/tab spacing stays separate. */
+.flat-dashboard :is(.buttons:not(:has(#tabSesi)),.creation-actions,.creation-card-actions,.verification-actions,.evaluasi-actions,.session-actions,.ui-actions),.access-workspace .actions {gap:12px!important;}
+.flat-dashboard :is(.stats,.layout),.access-workspace .grid {gap:12px!important;}
+.flat-dashboard #managePanel>.panel+.panel,.flat-dashboard #participantsPanel>.panel+.panel {margin-top:12px!important;}
+.flat-dashboard #masterParticipantsCard,.flat-dashboard #deleteRecovery {margin-top:12px!important;}
+dialog .modal-heading,dialog .sectionhead:has(>.modal-close),dialog .creation-heading:has(>.modal-close) {display:flex;flex-direction:row!important;flex-wrap:nowrap!important;align-items:flex-start;justify-content:space-between;gap:12px;margin:0 0 12px;position:sticky;top:0;z-index:5;background:white;box-shadow:0 -24px 0 24px white;}
+dialog :is(.modal-heading,.sectionhead:has(>.modal-close),.creation-heading:has(>.modal-close))>h2 {flex:1;min-width:0;margin:0;overflow-wrap:anywhere;}
+dialog :is(.modal-heading,.sectionhead:has(>.modal-close),.creation-heading:has(>.modal-close))>div {min-width:0;}
+dialog button.modal-close {box-sizing:border-box;display:inline-grid!important;place-items:center;width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;max-width:44px;max-height:44px;flex:0 0 44px!important;align-self:flex-start;padding:0!important;margin:0!important;line-height:1;border:1px solid #d6dfec;border-radius:12px!important;background:white;color:#203960;cursor:pointer;}
+dialog button.modal-close svg {width:20px;height:20px;display:block;pointer-events:none;}
+dialog button.modal-close:focus-visible {outline:3px solid #d99616;outline-offset:2px;}
+dialog button.modal-close:disabled {opacity:.5;cursor:wait;}
+</style>
 </head>
   <body class="flat-dashboard"><a class="dash-skip" href="#dashContent">Lewati ke konten utama</a>
   <aside id="dashSidebar" class="dash-sidebar" aria-label="Menu utama">
@@ -843,7 +857,7 @@ body.flat-dashboard {font-family:'Avenir Next',Avenir,'Segoe UI',Arial,sans-seri
     <dialog id="proofDialog">
       <div class="head">
         <h2>Pratinjau Bukti Pendukung</h2>
-        <button class="btn" id="closeProof">Tutup</button>
+        <button class="btn modal-close" id="closeProof" aria-label="Tutup pratinjau bukti" title="Tutup pratinjau bukti" type="button"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
       </div>
       <p class="muted">
         Gunakan akun Google yang memiliki akses ke file jika pratinjau meminta

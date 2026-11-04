@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-04 — implement audited UI spacing, close icons and participant selector
+- User authorized the audited fixes. Standardize related action/card gaps at 12 px, including touching Jenjang/Program cards and mobile access controls; preserve tab/sidebar spacing. All covered dialogs now have one accessible 44×44 X with a 20px SVG, with sticky static headers for long forms.
+- Preserve old header IDs/handlers; added X buttons delegate to existing cancel actions and mirror disabled state, keeping save/upload/deletion/draft/retry behavior. Dynamic legacy review/verification and evaluation dialogs share close styling.
+- Peserta now shows Program before Jenjang, disables Jenjang without Program, and resets levels on Program changes while retaining single-level selection, role scope and import locks. No data/RPC/schema/scoring/login/sidebar changes.
+- Replace seven sources together; see docs/UI_JARAK_TUTUP_MODAL_PESERTA.md. 431 backend tests and mocked Chromium geometry for 66 modal occurrences, no-write cancellation/busy mirror/deletion-X/long-scroll, plus app/role/Jenjang/evaluation/manual/final-grade regressions pass. Native Google deployment acceptance pending; no real data/deployment/main change.
+
 ## 2026-11-04 — UI spacing/modal/participant-selector audit only
 - User explicitly requested findings and design before code. Audited six Admin pages and injected modals at desktop/mobile with mocked Google: touching Jenjang/Program cards, mixed action gaps, inconsistent/missing X controls, and participant Jenjang order/disabled state.
 - Documented a proposed 12 px grouped spacing, 44×44 close button with 20 px icon, reuse of existing cancel/busy/dirty guards and Program→Jenjang behavior. No application code, source hashes, spreadsheet data or deployment changed. See docs/AUDIT_UI_2026-11-04.md; implementation awaits a subsequent instruction.

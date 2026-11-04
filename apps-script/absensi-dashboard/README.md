@@ -13,6 +13,10 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 19 current HTML/GS source files, including the Jenjang preparation tools and report layout/assets.
 
+## Jarak UI, X modal dan Program → Jenjang (4 November 2026)
+
+Branch **ui/jarak-tutup-modal-peserta**: setelah hasil audit disetujui, ganti **Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Akses.gs dan Evaluasi.gs** bersama-sama. Jarak tindakan/card terkait 12 px, X 44×44 di seluruh modal yang diaudit, dan Jenjang di bawah Program/nonaktif jika Program kosong. Pembatalan/penguncian/draft tetap melalui alur lama. Tidak perlu Script/sheet/migrasi baru. Jika paket pemuatan belum dipasang, sertakan Code.gs dari branch ini. [Pemasangan dan pengujian](docs/UI_JARAK_TUTUP_MODAL_PESERTA.md).
+
 ## Pemeriksaan pemuatan data (3 November 2026)
 
 Branch **perf/pemeriksaan-pemuatan-data**: setelah paket nilai akhir, ganti **Code.gs, Akses.gs dan Index.html** bersama-sama. Pustaka QR tidak menahan pemuatan Monitoring, pilihan awal menghindari pembacaan ganda dan konversi tanggal berulang dikurangi dalam satu permintaan baca. Aturan/hak akses tetap. Pencatat waktu lokal tersedia untuk membandingkan deployment dengan alur review Admin sebelumnya sekitar 2,5 menit. [Pemasangan, bukti lokal dan cara mengukur](docs/PEMERIKSAAN_PEMUATAN_DATA.md). Tidak perlu file GS/spreadsheet baru atau migrasi; hasil kecepatan Google belum diukur.
