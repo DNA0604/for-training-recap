@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-04 — UI spacing/modal/participant-selector audit only
+- User explicitly requested findings and design before code. Audited six Admin pages and injected modals at desktop/mobile with mocked Google: touching Jenjang/Program cards, mixed action gaps, inconsistent/missing X controls, and participant Jenjang order/disabled state.
+- Documented a proposed 12 px grouped spacing, 44×44 close button with 20 px icon, reuse of existing cancel/busy/dirty guards and Program→Jenjang behavior. No application code, source hashes, spreadsheet data or deployment changed. See docs/AUDIT_UI_2026-11-04.md; implementation awaits a subsequent instruction.
+
 ## 2026-11-03 — loading audit and bounded date-computation reuse
 - User selected loading review and reported roughly 2.5 minutes across all Admin pages. Added reproducible 22/100/500 participant, seven-read before/after comparisons with identical responses; clearly distinguish mock CPU times from unmeasured Google latency.
 - Code.gs reuses bounded scalar date computations only within existing read snapshots, preserving lock-time invalidation and fresh writes. Initial selections avoid duplicate display reads; Rekap indexes attendance pairs/session notes while retaining duplicate and cross-person leave validation. Index QR library is async, allowing the page to load before the CDN completes.

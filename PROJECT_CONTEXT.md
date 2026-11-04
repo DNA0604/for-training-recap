@@ -1,6 +1,9 @@
 # Monitoring Pelatihan Pegawai — handoff
 
-Status updated: 3 November 2026, Asia/Jakarta. The accepted sidebar/navigation baseline originated on 24 October; the latest deletion feature and transaction fix were subsequently deployed, tested and accepted by the user on 27 October. Continue from this cumulative source, superseding the earlier flat-dashboard UI package.
+Status updated: 4 November 2026, Asia/Jakarta. The accepted sidebar/navigation baseline originated on 24 October; the latest deletion feature and transaction fix were subsequently deployed, tested and accepted by the user on 27 October. Continue from this cumulative source, superseding the earlier flat-dashboard UI package.
+
+## Audit UI saja — 4 November 2026
+User paused subsequent work to audit spacing/close controls and the participant selector, then explicitly chose **"Audit dan rancangan perbaikan dahulu"**. Do not implement UI changes until requested. Audit branch **audit/ui-jarak-modal-peserta** inspects source **96671c9** and records [findings/design](apps-script/absensi-dashboard/docs/AUDIT_UI_2026-11-04.md). Actual injected HTML in mocked Chromium at 1361/390 px confirms Jenjang Program and Program & Sesi cards touch at 0 px; action gaps mix 8/10/12 px, including Access actions reverting 12→8 px on mobile. Participant Jenjang is before Program and remains enabled with no Program. Across six Admin pages, 33 dialog occurrences include 9 X controls and 24 Tutup/Batal-only occurrences; existing X dimensions differ (44×44 vs 44×41.2 vs 39×41.2). Proposed grouped spacing 12 px, close button 44×44/icon20 px, equivalent cancel/dirty/busy guards, Program→Jenjang with disable until Program chosen; preserve single-level auto-selection and scope. Application sources, source snapshot, Google data/deployment/main remain unchanged. This does not confirm installation or Google speed acceptance of the previous performance package; manual book/video remain pending.
 
 ## Daftar pekerjaan sebelum penyerahan — 3 November 2026
 
