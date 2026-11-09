@@ -13,6 +13,10 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 19 current HTML/GS source files, including the Jenjang preparation tools and report layout/assets.
 
+## Verifikasi Akun (9 November 2026)
+
+Branch **feat/verifikasi-akun-login**: ganti **Akses.gs** lengkap dari branch ini. Tombol Verifikasi Akun menggantikan kotak informasi peran, mencocokkan identitas dengan akun aktif yang didaftarkan Admin, lalu kembali ke tampilan login yang sama. Login aplikasi tetap terpisah dengan batas empat jam. Tidak perlu file/sheet/konfigurasi OAuth baru. [Pemasangan dan alur](docs/VERIFIKASI_AKUN_LOGIN.md).
+
 ## Halaman awal login (9 November 2026)
 
 Branch **feat/halaman-login-awal**: sesudah paket sebelumnya, cukup ganti **Akses.gs** lengkap. Desain navy/putih memakai foto pratinjau sebelumnya, Google login asli, bantuan akun dan tampilan ponsel. Sesi aktif langsung melanjutkan tanpa memuat foto; batas empat jam dan hak akses tetap. Tidak perlu file/sheet/OAuth baru. [Pemasangan dan pengujian](docs/HALAMAN_LOGIN_AWAL.md).
