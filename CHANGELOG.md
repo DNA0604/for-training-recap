@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-09 — initial login concept and isolated responsive preview
+- User requested concept/UI design before implementation. Added a separate navy/white welcome + Google-login preview with existing official logo/building artwork, responsive desktop/mobile views, account-help copy and illustrative checking/remembered/unregistered/error states.
+- Preserves the proposed continuation of valid four-hour sessions and existing role/Google verification; no public signup, role selector, real OAuth or operational source changes. Local Chromium layout/state checks passed at 1440/390/320 px. See previews/konsep-login-awal/README.md. Integration and user design acceptance pending; no live data/deployment/main changes.
+
 ## 2026-11-04 — implement audited UI spacing, close icons and participant selector
 - User authorized the audited fixes. Standardize related action/card gaps at 12 px, including touching Jenjang/Program cards and mobile access controls; preserve tab/sidebar spacing. All covered dialogs now have one accessible 44×44 X with a 20px SVG, with sticky static headers for long forms.
 - Preserve old header IDs/handlers; added X buttons delegate to existing cancel actions and mirror disabled state, keeping save/upload/deletion/draft/retry behavior. Dynamic legacy review/verification and evaluation dialogs share close styling.

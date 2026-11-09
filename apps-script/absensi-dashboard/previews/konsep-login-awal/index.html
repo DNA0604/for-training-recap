@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Konsep Login — Monitoring Pelatihan Pegawai</title>
+<style>
+:root{--ink:#192e50;--muted:#66758b;--line:#dce3ee;--paper:#f0f3f8;--navy:#203960;--accent:#069ac9;font:15px 'Avenir Next',Avenir,'Segoe UI',Arial,sans-serif;color:var(--ink);background:var(--paper)}
+*{box-sizing:border-box}body{margin:0}button,a{font:inherit}button{cursor:pointer}button:disabled{cursor:wait}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #d99616;outline-offset:4px}[hidden]{display:none!important}
+.scene{max-width:1480px;margin:0 auto;padding:38px 44px 22px;min-height:100svh;display:flex;flex-direction:column;justify-content:center}
+.shell{display:grid;grid-template-columns:1.13fr 1fr;gap:0;min-height:710px;border:1px solid #dfe5ee;border-radius:32px;overflow:hidden;background:#fff;box-shadow:0 16px 50px #192e5008}
+.hero{position:relative;isolation:isolate;overflow:hidden;background:#173354;color:white;display:flex;flex-direction:column;padding:42px 42px 32px;min-width:0}
+.hero-photo{position:absolute;z-index:-3;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 85%;opacity:.8}
+.hero::before{content:'';position:absolute;z-index:-2;inset:0;background:linear-gradient(180deg,#132b4bf5 0%,#173354ed 40%,#1733548a 70%,#112946e8 100%)}
+.hero::after{content:'';position:absolute;z-index:-1;inset:0;background:linear-gradient(110deg,#1733545c,transparent 75%)}
+.brand{display:flex;align-items:center;gap:17px;max-width:460px}.brand-logo{width:80px;height:80px;object-fit:contain;background:#fff;border-radius:18px;padding:6px;flex:none}.brand-text{font-size:15px;line-height:1.55;font-weight:600}.brand-text small{display:block;font-size:11px;font-weight:400;color:#d0deeb;line-height:1.5;margin-top:3px}
+.hero-body{margin-top:78px;max-width:490px}.eyebrow{display:flex;align-items:center;gap:9px;font-size:10px;font-weight:650;letter-spacing:1.65px;text-transform:uppercase;color:#b5d8ed}.eyebrow::before{content:'';width:24px;height:3px;background:#49b9db;border-radius:4px;flex:none}
+.hero h1{font-size:clamp(32px,3vw,44px);line-height:1.18;letter-spacing:-1.4px;font-weight:650;margin:20px 0 18px}.hero-body>p{font-size:14px;line-height:1.8;max-width:405px;color:#dce5ef;margin:0}
+.features{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap}.feature{display:inline-flex;align-items:center;gap:8px;min-height:35px;padding:8px 10px;border:1px solid #ffffff32;border-radius:9px;background:#16314a40;font-size:10px;color:#edf5fb;white-space:nowrap}.feature svg{width:15px;height:15px;flex:none;stroke:#a9ddef}
+.hero-caption{margin-top:auto;padding-top:64px;font-size:10px;letter-spacing:.35px;line-height:1.6;color:#d2e0eb;display:flex;align-items:center;gap:8px}.hero-caption::before{content:'';width:5px;height:5px;background:#67c6dc;border-radius:50%;flex:none}
+.access{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:52px 46px;min-width:0;background:#fff}.login{width:100%;max-width:382px}.login-eyebrow{font-size:10px;font-weight:700;letter-spacing:1.8px;color:#7b8ba1;text-transform:uppercase;margin:0 0 18px}.login h2{font-size:32px;line-height:1.25;letter-spacing:-.8px;font-weight:650;margin:0 0 12px}.intro{font-size:14px;line-height:1.8;margin:0;color:var(--muted)}.login-actions{margin-top:30px}.google-button{width:100%;min-height:54px;border:1px solid var(--navy);border-radius:13px;background:var(--navy);color:white;display:flex;align-items:center;justify-content:center;gap:12px;font-weight:600;transition:background .15s}.google-button:hover:not(:disabled){background:#152b4b}.google-button:disabled{opacity:.75}.google-mark{display:grid;place-items:center;background:white;border-radius:5px;width:27px;height:27px;flex:none}.google-mark svg{display:block;width:18px;height:18px}.caption{color:#8290a3;line-height:1.65;font-size:11px;margin:12px 0 0;text-align:center}
+.session-note{margin:27px 0 0;padding:17px 18px;background:#f3f6fa;border:1px solid #e6ebf3;border-radius:13px;display:flex;gap:12px;align-items:flex-start}.session-note svg{width:19px;height:19px;color:#496788;flex:none;margin-top:2px}.session-note strong{display:block;font-size:11px;font-weight:600;line-height:1.6}.session-note p{font-size:11px;color:#78879a;line-height:1.7;margin:4px 0 0}
+.access-help{margin-top:25px;border-top:1px solid #e8edf4;padding-top:22px}.access-help summary{display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;font-size:12px;font-weight:600;cursor:pointer;min-height:28px}.access-help summary::-webkit-details-marker{display:none}.access-help summary::after{content:'+';font-size:20px;font-weight:400;color:#7b8ba1}.access-help[open] summary::after{content:'−'}.access-help p{font-size:12px;line-height:1.8;color:var(--muted);margin:12px 0 0}.roles{font-size:10px;line-height:1.8;color:#8a96a7;margin:24px 0 0;text-align:center}.roles span{white-space:nowrap}
+.status{font-size:13px;line-height:1.7;color:#496788;background:#f3f6fa;border:1px solid #dfe6f0;border-radius:12px;padding:14px 16px;margin:22px 0 0}.status.warning{background:#fff7ed;border-color:#f2dfc0;color:#875d28}.status.error{background:#fff1f3;border-color:#eed3d8;color:#944553}.state-button{margin-top:18px;background:var(--navy);color:white;border:0;border-radius:12px;padding:14px 18px;width:100%;min-height:48px;font-weight:600}.spinner{display:inline-block;width:16px;height:16px;border:2px solid #bdcbdc;border-top-color:#203960;border-radius:50%;vertical-align:middle;margin-right:9px;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.footer{display:flex;justify-content:space-between;gap:16px;align-items:center;max-width:1312px;width:100%;margin:20px auto 0;color:#8994a5;font-size:10px;line-height:1.6}.footer span:last-child{white-space:nowrap}.preview-note{font-size:10px;text-align:center;color:#8a97a7;line-height:1.6;margin:15px 0 0}.review{max-width:1312px;margin:0 auto 24px;padding:0 44px;color:#66758b;font-size:12px}.review summary{cursor:pointer;text-align:center}.review-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding-top:16px}.review-controls button{border:1px solid #d6dfec;background:white;color:#203960;border-radius:9px;padding:9px 12px;min-height:40px}.review-controls button[aria-pressed=true]{background:#203960;color:#fff}
+@media(min-width:1700px){.scene{max-width:1560px}.shell{min-height:790px}.hero-body{margin-top:96px}}
+@media(max-width:1100px){.scene{padding:28px}.hero{padding:32px}.access{padding:36px 30px}.hero h1{font-size:35px}.hero-body{margin-top:65px}.brand-text{font-size:13px}.brand-logo{width:68px;height:68px}.brand-text small{font-size:10px}}
+@media(max-width:780px){.scene{padding:18px;justify-content:flex-start}.shell{grid-template-columns:1fr;border-radius:24px;min-height:0}.hero{padding:26px 24px 28px;min-height:315px}.hero-photo{object-position:50% 79%}.hero::before{background:linear-gradient(100deg,#132b4bf2,#173354d6)}.brand{gap:13px}.brand-logo{width:61px;height:61px;border-radius:13px;padding:4px}.brand-text{font-size:12px;max-width:245px}.brand-text small{font-size:9px}.hero-body{margin-top:33px}.eyebrow{font-size:8px;letter-spacing:1.15px}.hero h1{font-size:30px;line-height:1.2;letter-spacing:-.7px;margin:14px 0 12px}.hero-body>p{font-size:12px;line-height:1.7;max-width:350px}.features{display:none}.hero-caption{display:none}.access{padding:30px 25px 28px}.login{max-width:none}.login-eyebrow{font-size:9px;margin-bottom:13px}.login h2{font-size:27px}.intro{font-size:12px}.login-actions{margin-top:22px}.google-button{min-height:52px;font-size:13px}.caption{font-size:10px}.session-note{margin-top:20px;padding:14px}.access-help{margin-top:20px;padding-top:17px}.roles{margin-top:19px}.footer{flex-direction:column;gap:5px;text-align:center;margin-top:16px;font-size:9px}.preview-note{margin:14px 0 8px;font-size:9px}.review{padding:0 20px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="scene">
+ <div class="shell">
+  <section class="hero" aria-labelledby="welcome-heading">
+   <img class="hero-photo" src="gedung-komdigi.jpg" alt="" decoding="async">
+   <div class="brand"><img class="brand-logo" src="logo-komdigi.png" alt="Logo Komdigi" width="80" height="80"><div class="brand-text">Pusat Pengembangan Aparatur Komdigi<small>Kementerian Komunikasi dan Digital Republik Indonesia</small></div></div>
+   <div class="hero-body"><div class="eyebrow">Monitoring Pelatihan Pegawai</div><h1 id="welcome-heading">Satu tempat untuk<br>memantau pelatihan.</h1><p>Dari pelaksanaan sesi hingga hasil evaluasi, kelola informasi pelatihan dengan lebih tertata.</p>
+    <div class="features" aria-label="Cakupan aplikasi">
+     <span class="feature"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 11h18"/></svg>Program &amp; sesi</span>
+     <span class="feature"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><path d="M15 15h3v3h3m-6 3h3m3-9v3M3 12h7m2-9v9h6"/></svg>Presensi</span>
+     <span class="feature"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8m-8 4h8m-8 4h5"/></svg>Evaluasi &amp; laporan</span>
+    </div>
+   </div>
+   <p class="hero-caption">Mendukung pengelolaan pengembangan kompetensi aparatur.</p>
+  </section>
+  <section class="access" aria-labelledby="login-heading"><div class="login">
+   <p class="login-eyebrow">Akses Aplikasi</p><h2 id="login-heading">Selamat datang.</h2><p class="intro" id="login-intro">Masuk untuk melanjutkan pengelolaan dan monitoring pelatihan pegawai.</p>
+   <div class="login-actions" id="login-actions"><button class="google-button" id="google-preview" type="button"><span class="google-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.17 7.09-10.32 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.87 23.87 0 0 0 0 24c0 3.87.93 7.52 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.8l-7.73-6c-2.15 1.45-4.92 2.3-8.18 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg></span>Masuk dengan Google</button><p class="caption">Gunakan akun yang telah didaftarkan oleh Admin Pelatihan.</p></div>
+   <div id="status" class="status" role="status" aria-live="polite" hidden></div><button id="state-action" class="state-button" type="button" hidden>Coba lagi</button>
+   <div class="session-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z"/><path d="m8 12 3 3 5-6"/></svg><div><strong>Akses sesuai peran dan penugasan Anda.</strong><p>Tetap masuk hingga 4 jam sejak login.</p></div></div>
+   <details class="access-help"><summary>Akun belum terdaftar?</summary><p>Hubungi Admin Pelatihan instansi untuk mendaftarkan akun Google atau menyesuaikan penugasan Anda.</p></details>
+   <p class="roles"><span>Admin Pelatihan</span> &nbsp;·&nbsp; <span>Petugas Kelas</span> &nbsp;·&nbsp; <span>Pengajar</span></p>
+  </div></section>
+ </div>
+ <footer class="footer"><span>Pusat Pengembangan Aparatur Komdigi</span><span>Monitoring Pelatihan Pegawai · 2026</span></footer>
+ <p class="preview-note">Pratinjau konsep UI · Belum terhubung ke login Google.</p>
+</main>
+<details class="review"><summary>Lihat contoh keadaan tampilan</summary><div class="review-controls" role="group" aria-label="Pilihan keadaan pratinjau"><button data-state="login" aria-pressed="true">Awal login</button><button data-state="checking" aria-pressed="false">Memeriksa sesi</button><button data-state="remembered" aria-pressed="false">Sesi masih aktif</button><button data-state="unregistered" aria-pressed="false">Akun belum terdaftar</button><button data-state="error" aria-pressed="false">Koneksi bermasalah</button></div></details>
+<script>
+(() => {
+ const $=id=>document.getElementById(id);
+ const variants={
+  login:{heading:'Selamat datang.',intro:'Masuk untuk melanjutkan pengelolaan dan monitoring pelatihan pegawai.'},
+  checking:{heading:'Menyiapkan akses Anda.',intro:'Sebentar, sesi akun sedang diperiksa.',message:'Memeriksa sesi masuk…',busy:true},
+  remembered:{heading:'Selamat datang kembali.',intro:'Sesi Anda masih aktif. Aplikasi akan melanjutkan ke halaman tujuan.',message:'Melanjutkan ke aplikasi…',busy:true},
+  unregistered:{heading:'Akun belum terdaftar.',intro:'Akun Google ini belum memiliki akses ke aplikasi.',message:'Hubungi Admin Pelatihan untuk pendaftaran atau pemeriksaan akses.',kind:'warning',action:'Gunakan akun lain'},
+  error:{heading:'Belum dapat terhubung.',intro:'Pemeriksaan akses belum dapat diselesaikan.',message:'Periksa koneksi Anda, lalu coba kembali.',kind:'error',action:'Coba lagi'}
+ };
+ function show(name){const v=variants[name]||variants.login;document.body.dataset.state=name;$('login-heading').textContent=v.heading;$('login-intro').textContent=v.intro;$('login-actions').hidden=name!=='login';$('status').hidden=!v.message;$('status').className='status'+(v.kind?' '+v.kind:'');$('status').replaceChildren();if(v.busy){const s=document.createElement('span');s.className='spinner';s.setAttribute('aria-hidden','true');$('status').append(s);}$('status').append(document.createTextNode(v.message||''));$('state-action').hidden=!v.action;$('state-action').textContent=v.action||'';document.querySelectorAll('[data-state]').forEach(b=>{if(b.tagName==='BUTTON')b.setAttribute('aria-pressed',String(b.dataset.state===name));});}
+ $('google-preview').addEventListener('click',()=>show('checking'));$('state-action').addEventListener('click',()=>show('login'));document.querySelectorAll('button[data-state]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.state)));show(new URLSearchParams(location.search).get('state')||'login');
+})();
+</script>
+</body>
+</html>
