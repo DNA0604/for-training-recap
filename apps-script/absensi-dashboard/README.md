@@ -13,6 +13,10 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 19 current HTML/GS source files, including the Jenjang preparation tools and report layout/assets.
 
+## Halaman awal login (9 November 2026)
+
+Branch **feat/halaman-login-awal**: sesudah paket sebelumnya, cukup ganti **Akses.gs** lengkap. Desain navy/putih memakai foto pratinjau sebelumnya, Google login asli, bantuan akun dan tampilan ponsel. Sesi aktif langsung melanjutkan tanpa memuat foto; batas empat jam dan hak akses tetap. Tidak perlu file/sheet/OAuth baru. [Pemasangan dan pengujian](docs/HALAMAN_LOGIN_AWAL.md).
+
 ## Jarak UI, X modal dan Program → Jenjang (4 November 2026)
 
 Branch **ui/jarak-tutup-modal-peserta**: setelah hasil audit disetujui, ganti **Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Akses.gs dan Evaluasi.gs** bersama-sama. Jarak tindakan/card terkait 12 px, X 44×44 di seluruh modal yang diaudit, dan Jenjang di bawah Program/nonaktif jika Program kosong. Pembatalan/penguncian/draft tetap melalui alur lama. Tidak perlu Script/sheet/migrasi baru. Jika paket pemuatan belum dipasang, sertakan Code.gs dari branch ini. [Pemasangan dan pengujian](docs/UI_JARAK_TUTUP_MODAL_PESERTA.md).

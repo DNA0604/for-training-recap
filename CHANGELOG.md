@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-09 — implement the welcome login page
+- Integrated the previous preview photo and navy/white responsive welcome design into the existing guarded Google-login overlay in Akses.gs, including account help and four-hour access notes. Checking stays compact; valid sessions continue without an extra click or artwork download.
+- Fixed public artwork-only response defers the larger image until login/error is shown; no data/service reads or expanded operational gateway. Image failure does not block login. Google callback, live account/role checks, storage/revocation, QR and native-owner flow retained.
+- Added installation guide, actual application screenshots and asset provenance. 433 backend tests, mocked Chromium welcome/auth/three-role regressions, source hashes/syntax/HTML IDs pass. Google deployment acceptance pending; no real data, deployment or main changes.
+
 ## 2026-11-09 — revise login concept building photo and remove eyebrow
 - Replaced the isolated prototype's old cover photo with a building-focused derivative made from the newly supplied inline photograph, and removed the small application-name label above the left headline. Right login panel, logo, production report cover and authentication unchanged.
 - Explicitly document image-generation provenance: preview crop/reframe is not pixel-identical to the original inline upload. Updated desktop/mobile screenshots and checked layouts/states at 1440/390/320 px. No production source, data, deployment or main change.

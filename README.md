@@ -5,6 +5,7 @@ Jangan salin atau mencuri data ini tanpa persetujuan pemilik. Data ini merupakan
 
 Repository khusus kode aplikasi Google Apps Script untuk rekapitulasi dan monitoring pelatihan pegawai Pusat Pengembangan Aparatur Komdigi.
 
+- [Halaman awal login dan pemasangan](apps-script/absensi-dashboard/docs/HALAMAN_LOGIN_AWAL.md)
 - [Tombol Evaluasi dan jarak tindakan Ringkasan Sesi](apps-script/absensi-dashboard/docs/PILIHAN_EVALUASI.md)
 - [Form Presensi ringkas dan bukti Sakit/Izin](apps-script/absensi-dashboard/docs/PRESENSI_RINGKAS_BUKTI.md)
 - [Presensi manual dan Monitoring 10 peserta per halaman](apps-script/absensi-dashboard/docs/PRESENSI_MANUAL_MONITORING.md)
@@ -20,7 +21,7 @@ Versi impor: commit `4d64d49` dari repository DNA0604/anti-slop, termasuk login 
 
 ### File untuk Apps Script
 
-Folder aplikasi kini berisi 18 file HTML/GS: PresensiManual.gs, Code.gs, Akses.gs, Evaluasi.gs, Hapus.gs, Laporan.gs, LaporanTampilan.gs, Jenjang.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Absensi.html, AdminQR.html, PratinjauJenjang.html. `appsscript.json` adalah referensi; pertahankan manifest/scopes proyek Google yang sudah berjalan.
+Folder aplikasi kini berisi 19 file HTML/GS: NilaiAkhir.gs, PresensiManual.gs, Code.gs, Akses.gs, Evaluasi.gs, Hapus.gs, Laporan.gs, LaporanTampilan.gs, Jenjang.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Absensi.html, AdminQR.html, PratinjauJenjang.html. `appsscript.json` adalah referensi; pertahankan manifest/scopes proyek Google yang sudah berjalan.
 
 Buka file di GitHub lalu gunakan **Raw** untuk menyalin kode lengkap. Folder tests, docs dan preview merupakan bahan pengembangan, bukan file yang ditambahkan ke editor Apps Script.
 
