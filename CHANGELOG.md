@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-09 — revise login concept building photo and remove eyebrow
+- Replaced the isolated prototype's old cover photo with a building-focused derivative made from the newly supplied inline photograph, and removed the small application-name label above the left headline. Right login panel, logo, production report cover and authentication unchanged.
+- Explicitly document image-generation provenance: preview crop/reframe is not pixel-identical to the original inline upload. Updated desktop/mobile screenshots and checked layouts/states at 1440/390/320 px. No production source, data, deployment or main change.
+
 ## 2026-11-09 — initial login concept and isolated responsive preview
 - User requested concept/UI design before implementation. Added a separate navy/white welcome + Google-login preview with existing official logo/building artwork, responsive desktop/mobile views, account-help copy and illustrative checking/remembered/unregistered/error states.
 - Preserves the proposed continuation of valid four-hour sessions and existing role/Google verification; no public signup, role selector, real OAuth or operational source changes. Local Chromium layout/state checks passed at 1440/390/320 px. See previews/konsep-login-awal/README.md. Integration and user design acceptance pending; no live data/deployment/main changes.

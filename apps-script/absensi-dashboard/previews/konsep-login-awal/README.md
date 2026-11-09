@@ -6,6 +6,10 @@
 
 [Pratinjau ponsel](login-mobile.png) · [Prototipe HTML lokal](index.html)
 
+## Revisi panel kiri
+
+Pengguna menyukai panel kiri dan meminta dua penyesuaian: memakai foto gedung yang baru dikirim dengan fokus pada bangunan, serta menghapus tulisan kecil “Monitoring Pelatihan Pegawai” di atas judul. Kedua perubahan diterapkan pada prototipe dan tangkapan layar desktop/ponsel. Kartu login kanan, logo, judul utama dan alur pratinjau dipertahankan. Nama aplikasi pada footer tidak ikut dihapus.
+
 ## Arah desain
 
 Satu halaman sambutan sekaligus login, dengan tampilan formal dan hangat mengikuti navy/putih dashboard. Desktop memakai dua panel dalam bingkai membulat: kiri memperkenalkan instansi dan fungsi aplikasi; kanan memberi satu tindakan utama **Masuk dengan Google**. Foto gedung diberi lapisan navy melalui CSS agar teks tetap terbaca. Pada ponsel panel disusun vertikal; judul/pengantar dipersingkat secara visual dan tombol login tetap mudah ditemukan.
@@ -14,7 +18,7 @@ Isi panel pengenalan:
 
 - Logo dan nama Pusat Pengembangan Aparatur Komdigi.
 - Identitas Kementerian Komunikasi dan Digital Republik Indonesia.
-- Nama aplikasi **Monitoring Pelatihan Pegawai**.
+- Nama aplikasi tetap pada footer; label kecil di atas judul sudah dihapus sesuai revisi pengguna.
 - Judul **“Satu tempat untuk memantau pelatihan.”**
 - Gambaran singkat Program & Sesi, Presensi, serta Evaluasi & Laporan. Label fitur adalah informasi, bukan tautan yang memberi akses sebelum login.
 
@@ -41,12 +45,11 @@ Pratinjau menyediakan lima keadaan visual: awal login, memeriksa sesi, sesi masi
 
 ## Aset dan ketergantungan
 
-Logo dan foto gedung diekstrak tanpa perubahan piksel dari `asetLaporan_()` pada LaporanTampilan.gs, berasal dari DOCX yang diberikan pengguna. SHA-256 sesuai `../laporan-template/ASSETS.json`:
+Logo resmi tetap berasal dari aset DOCX yang diberikan pengguna dan tidak diubah: `logo-komdigi.png`, SHA-256 `53d63f5e5eacbce7eca95d9a27ecfa57aca46f43b8efb15ee00cb0ee236ad4c7`.
 
-- `logo-komdigi.png`: `53d63f5e5eacbce7eca95d9a27ecfa57aca46f43b8efb15ee00cb0ee236ad4c7` (6.006 byte).
-- `gedung-komdigi.jpg`: `b1b98b84a395acc35dc863d79b790b0052e27507062a622e07328878cdd02164` (440.017 byte).
+Foto panel kiri sekarang memakai referensi foto gedung baru dari pesan pengguna, menggantikan gambar cover laporan. Karena foto inline tersebut tidak tersedia sebagai berkas lokal, aset `gedung-komdigi-baru.png` pada prototipe merupakan hasil pembingkaian ulang berbantuan image generation, **bukan salinan piksel identik dari foto asli**. Referensinya tetap gedung yang dikirim pengguna; permintaan pemrosesan membatasi pada fokus bangunan tanpa perubahan desain bangunan. Metadata dan hash ada di [ASSETS.json](ASSETS.json). Bila memakai foto asli untuk integrasi produksi, gunakan berkas asli yang diberikan pengguna; aset ilustrasi pratinjau ini tidak otomatis menjadi keputusan produksi.
 
-Gambar asli tidak diedit/digenerasikan ulang; pemotongan/warna panel hanya melalui tata letak CSS. Seluruh aset prototipe lokal, font memakai sistem yang sejalan dengan dashboard. Jika dipilih untuk produksi, pemuatan foto harus tidak menahan pemeriksaan sesi atau tombol login; foto boleh diganti/dikurangi setelah peninjauan desain dan ukuran aset. Jangan menganggap pratinjau ini sudah mengatasi waktu pemuatan deployment.
+Tata letak menampilkan foto dengan crop CSS di bagian atas/fasad; lapisan navy menjaga keterbacaan. Semua aset lokal, font memakai sistem seperti dashboard, tidak ada layanan gambar/font eksternal. Ukuran gambar pratinjau belum merupakan optimasi produksi; foto tidak boleh menahan pemeriksaan sesi atau tombol login jika nanti diterapkan. Cover laporan produksi tidak diganti.
 
 ## Melihat prototipe secara lokal
 
