@@ -2,6 +2,18 @@
 
 Branch **perf/pemuatan-prioritas-utama**, melanjutkan `511f9df` / Verifikasi Akun. Pengguna meminta fokus pada pemuatan data dan menyatakan bagian lainnya tidak bermasalah. Pembaruan ini terbatas pada pembacaan awal dan urutan pemuatan; tampilan, alur login/verifikasi, nilai, JP, presensi dan laporan mengikuti versi yang sama.
 
+## Hasil pengujian pengguna — 10 November 2026
+
+Setelah pembaruan, pengguna melaporkan pengujian dengan cara yang sama: **keseluruhan alur dari login hingga logout memerlukan 1 menit 44 detik**.
+
+| Ukuran | Hasil |
+| --- | --- |
+| Catatan sebelumnya | Sekitar 2 menit 30 detik (150 detik) |
+| Pengujian terbaru | 1 menit 44 detik (104 detik) |
+| Pengurangan waktu | Sekitar 46 detik atau 30,7% |
+
+Ini adalah laporan waktu keseluruhan dari pengguna pada deployment mereka, bukan waktu satu halaman/RPC, pengukuran independen oleh agent atau rata-rata beberapa pengulangan. Rincian waktu per halaman belum diberikan. Hasil sudah dicatat; tidak ada perubahan kode, pemasangan atau deployment tambahan untuk pencatatan ini. Sumber aplikasi tetap `7dacfb0`. Pengguna belum meminta optimasi lanjutan atau secara eksplisit menutup pekerjaan pemuatan.
+
 ## Pasang empat file bersama-sama
 
 Ganti seluruh isi empat file berikut dari **branch yang sama**:
@@ -35,7 +47,7 @@ Data sintetis 22, 100 dan 500 peserta digunakan untuk membandingkan delapan pemb
 | Pencarian sheet dalam permintaan ringkasan yang sama | 20 | 11 |
 | Ringkasan peserta yang ditampilkan | Maks. 10 | Maks. 10 |
 
-[Bukti perbandingan backend](../tests/results/pemuatan-prioritas-2026-11-10.json). Ini adalah hitungan layanan tiruan dan waktu CPU Node, **bukan waktu Google Sheets/Apps Script**. Waktu CPU tidak selalu turun karena snapshot menyalin data untuk menjaga isolasi. Keuntungan yang dituju adalah menghindari pembacaan sumber dan permintaan yang tidak perlu serta memberi prioritas pada tabel utama. Angka review 2,5 menit belum diukur ulang pada deployment Google dan tidak dijanjikan turun ke angka tertentu.
+[Bukti perbandingan backend](../tests/results/pemuatan-prioritas-2026-11-10.json). Ini adalah hitungan layanan tiruan dan waktu CPU Node, **bukan waktu Google Sheets/Apps Script**. Waktu CPU tidak selalu turun karena snapshot menyalin data untuk menjaga isolasi. Keuntungan yang dituju adalah menghindari pembacaan sumber dan permintaan yang tidak perlu serta memberi prioritas pada tabel utama. Pada saat perbaikan lokal dibuat, review 2,5 menit belum diukur ulang; hasil pengujian pengguna yang datang sesudahnya tercatat pada bagian di atas.
 
 **445 pengujian backend lulus**, bersama pengujian Chromium di bawah. Pemeriksaan 19 hash sumber, 37 script GS/inline (scriptlet server digantikan saat parse) dan ID HTML lulus; 15 sumber aplikasi lain identik, serta markup/CSS ketiga HTML yang diperbarui identik dengan versi sebelumnya. Pengujian mencakup kesetaraan respons, tidak ada penulisan, data terbaru pada permintaan selanjutnya, penolakan Petugas/akun nonaktif, parameter dan respons utama yang sengaja ditahan secara terpisah, satu daftar Peserta dengan Jenjang benar, Muat Ulang segar, prioritas kehadiran, riwayat pada kegagalan/tanpa sesi, callback lokasi terlambat, desktop/ponsel serta regresi aplikasi/peran/Jenjang/evaluasi. Pengujian memakai HTML aplikasi hasil injeksi server dan layanan Google yang disimulasikan.
 
@@ -60,4 +72,4 @@ console.table(window.pelatihanPemuatan.baca().permintaan)
 
 Catat halaman dan tindakan yang paling lama. Durasi mencakup jaringan, antrean dan eksekusi server sekaligus; panggilan paralel tidak boleh dijumlahkan menjadi waktu halaman. Petunjuk penyalinan metadata dan batas privasinya ada pada [panduan pengukuran sebelumnya](PEMERIKSAAN_PEMUATAN_DATA.md#mengukur-di-deployment-google).
 
-Agent tidak mengubah data/deployment Google atau branch main. Penerimaan kecepatan di Google tetap menunggu hasil pengukuran pengguna; buku panduan dan video belum dikerjakan pada putaran ini.
+Agent tidak mengubah data/deployment Google atau branch main. Hasil waktu keseluruhan sudah dilaporkan pengguna dan tercatat di atas; pengukuran per halaman/permintaan belum tersedia. Buku panduan dan video belum dikerjakan pada putaran ini.

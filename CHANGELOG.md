@@ -1,9 +1,13 @@
 # Changelog
 
+## 2026-11-10 — record user-reported deployment loading time
+- User repeated the same test and reported 1 minute 44 seconds for the full login-to-logout workflow. Compared with the earlier approximate 2 minutes 30 seconds, this is about 46 seconds / 30.7% less elapsed time. This is user-reported workflow timing, not independent RPC profiling or a repeated-run average.
+- Documentation only; application source remains 7dacfb0. No new code installation/deployment, Google data or main change. Manual book/video remain pending; no further optimization requested.
+
 ## 2026-11-10 — prioritize main data and remove duplicate startup reads
 - Scoped exclusively to loading as requested. Participant deep links apply Jenjang before one initial list request; route parameters load alongside program data on Peserta/Pengelolaan/Monitoring. Late Monitoring location callbacks retain session context.
 - Monitoring starts supplementary history after initial attendance settles, with no-session/error/manual and unavailable-location fallbacks. Read-only management participant summary uses request-local snapshots: source range reads 15→11, sheet lookups 20→11. Auth checks, four-method grouped gateway, writes/exports and other features preserved.
-- 445 backend tests and mocked Chromium loading/app/role/Jenjang/evaluation checks pass. All 24 complete before/after backend responses across 22/100/500 synthetic participants match; actual Google latency/review time remains unmeasured. Install four complete files together; see PEMUATAN_PRIORITAS_UTAMA.md. No real data, deployment or main change.
+- 445 backend tests and mocked Chromium loading/app/role/Jenjang/evaluation checks pass. All 24 complete before/after backend responses across 22/100/500 synthetic participants match; per-RPC Google latency remains unmeasured; the later user-reported total workflow time is recorded above. Install four complete files together; see PEMUATAN_PRIORITAS_UTAMA.md. No real data, deployment or main change.
 
 ## 2026-11-09 — Verifikasi Akun from the welcome page
 - Replaced the role/session box with a Verifikasi Akun button, retaining the four-hour note separately. Added a Google identity flow for already registered active accounts that returns to the same welcome UI before deliberate application login.
