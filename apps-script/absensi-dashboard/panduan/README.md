@@ -1,6 +1,6 @@
 # Rancangan panduan penggunaan bergambar
 
-Empat panduan akan dibuat terpisah untuk **Admin Pelatihan, Petugas Kelas, Pengajar**, serta **panduan singkat Peserta**. Pengguna menghendaki gambar halaman aplikasi agar langkah lebih mudah diikuti.
+Empat panduan akan dibuat terpisah untuk **Admin Pelatihan, Petugas Kelas, Pengajar**, serta **panduan singkat Peserta**. Pengguna menghendaki gambar halaman aplikasi agar langkah lebih mudah diikuti. **Format hasil akhir yang disepakati adalah Microsoft Word (.docx)**, supaya judul, uraian dan langkah dapat disunting langsung. Contoh PDF di bawah hanya menunjukkan tata letak yang sudah ditinjau, bukan format penyerahan akhir.
 
 Putaran ini menyiapkan rancangan dan **satu contoh halaman**, mengikuti arahan untuk menyepakati dasar panduan sebelum penyusunan detail.
 

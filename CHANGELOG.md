@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-10 — final manual format: editable Word
+- User found the visual sample sufficient and requested four editable .docx manuals as final deliverables, so they can change wording independently. Text/headings/steps/captions/tables remain native Word elements; screenshots are inserted images.
+- Existing PDF is a layout sample only. No final PDF manuals or full role manuals generated in this planning update; no application/deployment changes.
+
 ## 2026-11-10 — agree separate illustrated manuals and prepare a visual sample
 - Record four audiences in separate documents: Admin, Petugas, Pengajar and a short public-QR participant guide. User requested screenshots with explanations and excluded performance measurements from user manuals.
 - Added a planning outline and one A4 login-page PDF/PNG sample with real current UI capture, three numbered document annotations and matching short instructions. Google services mocked; no real account data or operational RPCs. Complete manuals and video remain pending.
