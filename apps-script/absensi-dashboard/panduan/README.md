@@ -2,8 +2,9 @@
 
 Empat panduan akan dibuat terpisah untuk **Admin Pelatihan, Petugas Kelas, Pengajar**, serta **panduan singkat Peserta**. Pengguna menghendaki gambar halaman aplikasi agar langkah lebih mudah diikuti. **Format hasil akhir yang disepakati adalah Microsoft Word (.docx)**, supaya judul, uraian dan langkah dapat disunting langsung. Contoh PDF di bawah hanya menunjukkan tata letak yang sudah ditinjau, bukan format penyerahan akhir.
 
-Putaran ini menyiapkan rancangan dan **satu contoh halaman**, mengikuti arahan untuk menyepakati dasar panduan sebelum penyusunan detail.
+**Panduan Admin Pelatihan versi 1.0 sudah disusun dalam Word**, sebagai dokumen pertama. Panduan Petugas Kelas, Pengajar dan Peserta belum disusun. Rancangan serta contoh halaman awal tetap disimpan sebagai riwayat format yang telah dibahas.
 
+- **[Panduan Admin Pelatihan — unduh Word dan pratinjau](admin/README.md)**
 - [Rancangan pembagian dan penggunaan gambar](RANCANGAN.md)
 - [Contoh halaman login — PDF, satu halaman](contoh/Contoh_Halaman_Panduan_Login.pdf)
 - [Pratinjau contoh halaman — gambar](contoh/contoh-panduan-login.png)

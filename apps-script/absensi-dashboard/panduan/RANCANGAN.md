@@ -30,7 +30,7 @@ Nama file yang direncanakan:
 3. `Panduan_Pengajar.docx`
 4. `Panduan_Singkat_Peserta.docx`
 
-Gunakan gaya judul, paragraf dan daftar bernomor Word yang konsisten agar redaksi dapat diganti tanpa bantuan pengembang. Isi satu halaman tidak diratakan menjadi gambar utuh; gambar halaman aplikasi tetap menjadi ilustrasi di antara teks yang bisa diedit. Dokumen final tidak langsung diekspor ke PDF. Empat file ini belum dibuat pada tahap perencanaan.
+Gunakan gaya judul, paragraf dan daftar bernomor Word yang konsisten agar redaksi dapat diganti tanpa bantuan pengembang. Isi satu halaman tidak diratakan menjadi gambar utuh; gambar halaman aplikasi tetap menjadi ilustrasi di antara teks yang bisa diedit. Dokumen final tidak langsung diekspor ke PDF. Panduan Admin Pelatihan versi 1.0 kini sudah dibuat dalam Word. Tiga file peran lain belum dibuat. Lihat [dokumen Admin](admin/README.md).
 
 ## Pola satu petunjuk penggunaan
 
@@ -62,4 +62,4 @@ Nomor pada gambar adalah penunjuk dalam panduan. Nomor bukan bagian dari antarmu
 - penjelasan bahwa verifikasi terpisah digunakan bila diperlukan, bukan langkah wajib setiap masuk;
 - hasil yang diharapkan dan keterangan masa sesi empat jam.
 
-Contoh ini menggunakan A4 potret dan identitas Komdigi untuk memperlihatkan keterbacaan, bukan menetapkan desain sampul atau keseluruhan isi buku. Struktur bab, jumlah halaman dan inventaris gambar lengkap masih akan dikembangkan pada tahap penyusunan detail. Format empat buku lengkap belum dibuat dalam putaran ini.
+Contoh ini menggunakan A4 potret dan identitas Komdigi untuk memperlihatkan keterbacaan, bukan menetapkan desain sampul atau keseluruhan isi buku. Struktur bab, jumlah halaman dan inventaris gambar lengkap masih akan dikembangkan pada tahap penyusunan detail. Contoh ini menjadi acuan penyusunan. Panduan Admin kini tersedia; tiga panduan lain masih menunggu penyusunan.

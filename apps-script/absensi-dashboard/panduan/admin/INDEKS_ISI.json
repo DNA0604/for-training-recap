@@ -1,0 +1,271 @@
+{
+  "chapters": 12,
+  "sections": 44,
+  "figures": 39,
+  "items": [
+    {
+      "chapter": 1,
+      "section": 1,
+      "title": "Tujuan panduan dan struktur pelatihan",
+      "image": null
+    },
+    {
+      "chapter": 1,
+      "section": 2,
+      "title": "Urutan kerja yang disarankan",
+      "image": null
+    },
+    {
+      "chapter": 2,
+      "section": 1,
+      "title": "Verifikasi akun dan masuk ke aplikasi",
+      "image": "01-login.png"
+    },
+    {
+      "chapter": 2,
+      "section": 2,
+      "title": "Membaca Beranda",
+      "image": "02-beranda.png"
+    },
+    {
+      "chapter": 2,
+      "section": 3,
+      "title": "Menggunakan menu navigasi",
+      "image": "03-menu.png"
+    },
+    {
+      "chapter": 3,
+      "section": 1,
+      "title": "Mendaftarkan akun pengguna",
+      "image": "04-akun.png"
+    },
+    {
+      "chapter": 3,
+      "section": 2,
+      "title": "Memperbarui atau menonaktifkan akun",
+      "image": "06-daftar-akun.png"
+    },
+    {
+      "chapter": 3,
+      "section": 3,
+      "title": "Menugaskan Petugas pada Jenjang",
+      "image": "05-penugasan.png"
+    },
+    {
+      "chapter": 4,
+      "section": 1,
+      "title": "Membuat program pelatihan",
+      "image": "08-program.png"
+    },
+    {
+      "chapter": 4,
+      "section": 2,
+      "title": "Menambahkan Jenjang program",
+      "image": "09-jenjang.png"
+    },
+    {
+      "chapter": 4,
+      "section": 3,
+      "title": "Menambahkan sesi dan jeda",
+      "image": "10-sesi.png"
+    },
+    {
+      "chapter": 4,
+      "section": 4,
+      "title": "Menetapkan Pengajar sesi",
+      "image": "11-pengajar-sesi.png"
+    },
+    {
+      "chapter": 5,
+      "section": 1,
+      "title": "Memilih Program dan Jenjang peserta",
+      "image": "13-peserta.png"
+    },
+    {
+      "chapter": 5,
+      "section": 2,
+      "title": "Menambahkan peserta baru atau peserta lama",
+      "image": "14-tambah-peserta.png"
+    },
+    {
+      "chapter": 5,
+      "section": 3,
+      "title": "Mengimpor peserta dari Excel atau CSV",
+      "image": "15-pratinjau-impor.png"
+    },
+    {
+      "chapter": 5,
+      "section": 4,
+      "title": "Melihat profil peserta",
+      "image": "34-profil.png"
+    },
+    {
+      "chapter": 6,
+      "section": 1,
+      "title": "Memilih sesi dan membaca kehadiran",
+      "image": "16-monitoring.png"
+    },
+    {
+      "chapter": 6,
+      "section": 2,
+      "title": "Memilih cara pencatatan presensi",
+      "image": "17-pilihan-presensi.png"
+    },
+    {
+      "chapter": 6,
+      "section": 3,
+      "title": "Menerbitkan QR datang dan pulang",
+      "image": "19-qr.png"
+    },
+    {
+      "chapter": 6,
+      "section": 4,
+      "title": "Mencatat presensi manual",
+      "image": "18-manual.png"
+    },
+    {
+      "chapter": 6,
+      "section": 5,
+      "title": "Mencatat izin pada rentang waktu tertentu",
+      "image": "20-izin.png"
+    },
+    {
+      "chapter": 6,
+      "section": 6,
+      "title": "Menghitung dan memeriksa JP sesi",
+      "image": "40-filter-jp.png"
+    },
+    {
+      "chapter": 7,
+      "section": 1,
+      "title": "Mencatat kejadian sikap dan perilaku",
+      "image": "21-catatan-perilaku.png"
+    },
+    {
+      "chapter": 7,
+      "section": 2,
+      "title": "Memvalidasi catatan dan bukti",
+      "image": "38-validasi-catatan.png"
+    },
+    {
+      "chapter": 7,
+      "section": 3,
+      "title": "Menambah, menonaktifkan atau menghapus indikator",
+      "image": "24-indikator.png"
+    },
+    {
+      "chapter": 7,
+      "section": 4,
+      "title": "Menetapkan aturan nilai perilaku program",
+      "image": "23-aturan-perilaku.png"
+    },
+    {
+      "chapter": 8,
+      "section": 1,
+      "title": "Memilih evaluasi sesuai tujuannya",
+      "image": "25-pilihan-evaluasi.png"
+    },
+    {
+      "chapter": 8,
+      "section": 2,
+      "title": "Mengisi evaluasi peserta oleh Panitia",
+      "image": "26-evaluasi-panitia.png"
+    },
+    {
+      "chapter": 8,
+      "section": 3,
+      "title": "Memberikan evaluasi kepada Pengajar",
+      "image": "27-evaluasi-pengajar.png"
+    },
+    {
+      "chapter": 8,
+      "section": 4,
+      "title": "Melihat evaluasi peserta dari Pengajar",
+      "image": "28-evaluasi-peserta-pengajar.png"
+    },
+    {
+      "chapter": 8,
+      "section": 5,
+      "title": "Memperbarui rekap pada spreadsheet penilaian",
+      "image": "39-rekap-spreadsheet.png"
+    },
+    {
+      "chapter": 9,
+      "section": 1,
+      "title": "Meninjau pengajuan verifikasi sesi",
+      "image": "32-verifikasi.png"
+    },
+    {
+      "chapter": 9,
+      "section": 2,
+      "title": "Melengkapi atau mengoreksi waktu kehadiran",
+      "image": "37-koreksi-langsung.png"
+    },
+    {
+      "chapter": 9,
+      "section": 3,
+      "title": "Menindaklanjuti pengajuan koreksi lama bila tersedia",
+      "image": "33-koreksi.png"
+    },
+    {
+      "chapter": 10,
+      "section": 1,
+      "title": "Membaca Rekap Program dan mengunduh CSV",
+      "image": "29-rekap.png"
+    },
+    {
+      "chapter": 10,
+      "section": 2,
+      "title": "Memeriksa rincian nilai akhir peserta",
+      "image": "31-rincian-nilai.png"
+    },
+    {
+      "chapter": 10,
+      "section": 3,
+      "title": "Mengatur bobot nilai akhir program",
+      "image": "30-bobot.png"
+    },
+    {
+      "chapter": 10,
+      "section": 4,
+      "title": "Membuat laporan program",
+      "image": "12-laporan.png"
+    },
+    {
+      "chapter": 11,
+      "section": 1,
+      "title": "Memeriksa konsistensi data",
+      "image": "41-periksa-data.png"
+    },
+    {
+      "chapter": 11,
+      "section": 2,
+      "title": "Mengubah data yang sudah tersimpan",
+      "image": "35-edit.png"
+    },
+    {
+      "chapter": 11,
+      "section": 3,
+      "title": "Menghapus data melalui pratinjau dampak",
+      "image": "36-hapus.png"
+    },
+    {
+      "chapter": 11,
+      "section": 4,
+      "title": "Melanjutkan proses yang terhenti",
+      "image": null
+    },
+    {
+      "chapter": 12,
+      "section": 1,
+      "title": "Mengakhiri pekerjaan",
+      "image": null
+    },
+    {
+      "chapter": 12,
+      "section": 2,
+      "title": "Kendala yang umum dijumpai",
+      "image": null
+    }
+  ]
+}

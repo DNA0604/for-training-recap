@@ -1,0 +1,911 @@
+{
+  "title": "Panduan Admin Pelatihan",
+  "version": "1.0",
+  "date": "10 November 2026",
+  "chapters": [
+    {
+      "title": "Mengenal aplikasi dan alur kerja Admin",
+      "sections": [
+        {
+          "title": "Tujuan panduan dan struktur pelatihan",
+          "intro": "Panduan ini membantu Admin Pelatihan menyiapkan program, mengelola peserta dan akses, memantau sesi, memeriksa pencatatan serta menghasilkan rekap dan laporan.",
+          "steps": [
+            "Gunakan akun dengan peran **Admin Pelatihan**. Fitur yang tampil mengikuti akun yang didaftarkan pada aplikasi.",
+            "Pahami urutannya: **Program → Jenjang → Sesi**. Peserta didaftarkan pada satu Jenjang untuk satu program dan tersedia pada seluruh sesi Jenjang tersebut.",
+            "Gunakan data contoh pada gambar sebagai acuan tampilan. Nama, jumlah peserta dan hasil di tempat Anda mengikuti data program yang dipilih."
+          ],
+          "image": null,
+          "result": "Admin memahami hubungan program, Jenjang, sesi dan pendaftaran peserta.",
+          "note": "",
+          "table": {
+            "headers": [
+              "Istilah",
+              "Arti dalam penggunaan aplikasi"
+            ],
+            "rows": [
+              [
+                "Program",
+                "Kegiatan pelatihan yang dikelola, misalnya Pelatihan Teknis AI Agent."
+              ],
+              [
+                "Jenjang",
+                "Kelompok atau tingkatan dalam program. Program satu jenjang dapat menggunakan Umum."
+              ],
+              [
+                "Sesi",
+                "Pertemuan atau mata pelatihan dengan tanggal, jam dan pengaturan JP."
+              ],
+              [
+                "JP",
+                "Jam pelajaran. Satu JP setara dengan 45 menit."
+              ],
+              [
+                "Penugasan",
+                "Batas data yang dapat diakses Petugas atau Pengajar sesuai tanggung jawabnya."
+              ]
+            ]
+          },
+          "layout": "normal"
+        },
+        {
+          "title": "Urutan kerja yang disarankan",
+          "intro": "Gunakan urutan berikut agar data pendukung tersedia sebelum pencatatan dan evaluasi.",
+          "steps": [],
+          "image": null,
+          "result": "",
+          "note": "Admin menilai peserta melalui evaluasi Panitia dan menilai Pengajar melalui Evaluasi Pengajar. Nilai peserta enam aspek diisi oleh Pengajar, lalu dilihat Admin melalui tampilan baca.",
+          "table": {
+            "headers": [
+              "Tahap",
+              "Tindakan Admin"
+            ],
+            "rows": [
+              [
+                "Persiapan",
+                "Siapkan akun; buat program, Jenjang dan sesi; tetapkan Petugas/Pengajar; daftarkan peserta."
+              ],
+              [
+                "Pelaksanaan",
+                "Pilih sesi yang benar; pantau presensi QR/manual, izin, serta catatan sikap dan perilaku."
+              ],
+              [
+                "Setelah sesi",
+                "Periksa kehadiran dan bukti, selesaikan validasi/verifikasi, hitung JP, dan lengkapi evaluasi yang menjadi kewenangan Admin."
+              ],
+              [
+                "Akhir program",
+                "Periksa kelengkapan nilai; muat Rekap Program; perbarui rekap spreadsheet bila diperlukan; unduh CSV/laporan."
+              ]
+            ]
+          },
+          "layout": "normal"
+        }
+      ]
+    },
+    {
+      "title": "Masuk, Beranda dan navigasi",
+      "sections": [
+        {
+          "title": "Verifikasi akun dan masuk ke aplikasi",
+          "intro": "Siapkan alamat aplikasi dari instansi dan akun Google yang sudah didaftarkan Admin.",
+          "steps": [
+            "Buka alamat aplikasi pada browser.",
+            "Untuk memeriksa akun baru, pilih **Verifikasi Akun** (penanda 1), lalu pilih akun Google yang didaftarkan. Setelah berhasil, halaman login tampil kembali.",
+            "Pilih **Masuk dengan Google** (penanda 2), kemudian pilih akun yang terdaftar.",
+            "Pastikan Beranda menampilkan nama dan peran **Admin Pelatihan**."
+          ],
+          "image": "01-login.png",
+          "result": "Beranda terbuka dengan akses Admin Pelatihan.",
+          "note": "Verifikasi terpisah digunakan bila diperlukan; bukan langkah wajib setiap login. Sesi tetap berlaku maksimal empat jam sejak login, termasuk ketika browser ditutup. Sesi aktif dapat langsung melanjutkan halaman aplikasi.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Membaca Beranda",
+          "intro": "Beranda merangkum program dan tindak lanjut berdasarkan data yang tersedia.",
+          "steps": [
+            "Periksa jumlah program, program aktif, peserta unik dan sesi pada ringkasan.",
+            "Gunakan pencarian atau penyaring daftar program untuk menemukan kegiatan yang dibutuhkan.",
+            "Buka tautan tindakan pada program untuk menuju Monitoring, Pengelolaan atau Peserta sesuai kebutuhan.",
+            "Gunakan **Muat Ulang** pada halaman jika ingin mengambil data terbaru."
+          ],
+          "image": "02-beranda.png",
+          "result": "Admin menemukan program tujuan dan bagian yang perlu ditindaklanjuti.",
+          "note": "Ringkasan pada Beranda bukan keputusan kelulusan peserta.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Menggunakan menu navigasi",
+          "intro": "Menu di sebelah kiri menghubungkan halaman kerja utama.",
+          "steps": [
+            "Gunakan **Beranda** untuk ringkasan kegiatan.",
+            "Gunakan **Monitoring** untuk kehadiran, izin, perilaku, evaluasi dan rekap.",
+            "Gunakan **Pengelolaan** untuk program, Jenjang, sesi dan Pengajar.",
+            "Gunakan **Peserta Program** untuk pendaftaran dan daftar peserta.",
+            "Gunakan **Manajemen Akses** untuk akun serta penugasan Petugas.",
+            "Pilih **Log Out** setelah menyelesaikan pekerjaan."
+          ],
+          "image": "03-menu.png",
+          "result": "Admin berpindah halaman melalui menu yang sesuai.",
+          "note": "",
+          "table": null,
+          "layout": "menu"
+        }
+      ]
+    },
+    {
+      "title": "Mengelola akun dan penugasan",
+      "sections": [
+        {
+          "title": "Mendaftarkan akun pengguna",
+          "intro": "Buka **Manajemen Akses**. Siapkan nama dan email akun Google pengguna yang akan diberi akses.",
+          "steps": [
+            "Pada formulir **Tambah Akun Panitia**, isi **Nama panitia** dan **Email akun Google**.",
+            "Pilih **Peran**: Admin Pelatihan, Petugas Kelas Pelatihan atau Pengajar sesuai tanggung jawabnya.",
+            "Pilih **Status akun: Aktif**, lalu tekan **Simpan Akun**.",
+            "Periksa akun pada **Daftar Akun**.",
+            "Bagikan alamat aplikasi. Pengguna dapat memilih **Verifikasi Akun**, lalu masuk melalui **Masuk dengan Google**."
+          ],
+          "image": "04-akun.png",
+          "result": "Akun tersimpan pada daftar dan dapat digunakan sesuai peran serta penugasannya.",
+          "note": "Email harus sama dengan akun Google yang digunakan saat verifikasi/login. Pendaftaran akun saja belum menetapkan Jenjang Petugas atau sesi Pengajar.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Memperbarui atau menonaktifkan akun",
+          "intro": "Gunakan daftar akun untuk perubahan identitas, peran atau status yang memang diperlukan.",
+          "steps": [
+            "Cari pengguna berdasarkan nama atau email.",
+            "Pilih tindakan edit pada akun. Periksa kembali pengguna yang dipilih.",
+            "Ubah isian yang diperlukan, termasuk **Status akun** bila akses harus dinonaktifkan.",
+            "Tekan **Simpan Akun** dan periksa hasil pada daftar."
+          ],
+          "image": "06-daftar-akun.png",
+          "result": "Daftar akun menunjukkan perubahan yang tersimpan.",
+          "note": "Perubahan akun dapat mengakhiri sesi pengguna yang sedang aktif. Pertahankan akses Admin yang dibutuhkan untuk pengelolaan instansi.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Menugaskan Petugas pada Jenjang",
+          "intro": "Petugas Kelas memperoleh cakupan berdasarkan Program dan Jenjang yang ditetapkan Admin.",
+          "steps": [
+            "Pada bagian **Penugasan Petugas**, pilih **Petugas aktif**.",
+            "Pilih **Program**, kemudian **Jenjang** yang menjadi tanggung jawab Petugas.",
+            "Tekan **Aktifkan Penugasan**.",
+            "Periksa hasil pada **Penugasan Tercatat**. Ulangi untuk Jenjang tambahan bila Petugas menangani lebih dari satu kelas.",
+            "Gunakan tindakan penonaktifan pada penugasan yang sudah tidak digunakan."
+          ],
+          "image": "05-penugasan.png",
+          "result": "Petugas mendapat akses ke Jenjang yang ditugaskan.",
+          "note": "Penugasan Pengajar dilakukan per sesi melalui Pengelolaan, bukan melalui formulir Penugasan Petugas.",
+          "table": null,
+          "layout": "normal"
+        }
+      ]
+    },
+    {
+      "title": "Mengelola program, Jenjang, sesi dan Pengajar",
+      "sections": [
+        {
+          "title": "Membuat program pelatihan",
+          "intro": "Buka **Pengelolaan**, lalu pilih **Tambah Program**.",
+          "steps": [
+            "Isi **Nama program** dan **Kategori pelatihan**.",
+            "Isi **Jenjang awal**. Bila program hanya memakai satu kelompok umum, kolom dapat dikosongkan untuk menggunakan Umum.",
+            "Isi **Tanggal mulai**, **Tanggal selesai** dan **Status program**.",
+            "Periksa seluruh isian, lalu tekan **Simpan Program**.",
+            "Pilih program yang baru dibuat pada **Program Tujuan** untuk melanjutkan penyiapan sesi."
+          ],
+          "image": "08-program.png",
+          "result": "Program tersedia pada daftar dan dapat dipilih untuk pengelolaan.",
+          "note": "Status yang tersedia adalah Draft, Aktif dan Selesai. Gunakan Selesai setelah pelaksanaan memang berakhir; status tersebut menjadi salah satu syarat laporan program.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Menambahkan Jenjang program",
+          "intro": "Pilih program tujuan sebelum menambah Jenjang.",
+          "steps": [
+            "Pada bagian **Jenjang Program**, pilih tombol penambahan Jenjang.",
+            "Isi nama Jenjang yang diperlukan, misalnya Dasar atau Lanjutan.",
+            "Simpan, lalu periksa nama pada daftar Jenjang program."
+          ],
+          "image": "09-jenjang.png",
+          "result": "Jenjang tersedia sebagai tujuan sesi dan pendaftaran peserta.",
+          "note": "Program satu Jenjang tetap mengikuti struktur Program → Jenjang → Sesi. Pastikan nama Jenjang mudah dibedakan.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Menambahkan sesi dan jeda",
+          "intro": "Pilih Program Tujuan, lalu tekan **Tambah Sesi dan Jeda**.",
+          "steps": [
+            "Pilih **Jenjang sesi**, isi **Nama sesi** dan **Tanggal sesi**.",
+            "Pilih pengaturan **Perhitungan JP** sesuai sesi yang akan diselenggarakan.",
+            "Isi **Jam mulai** dan **Jam selesai**.",
+            "Tambahkan jeda bila ada, lalu isi waktu mulai dan selesainya. Periksa agar jeda berada dalam rentang sesi.",
+            "Tekan tombol penyimpanan sesi, kemudian periksa daftar **Sesi Program**."
+          ],
+          "image": "10-sesi.png",
+          "result": "Sesi tampil pada program/Jenjang yang dipilih beserta jadwal dan pengaturan JP.",
+          "note": "Durasi efektif dihitung dari jadwal sesi dengan memperhitungkan jeda. Untuk memperbaiki sesi yang sudah tersimpan, gunakan Edit dan cantumkan alasan perubahan.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Menetapkan Pengajar sesi",
+          "intro": "Pastikan akun dengan peran Pengajar sudah didaftarkan dan aktif.",
+          "steps": [
+            "Pilih program pada Pengelolaan, lalu buka **Pengajar Sesi**.",
+            "Temukan sesi yang akan ditugaskan.",
+            "Pilih Pengajar aktif pada baris sesi, lalu simpan penetapan sesuai tombol yang tersedia.",
+            "Periksa kembali nama Pengajar pada sesi tersebut."
+          ],
+          "image": "11-pengajar-sesi.png",
+          "result": "Pengajar dapat melihat sesi yang ditugaskan dan mengisi evaluasi peserta pada sesi tersebut.",
+          "note": "Satu sesi memiliki satu Pengajar. Jika penugasan diganti setelah ada evaluasi, periksa kembali kelengkapan serta status nilai yang ditampilkan aplikasi.",
+          "table": null,
+          "layout": "normal"
+        }
+      ]
+    },
+    {
+      "title": "Mendaftarkan dan memeriksa peserta",
+      "sections": [
+        {
+          "title": "Memilih Program dan Jenjang peserta",
+          "intro": "Buka **Peserta Program**.",
+          "steps": [
+            "Pilih **Program Tujuan** terlebih dahulu.",
+            "Pilih **Jenjang Tujuan / Filter Peserta**. Pada program satu Jenjang, pilihan dapat terisi otomatis.",
+            "Gunakan pencarian untuk menemukan peserta pada daftar.",
+            "Pilih satu Jenjang sebelum menambah atau mengimpor peserta. Pilihan Semua Jenjang digunakan untuk melihat daftar gabungan.",
+            "Gunakan tombol halaman atau **Muat Ulang** sesuai kebutuhan."
+          ],
+          "image": "13-peserta.png",
+          "result": "Daftar peserta sesuai Program dan Jenjang yang dipilih.",
+          "note": "Peserta terdaftar sekali pada satu Jenjang per program. Pendaftaran pada program lain tetap merupakan keikutsertaan yang berbeda.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Menambahkan peserta baru atau peserta lama",
+          "intro": "Program dan satu Jenjang tujuan harus sudah dipilih.",
+          "steps": [
+            "Tekan **Tambah Peserta**.",
+            "Untuk peserta yang pernah tersimpan, cari peserta lama lalu pilih hasil yang sesuai.",
+            "Untuk peserta baru, isi **NIP**, **Nama pegawai** dan **Unit kerja saat pelatihan**.",
+            "Buat pratinjau melalui tombol formulir, lalu periksa identitas dan tujuan pendaftarannya.",
+            "Konfirmasikan impor/pendaftaran setelah pratinjau dinyatakan benar."
+          ],
+          "image": "14-tambah-peserta.png",
+          "result": "Peserta tampil pada daftar keikutsertaan program/Jenjang tujuan.",
+          "note": "Gunakan NIP yang benar dan pertahankan sebagai teks agar angka awal tidak hilang. Periksa pendaftaran yang sudah ada sebelum mendaftarkan ulang.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Mengimpor peserta dari Excel atau CSV",
+          "intro": "Unduh template dari halaman Peserta Program, kemudian isi data peserta mengikuti judul kolomnya.",
+          "steps": [
+            "Isi kolom **nip**, **nama_pegawai** dan **unit_kerja** pada template.",
+            "Pilih Program dan Jenjang tujuan, lalu unggah file. Bila file Excel memiliki beberapa sheet, pilih sheet yang akan dibaca.",
+            "Tekan tombol pratinjau dan periksa kategori hasil setiap baris.",
+            "Perbaiki baris **error** pada file sebelum melanjutkan. Tinjau baris yang ditandai untuk dilewati agar tidak terjadi pendaftaran ganda.",
+            "Tekan **Impor Peserta** setelah hasil pratinjau benar. Tunggu sampai seluruh proses selesai dan periksa daftar peserta."
+          ],
+          "image": "15-pratinjau-impor.png",
+          "result": "Peserta yang memenuhi pemeriksaan tersimpan pada tujuan yang benar.",
+          "note": "Jika proses terhenti, gunakan Lanjutkan Impor pada proses yang sama. Perubahan Program/Jenjang atau isi file memerlukan pratinjau baru.",
+          "table": {
+            "headers": [
+              "Status pratinjau",
+              "Makna"
+            ],
+            "rows": [
+              [
+                "baru",
+                "Identitas baru akan dibuat dan didaftarkan."
+              ],
+              [
+                "daftar",
+                "Identitas sudah ada dan akan didaftarkan pada program tujuan."
+              ],
+              [
+                "lewati",
+                "Baris tidak perlu diproses lagi, misalnya sudah terdaftar."
+              ],
+              [
+                "error",
+                "Ada isian atau hubungan data yang harus diperbaiki."
+              ]
+            ]
+          },
+          "layout": "normal"
+        },
+        {
+          "title": "Melihat profil peserta",
+          "intro": "Klik nama peserta pada daftar atau rekap yang menyediakan tautan profil.",
+          "steps": [
+            "Periksa identitas peserta dan program yang sedang ditampilkan.",
+            "Baca keikutsertaan, riwayat kehadiran, JP, catatan dan bagian nilai yang tersedia.",
+            "Untuk memperbaiki sumber data, kembali ke halaman pengelolaan terkait; profil digunakan untuk meninjau hasil."
+          ],
+          "image": "34-profil.png",
+          "result": "Admin dapat menelusuri informasi peserta beserta sumber hasilnya.",
+          "note": "Nilai sementara atau JP yang belum dihitung perlu ditindaklanjuti pada sumbernya, bukan dianggap nol.",
+          "table": null,
+          "layout": "normal"
+        }
+      ]
+    },
+    {
+      "title": "Memantau presensi, izin dan JP",
+      "sections": [
+        {
+          "title": "Memilih sesi dan membaca kehadiran",
+          "intro": "Buka **Monitoring** dan pilih Kategori, Program, Jenjang, lalu Sesi.",
+          "steps": [
+            "Pastikan nama dan tanggal sesi pada ringkasan sesuai kelas yang diperiksa.",
+            "Baca ringkasan peserta, absensi lengkap, data yang perlu diperiksa, ketidakhadiran tercatat dan peserta yang belum absen.",
+            "Gunakan pencarian atau penyaring tabel untuk menemukan peserta.",
+            "Gunakan **Selanjutnya** bila peserta lebih dari sepuluh. Ringkasan sesi tetap mencakup seluruh peserta sesi.",
+            "Tekan **Muat Ulang Data** setelah ada pencatatan baru atau perubahan."
+          ],
+          "image": "16-monitoring.png",
+          "result": "Kehadiran peserta ditampilkan untuk sesi yang benar.",
+          "note": "Belum absen tidak otomatis berarti Alpa. Konfirmasikan kondisi peserta sebelum mencatat ketidakhadiran.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Memilih cara pencatatan presensi",
+          "intro": "Tombol Presensi menggabungkan tiga cara pencatatan untuk sesi yang sedang dipilih.",
+          "steps": [
+            "Tekan **Presensi** pada ringkasan sesi.",
+            "Pilih **Presensi Manual** untuk status satu sesi penuh.",
+            "Pilih **QR Absensi** untuk pencatatan datang/pulang melalui pemindaian.",
+            "Pilih **Catat Izin** untuk pencatatan rentang waktu izin dan bukti pendukung."
+          ],
+          "image": "17-pilihan-presensi.png",
+          "result": "Admin membuka formulir yang sesuai dengan kejadian peserta.",
+          "note": "QR dan manual boleh dipakai untuk peserta yang berbeda pada sesi yang sama. Tetap periksa agar satu peserta tidak memiliki pencatatan ganda untuk kejadian yang sama.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Menerbitkan QR datang dan pulang",
+          "intro": "Pilih sesi pada Monitoring, lalu buka **Presensi → QR Absensi**.",
+          "steps": [
+            "Pilih jenis QR sesuai pencatatan **datang** atau **pulang**.",
+            "Periksa masa berlaku dan pengaturan yang ditampilkan pada formulir.",
+            "Tekan tombol penerbitan QR, lalu tampilkan atau bagikan QR/tautan yang dihasilkan untuk sesi tersebut.",
+            "Peserta melakukan presensi sesuai jenis QR. Untuk presensi pulang, terbitkan QR jenis pulang.",
+            "Muat ulang data Monitoring untuk melihat hasil pencatatan."
+          ],
+          "image": "19-qr.png",
+          "result": "Presensi hasil pemindaian muncul pada peserta dan sesi yang sesuai.",
+          "note": "QR memiliki masa berlaku. Gunakan QR dari sesi yang benar dan terbitkan kembali jika diperlukan. Perhitungan keterlambatan QR mengikuti aturan QR yang berlaku, bukan potongan tetap presensi manual.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Mencatat presensi manual",
+          "intro": "Buka **Presensi → Presensi Manual**, atau gunakan tindakan manual pada baris peserta.",
+          "steps": [
+            "Cari dan pilih **Nama peserta**. Jika dibuka dari baris peserta, nama sudah terisi dan masih dapat diganti.",
+            "Pilih **Status Kehadiran: Hadir** atau **Tidak Hadir**.",
+            "Untuk Hadir, pilih **Tepat Waktu** atau **Terlambat**. Untuk Tidak Hadir, pilih **Sakit**, **Izin** atau **Tanpa Keterangan**.",
+            "Tambahkan bukti pendukung untuk Sakit/Izin bila ada, serta keterangan bila diperlukan.",
+            "Tekan **Simpan Presensi Manual**, lalu muat ulang data dan lanjutkan perhitungan JP."
+          ],
+          "image": "18-manual.png",
+          "result": "Satu status kehadiran tersimpan untuk peserta pada sesi tersebut.",
+          "note": "Presensi manual menyatakan status satu sesi penuh; tidak memerlukan presensi pulang manual. Jika catatan sudah ada, periksa perubahan status/metode sebelum menyimpan.",
+          "table": {
+            "headers": [
+              "Status manual",
+              "Aturan JP"
+            ],
+            "rows": [
+              [
+                "Tepat Waktu",
+                "JP penuh sesuai durasi efektif sesi."
+              ],
+              [
+                "Terlambat",
+                "Potongan tetap 15 menit; hanya untuk metode manual."
+              ],
+              [
+                "Sakit / Izin / Tanpa Keterangan",
+                "JP 0 karena tidak mengikuti sesi penuh."
+              ]
+            ]
+          },
+          "layout": "normal"
+        },
+        {
+          "title": "Mencatat izin pada rentang waktu tertentu",
+          "intro": "Gunakan **Presensi → Catat Izin** untuk kebutuhan pencatatan izin berdasarkan waktu.",
+          "steps": [
+            "Cari dan pilih peserta. Peserta tetap dapat dipilih meskipun belum memiliki catatan kehadiran.",
+            "Isi rentang waktu izin dan alasan sesuai kejadian. Gunakan pilihan satu sesi penuh bila memang dibutuhkan.",
+            "Isi dasar/bukti pendukung dan unggah bukti bila tersedia; unggahan bersifat opsional.",
+            "Simpan, lalu periksa pada **Daftar Izin Peserta**.",
+            "Tindak lanjuti validasi dan hitung ulang JP setelah perubahan yang memengaruhi hasil."
+          ],
+          "image": "20-izin.png",
+          "result": "Catatan izin tersimpan dan tersedia untuk pemeriksaan.",
+          "note": "Untuk ketidakhadiran penuh dengan status Sakit/Izin/Tanpa Keterangan, gunakan Presensi Manual. Hindari mencatat kejadian yang sama dua kali melalui dua metode.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Menghitung dan memeriksa JP sesi",
+          "intro": "Data hadir/izin dan pemeriksaan yang diperlukan harus sudah dicatat untuk sesi tujuan.",
+          "steps": [
+            "Pastikan Program, Jenjang dan Sesi yang dipilih sudah benar.",
+            "Periksa waktu datang/pulang, status manual, izin dan catatan yang masih perlu dilengkapi.",
+            "Tekan **Hitung JP Sesi**, lalu tunggu konfirmasi hasil.",
+            "Muat ulang tampilan atau buka **Rekap Program** untuk memeriksa hasil peserta."
+          ],
+          "image": "40-filter-jp.png",
+          "result": "JP diperbarui berdasarkan data dan pengaturan sesi terbaru.",
+          "note": "Keterangan menunggu perhitungan berarti data sudah tercatat tetapi hasil JP belum diperbarui. Perhitungan JP dilakukan Admin. Status manual tidak memberikan pengurangan poin perilaku otomatis.",
+          "table": null,
+          "layout": "normal"
+        }
+      ]
+    },
+    {
+      "title": "Catatan sikap, perilaku dan aturannya",
+      "sections": [
+        {
+          "title": "Mencatat kejadian sikap dan perilaku",
+          "intro": "Pilih sesi pada Monitoring, lalu tekan **Catat Sikap & Perilaku**.",
+          "steps": [
+            "Cari dan pilih peserta yang terkait.",
+            "Pilih indikator sesuai jenis kejadian dan baca definisinya.",
+            "Isi **Waktu kejadian**, keterangan dan isian tambahan yang diminta indikator.",
+            "Tambahkan dasar atau bukti bila diperlukan, lalu simpan.",
+            "Periksa catatan pada tab **Catatan Perilaku** dan tindak lanjuti status validasinya."
+          ],
+          "image": "21-catatan-perilaku.png",
+          "result": "Kejadian tersimpan pada peserta dan sesi yang benar.",
+          "note": "Catatan kejadian berbeda dari evaluasi peserta oleh Panitia. Pelatihan tetap dapat menggunakan evaluasi tiga aspek tanpa merinci seluruh kejadian perilaku.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Memvalidasi catatan dan bukti",
+          "intro": "Buka tab **Catatan Perilaku** atau catatan izin yang menyediakan tindakan validasi.",
+          "steps": [
+            "Pilih catatan yang akan diperiksa, lalu buka tindakan validasinya.",
+            "Periksa peserta, sesi, waktu kejadian, keterangan, sumber dan bukti.",
+            "Pilih status validasi yang sesuai, lalu isi alasan keputusan dan isian lain yang ditampilkan.",
+            "Simpan dan periksa status pada daftar. Jika perubahan berdampak pada JP atau rekap, perbarui hasil terkait."
+          ],
+          "image": "38-validasi-catatan.png",
+          "result": "Catatan memiliki status serta alasan pemeriksaan yang dapat ditelusuri.",
+          "note": "Gunakan bukti dan kondisi kejadian sebagai dasar. Catatan belum disetujui tidak boleh dibaca seolah-olah sudah menjadi hasil akhir.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Menambah, menonaktifkan atau menghapus indikator",
+          "intro": "Buka tab **Nilai Perilaku**, lalu gunakan **Tambah Indikator** atau pilihan kelola indikator tersimpan.",
+          "steps": [
+            "Pilih indikator yang sudah ada untuk perubahan, atau gunakan pilihan tambah indikator baru.",
+            "Isi/periksa kode, jenis, definisi, poin bawaan, status dan alasan perubahan.",
+            "Untuk menghentikan penggunaan ke depan, ubah **Status** menjadi **Nonaktif**, kemudian simpan.",
+            "Gunakan **Hapus Indikator** hanya jika tersedia dan seluruh pemeriksaan penggunaan menyatakan indikator dapat dihapus."
+          ],
+          "image": "24-indikator.png",
+          "result": "Katalog indikator mengikuti perubahan yang disimpan.",
+          "note": "Indikator berlaku pada katalog bersama. Indikator bawaan atau yang telah digunakan dalam riwayat tetap dipertahankan; penonaktifan tidak menghapus catatan lama.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Menetapkan aturan nilai perilaku program",
+          "intro": "Pilih program pada tab **Nilai Perilaku** dan buka bagian pengaturan aturan yang tersedia.",
+          "steps": [
+            "Periksa indikator, ketentuan poin dan pengaturan perhitungan yang ditampilkan.",
+            "Isi aturan sesuai ketetapan instansi, termasuk nilai dasar, batas dan kontribusi bila diminta.",
+            "Isi alasan perubahan, lalu simpan aturan.",
+            "Muat ulang nilai dan periksa status hasil setelah aturan diterapkan."
+          ],
+          "image": "23-aturan-perilaku.png",
+          "result": "Nilai perilaku dihitung mengikuti aturan program yang tersimpan.",
+          "note": "Nilai perilaku merupakan hasil terpisah dari nilai akhir evaluasi Pengajar/Panitia. Jika aturan belum ditetapkan, lengkapi pengaturannya sebelum memakai nilai perilaku sebagai hasil yang sah.",
+          "table": null,
+          "layout": "normal"
+        }
+      ]
+    },
+    {
+      "title": "Mengelola tiga jenis evaluasi",
+      "sections": [
+        {
+          "title": "Memilih evaluasi sesuai tujuannya",
+          "intro": "Pilih sesi, lalu tekan **Evaluasi** pada Monitoring.",
+          "steps": [
+            "Pilih **Evaluasi Peserta (Panitia)** untuk menilai peserta dari sisi panitia.",
+            "Pilih **Evaluasi Pengajar** untuk menilai pelaksanaan pengajaran pada sesi.",
+            "Pilih **Lihat Evaluasi Peserta (Pengajar)** untuk membaca nilai peserta yang diisi Pengajar."
+          ],
+          "image": "25-pilihan-evaluasi.png",
+          "result": "Admin membuka formulir atau tampilan baca yang sesuai.",
+          "note": "Ketiga evaluasi mempunyai objek dan kewenangan berbeda. Evaluasi Pengajar tidak menjadi komponen nilai akhir peserta.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Mengisi evaluasi peserta oleh Panitia",
+          "intro": "Pengisian tersedia setelah jadwal sesi berakhir. Admin dan Petugas yang berwenang menggunakan penilaian yang sama untuk peserta/sesi tersebut.",
+          "steps": [
+            "Buka **Evaluasi Peserta (Panitia)**.",
+            "Periksa sesi dan daftar peserta. Buka **Pedoman tiga aspek** bila memerlukan acuan.",
+            "Isi nilai 1–5 untuk **Kedisiplinan peserta**, **Kerja sama** dan **Prakarsa**, serta catatan bila diperlukan.",
+            "Tekan **Simpan Halaman** sebelum berpindah halaman peserta.",
+            "Muat ulang bila perlu untuk memastikan nilai sudah tersimpan."
+          ],
+          "image": "26-evaluasi-panitia.png",
+          "result": "Penilaian Panitia tersimpan untuk peserta pada sesi tersebut.",
+          "note": "Prakarsa mencakup inisiatif mengambil langkah atau menyampaikan gagasan yang bermanfaat. Gunakan nilai 1 Sangat kurang, 2 Kurang, 3 Cukup, 4 Baik, 5 Sangat baik. Isian yang belum disimpan belum masuk rekap.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Memberikan evaluasi kepada Pengajar",
+          "intro": "Pastikan Pengajar sudah ditetapkan pada sesi dan sesi telah berakhir.",
+          "steps": [
+            "Buka **Evaluasi Pengajar** dari pilihan Evaluasi.",
+            "Periksa nama Pengajar dan konteks sesi.",
+            "Isi nilai 1–5 untuk kelima aspek, lalu tambahkan catatan bila diperlukan.",
+            "Simpan dan periksa konfirmasi. Gunakan riwayat penilaian yang tersedia saat meninjau perubahan sebelumnya."
+          ],
+          "image": "27-evaluasi-pengajar.png",
+          "result": "Evaluasi Pengajar tersimpan untuk sesi yang dipilih.",
+          "note": "",
+          "table": {
+            "headers": [
+              "Aspek penilaian Pengajar"
+            ],
+            "rows": [
+              [
+                "Penguasaan materi"
+              ],
+              [
+                "Kejelasan penyampaian"
+              ],
+              [
+                "Penggunaan metode dan media pembelajaran"
+              ],
+              [
+                "Interaksi serta respons terhadap peserta"
+              ],
+              [
+                "Kedisiplinan waktu"
+              ]
+            ]
+          },
+          "layout": "normal"
+        },
+        {
+          "title": "Melihat evaluasi peserta dari Pengajar",
+          "intro": "Pengajar mengisi enam aspek peserta pada sesi yang menjadi penugasannya. Admin menggunakan tampilan baca.",
+          "steps": [
+            "Pilih **Lihat Evaluasi Peserta (Pengajar)**.",
+            "Periksa nilai pada enam aspek: Keaktifan, Kedisiplinan, Kerapian, Kesopanan, Kreativitas dan Kerja sama.",
+            "Geser tabel ke samping bila seluruh aspek belum terlihat. Gunakan tombol halaman untuk peserta berikutnya.",
+            "Jika nilai belum tersedia atau tidak lagi sesuai sumbernya, koordinasikan penyelesaiannya dengan Pengajar yang ditugaskan."
+          ],
+          "image": "28-evaluasi-peserta-pengajar.png",
+          "result": "Admin mengetahui kelengkapan evaluasi Pengajar terhadap peserta.",
+          "note": "Tampilan ini tidak digunakan Admin untuk menggantikan nilai yang menjadi kewenangan Pengajar.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Memperbarui rekap pada spreadsheet penilaian",
+          "intro": "Pastikan penilaian yang akan direkap sudah disimpan. Pembaruan ini mencakup seluruh program dalam file penilaian yang terhubung.",
+          "steps": [
+            "Buka evaluasi peserta dari Pengajar atau evaluasi Panitia yang menyediakan tombol rekap.",
+            "Tekan **Perbarui Rekap Spreadsheet** dan tunggu konfirmasi selesai.",
+            "Pilih tautan spreadsheet yang ditampilkan, lalu periksa tab rekap dan waktu pembaruannya.",
+            "Ulangi pembaruan setelah ada perubahan sumber yang perlu ditampilkan pada spreadsheet."
+          ],
+          "image": "39-rekap-spreadsheet.png",
+          "result": "Tab rekap spreadsheet mencerminkan sumber pada saat pembaruan terakhir.",
+          "note": "Rekap spreadsheet diperbarui melalui tombol, bukan otomatis setiap ada penilaian. Jika pembaruan belum selesai/gagal, jalankan ulang dan periksa status sebelum menggunakan hasilnya.",
+          "table": null,
+          "layout": "normal"
+        }
+      ]
+    },
+    {
+      "title": "Memeriksa verifikasi sesi dan koreksi",
+      "sections": [
+        {
+          "title": "Meninjau pengajuan verifikasi sesi",
+          "intro": "Bagian **Verifikasi Sesi** menampilkan paket pemeriksaan yang diajukan Petugas untuk satu sesi pada satu Jenjang.",
+          "steps": [
+            "Pilih sesi yang benar dan buka pengajuan melalui **Tinjau Sesi** atau tombol pada daftar pengajuan.",
+            "Periksa ringkasan, kehadiran, izin, catatan dan bukti yang ditampilkan.",
+            "Isi **Alasan keputusan**, lalu pilih **Setujui Verifikasi** atau **Tolak Pengajuan** sesuai hasil pemeriksaan.",
+            "Periksa status setelah keputusan. Bila ditolak, Petugas memperbaiki data dan mengajukan kembali.",
+            "Lakukan perhitungan JP setelah data yang diperlukan siap."
+          ],
+          "image": "32-verifikasi.png",
+          "result": "Pengajuan memiliki keputusan dan riwayat pemeriksaan.",
+          "note": "Persetujuan tidak mengubah kehadiran kosong menjadi hadir, tidak membatalkan catatan yang sudah ditolak, dan tidak menghitung JP secara otomatis.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Melengkapi atau mengoreksi waktu kehadiran",
+          "intro": "Gunakan tindakan pada baris peserta untuk memperbaiki waktu berdasarkan data yang dapat dipertanggungjawabkan.",
+          "steps": [
+            "Pada tabel Kehadiran Peserta, pilih tindakan melengkapi/koreksi waktu.",
+            "Periksa nama peserta dan sesi, lalu isi waktu datang/pulang terverifikasi yang benar.",
+            "Isi alasan dan dasar verifikasi/bukti pendukung.",
+            "Simpan, muat ulang dan periksa kembali hasilnya. Hitung ulang JP bila perubahan memengaruhi perhitungan."
+          ],
+          "image": "37-koreksi-langsung.png",
+          "result": "Waktu terverifikasi diperbarui dan dapat dibedakan dari scan asli.",
+          "note": "Koreksi waktu tidak dipakai untuk membuat jam scan fiktif pada ketidakhadiran penuh. Gunakan status Presensi Manual yang sesuai untuk kondisi tersebut.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Menindaklanjuti pengajuan koreksi lama bila tersedia",
+          "intro": "Bagian **Pengajuan Koreksi Lama** hanya tampil bila terdapat pengajuan dari alur sebelumnya yang perlu diselesaikan.",
+          "steps": [
+            "Buka **Tinjau** pada pengajuan yang belum selesai.",
+            "Periksa usulan waktu, alasan dan dasar yang diberikan Petugas.",
+            "Isi alasan keputusan, lalu pilih **Setujui Koreksi** atau **Tolak**.",
+            "Periksa hasil dan muat ulang kehadiran/JP yang terkait."
+          ],
+          "image": "33-koreksi.png",
+          "result": "Pengajuan lama terselesaikan dengan keputusan yang tercatat.",
+          "note": "Bagian ini berbeda dari koreksi langsung dan Verifikasi Sesi. Tidak perlu membuat pengajuan lama baru untuk menjalankan alur pencatatan saat ini.",
+          "table": null,
+          "layout": "normal"
+        }
+      ]
+    },
+    {
+      "title": "Membaca rekap dan menghasilkan laporan",
+      "sections": [
+        {
+          "title": "Membaca Rekap Program dan mengunduh CSV",
+          "intro": "Buka tab **Rekap Program** pada Monitoring untuk program/Jenjang yang dipilih.",
+          "steps": [
+            "Periksa identitas peserta, JP diperoleh/acuan, kekurangan, persentase dan statusnya.",
+            "Baca nilai perilaku serta nilai keseluruhan beserta status kelengkapannya.",
+            "Gunakan pencarian bila diperlukan. Tekan **Muat Ulang Rekap** untuk sumber terbaru.",
+            "Tekan **Unduh CSV** ketika hasil siap, kemudian periksa nama program dan isi berkas yang diunduh."
+          ],
+          "image": "29-rekap.png",
+          "result": "Admin memperoleh rekap yang sesuai sumber dan dapat mengolah hasil CSV lebih lanjut.",
+          "note": "CSV juga memuat statistik kehadiran, keterlambatan, izin yang disetujui per sesi, catatan positif/negatif yang disetujui dan total poin catatan. Nilai yang belum tersedia dapat kosong; jangan diganti nol tanpa memeriksa sumbernya.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Memeriksa rincian nilai akhir peserta",
+          "intro": "Pada Rekap Program, gunakan **Rincian Nilai** untuk peserta yang akan diperiksa.",
+          "steps": [
+            "Baca komponen Pengajar dan Panitia, bobot program serta status hasil.",
+            "Periksa rincian setiap sesi dan keterangan nilai yang belum lengkap/tidak dinilai.",
+            "Tindak lanjuti nilai yang belum diisi atau perlu diperbarui pada formulir evaluasi terkait.",
+            "Muat ulang rekap setelah sumber diperbaiki."
+          ],
+          "image": "31-rincian-nilai.png",
+          "result": "Admin dapat menjelaskan asal nilai dan kelengkapannya.",
+          "note": "Bawaan nilai akhir memakai Pengajar 60% dan Panitia 40%, dengan aspek/sesi yang setara dalam masing-masing komponen. Ketidakhadiran penuh yang dicatat secara eksplisit dikecualikan dari sesi yang wajib dinilai. Sumber belum lengkap/tidak sesuai tetap sementara. JP, nilai perilaku dan evaluasi Pengajar oleh Admin merupakan hasil terpisah.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Mengatur bobot nilai akhir program",
+          "intro": "Lakukan perubahan bobot sesuai ketetapan instansi untuk program yang dipilih.",
+          "steps": [
+            "Pada Rekap Program, tekan **Bobot Nilai Akhir**.",
+            "Periksa nama program, lalu isi persentase **Pengajar (%)**. Persentase Panitia menyesuaikan; total harus 100%.",
+            "Isi **Alasan perubahan**, kemudian simpan.",
+            "Muat ulang dan periksa hasil pada Rekap Program."
+          ],
+          "image": "30-bobot.png",
+          "result": "Rekap menggunakan bobot program yang baru dengan alasan perubahan tercatat.",
+          "note": "Perubahan bobot bukan perubahan nilai aspek yang telah diisi. Jika memakai rekap spreadsheet, perbarui snapshot spreadsheet setelah sumber berubah.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Membuat laporan program",
+          "intro": "Laporan program tersedia bagi Admin untuk program berstatus **Selesai**.",
+          "steps": [
+            "Buka Pengelolaan dan pilih Program Tujuan.",
+            "Buka **Laporan Evaluasi Program**. Periksa ringkasan serta peringatan yang ditampilkan.",
+            "Tekan **Buat PDF** dan tunggu sampai proses selesai.",
+            "Tekan **Unduh PDF** setelah berkas tersedia. Periksa nama program, tanggal dan kelengkapan isi laporan."
+          ],
+          "image": "12-laporan.png",
+          "result": "Berkas laporan program dapat disimpan sebagai bahan pendukung.",
+          "note": "Tombol Buat PDF di sini adalah fitur laporan program pada aplikasi. Keputusan akhir pelatihan tetap berada pada ketua tim kerja. Lengkapi sumber terlebih dahulu bila peringatan menyatakan data belum memadai.",
+          "table": null,
+          "layout": "normal"
+        }
+      ]
+    },
+    {
+      "title": "Memeriksa, mengubah dan menghapus data",
+      "sections": [
+        {
+          "title": "Memeriksa konsistensi data",
+          "intro": "Gunakan bagian **Periksa Data** pada Pengelolaan untuk menemukan data yang perlu ditinjau.",
+          "steps": [
+            "Pilih cakupan pemeriksaan yang tersedia. Untuk pemeriksaan program, tentukan Program Tujuan.",
+            "Tekan **Periksa Data Sekarang**.",
+            "Baca hasil yang ditampilkan, lalu tinjau data terkait sebelum melakukan perubahan.",
+            "Perbaiki melalui formulir yang sesuai dan ulangi pemeriksaan bila diperlukan."
+          ],
+          "image": "41-periksa-data.png",
+          "result": "Admin mengetahui data yang perlu dilengkapi atau diperbaiki.",
+          "note": "Gunakan hasil pemeriksaan sebagai petunjuk penelusuran. Hindari mengubah identitas atau hubungan data berdasarkan dugaan.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Mengubah data yang sudah tersimpan",
+          "intro": "Tindakan Edit tersedia pada daftar program, sesi, peserta atau data lain yang mendukungnya.",
+          "steps": [
+            "Temukan data tujuan dan pilih **Edit**.",
+            "Periksa jenis serta identitas data, lalu ubah kolom yang diperlukan.",
+            "Isi **Alasan perubahan**, kemudian simpan.",
+            "Periksa hasil pada daftar dan perbarui rekap terkait bila sumber hasil berubah."
+          ],
+          "image": "35-edit.png",
+          "result": "Perubahan tersimpan dengan alasan yang dapat ditelusuri.",
+          "note": "Jika penyimpanan menyatakan data berubah sejak dibuka, muat ulang terlebih dahulu lalu tinjau perubahan terbaru.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Menghapus data melalui pratinjau dampak",
+          "intro": "Penghapusan dapat mengikutsertakan data yang berkaitan. Baca pratinjau sebelum mengonfirmasi.",
+          "steps": [
+            "Buka data melalui Edit atau tindakan hapus yang tersedia, lalu pilih penghapusan.",
+            "Periksa target, jumlah dan rincian data terkait yang akan terdampak.",
+            "Isi alasan, ketik ID konfirmasi yang diminta dan centang pernyataan pemahaman setelah benar-benar diperiksa.",
+            "Pilih **Hapus Data Terkait**, lalu selesaikan konfirmasi akhir bila ditampilkan.",
+            "Tunggu hasil, kemudian periksa daftar. Jika hasil belum terkonfirmasi, gunakan pemeriksaan/lanjutan transaksi yang sama."
+          ],
+          "image": "36-hapus.png",
+          "result": "Data tujuan dihapus sesuai dampak yang sudah dikonfirmasi.",
+          "note": "Aplikasi menyatakan pemulihan otomatis belum tersedia. Jangan mengulang dengan permintaan baru saat transaksi sebelumnya masih perlu diperiksa.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Melanjutkan proses yang terhenti",
+          "intro": "Gunakan tombol pemulihan yang sesuai dengan jenis proses, bukan membuat proses baru untuk hasil yang belum jelas.",
+          "steps": [],
+          "image": null,
+          "result": "Admin dapat menentukan tindakan lanjutan berdasarkan status proses yang ditampilkan.",
+          "note": "Jika proses tetap ditahan atau petunjuk tidak cukup, catat pesan yang tampil dan minta bantuan penanggung jawab aplikasi. Jangan menghapus riwayat atau mengubah data sumber secara manual hanya untuk melewati penahanan.",
+          "table": {
+            "headers": [
+              "Proses",
+              "Tindakan lanjutan"
+            ],
+            "rows": [
+              [
+                "Impor peserta",
+                "Gunakan Lanjutkan Impor untuk melanjutkan proses yang sama."
+              ],
+              [
+                "Pembuatan sesi",
+                "Gunakan tombol lanjutan pembuatan sesi yang tersedia pada Pengelolaan."
+              ],
+              [
+                "Edit data",
+                "Gunakan Pulihkan Edit Tertunda, lalu muat ulang daftar."
+              ],
+              [
+                "Penghapusan",
+                "Periksa Transaksi yang Perlu Diperiksa dan gunakan Periksa / lanjutkan pada transaksi tujuan."
+              ],
+              [
+                "Rekap spreadsheet",
+                "Jalankan Perbarui Rekap Spreadsheet kembali dan periksa status/waktu hasil."
+              ]
+            ]
+          },
+          "layout": "normal"
+        }
+      ]
+    },
+    {
+      "title": "Mengakhiri pekerjaan dan menangani kendala",
+      "sections": [
+        {
+          "title": "Mengakhiri pekerjaan",
+          "intro": "Pastikan setiap formulir yang diubah sudah disimpan atau dibatalkan dengan benar.",
+          "steps": [
+            "Periksa kembali program/sesi yang baru dikerjakan dan konfirmasi penyimpanan yang tampil.",
+            "Selesaikan penilaian atau perubahan yang belum disimpan sebelum berpindah halaman.",
+            "Pilih **Log Out** pada menu aplikasi setelah selesai."
+          ],
+          "image": null,
+          "result": "Halaman login tampil kembali dan pekerjaan yang sudah disimpan tetap tersedia.",
+          "note": "Menutup browser saja tidak selalu mengakhiri sesi. Pada perangkat bersama, gunakan Log Out setelah selesai.",
+          "table": null,
+          "layout": "normal"
+        },
+        {
+          "title": "Kendala yang umum dijumpai",
+          "intro": "Gunakan petunjuk berikut untuk menelusuri kendala tanpa mengubah data secara sembarang.",
+          "steps": [],
+          "image": null,
+          "result": "",
+          "note": "",
+          "table": {
+            "headers": [
+              "Kondisi",
+              "Yang dapat dilakukan Admin"
+            ],
+            "rows": [
+              [
+                "Akun tidak dapat masuk",
+                "Periksa email Google, status aktif dan peran pada Manajemen Akses. Gunakan Verifikasi Akun bila perlu."
+              ],
+              [
+                "Petugas tidak melihat kelas",
+                "Periksa penugasan Program/Jenjang yang aktif. Untuk Pengajar, periksa Pengajar Sesi."
+              ],
+              [
+                "Jenjang tidak dapat dipilih",
+                "Pilih Program terlebih dahulu dan periksa Jenjang yang tersedia."
+              ],
+              [
+                "Belum absen",
+                "Konfirmasi kondisi peserta. Catat manual bila diperlukan; jangan otomatis dianggap Alpa."
+              ],
+              [
+                "Menunggu perhitungan JP",
+                "Lengkapi data yang diperlukan, lalu jalankan Hitung JP Sesi."
+              ],
+              [
+                "Evaluasi belum bisa diisi",
+                "Periksa jadwal akhir sesi dan penugasan Pengajar."
+              ],
+              [
+                "Nilai kosong atau sementara",
+                "Periksa kelengkapan evaluasi, sumber yang berubah dan rincian sesi. Jangan menganggap kosong sebagai nol."
+              ],
+              [
+                "QR ditolak atau kedaluwarsa",
+                "Periksa sesi, jenis datang/pulang dan masa berlaku QR; terbitkan kembali bila perlu."
+              ],
+              [
+                "Simpan gagal atau hasil belum jelas",
+                "Periksa pesan dan status proses yang sama; gunakan langkah lanjutan/pemulihan yang tersedia."
+              ],
+              [
+                "Laporan belum tersedia",
+                "Periksa bahwa program telah berstatus Selesai dan sumber yang diperlukan dapat dibaca."
+              ]
+            ]
+          },
+          "layout": "normal"
+        }
+      ]
+    }
+  ]
+}

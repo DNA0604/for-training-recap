@@ -5,6 +5,7 @@ Jangan salin atau mencuri data ini tanpa persetujuan pemilik. Data ini merupakan
 
 Repository khusus kode aplikasi Google Apps Script untuk rekapitulasi dan monitoring pelatihan pegawai Pusat Pengembangan Aparatur Komdigi.
 
+- [Panduan Admin Pelatihan — Word yang dapat disunting](apps-script/absensi-dashboard/panduan/admin/README.md)
 - [Rancangan panduan bergambar dan contoh halaman](apps-script/absensi-dashboard/panduan/README.md)
 - [Pemuatan data utama: perbaikan 10 November](apps-script/absensi-dashboard/docs/PEMUATAN_PRIORITAS_UTAMA.md)
 - [Verifikasi Akun pada halaman login](apps-script/absensi-dashboard/docs/VERIFIKASI_AKUN_LOGIN.md)

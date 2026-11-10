@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-10 — illustrated editable Word manual for Admin
+- Created the first role manual: Panduan_Admin_Pelatihan.docx, version 1.0, with 12 chapters, 44 tasks and 39 illustrations. Instructions/headings/captions/170 numbered steps/9 tables remain editable Word elements; no flattened document pages or final PDF.
+- Captured 41 current server-rendered UI illustrations with synthetic fixtures/mocked Google; retained source selectors/hashes. Covers operational Admin workflows through evaluations, recap, reports and recovery while excluding performance history.
+- DOCX structure/content, native fields, local 46-page rendering and chapter page references checked. All 19 production source hashes unchanged; no Google data/deployment/main changes. User review pending; other three manuals/video remain pending.
+
 ## 2026-11-10 — final manual format: editable Word
 - User found the visual sample sufficient and requested four editable .docx manuals as final deliverables, so they can change wording independently. Text/headings/steps/captions/tables remain native Word elements; screenshots are inserted images.
 - Existing PDF is a layout sample only. No final PDF manuals or full role manuals generated in this planning update; no application/deployment changes.
