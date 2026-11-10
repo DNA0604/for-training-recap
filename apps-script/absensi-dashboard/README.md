@@ -13,6 +13,10 @@ Preview files and Hasil-Pengujian.txt inherited from the older UI branch are his
 
 See SOURCE_SNAPSHOT.json for SHA-256 hashes of all 19 current HTML/GS source files, including the Jenjang preparation tools and report layout/assets.
 
+## Pemuatan data utama (10 November 2026)
+
+Branch **perf/pemuatan-prioritas-utama**: ganti **Akses.gs, Index.html, Peserta.html dan Pengelolaan.html** bersama-sama. Menghapus pembacaan awal Peserta yang ganda, menyiapkan parameter tautan secara paralel, mendahulukan kehadiran Monitoring dan mengurangi pembacaan sumber ringkasan Pengelolaan dalam satu permintaan. Fitur lain mengikuti versi sebelumnya; tidak perlu file/sheet baru. [Pemasangan, bukti lokal dan pengukuran Google](docs/PEMUATAN_PRIORITAS_UTAMA.md).
+
 ## Verifikasi Akun (9 November 2026)
 
 Branch **feat/verifikasi-akun-login**: ganti **Akses.gs** lengkap dari branch ini. Tombol Verifikasi Akun menggantikan kotak informasi peran, mencocokkan identitas dengan akun aktif yang didaftarkan Admin, lalu kembali ke tampilan login yang sama. Login aplikasi tetap terpisah dengan batas empat jam. Tidak perlu file/sheet/konfigurasi OAuth baru. [Pemasangan dan alur](docs/VERIFIKASI_AKUN_LOGIN.md).

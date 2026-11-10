@@ -1412,25 +1412,23 @@ dialog button.modal-close:disabled {opacity:.5;cursor:wait;}
         resetCheckData();
         await Promise.allSettled([loadManage(), loadParticipantSummary()]);
       }
+      function initialPageParameters() {
+        return new Promise(resolve => {
+          let settled = false;
+          const finish = parameters => {if (settled) return; settled = true; clearTimeout(timer); resolve(parameters || {});};
+          const timer = setTimeout(() => finish({}), 700);
+          try {google.script.url.getLocation(loc => finish(loc && loc.parameter));}
+          catch (ignored) {finish({});}
+        });
+      }
       async function init() {
         message("Memeriksa akses dan memuat program…");
+        const parameters = initialPageParameters();
         try {
           await reloadPrograms();
           $("app").classList.remove("hidden");
           $("blocked").classList.add("hidden");
-          let para = {};
-          try {
-            para = await new Promise((resolve) => {
-              try {
-                google.script.url.getLocation((loc) =>
-                  resolve((loc && loc.parameter) || {}),
-                );
-              } catch (ignored) {
-                resolve({});
-              }
-              setTimeout(() => resolve({}), 700);
-            });
-          } catch (ignored) {}
+          const para = await parameters;
           if (
             para.program &&
             allPrograms.some((r) => r.id_program === para.program)

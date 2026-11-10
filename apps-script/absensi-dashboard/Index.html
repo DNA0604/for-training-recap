@@ -2071,7 +2071,15 @@ dialog button.modal-close:disabled {opacity:.5;cursor:wait;}
               : "") + window.jenjangNavigationParam();
       }
       let monitoringJenjang=[],modernJenjang=false;
+      function initialPageParameters() {
+        // Retain a late Google location callback instead of dropping a direct session link.
+        return new Promise(resolve => {
+          try {google.script.url.getLocation(loc => resolve((loc && loc.parameter) || {}));}
+          catch (ignored) {resolve({});}
+        });
+      }
       async function init() {
+        const parameters = initialPageParameters();
         $("blocked").classList.add("hidden");
         $("app").classList.add("hidden");
         message("Memeriksa akses dan memuat program…");
@@ -2099,12 +2107,18 @@ dialog button.modal-close:disabled {opacity:.5;cursor:wait;}
           clearData();
           $("app").classList.remove("hidden");
           controls();
-          preselectMonitoring();
           message(
             "Pilih kategori, jenjang, program, dan sesi untuk mulai menguji absensi. Zona waktu: " +
               zone +
               ".",
           );
+          // If Google location is unavailable, history can still appear while no attendance load is running.
+          const supplementaryFallback = setTimeout(() => {
+            if (!loading) window.dispatchEvent(new Event("pelatihan-monitoring-siap"));
+          }, 700);
+          try {preselectMonitoring(await parameters);}
+          finally {clearTimeout(supplementaryFallback);}
+          if (!loading) window.dispatchEvent(new Event("pelatihan-monitoring-siap"));
         } catch (e) {
           message(e.message || "Panel gagal dimuat.", "error");
           $("blocked").classList.remove("hidden");
@@ -2194,6 +2208,7 @@ dialog button.modal-close:disabled {opacity:.5;cursor:wait;}
           if (seq === loadSequence) {
             loading = false;
             controls();
+            window.dispatchEvent(new Event("pelatihan-monitoring-siap"));
           }
         }
       }
@@ -4562,32 +4577,25 @@ dialog button.modal-close:disabled {opacity:.5;cursor:wait;}
       $("refreshRecap").addEventListener("click", loadRecap);
       $("recapSearch").addEventListener("input", renderRecap);
       $("calculate").addEventListener("click", calculateJP);
-      function preselectMonitoring() {
-        try {
-          google.script.url.getLocation((loc) => {
-            const para = (loc && loc.parameter) || {},
-              p = allPrograms.find(
-                (p) => p.id_program === String(para.program || ""),
-              );
-            if (!p) return;
-            $("kategori").value = JSON.stringify(p.kategori_pelatihan);
-            $("kategori").dispatchEvent(new Event("change"));
-            if(modernJenjang){$("program").value=p.id_program;$("program").dispatchEvent(new Event('change'));const target=allSessions.find(s=>s.id_sesi===String(para.sesi||'')&&s.id_program===p.id_program),j=target?target.id_jenjang:String(para.jenjang||'');if(monitoringJenjang.some(x=>x.id_program===p.id_program&&x.id===j)){$("jenjang").value=j;$("jenjang").dispatchEvent(new Event('change'));}if(target){$("sesi").value=target.id_sesi;$("sesi").dispatchEvent(new Event('change'));}return;}
-            $("jenjang").value = JSON.stringify(p.jenjang);
-            $("jenjang").dispatchEvent(new Event("change"));
-            $("program").value = p.id_program;
-            $("program").dispatchEvent(new Event("change"));
-            if (
-              para.sesi &&
-              allSessions.some(
-                (s) => s.id_sesi === para.sesi && s.id_program === p.id_program,
-              )
-            ) {
-              $("sesi").value = para.sesi;
-              $("sesi").dispatchEvent(new Event("change"));
-            }
-          });
-        } catch (ignored) {}
+      function preselectMonitoring(para) {
+        const p = allPrograms.find(p => p.id_program === String(para.program || ""));
+        if (!p) return;
+        $("kategori").value = JSON.stringify(p.kategori_pelatihan);
+        $("kategori").dispatchEvent(new Event("change"));
+        if (modernJenjang) {
+          $("program").value=p.id_program;$("program").dispatchEvent(new Event('change'));
+          const target=allSessions.find(s=>s.id_sesi===String(para.sesi||'')&&s.id_program===p.id_program),j=target?target.id_jenjang:String(para.jenjang||'');
+          if(monitoringJenjang.some(x=>x.id_program===p.id_program&&x.id===j)){$("jenjang").value=j;$("jenjang").dispatchEvent(new Event('change'));}
+          if(target){$("sesi").value=target.id_sesi;$("sesi").dispatchEvent(new Event("change"));}
+          return;
+        }
+        $("jenjang").value = JSON.stringify(p.jenjang);
+        $("jenjang").dispatchEvent(new Event("change"));
+        $("program").value = p.id_program;
+        $("program").dispatchEvent(new Event("change"));
+        if (para.sesi && allSessions.some(s=>s.id_sesi===para.sesi&&s.id_program===p.id_program)) {
+          $("sesi").value=para.sesi;$("sesi").dispatchEvent(new Event("change"));
+        }
       }
       function isiSesiJenjang(){options($("sesi"),'Pilih sesi',allSessions.filter(s=>s.id_program===$("program").value&&s.id_jenjang===$("jenjang").value).map(s=>({id:s.id_sesi,label:s.nama_sesi+' · '+s.id_sesi})));controls();}
       $("program").addEventListener("change", () => {

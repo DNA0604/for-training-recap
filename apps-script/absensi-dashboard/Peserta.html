@@ -1279,7 +1279,7 @@ dialog button.modal-close:disabled {opacity:.5;cursor:wait;}
           (participantPage + 1) * 50 >= participantTotal;
         updateNavigation();
       }
-      async function changeProgram() {
+      async function changeProgram(initialJenjang) {
         if (saving || importRun) {
           $("program").value = importRun
             ? importRun.program
@@ -1291,7 +1291,7 @@ dialog button.modal-close:disabled {opacity:.5;cursor:wait;}
         const js=participantJenjangList.filter(j=>j.id_program===activeParticipantProgram);
         $("participantJenjangField").hidden=!participantJenjangActive;
         options($("participantJenjang"),activeParticipantProgram?'Semua Jenjang (lihat)':'Pilih program terlebih dahulu',js.map(j=>({id:j.id,label:j.nama})));
-        $("participantJenjang").value=js.length===1?js[0].id:'';
+        $("participantJenjang").value=js.some(j=>j.id===initialJenjang)?initialJenjang:js.length===1?js[0].id:'';
         ++participantSeq;
         participantLoading = false;
         participantPage = 0;
@@ -1312,25 +1312,23 @@ dialog button.modal-close:disabled {opacity:.5;cursor:wait;}
       async function refreshAfterEdit() {
         await loadParticipants();
       }
+      function initialPageParameters() {
+        return new Promise(resolve => {
+          let settled = false;
+          const finish = parameters => {if (settled) return; settled = true; clearTimeout(timer); resolve(parameters || {});};
+          const timer = setTimeout(() => finish({}), 700);
+          try {google.script.url.getLocation(loc => finish(loc && loc.parameter));}
+          catch (ignored) {finish({});}
+        });
+      }
       async function init() {
         message("Memeriksa akses dan memuat program…");
+        const parameters = initialPageParameters();
         try {
           await reloadPrograms();
           $("app").classList.remove("hidden");
           $("blocked").classList.add("hidden");
-          let para = {};
-          try {
-            para = await new Promise((resolve) => {
-              try {
-                google.script.url.getLocation((loc) =>
-                  resolve((loc && loc.parameter) || {}),
-                );
-              } catch (ignored) {
-                resolve({});
-              }
-              setTimeout(() => resolve({}), 700);
-            });
-          } catch (ignored) {}
+          const para = await parameters;
           if (
             para.program &&
             allPrograms.some((r) => r.id_program === para.program)
@@ -1339,8 +1337,7 @@ dialog button.modal-close:disabled {opacity:.5;cursor:wait;}
           message(
             "Peserta didaftarkan sekali pada satu Jenjang per program dan tersedia pada seluruh sesi Jenjangnya.",
           );
-          await changeProgram();
-          if(para.jenjang&&[...$("participantJenjang").options].some(o=>o.value===para.jenjang)){$("participantJenjang").value=para.jenjang;$("participantJenjang").dispatchEvent(new Event("change"));}
+          await changeProgram(para.jenjang);
         } catch (e) {
           message(e.message || "Halaman gagal dimuat.", "error");
           $("blocked").classList.remove("hidden");
