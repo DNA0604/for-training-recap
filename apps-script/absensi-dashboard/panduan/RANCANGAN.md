@@ -15,7 +15,7 @@ Tanggal: 10 November 2026. Acuan aplikasi: `7dacfb0`.
 | Dokumen yang direncanakan | Fokus penggunaan | Kelompok gambar yang disiapkan |
 | --- | --- | --- |
 | Panduan Admin Pelatihan | Pengelolaan program, Jenjang, sesi, peserta dan akses; pemantauan, validasi, evaluasi, rekap dan laporan | Login, Beranda, Pengelolaan, Peserta Program, Monitoring dan formulir terkait, Rekap Program, unduh laporan, Manajemen Akses |
-| Panduan Petugas Kelas | Pelaksanaan kelas sesuai penugasan, presensi QR/manual, izin, catatan perilaku, evaluasi peserta oleh panitia dan pengajuan koreksi | Login, pemilihan Program/Jenjang/Sesi, Presensi dan pilihannya, formulir izin/perilaku, evaluasi panitia, pengajuan koreksi |
+| Panduan Petugas Kelas | Pelaksanaan kelas sesuai penugasan, presensi QR/manual, izin, catatan perilaku, evaluasi peserta oleh panitia, koreksi waktu langsung dan pengajuan verifikasi sesi | Login, pemilihan Program/Jenjang/Sesi, Presensi dan pilihannya, formulir izin/perilaku, evaluasi panitia, koreksi dan verifikasi sesi |
 | Panduan Pengajar | Sesi yang ditugaskan, informasi peserta yang tersedia dan evaluasi peserta | Login, Beranda/penugasan, pemilihan sesi, daftar peserta, formulir evaluasi peserta dan konfirmasi penyimpanan |
 | Panduan Singkat Peserta | Presensi datang/pulang melalui QR, direncanakan sekitar 1–2 halaman | Membuka QR, halaman presensi, pengisian identitas dan jenis presensi, konfirmasi hasil atau petunjuk kendala |
 
@@ -30,7 +30,7 @@ Nama file yang direncanakan:
 3. `Panduan_Pengajar.docx`
 4. `Panduan_Singkat_Peserta.docx`
 
-Gunakan gaya judul, paragraf dan daftar bernomor Word yang konsisten agar redaksi dapat diganti tanpa bantuan pengembang. Isi satu halaman tidak diratakan menjadi gambar utuh; gambar halaman aplikasi tetap menjadi ilustrasi di antara teks yang bisa diedit. Dokumen final tidak langsung diekspor ke PDF. Panduan Admin Pelatihan versi 1.0 kini sudah dibuat dalam Word. Tiga file peran lain belum dibuat. Lihat [dokumen Admin](admin/README.md).
+Gunakan gaya judul, paragraf dan daftar bernomor Word yang konsisten agar redaksi dapat diganti tanpa bantuan pengembang. Isi satu halaman tidak diratakan menjadi gambar utuh; gambar halaman aplikasi tetap menjadi ilustrasi di antara teks yang bisa diedit. Dokumen final tidak langsung diekspor ke PDF. Panduan Admin Pelatihan versi 1.0 telah diterima pengguna. Panduan Petugas Kelas versi 1.0 sudah dibuat dalam Word dan menunggu peninjauan. Panduan Pengajar dan Peserta belum dibuat. Lihat [dokumen Admin](admin/README.md) dan [dokumen Petugas](petugas/README.md).
 
 ## Pola satu petunjuk penggunaan
 
@@ -62,4 +62,4 @@ Nomor pada gambar adalah penunjuk dalam panduan. Nomor bukan bagian dari antarmu
 - penjelasan bahwa verifikasi terpisah digunakan bila diperlukan, bukan langkah wajib setiap masuk;
 - hasil yang diharapkan dan keterangan masa sesi empat jam.
 
-Contoh ini menggunakan A4 potret dan identitas Komdigi untuk memperlihatkan keterbacaan, bukan menetapkan desain sampul atau keseluruhan isi buku. Struktur bab, jumlah halaman dan inventaris gambar lengkap masih akan dikembangkan pada tahap penyusunan detail. Contoh ini menjadi acuan penyusunan. Panduan Admin kini tersedia; tiga panduan lain masih menunggu penyusunan.
+Contoh ini menggunakan A4 potret dan identitas Komdigi untuk memperlihatkan keterbacaan, bukan menetapkan desain sampul atau keseluruhan isi buku. Struktur bab, jumlah halaman dan inventaris gambar lengkap masih akan dikembangkan pada tahap penyusunan detail. Contoh ini menjadi acuan penyusunan. Panduan Admin telah diterima dan panduan Petugas kini tersedia untuk ditinjau; panduan Pengajar dan Peserta masih menunggu penyusunan.

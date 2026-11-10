@@ -1,0 +1,23 @@
+{
+  "application_source": "7dacfb0",
+  "format": "editable .docx",
+  "chapters": 9,
+  "sections": 30,
+  "figures_used": 24,
+  "native_paragraphs": 412,
+  "native_tables": 7,
+  "native_numbered_steps": 109,
+  "embedded_image_files": 25,
+  "screenshots_captured": 24,
+  "restricted_admin_teacher_methods_denied": 6,
+  "production_source_hashes_unchanged": 19,
+  "accepted_admin_docx_unchanged": true,
+  "docx_sha256": "39d08cd351153e93f52d17fac1441439b731b85ddfa075ee7a042155d4d28cdc",
+  "excludes_performance_history": true,
+  "local_render": {
+    "engine": "LibreOffice, QA only; no PDF delivered",
+    "pages": 32,
+    "chapter_page_references_match": true,
+    "no_blank_pages_or_out_of_page_text": true
+  }
+}

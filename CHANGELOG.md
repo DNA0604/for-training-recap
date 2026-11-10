@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-10 — illustrated editable Word manual for Petugas Kelas
+- User accepted the Admin guide and requested Petugas next. Added Panduan_Petugas_Kelas.docx v1.0: 9 chapters, 30 tasks, 24 role-specific screenshots, 109 native numbered steps and 7 editable tables. Accepted Admin files remain unchanged.
+- Covers assigned classes, roster/profile viewing, attendance/absence/leave/corrections, behavior notes, Panitia evaluation, verification submission/pending/rejection/resubmission, JP follow-up and scoped recap/CSV/final details. Admin decisions/calculations and teacher-only evaluations are clearly separated.
+- Current server-rendered UI captured using synthetic staff-scoped backend fixtures/mocked Google; six restricted methods remain denied. Word/content/image/source checks and local 32-page pagination passed. Word plus PNG previews delivered; temporary QA PDF excluded. All 19 app sources unchanged at 7dacfb0, no Google data/deployment/main changes. Petugas user review and Pengajar/Peserta/video remain pending.
+
 ## 2026-11-10 — illustrated editable Word manual for Admin
 - Created the first role manual: Panduan_Admin_Pelatihan.docx, version 1.0, with 12 chapters, 44 tasks and 39 illustrations. Instructions/headings/captions/170 numbered steps/9 tables remain editable Word elements; no flattened document pages or final PDF.
 - Captured 41 current server-rendered UI illustrations with synthetic fixtures/mocked Google; retained source selectors/hashes. Covers operational Admin workflows through evaluations, recap, reports and recovery while excluding performance history.
