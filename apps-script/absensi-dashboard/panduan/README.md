@@ -1,17 +1,18 @@
 # Rancangan panduan penggunaan bergambar
 
-Empat panduan akan dibuat terpisah untuk **Admin Pelatihan, Petugas Kelas, Pengajar**, serta **panduan singkat Peserta**. Pengguna menghendaki gambar halaman aplikasi agar langkah lebih mudah diikuti. **Format hasil akhir yang disepakati adalah Microsoft Word (.docx)**, supaya judul, uraian dan langkah dapat disunting langsung. Contoh PDF di bawah hanya menunjukkan tata letak yang sudah ditinjau, bukan format penyerahan akhir.
+Tiga panduan dibuat terpisah untuk **Admin Pelatihan, Petugas Kelas dan Pengajar**. Pengguna membatalkan panduan Peserta karena peserta hanya menggunakan presensi. Panduan dilengkapi gambar halaman aplikasi agar langkah lebih mudah diikuti. **Format hasil akhir yang disepakati adalah Microsoft Word (.docx)**, supaya judul, uraian dan langkah dapat disunting langsung. Contoh PDF di bawah hanya menunjukkan tata letak yang sudah ditinjau, bukan format penyerahan akhir.
 
-**Panduan Admin Pelatihan versi 1.0 telah diterima pengguna. Panduan Petugas Kelas versi 1.0 sudah disusun dalam Word** dengan 9 bab, 30 petunjuk dan 24 gambar sesuai akses Petugas, untuk ditinjau pengguna. Panduan Pengajar dan Peserta belum disusun. Rancangan serta contoh halaman awal tetap disimpan sebagai riwayat format yang telah dibahas.
+**Ketiga panduan versi 1.0 sudah tersedia dalam Word.** Panduan Admin telah diterima pengguna; panduan Petugas telah diserahkan. Panduan Pengajar kini tersedia untuk ditinjau, dengan 6 bab, 22 petunjuk dan 17 gambar sesuai aksesnya. Rancangan serta contoh halaman awal tetap disimpan sebagai riwayat format yang telah dibahas. Video dan penyerahan kepada instansi tetap pekerjaan terpisah.
 
 - **[Panduan Admin Pelatihan — unduh Word dan pratinjau](admin/README.md)**
 - **[Panduan Petugas Kelas — unduh Word dan pratinjau](petugas/README.md)**
+- **[Panduan Pengajar — unduh Word dan pratinjau](pengajar/README.md)**
 - [Rancangan pembagian dan penggunaan gambar](RANCANGAN.md)
 - [Contoh halaman login — PDF, satu halaman](contoh/Contoh_Halaman_Panduan_Login.pdf)
 - [Pratinjau contoh halaman — gambar](contoh/contoh-panduan-login.png)
 - [Sumber HTML contoh halaman](contoh/contoh-panduan-login.html)
 
-Contoh login ditujukan untuk tiga pengguna yang memiliki akun aplikasi. Panduan Peserta akan memakai tampilan presensi QR, tanpa petunjuk login pengelola.
+Contoh login ditujukan untuk ketiga pengguna yang memiliki akun aplikasi. Presensi Peserta tetap menggunakan alur QR publik; tidak ada buku panduan Peserta yang perlu disusun dalam cakupan terbaru.
 
 Gambar berasal dari renderer aplikasi sebenarnya dengan layanan Google disimulasikan dan data uji. Ini bukan tangkapan sesi Google milik pengguna. Metadata pengambilan ada di [SUMBER_GAMBAR.json](contoh/SUMBER_GAMBAR.json). Nomor penunjuk dibuat pada tata letak dokumen; gambar antarmuka dasarnya tetap disimpan tersendiri.
 

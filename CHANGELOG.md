@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-10 — final role guide: Pengajar; participant guide cancelled
+- User requested Pengajar as the last guide and cancelled the participant manual. Current manual scope is three separate illustrated editable Word files: Admin, Petugas and Pengajar. Video/handover remain separate pending work.
+- Added Panduan_Pengajar.docx v1.0 with 6 chapters, 22 tasks and 17 current role-specific screenshots; 76 native numbered steps and 6 editable tables. Covers session-scoped reading, six-aspect evaluation, per-page saves, results/pagination, edits/source-change review and logout/troubleshooting; excludes performance history.
+- Actual server-rendered UI captured using synthetic teacher-scoped backend fixtures/mocked Google; 11 restricted methods or other-session calls denied and combined grades withheld. Word/XML/content/image/source checks and local 24-page rendering/page references passed. Prior Admin/Petugas documents and all 19 application sources unchanged at 7dacfb0. Word and PNG previews only; QA PDF outside repository. No Google data/deployment/main changes; Pengajar review pending.
+
 ## 2026-11-10 — illustrated editable Word manual for Petugas Kelas
 - User accepted the Admin guide and requested Petugas next. Added Panduan_Petugas_Kelas.docx v1.0: 9 chapters, 30 tasks, 24 role-specific screenshots, 109 native numbered steps and 7 editable tables. Accepted Admin files remain unchanged.
 - Covers assigned classes, roster/profile viewing, attendance/absence/leave/corrections, behavior notes, Panitia evaluation, verification submission/pending/rejection/resubmission, JP follow-up and scoped recap/CSV/final details. Admin decisions/calculations and teacher-only evaluations are clearly separated.

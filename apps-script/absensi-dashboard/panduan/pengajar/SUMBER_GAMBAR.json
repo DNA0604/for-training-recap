@@ -1,0 +1,142 @@
+{
+  "source_application": "7dacfb0",
+  "role": "pengajar",
+  "capture": "Current server-injected HTML, actual teacher-scoped synthetic backend fixtures; Google mocked; no real data or application changes.",
+  "permissions_checked": {
+    "hitungJPSesiIndex": "AKSES_DITOLAK: Tindakan ini tidak tersedia bagi Pengajar.",
+    "muatKelolaProgramIndex": "AKSES_DITOLAK: Tindakan ini tidak tersedia bagi Pengajar.",
+    "muatManajemenAksesPanitia": "AKSES_DITOLAK: Tindakan ini tidak tersedia bagi Pengajar.",
+    "muatEvaluasiPengajarSesi": "AKSES_DITOLAK: Tindakan ini tidak tersedia bagi Pengajar.",
+    "muatEvaluasiPanitiaSesi": "AKSES_DITOLAK: Tindakan ini tidak tersedia bagi Pengajar.",
+    "muatBobotNilaiAkhirIndex": "AKSES_DITOLAK: Tindakan ini tidak tersedia bagi Pengajar.",
+    "terbitkanQRAbsensiDariGenerator": "AKSES_DITOLAK: Tindakan ini tidak tersedia bagi Pengajar.",
+    "simpanKoreksiIndex": "AKSES_DITOLAK: Tindakan ini tidak tersedia bagi Pengajar.",
+    "simpanCatatanPerilakuIndex": "AKSES_DITOLAK: Tindakan ini tidak tersedia bagi Pengajar.",
+    "muatVerifikasiSesiPanitia": "AKSES_DITOLAK: Tindakan ini tidak tersedia bagi Pengajar.",
+    "muatEvaluasiPesertaSesi": "AKSES_DITOLAK: Target berada di luar penugasan Jenjang Anda."
+  },
+  "images": [
+    {
+      "file": "assets/01-login.png",
+      "selector": ".login-content",
+      "caption": "Login dan Verifikasi Akun Pengajar",
+      "markers": [
+        "#panitiaVerify",
+        "#panitiaLogin"
+      ],
+      "sha256": "b896ed8d2e2bc1551eb5c0aa467f6db22da00909886b4b9a4c5c2626dc88f136"
+    },
+    {
+      "file": "assets/02-beranda.png",
+      "selector": "#dashContent",
+      "caption": "Beranda dalam cakupan sesi mengajar",
+      "markers": [],
+      "sha256": "a55141f9277f04310bc9914b7f4ff73ba8aa924be1ff6351eb3711b105c54bfa"
+    },
+    {
+      "file": "assets/03-menu.png",
+      "selector": "#dashSidebar",
+      "caption": "Menu yang tersedia untuk Pengajar",
+      "markers": [],
+      "sha256": "8fda4b4e33340afdb93026f7879a9f95b337cd4db513e98c4afa2fc568f03c35"
+    },
+    {
+      "file": "assets/04-peserta.png",
+      "selector": "#app",
+      "caption": "Daftar peserta dalam cakupan kelas Pengajar",
+      "markers": [],
+      "sha256": "4416e401adf9aacddfd48caf25614a27eb5b8c6d42caf3263cb80a87e1d52437"
+    },
+    {
+      "file": "assets/05-profil.png",
+      "selector": "#content",
+      "caption": "Profil peserta yang dapat dibaca Pengajar",
+      "markers": [],
+      "sha256": "4a01e6feee435158796bf9f642c190e6139a342d0d7644dd641b81e1b755be1e"
+    },
+    {
+      "file": "assets/06-filter-sesi.png",
+      "selector": "section:has(#calculate)",
+      "caption": "Pilihan Program, Jenjang dan Sesi sesuai penugasan Pengajar",
+      "markers": [],
+      "sha256": "f414609b20d03398ffcd58edadfa40bd23055df9d5fe9b5933b2e6959f981f32"
+    },
+    {
+      "file": "assets/07-kehadiran.png",
+      "selector": "#sessionPanel",
+      "caption": "Pemantauan kehadiran peserta oleh Pengajar",
+      "markers": [],
+      "sha256": "e427937de2e6f9ba002e742b9709e559d6cebf90d0ea94cb078b605f36f6e4ec"
+    },
+    {
+      "file": "assets/08-catatan.png",
+      "selector": "#behaviorPanel",
+      "caption": "Catatan perilaku yang dapat dibaca tanpa tindakan validasi",
+      "markers": [],
+      "sha256": "6b166c08686b1542a547ee269bcf493164cf38efacbb3f4de501247682f43c8d"
+    },
+    {
+      "file": "assets/09-izin.png",
+      "selector": "#izinPanel",
+      "caption": "Daftar izin pada sesi mengajar",
+      "markers": [],
+      "sha256": "954b5d79328e192ddda6769ad865d2e77d82dd3b247ecd8369c7e21d8103a5ac"
+    },
+    {
+      "file": "assets/10-rekap.png",
+      "selector": "#recapPanel",
+      "caption": "Rekap JP dalam cakupan Pengajar tanpa nilai akhir gabungan",
+      "markers": [],
+      "sha256": "f813c370879762c0f82247c7a533b97cc7e1b54c9fb0aab8ca8e6c31b3e335b4"
+    },
+    {
+      "file": "assets/11-pilihan-evaluasi.png",
+      "selector": "#evaluasiChoiceDialog",
+      "caption": "Pilihan Isi Evaluasi Peserta pada akses Pengajar",
+      "markers": [],
+      "sha256": "78c5c2543f9cfc2f5a6ee3750d7d31a26a57607ed371828d0c9c355b3bd7db8a"
+    },
+    {
+      "file": "assets/12-evaluasi-kosong.png",
+      "selector": "#evaluasiPesertaDialog",
+      "caption": "Evaluasi peserta enam aspek sebelum diisi",
+      "markers": [],
+      "sha256": "389a06429e9641ffdc16309b333e8987f7e4f45dd2d2c4c993fd2a03d719c6ef"
+    },
+    {
+      "file": "assets/13-evaluasi-isian.png",
+      "selector": "#evaluasiPesertaDialog",
+      "caption": "Contoh enam nilai dan catatan sebelum Simpan Halaman",
+      "markers": [],
+      "sha256": "55be58f8433152f3118bc467637f5e950d1f7eba7287b896430ee0d9616ab802"
+    },
+    {
+      "file": "assets/14-evaluasi-tersimpan.png",
+      "selector": "#evaluasiPesertaDialog",
+      "caption": "Konfirmasi penilaian peserta tersimpan",
+      "markers": [],
+      "sha256": "f930f32708ce77693c120078716e98f459457faedacd619f0e5771d260e5c1df"
+    },
+    {
+      "file": "assets/15-evaluasi-perbaikan.png",
+      "selector": "#evaluasiPesertaDialog",
+      "caption": "Contoh perbaikan nilai oleh Pengajar yang sama",
+      "markers": [],
+      "sha256": "0a272974e262128ecba072b4b941373bfb81160f4a0698d456fc0212e064bec3"
+    },
+    {
+      "file": "assets/16-sumber-berubah.png",
+      "selector": "#evaluasiPesertaDialog",
+      "caption": "Penanda sumber berubah yang perlu diperiksa Pengajar",
+      "markers": [],
+      "sha256": "73bd3de70fb5d199791e476a8d9f2d7cfb258dc86628db18953f8502f2399490"
+    },
+    {
+      "file": "assets/17-evaluasi-halaman-berikutnya.png",
+      "selector": "#evaluasiPesertaDialog",
+      "caption": "Halaman berikutnya pada evaluasi lebih dari 20 peserta",
+      "markers": [],
+      "sha256": "df12e90bc551ab7ca63d1db2b46ef12886ecd927b5e41dc04417ecf1ebab689a"
+    }
+  ]
+}
