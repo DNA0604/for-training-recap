@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-10 — agree separate illustrated manuals and prepare a visual sample
+- Record four audiences in separate documents: Admin, Petugas, Pengajar and a short public-QR participant guide. User requested screenshots with explanations and excluded performance measurements from user manuals.
+- Added a planning outline and one A4 login-page PDF/PNG sample with real current UI capture, three numbered document annotations and matching short instructions. Google services mocked; no real account data or operational RPCs. Complete manuals and video remain pending.
+- Documentation only; application source remains 7dacfb0, with no Apps Script installation, real data, deployment or main changes.
+
 ## 2026-11-10 — record user-reported deployment loading time
 - User repeated the same test and reported 1 minute 44 seconds for the full login-to-logout workflow. Compared with the earlier approximate 2 minutes 30 seconds, this is about 46 seconds / 30.7% less elapsed time. This is user-reported workflow timing, not independent RPC profiling or a repeated-run average.
 - Documentation only; application source remains 7dacfb0. No new code installation/deployment, Google data or main change. Manual book/video remain pending; no further optimization requested.
