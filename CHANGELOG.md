@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-13 — accepted promo concept and editable script/storyboard draft
+- Record user agreement on one training journey, mixed leadership/Admin/stakeholder audience, natural professional Indonesian narration, approximately four minutes, usage experience and long-term value.
+- Added draft v0.1 in editable Word, Markdown and JSON: 8 scenes, 23 planned shots, 419 narration words and 240 seconds of contiguous editorial timings. Includes per-scene voiceover, UI/role interactions, text, transitions and coherent simulated participants.
+- Written script/storyboard is for user review; final format/voice/music/credits remain open. Native Word content and local 10-page layout checked. No animatic/audio/film produced; 19 application sources and three prior Word guides unchanged. No Google data/deployment/main changes.
+
 ## 2026-11-13 — study three motion-graphics promotional references
 - User requested a 3–5-minute motion-graphics promo combining text and animated product use, and asked to study three uploaded videos before production. Recorded source hashes/dimensions/durations and examined chronological frames plus short transition sequences.
 - Added visual findings and a proposed blend of focused product UI, kinetic text/components and interaction emphasis, with an indicative four-minute structure. Landscape format, timing split, script/audio/audience are proposals or undecided, not approvals. No film produced, audio assessment, application/data/deployment/main changes; prior manuals and all 19 app sources unchanged.

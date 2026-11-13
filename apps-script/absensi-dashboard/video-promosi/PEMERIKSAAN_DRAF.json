@@ -1,0 +1,17 @@
+{
+  "format": "editable Word and Markdown; written storyboard draft only",
+  "scenes": 8,
+  "shots_planned": 23,
+  "duration_planned_seconds": 240,
+  "narration_words": 419,
+  "contiguous_scene_and_shot_timings": true,
+  "native_word_paragraphs": 236,
+  "native_word_tables": 9,
+  "local_qa_pages": 10,
+  "all_narration_present_in_word": true,
+  "no_blank_pages_or_out_of_page_text": true,
+  "unchanged_application_sources": 19,
+  "previous_three_docx_unchanged": true,
+  "docx_sha256": "aa774e6f306809130f9a6ac770ae20b5c1f85ab7191c5bf28384814d5125f6b8",
+  "voice_and_film_not_produced": true
+}

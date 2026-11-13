@@ -2,6 +2,8 @@
 
 Tanggal: 13 November 2026, Asia/Jakarta. Status: studi visual dan usulan arah, belum produksi.
 
+Pembaruan setelah diskusi: konsep perjalanan satu pelatihan, sasaran campuran, narasi profesional yang natural dan durasi sekitar empat menit telah disepakati. Lihat [draf naskah/storyboard terbaru](README.md). Pembagian awal di bawah disimpan sebagai riwayat studi.
+
 Pengguna memberikan tiga video sebagai referensi **motion graphics ads**, berupa kombinasi teks bergerak dan pengalaman penggunaan produk. Durasi yang diminta untuk dashboard adalah **3–5 menit**. Arahan ini menjadi acuan perencanaan video, tanpa mengubah aplikasi atau panduan Word.
 
 ## Hasil pengamatan

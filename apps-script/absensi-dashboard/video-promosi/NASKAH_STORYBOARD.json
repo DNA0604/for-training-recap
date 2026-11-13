@@ -1,0 +1,286 @@
+{
+  "title": "Satu Perjalanan Pelatihan, dari Persiapan hingga Evaluasi",
+  "version": "0.1",
+  "date": "13 November 2026",
+  "status": "Konsep disetujui; naskah, pembagian waktu dan storyboard ini merupakan draf untuk ditinjau. Produksi video belum dimulai.",
+  "audience": "Pimpinan instansi, pegawai pengelola/Admin, serta stakeholder termasuk dosen dan teman pengguna.",
+  "goals": [
+    "Memahami konsep penggunaan dashboard.",
+    "Merasakan alur dan hasil penggunaan tanpa mengoperasikan langsung.",
+    "Memahami manfaat riwayat dan informasi pelatihan untuk pemanfaatan jangka panjang."
+  ],
+  "tone": "Narasi bahasa Indonesia yang profesional tetapi natural, dengan istilah yang mudah dipahami.",
+  "visual": "Motion graphics: teks singkat, antarmuka aktual, gerak komponen, pembesaran area penting dan penunjuk interaksi. Identitas navy/putih dan aksen logo Komdigi.",
+  "duration_seconds": 240,
+  "format_note": "Layout kerja yang disarankan 16:9. Rasio/resolusi akhir, karakter suara, musik, kredit dan penutup rinci belum dikunci.",
+  "case": {
+    "program": "Pelatihan Teknis Contoh",
+    "level": "Dasar",
+    "session": "Pengenalan Materi",
+    "participants": [
+      "Peserta Contoh A — QR datang/pulang lengkap.",
+      "Peserta Contoh B — manual Hadir/Terlambat.",
+      "Peserta Contoh C — manual Tidak Hadir/Izin satu sesi penuh.",
+      "Peserta Contoh D — manual Hadir/Tepat Waktu."
+    ],
+    "continuity": "Gunakan program, sesi dan empat peserta yang sama sepanjang video. Penilaian peserta A/B/D lengkap; C tidak diberi nilai rekaan. Program beralih dari pelaksanaan menjadi selesai sebelum laporan. Semua merupakan data simulasi."
+  },
+  "sound_note": "Saran musik instrumental ringan dan efek klik/transisi secukupnya; musik memberi ruang untuk narasi. Belum ada rekaman suara atau musik yang dipilih.",
+  "scenes": [
+    {
+      "number": 1,
+      "start": 0,
+      "end": 25,
+      "title": "Perjalanan sebuah pelatihan",
+      "purpose": "Mengenalkan kebutuhan yang mudah dipahami seluruh penonton.",
+      "narration": "Setiap pelatihan memiliki perjalanan yang perlu diperhatikan. Ada peserta yang mengikuti kegiatan, kehadiran yang perlu dicatat, serta perkembangan yang perlu dinilai. Setelah sesi selesai, informasi tersebut menjadi bahan untuk meninjau pelaksanaan dan menyusun laporan. Bagaimana seluruh proses ini dapat dipantau dengan lebih tertata?",
+      "shots": [
+        {
+          "start": 0,
+          "end": 7,
+          "visual": "Latar putih. Kata Peserta, Kehadiran, Evaluasi dan Laporan muncul bergantian dengan ikon sederhana.",
+          "screen_text": "Peserta • Kehadiran • Evaluasi • Laporan"
+        },
+        {
+          "start": 7,
+          "end": 15,
+          "visual": "Empat kartu bergerak mengikuti garis waktu sederhana dari persiapan menuju hasil kegiatan.",
+          "screen_text": "Satu perjalanan pelatihan"
+        },
+        {
+          "start": 15,
+          "end": 25,
+          "visual": "Kartu tersusun menjadi bingkai dashboard. Kalimat pertanyaan muncul; beri jeda sebelum identitas produk.",
+          "screen_text": "Bagaimana memantaunya dengan lebih tertata?"
+        }
+      ],
+      "transition": "Bingkai dari empat kartu menjadi area tampilan Beranda pada adegan 2.",
+      "production_note": "Ikon merupakan grafis penjelas. Hindari gambaran data hilang atau keluhan yang tidak dinyatakan sebagai fakta instansi.",
+      "narration_words": 43,
+      "duration_seconds": 25
+    },
+    {
+      "number": 2,
+      "start": 25,
+      "end": 50,
+      "title": "Mengenal dashboard",
+      "purpose": "Memperkenalkan produk dan pembagian akses.",
+      "narration": "Inilah Monitoring Pelatihan Pegawai, dashboard pendukung pengelolaan pelatihan di Pusat Pengembangan Aparatur Komdigi. Melalui satu alur aplikasi, informasi program, peserta, kehadiran dan evaluasi dapat ditelusuri sesuai akses pengguna. Admin Pelatihan, Petugas Kelas dan Pengajar menjalankan perannya masing-masing, dengan informasi yang saling mendukung sepanjang kegiatan.",
+      "shots": [
+        {
+          "start": 25,
+          "end": 32,
+          "visual": "Nama aplikasi dan logo resmi muncul dengan gerak sederhana, lalu halaman login masuk ke bingkai desktop.",
+          "screen_text": "Monitoring Pelatihan Pegawai"
+        },
+        {
+          "start": 32,
+          "end": 41,
+          "visual": "Contoh login beralih ke Beranda Admin; kamera mendekat pada nama program dan ringkasan.",
+          "screen_text": "Informasi pelatihan dalam satu alur"
+        },
+        {
+          "start": 41,
+          "end": 50,
+          "visual": "Tiga kartu peran muncul di luar tangkapan UI: Admin Pelatihan, Petugas Kelas dan Pengajar.",
+          "screen_text": "Akses sesuai peran dan penugasan"
+        }
+      ],
+      "transition": "Kartu Admin menjadi penanda peran pada awal adegan persiapan.",
+      "production_note": "Peralihan login merupakan ringkasan editorial. Pemilihan peran tidak dibuat menjadi menu pada login. Gunakan UI nyata dan akun contoh; jangan tampilkan kredensial atau email nyata.",
+      "narration_words": 44,
+      "duration_seconds": 25
+    },
+    {
+      "number": 3,
+      "start": 50,
+      "end": 85,
+      "title": "Menyiapkan kelas",
+      "purpose": "Menunjukkan hubungan Program, Jenjang, Sesi dan Peserta melalui pengalaman Admin.",
+      "narration": "Perjalanan dimulai dari persiapan. Admin menyiapkan program, menentukan Jenjang dan sesi, lalu mendaftarkan peserta pada kelas yang sesuai. Penugasan Petugas Kelas dan Pengajar membantu membagi tanggung jawab pelaksanaan. Saat program dipilih, informasi yang ditampilkan mengikuti konteks kegiatan tersebut. Susunan ini membantu pengguna mengetahui kelas yang sedang ditangani, peserta yang terdaftar, dan sesi yang akan dilaksanakan.",
+      "shots": [
+        {
+          "start": 50,
+          "end": 61,
+          "visual": "Peran Admin. Buka Pengelolaan; pilih Pelatihan Teknis Contoh. Perbesar susunan Jenjang Dasar dan sesi Pengenalan Materi.",
+          "screen_text": "Program → Jenjang → Sesi"
+        },
+        {
+          "start": 61,
+          "end": 73,
+          "visual": "Buka Peserta Program. Pilih Program lalu Jenjang; tampilkan empat nama contoh secara bertahap.",
+          "screen_text": "Peserta terdaftar pada kelas yang sesuai"
+        },
+        {
+          "start": 73,
+          "end": 85,
+          "visual": "Grafis peran di luar UI menghubungkan Petugas dengan Jenjang, Pengajar dengan sesi. Kembali ke pilihan sesi pada Monitoring.",
+          "screen_text": "Tanggung jawab sesuai penugasan"
+        }
+      ],
+      "transition": "Kamera mengikuti pilihan Sesi menuju tab Kehadiran Sesi.",
+      "production_note": "Admin yang mendaftarkan peserta dan menentukan penugasan. Jangan memberi tampilan pendaftaran kepada Petugas/Pengajar. Penugasan Pengajar berbasis sesi, Petugas berbasis Jenjang.",
+      "narration_words": 55,
+      "duration_seconds": 35
+    },
+    {
+      "number": 4,
+      "start": 85,
+      "end": 125,
+      "title": "Mengikuti pelaksanaan sesi",
+      "purpose": "Memperlihatkan kebutuhan → tindakan → hasil pada presensi.",
+      "narration": "Saat sesi berlangsung, Petugas Kelas dapat menyiapkan presensi melalui QR. Peserta membuka tautan dari pemindaian, lalu mencatat kedatangan atau kepulangan sesuai jenis presensi. Untuk pelaksanaan yang memerlukan pencatatan oleh petugas, tersedia presensi manual. Status hadir, terlambat, sakit, izin, atau tanpa keterangan dipilih sesuai keadaan peserta. Setelah pencatatan disimpan dan data dimuat ulang, hasilnya dapat diperiksa pada Monitoring. Informasi izin dan bukti pendukung juga membantu petugas menelusuri keadaan peserta selama kegiatan.",
+      "shots": [
+        {
+          "start": 85,
+          "end": 99,
+          "visual": "Peran Petugas. Presensi → QR Absensi; QR dalam bingkai desktop disambung ponsel Peserta Contoh A. Tampilkan penggalan konfirmasi datang dan pulang.",
+          "screen_text": "Presensi QR"
+        },
+        {
+          "start": 99,
+          "end": 113,
+          "visual": "Presensi → Presensi Manual. Peserta Contoh B: Hadir → Terlambat → Simpan Presensi Manual. Tunjukkan perubahan setelah Muat Ulang Data.",
+          "screen_text": "Pencatatan manual oleh petugas"
+        },
+        {
+          "start": 113,
+          "end": 125,
+          "visual": "Peserta Contoh C: Tidak Hadir → Izin. Tampilkan bukti opsional dan status hasil pencatatan; akhiri pada ringkasan kehadiran sesi.",
+          "screen_text": "Keadaan peserta dapat ditelusuri"
+        }
+      ],
+      "transition": "Kartu peserta yang sama tetap menjadi penghubung menuju evaluasi.",
+      "production_note": "Ringkas waktu pelaksanaan secara editorial; label Perjalanan satu sesi, waktu diringkas menjelaskan perpindahan datang/pulang. Pencatatan manual berlaku satu sesi dan tidak memiliki absen pulang manual. UI diperbarui setelah simpan/muat ulang, bukan klaim streaming otomatis. Tidak membuat catatan ganda QR/manual untuk peserta-sesi yang sama.",
+      "narration_words": 70,
+      "duration_seconds": 40
+    },
+    {
+      "number": 5,
+      "start": 125,
+      "end": 165,
+      "title": "Menilai perkembangan peserta",
+      "purpose": "Menunjukkan evaluasi dan catatan sebagai sumber berbeda dengan peran yang tepat.",
+      "narration": "Setelah kegiatan, Pengajar menilai peserta berdasarkan pengamatan selama sesi. Enam aspek mencakup keaktifan, kedisiplinan, kerapian, kesopanan, kreativitas dan kerja sama. Nilai serta catatan disimpan melalui formulir evaluasi. Admin atau Petugas Kelas juga mengisi evaluasi Panitia, yang berfokus pada kedisiplinan, kerja sama dan prakarsa. Kejadian sikap dan perilaku dicatat melalui bagian tersendiri. Setiap sumber tetap dapat dibedakan, sehingga hasil penilaian memiliki konteks yang jelas untuk ditinjau oleh pihak yang berwenang.",
+      "shots": [
+        {
+          "start": 125,
+          "end": 139,
+          "visual": "Peran Pengajar. Evaluasi → Isi Evaluasi Peserta. Isi enam angka pada Peserta Contoh A, lalu Simpan Halaman dan tampilkan konfirmasi.",
+          "screen_text": "Pengajar • Evaluasi peserta enam aspek"
+        },
+        {
+          "start": 139,
+          "end": 153,
+          "visual": "Transisi identitas ke Petugas Kelas setelah jadwal sesi berakhir. Evaluasi → Evaluasi Peserta (Panitia); isi tiga aspek, simpan.",
+          "screen_text": "Panitia • Kedisiplinan, kerja sama, prakarsa"
+        },
+        {
+          "start": 153,
+          "end": 165,
+          "visual": "Tampilkan Catatan Perilaku secara terpisah, kemudian tampilkan kartu verifikasi sesi pada peran Petugas sebagai tindak lanjut ke Admin.",
+          "screen_text": "Catatan kejadian dan tindak lanjut"
+        }
+      ],
+      "transition": "Kolom catatan bergeser menjadi kolom-kolom Rekap Program.",
+      "production_note": "Contoh A/B/D dinilai; Izin penuh C dicatat eksplisit dan tidak diberi nilai rekaan. Panitia diisi setelah jadwal sesi berakhir; tidak menambahkan gate waktu pada modul Pengajar. Jangan mencampur Evaluasi Pengajar oleh Admin dengan evaluasi peserta oleh Pengajar. Verifikasi hanya diajukan Petugas dan diputus Admin.",
+      "narration_words": 69,
+      "duration_seconds": 40
+    },
+    {
+      "number": 6,
+      "start": 165,
+      "end": 200,
+      "title": "Membaca hasil kegiatan",
+      "purpose": "Memperlihatkan hasil yang dapat ditinjau melalui Rekap dan laporan pendukung.",
+      "narration": "Dari pencatatan tersebut, Admin dapat memeriksa kelengkapan data dan menjalankan perhitungan jam pelajaran atau JP. Rekap Program membantu membaca hasil kehadiran, catatan perilaku dan nilai evaluasi peserta beserta statusnya. Data dapat diunduh dalam CSV untuk kebutuhan pengolahan lebih lanjut. Setelah program selesai, laporan program dapat disusun melalui sistem sebagai bahan pendukung peninjauan. Hasilnya membantu penanggung jawab memahami pelaksanaan dan mengambil keputusan sesuai kewenangannya.",
+      "shots": [
+        {
+          "start": 165,
+          "end": 177,
+          "visual": "Peran Admin. Tampilkan pemeriksaan sumber lalu Hitung JP Sesi. Sesudah selesai, buka Rekap Program pada program yang sama.",
+          "screen_text": "Periksa kelengkapan • Hitung JP"
+        },
+        {
+          "start": 177,
+          "end": 189,
+          "visual": "Perbesar baris Peserta Contoh A. Sorot JP, nilai perilaku dan nilai keseluruhan sebagai tiga hasil berbeda, lalu penekanan tombol unduh CSV.",
+          "screen_text": "Hasil dan status dapat ditinjau"
+        },
+        {
+          "start": 189,
+          "end": 200,
+          "visual": "Tunjukkan status program Selesai pada konteks Admin. Klik pembuatan laporan, potong proses editorial, tampilkan sampul dan satu halaman hasil laporan.",
+          "screen_text": "Rekap dan laporan pendukung"
+        }
+      ],
+      "transition": "Halaman laporan berubah menjadi berkas pada garis waktu riwayat kegiatan.",
+      "production_note": "JP dihitung Admin setelah sumber siap; verifikasi tidak menghitung JP otomatis. Tampilkan status nilai kosong/sementara jika sumber belum lengkap, tanpa mengubahnya menjadi nol. Ekspor laporan program hanya Admin dan program selesai. Laporan tidak memutuskan kelulusan; jangan mengarang tanda lulus.",
+      "narration_words": 63,
+      "duration_seconds": 35
+    },
+    {
+      "number": 7,
+      "start": 200,
+      "end": 225,
+      "title": "Manfaat yang berlanjut",
+      "purpose": "Menghubungkan pengalaman penggunaan dengan pemanfaatan jangka panjang.",
+      "narration": "Manfaat dashboard berlanjut setelah pelatihan selesai. Riwayat yang tersimpan membantu penelusuran kegiatan dan pemeriksaan kembali saat dibutuhkan. Rekap serta laporan dapat menjadi bahan evaluasi dan pertimbangan untuk merencanakan pelatihan berikutnya. Dengan pencatatan yang konsisten dan pembagian tugas yang jelas, pengelolaan informasi dapat diteruskan untuk mendukung kebutuhan instansi dalam jangka panjang.",
+      "shots": [
+        {
+          "start": 200,
+          "end": 210,
+          "visual": "Garis waktu grafis menyusun program, riwayat peserta dan laporan dari kegiatan yang sama; tampilkan profil peserta sebagai bukti penelusuran yang ada.",
+          "screen_text": "Riwayat yang dapat ditelusuri"
+        },
+        {
+          "start": 210,
+          "end": 218,
+          "visual": "Tiga kartu editorial: Tinjau kegiatan, Pelajari hasil, Rencanakan berikutnya. Tampilan hasil menjadi bahan di belakang kartu, tanpa menu analitik baru.",
+          "screen_text": "Bahan evaluasi dan perencanaan"
+        },
+        {
+          "start": 218,
+          "end": 225,
+          "visual": "Kartu peran Admin/Petugas/Pengajar kembali tersusun mengelilingi bingkai dashboard.",
+          "screen_text": "Pengelolaan informasi yang berkelanjutan"
+        }
+      ],
+      "transition": "Tiga kartu peran menyatu menjadi komposisi penutup beridentitas instansi.",
+      "production_note": "Ini manfaat pemakaian riwayat/rekap oleh manusia. Tidak mengklaim fitur prediksi, AI, perbandingan lintas program otomatis atau integrasi lain yang belum tersedia.",
+      "narration_words": 50,
+      "duration_seconds": 25
+    },
+    {
+      "number": 8,
+      "start": 225,
+      "end": 240,
+      "title": "Penutup",
+      "purpose": "Menguatkan pesan utama dengan identitas yang mudah diingat.",
+      "narration": "Monitoring Pelatihan Pegawai. Mendukung perjalanan pelatihan, dari persiapan hingga evaluasi. Pelatihan terpantau, data tertata, dan informasi siap menjadi bahan tindak lanjut. Pusat Pengembangan Aparatur Komdigi.",
+      "shots": [
+        {
+          "start": 225,
+          "end": 233,
+          "visual": "Dashboard utuh dan tiga kata kunci tersusun bersih; gerak melambat menuju penutup.",
+          "screen_text": "Pelatihan terpantau. Data tertata."
+        },
+        {
+          "start": 233,
+          "end": 240,
+          "visual": "Logo resmi dan nama instansi pada latar putih/navy. Tahan komposisi akhir agar terbaca.",
+          "screen_text": "Monitoring Pelatihan Pegawai\nPusat Pengembangan Aparatur Komdigi"
+        }
+      ],
+      "transition": "Akhiri pada identitas produk dan instansi.",
+      "production_note": "Tanpa tautan pendaftaran publik, ajakan komersial, kredit personal atau nama proyek baru yang belum ditetapkan. Susunan kredit akhir dapat disesuaikan pada pembahasan berikutnya.",
+      "narration_words": 25,
+      "duration_seconds": 15
+    }
+  ],
+  "next_review": [
+    "Kesesuaian redaksi narasi dan penekanan manfaat.",
+    "Keseimbangan porsi pengalaman penggunaan dan manfaat jangka panjang.",
+    "Format akhir, karakter suara, musik dan kredit penutup sebelum produksi."
+  ]
+}
