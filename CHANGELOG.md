@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-13 — plan supplied three-logo intro within flexible duration
+- Record concept phase closed and user timing flexibility up to 4:20. User requested STIA LAN Jakarta, LAN and Komdigi logos in the opening. Added eight-second prelude to written storyboard v0.2: white background, original proportions/colors, soft entrance/hold/title transition; later scenes shift by eight seconds.
+- Updated editable Word/Markdown/JSON to 9 scenes, 26 planned shots, 248 seconds and unchanged 419-word narration. Native 11-page layout/timing/source checks passed. Supplied inline logo files are not available locally for exact rendering; source PNG/SVG attachments are required. No logos redrawn/substituted/embedded or video produced. Application sources, three role guides, Google data/deployment/main unchanged.
+
 ## 2026-11-13 — accepted promo concept and editable script/storyboard draft
 - Record user agreement on one training journey, mixed leadership/Admin/stakeholder audience, natural professional Indonesian narration, approximately four minutes, usage experience and long-term value.
 - Added draft v0.1 in editable Word, Markdown and JSON: 8 scenes, 23 planned shots, 419 narration words and 240 seconds of contiguous editorial timings. Includes per-scene voiceover, UI/role interactions, text, transitions and coherent simulated participants.

@@ -18,7 +18,7 @@ for name,size in [('Title',25),('Heading 1',18),('Heading 2',12)]:
  s=doc.styles[name];s.font.name='Arial';s.font.size=Pt(size);s.font.color.rgb=RGBColor.from_string('203960');s.font.bold=True;s.paragraph_format.space_after=Pt(8)
  s.paragraph_format.keep_with_next=True
 header=sec.header.paragraphs[0];header.add_run('Monitoring Pelatihan Pegawai • Draf video promosi').font.size=Pt(8)
-footer=sec.footer.paragraphs[0];footer.add_run('Draf 0.1 • 13 November 2026  |  ')
+footer=sec.footer.paragraphs[0];footer.add_run('Draf '+D['version']+' • '+D['date']+'  |  ')
 r=footer.add_run();f=OxmlElement('w:fldSimple');f.set(qn('w:instr'),'PAGE');r._r.addnext(f)
 for run in footer.runs:run.font.size=Pt(8)
 doc.core_properties.title='Draf Naskah dan Storyboard Video Promosi';doc.core_properties.subject=D['title'];doc.core_properties.author='Dokumentasi Monitoring Pelatihan Pegawai'
@@ -47,8 +47,8 @@ if logo.exists():doc.add_paragraph().add_run().add_picture(str(logo),width=Cm(1.
 p('Draf Naskah dan Storyboard', 'Title');p(D['title'],'Heading 1');p('Versi '+D['version']+' • '+D['date']);p(D['status'])
 p('Dasar konsep','Heading 2');p('Penonton: '+D['audience'])
 for goal in D['goals']:p(goal,style='List Bullet')
-p(D['tone']);p(D['visual']);p('Durasi kerja: sekitar 4 menit, dalam rentang 3–5 menit yang diminta.');p(D['format_note'])
-p('Status dokumen','Heading 2');p('Storyboard ini masih berupa uraian visual dan interaksi. Belum ada animatic, rekaman suara, musik terpilih atau video final.')
+p(D['tone']);p(D['visual']);p(D.get('duration_note','Durasi kerja: sekitar 4 menit.'));p(D['format_note'])
+p('Status dokumen','Heading 2');p('Storyboard ini masih berupa uraian visual dan interaksi. Logo yang diminta: STIA LAN Jakarta, LAN dan Komdigi. Berkas PNG/SVG sumber diperlukan sebelum ketiga logo dapat dirender persis seperti kiriman. Belum ada video intro, rekaman suara atau film final.')
 doc.add_page_break();p('Alur dan contoh yang digunakan','Heading 1')
 table(['Waktu','Bagian'],[(tc(s['start'])+'–'+tc(s['end']),s['title']) for s in D['scenes']],[3,13.8])
 p('Kasus yang konsisten','Heading 2');p(' → '.join([D['case']['program'],D['case']['level'],D['case']['session']]))
@@ -58,7 +58,7 @@ words=sum(s['narration_words'] for s in D['scenes'])
 p(f'Narasi berjumlah sekitar {words} kata. Pada 120–130 kata per menit, perkiraan pembacaan 193–210 detik; sisa alokasi untuk jeda, tampilan UI dan transisi. Waktu adegan akan diselaraskan setelah rekaman percobaan.')
 for s in D['scenes']:
  doc.add_page_break();p(f'{s["number"]:02d}. {s["title"]}','Heading 1');p(f'{tc(s["start"])}–{tc(s["end"])} • {s["duration_seconds"]} detik • {s["narration_words"]} kata narasi')
- p(s['purpose']);p('Narasi','Heading 2');p(s['narration']);p('Urutan visual dan teks layar','Heading 2')
+ p(s['purpose']);p('Narasi','Heading 2');p(s['narration'] or 'Tanpa narasi; musik pembuka masih berupa usulan.');p('Urutan visual dan teks layar','Heading 2')
  table(['Waktu','Visual dan interaksi','Teks layar'],[(tc(sh['start'])+'–'+tc(sh['end']),sh['visual'],sh['screen_text']) for sh in s['shots']],[2.1,9.8,4.9])
  p('Transisi','Heading 2');p(s['transition']);p('Catatan produksi — tidak dibacakan','Heading 2');p(s['production_note'])
 doc.save(R/'Draf_Naskah_Storyboard.docx');print('Built editable script/storyboard Word:',len(D['scenes']),'scenes')
