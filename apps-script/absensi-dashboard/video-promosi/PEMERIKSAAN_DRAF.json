@@ -1,5 +1,5 @@
 {
-  "version": "0.2",
+  "version": "0.3",
   "format": "editable Word and Markdown; written storyboard draft only",
   "scenes": 9,
   "shots_planned": 26,
@@ -15,7 +15,8 @@
   "no_blank_pages_or_out_of_page_text": true,
   "unchanged_application_sources": 19,
   "previous_three_docx_unchanged": true,
-  "docx_sha256": "3bb7cb0252509a578f89d372c2081be72d0ce43938bcc9a453fb087d769d0949",
-  "supplied_logo_files_available_for_render": false,
-  "voice_and_film_not_produced": true
+  "docx_sha256": "9b242ced136229f9e5a93316c8f6f93dbd0dc5347b2c0a30c4f759c72e0cda9a",
+  "supplied_logo_files_available_for_render": true,
+  "intro_preview_rendered": true,
+  "voice_and_full_film_not_produced": true
 }

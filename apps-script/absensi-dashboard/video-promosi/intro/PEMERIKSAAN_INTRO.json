@@ -1,0 +1,72 @@
+{
+  "duration_seconds": 8,
+  "video_dimensions": [
+    1920,
+    1080
+  ],
+  "fps": 30,
+  "frames": 240,
+  "codec": "h264",
+  "pixel_format": "yuv420p",
+  "faststart": true,
+  "full_decode_ok": true,
+  "audio": "none; visual preview only",
+  "user_logos": 3,
+  "original_logo_bytes_unchanged": true,
+  "stage_and_logo_geometry_checked": true,
+  "mobile_controls_and_reduced_motion_checked": true,
+  "browser_errors": [],
+  "sampled_states": [
+    {
+      "time": 0,
+      "group_y": 348,
+      "logo1_opacity": 0,
+      "title_opacity": 0
+    },
+    {
+      "time": 0.5,
+      "group_y": 348,
+      "logo1_opacity": 0.64828,
+      "title_opacity": 0
+    },
+    {
+      "time": 1.2,
+      "group_y": 348,
+      "logo1_opacity": 1,
+      "title_opacity": 0
+    },
+    {
+      "time": 2.8,
+      "group_y": 348,
+      "logo1_opacity": 1,
+      "title_opacity": 0
+    },
+    {
+      "time": 4.8,
+      "group_y": 343.432,
+      "logo1_opacity": 1,
+      "title_opacity": 0
+    },
+    {
+      "time": 5.4,
+      "group_y": 265.303,
+      "logo1_opacity": 1,
+      "title_opacity": 0.725375
+    },
+    {
+      "time": 6.5,
+      "group_y": 174.2,
+      "logo1_opacity": 1,
+      "title_opacity": 1
+    },
+    {
+      "time": 7.9666667,
+      "group_y": 174.2,
+      "logo1_opacity": 1,
+      "title_opacity": 1
+    }
+  ],
+  "unchanged_application_sources": 19,
+  "previous_three_manual_docx_unchanged": true,
+  "video_sha256": "2e3306dbf314ce6a30469d9ca5ac66e65cba157b2768e8408be323e709fd98e8"
+}

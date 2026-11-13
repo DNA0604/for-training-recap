@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pratinjau intro — Monitoring Pelatihan Pegawai</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#e7ecf2;font-family:Arial,Helvetica,sans-serif;color:#203960}
+#stage{position:absolute;width:1920px;height:1080px;transform-origin:top left;overflow:hidden;background:#fff}
+#light{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 115%,#f1f7fb 0,white 65%)}
+#logoGroup{position:absolute;left:270px;top:348px;width:1380px;height:270px;display:flex;align-items:center;justify-content:space-between;transform-origin:50% 50%}
+.logoSlot{width:440px;height:260px;display:grid;place-items:center;will-change:transform,opacity;opacity:0}
+.stiaViewport{position:relative;width:390px;height:155px;overflow:hidden}
+.stiaViewport img{position:absolute;width:796px;height:217px;max-width:none;left:-190px;top:-25px}
+.lan{display:block;width:390px;height:auto}.komdigi{display:block;width:230px;height:230px;object-fit:contain}
+#title{position:absolute;top:570px;left:240px;width:1440px;text-align:center;letter-spacing:-2.1px}
+.lineClip{overflow:hidden;padding:4px 0}
+.titleLine{font-size:76px;font-weight:700;line-height:1.13;margin:0;will-change:transform,opacity;opacity:0}
+#subtitle{position:absolute;top:790px;left:360px;width:1200px;text-align:center;font-size:27px;line-height:1.4;letter-spacing:.15px;color:#61718a;opacity:0}
+#accent{position:absolute;left:932px;top:764px;width:56px;height:4px;display:flex;transform-origin:center;opacity:0}
+#accent span:first-child{background:#00a8d8;width:41px}#accent span:last-child{background:#f5bb22;flex:1}
+#controls{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:10px 16px;border:1px solid #d4ddea;border-radius:14px;background:#fff;box-shadow:0 6px 30px #192e5014}
+button{padding:9px 14px;border:1px solid #d6dfec;border-radius:9px;background:#203960;color:white;cursor:pointer;font:inherit;font-size:13px}input{width:min(35vw,300px);accent-color:#203960}output{min-width:75px;font-size:12px;color:#61718a;font-variant-numeric:tabular-nums}
+@media(max-width:600px){#controls{width:calc(100vw - 24px);gap:8px;padding:8px}#controls input{flex:1;min-width:40px;width:40px}#controls button{padding:7px 9px;font-size:12px}#controls output{min-width:65px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){#controls{box-shadow:none}}
+</style>
+</head>
+<body>
+<main id="stage" aria-label="Intro berisi logo Politeknik STIA LAN Jakarta, LAN dan Komdigi, lalu judul Monitoring Pelatihan Pegawai">
+ <div id="light"></div>
+ <div id="logoGroup">
+  <div class="logoSlot" id="stia"><div class="stiaViewport"><img src="assets/logo-stia-lan.png" alt="Politeknik STIA LAN Jakarta"></div></div>
+  <div class="logoSlot" id="lan"><img class="lan" src="assets/logo-lan.png" alt="LAN RI — Makarti Bhakti Nagari"></div>
+  <div class="logoSlot" id="komdigi"><img class="komdigi" src="assets/logo-komdigi.png" alt="Komdigi"></div>
+ </div>
+ <div id="title"><div class="lineClip"><p class="titleLine" id="line1">Monitoring Pelatihan</p></div><div class="lineClip"><p class="titleLine" id="line2">Pegawai</p></div></div>
+ <div id="accent" aria-hidden="true"><span></span><span></span></div>
+ <p id="subtitle">Dari persiapan hingga evaluasi.</p>
+</main>
+<div id="controls" aria-label="Kontrol pratinjau, tidak disertakan di video"><button id="play">Jeda</button><button id="replay">Ulangi</button><input id="seek" aria-label="Posisi waktu" type="range" min="0" max="8" step=".01" value="0"><output id="time">0.00 / 8 s</output></div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id),duration=8,clamp=x=>Math.min(1,Math.max(0,x));
+const easeOut=x=>1-Math.pow(1-clamp(x),3),smooth=x=>{x=clamp(x);return x*x*(3-2*x)},part=(t,a,b)=>clamp((t-a)/(b-a));
+let current=0,playing=false,origin=0;
+window.renderAt=function(t){
+ current=Math.min(duration,Math.max(0,t));
+ for(const [id,start] of [['stia',.25],['lan',.50],['komdigi',.75]]){
+  const x=easeOut(part(current,start,start+.85));$(id).style.opacity=String(x);$(id).style.transform=`translateY(${(1-x)*24}px)`;
+ }
+ const shift=smooth(part(current,4.65,6.20));$('logoGroup').style.transform=`translateY(${-shift*190}px) scale(${1-shift*.12})`;
+ for(const [id,start] of [['line1',5.05],['line2',5.24]]){
+  const x=easeOut(part(current,start,start+1.0));$(id).style.opacity=String(x);$(id).style.transform=`translateY(${(1-x)*65}px)`;
+ }
+ const accent=easeOut(part(current,5.9,6.7));$('accent').style.opacity=String(accent);$('accent').style.transform=`scaleX(${accent})`;
+ const sub=easeOut(part(current,6.12,7.02));$('subtitle').style.opacity=String(sub);$('subtitle').style.transform=`translateY(${(1-sub)*15}px)`;
+ $('seek').value=current;$('time').textContent=current.toFixed(2)+' / 8 s';
+};
+function fit(){const scale=Math.min(innerWidth/1920,innerHeight/1080);$('stage').style.transform=`scale(${scale})`;$('stage').style.left=(innerWidth-1920*scale)/2+'px';$('stage').style.top=(innerHeight-1080*scale)/2+'px';}
+function tick(now){if(!playing)return;renderAt((now-origin)/1000);if(current<duration)requestAnimationFrame(tick);else{playing=false;$('play').textContent='Putar';}}
+function play(){if(current>=duration)current=0;playing=true;origin=performance.now()-current*1000;$('play').textContent='Jeda';requestAnimationFrame(tick);}
+function pause(){playing=false;$('play').textContent='Putar';}
+$('play').onclick=()=>playing?pause():play();$('replay').onclick=()=>{pause();renderAt(0);play()};$('seek').oninput=e=>{pause();renderAt(Number(e.target.value))};window.addEventListener('resize',fit);
+window.ready=Promise.all([...document.images].map(im=>im.decode())).then(()=>document.fonts.ready);
+fit();renderAt(0);
+if(new URLSearchParams(location.search).has('render')){$('controls').hidden=true;$('controls').style.display='none'}else{window.ready.then(()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches){renderAt(duration);pause()}else play()})}
+</script>
+</body>
+</html>

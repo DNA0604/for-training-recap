@@ -2,11 +2,17 @@
 
 Konsep yang disetujui: **Satu Perjalanan Pelatihan, dari Persiapan hingga Evaluasi**. Video ditujukan kepada pimpinan, pegawai pengelola dan stakeholder termasuk dosen/teman pengguna. Tujuannya agar penonton memahami konsep dashboard, merasakan pengalaman penggunaan, dan melihat manfaat jangka panjangnya.
 
+## Pratinjau intro
+
+**[Putar / unduh MP4 intro delapan detik](https://github.com/DNA0604/for-training-recap/blob/video/pratinjau-intro-logo/apps-script/absensi-dashboard/video-promosi/intro/Pratinjau_Intro_Logo.mp4?raw=true)**
+
+[Lihat GIF dan sumber animasi](intro/README.md). Pratinjau 1920 × 1080, 30 fps, tanpa musik/narasi.
+
 ## Draf untuk ditinjau
 
-**[Unduh Draf_Naskah_Storyboard.docx](https://github.com/DNA0604/for-training-recap/blob/docs/intro-tiga-logo/apps-script/absensi-dashboard/video-promosi/Draf_Naskah_Storyboard.docx?raw=true)**
+**[Unduh Draf_Naskah_Storyboard.docx](https://github.com/DNA0604/for-training-recap/blob/video/pratinjau-intro-logo/apps-script/absensi-dashboard/video-promosi/Draf_Naskah_Storyboard.docx?raw=true)**
 
-Versi 0.2 berisi **9 bagian, 26 rencana tampilan dan 419 kata narasi**, termasuk intro logo sekitar delapan detik. Alokasi saat ini **4 menit 8 detik**, dengan kelonggaran hingga 4 menit 20 detik sesuai arahan pengguna. Word memakai teks dan tabel yang dapat disunting; 11 halaman pada pemeriksaan tata letak lokal. Ini storyboard tertulis dengan uraian visual/interaksi, teks layar, transisi dan catatan produksi. Belum ada animatic, rekaman suara, musik terpilih atau film final.
+Versi 0.3 berisi **9 bagian, 26 rencana tampilan dan 419 kata narasi**, termasuk intro logo sekitar delapan detik. Alokasi saat ini **4 menit 8 detik**, dengan kelonggaran hingga 4 menit 20 detik sesuai arahan pengguna. Word memakai teks dan tabel yang dapat disunting; 11 halaman pada pemeriksaan tata letak lokal. Ini storyboard tertulis dengan uraian visual/interaksi, teks layar, transisi dan catatan produksi. Pratinjau visual intro delapan detik sudah tersedia. Rekaman suara, musik terpilih dan film promosi lengkap belum diproduksi.
 
 - [Baca naskah dan storyboard di GitHub](NASKAH_STORYBOARD.md)
 - [Pratinjau konsep](Pratinjau_Konsep.png)
@@ -16,9 +22,9 @@ Versi 0.2 berisi **9 bagian, 26 rencana tampilan dan 419 kata narasi**, termasuk
 
 ## Intro logo
 
-Logo **Politeknik STIA LAN Jakarta, LAN dan Komdigi** direncanakan dalam satu baris pada latar putih, masuk lembut, ditahan agar terbaca, kemudian tersambung ke judul dashboard. Warna dan proporsi asli dipertahankan. Ini rancangan tertulis; ketiga logo belum dimasukkan sebagai gambar dalam dokumen atau video.
+Logo **Politeknik STIA LAN Jakarta, LAN dan Komdigi** direncanakan dalam satu baris pada latar putih, masuk lembut, ditahan agar terbaca, kemudian tersambung ke judul dashboard. Warna dan proporsi asli dipertahankan. [Pratinjau intro delapan detik sudah dirender](intro/README.md) memakai PNG asli dari Logo-Logo.zip kiriman pengguna.
 
-Gambar kiriman terlihat dalam percakapan, tetapi berkas sumbernya belum tersedia untuk render lokal. Memerlukan unggahan sebagai berkas PNG/SVG agar pratinjau video memakai logo persis seperti kiriman. Tidak menggambar ulang atau mengganti versi aset secara diam-diam.
+Aset sumber sudah tersedia. Berkas logo asli disimpan identik; viewport STIA menampilkan area logo utama agar ruang kosong dan fragmen tambahan di tepi kanan tidak ikut tampil. Pratinjau memakai latar terang, gerak masuk bertahap dan perpindahan ke judul; belum memakai musik/narasi.
 
 ## Alur kerja
 

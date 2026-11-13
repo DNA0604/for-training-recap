@@ -1,8 +1,8 @@
 {
   "title": "Satu Perjalanan Pelatihan, dari Persiapan hingga Evaluasi",
-  "version": "0.2",
+  "version": "0.3",
   "date": "13 November 2026",
-  "status": "Tahap konsep dinyatakan selesai oleh pengguna. Draf produksi v0.2 menambahkan intro tiga logo; durasi dan transisi tetap dapat disesuaikan saat produksi.",
+  "status": "Tahap konsep selesai. Aset tiga logo sudah diterima dan pratinjau visual intro delapan detik dibuat untuk ditinjau; produksi video utama belum dimulai.",
   "audience": "Pimpinan instansi, pegawai pengelola/Admin, serta stakeholder termasuk dosen dan teman pengguna.",
   "goals": [
     "Memahami konsep penggunaan dashboard.",
@@ -55,7 +55,7 @@
         }
       ],
       "transition": "Latar putih tetap berlanjut; logo memudar dan empat kata pembuka masuk. Narasi perjalanan pelatihan mulai pada detik 8.",
-      "production_note": "Gunakan logo asli kiriman pengguna, bukan hasil gambar ulang. Hindari peregangan, perubahan warna, morphing atau klaim hubungan kerja sama yang belum disebutkan pengguna. Ketiga gambar terlihat dalam percakapan, tetapi berkas sumber PNG/SVG belum tersedia lokal untuk render. Pembuatan video intro menunggu aset sumber; storyboard ini hanya menetapkan susunannya.",
+      "production_note": "Gunakan logo asli dari Logo-Logo.zip yang sudah diterima. Warna dan proporsi dipertahankan. Tampilan STIA dibatasi ke logo utama karena aset mempunyai ruang kosong dan fragmen terpisah di kanan, tanpa mengubah berkas sumber. Pratinjau visual delapan detik tersedia di folder intro; musik dan narasi belum dipasang. Urutan mengikuti kiriman pengguna tanpa klaim hubungan kerja sama tambahan.",
       "narration_words": 0,
       "duration_seconds": 8
     },
@@ -325,7 +325,7 @@
     "background": "putih",
     "placement": "satu baris dengan bobot visual seimbang",
     "duration_seconds": 8,
-    "exact_uploaded_asset_files_available": false,
-    "status": "Images visible in conversation only; source files required before rendering exact supplied logos. Existing official Komdigi file available, but do not silently substitute the new supplied versions."
+    "exact_uploaded_asset_files_available": true,
+    "status": "Exact three PNG originals extracted from user Logo-Logo.zip and rendered in intro/Pratinjau_Intro_Logo.mp4. Original bytes preserved; display-only viewport on STIA."
   }
 }

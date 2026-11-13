@@ -48,7 +48,7 @@ p('Draf Naskah dan Storyboard', 'Title');p(D['title'],'Heading 1');p('Versi '+D[
 p('Dasar konsep','Heading 2');p('Penonton: '+D['audience'])
 for goal in D['goals']:p(goal,style='List Bullet')
 p(D['tone']);p(D['visual']);p(D.get('duration_note','Durasi kerja: sekitar 4 menit.'));p(D['format_note'])
-p('Status dokumen','Heading 2');p('Storyboard ini masih berupa uraian visual dan interaksi. Logo yang diminta: STIA LAN Jakarta, LAN dan Komdigi. Berkas PNG/SVG sumber diperlukan sebelum ketiga logo dapat dirender persis seperti kiriman. Belum ada video intro, rekaman suara atau film final.')
+p('Status dokumen','Heading 2');p('Storyboard ini menjelaskan visual dan interaksi. Aset asli STIA LAN Jakarta, LAN dan Komdigi sudah diterima dan pratinjau intro delapan detik dibuat untuk ditinjau. Musik, rekaman suara dan film promosi lengkap belum diproduksi.')
 doc.add_page_break();p('Alur dan contoh yang digunakan','Heading 1')
 table(['Waktu','Bagian'],[(tc(s['start'])+'–'+tc(s['end']),s['title']) for s in D['scenes']],[3,13.8])
 p('Kasus yang konsisten','Heading 2');p(' → '.join([D['case']['program'],D['case']['level'],D['case']['session']]))

@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-13 — render first eight-second intro from supplied logo ZIP
+- User supplied Logo-Logo.zip; imported the exact three PNG originals and recorded hashes. Display-only viewport on STIA excludes blank space/detached right fragment; no source pixels, proportions or logo colors changed.
+- Produced silent 8-second 1920×1080 30fps H.264 faststart MP4 plus animated GIF/stills and editable HTML/offline package. Staggered logo entrance/hold transitions into dashboard title. No narration/music or full film produced.
+- Encoding/full decode, source hashes, timeline geometry, mobile player/reduced-motion checks passed. Written storyboard refreshed to v0.3 with blocker resolved; 248-second allocation and narration unchanged. All 19 app sources and three role manuals unchanged; no Google data/deployment/main changes. Intro user review pending.
+
 ## 2026-11-13 — plan supplied three-logo intro within flexible duration
 - Record concept phase closed and user timing flexibility up to 4:20. User requested STIA LAN Jakarta, LAN and Komdigi logos in the opening. Added eight-second prelude to written storyboard v0.2: white background, original proportions/colors, soft entrance/hold/title transition; later scenes shift by eight seconds.
 - Updated editable Word/Markdown/JSON to 9 scenes, 26 planned shots, 248 seconds and unchanged 419-word narration. Native 11-page layout/timing/source checks passed. Supplied inline logo files are not available locally for exact rendering; source PNG/SVG attachments are required. No logos redrawn/substituted/embedded or video produced. Application sources, three role guides, Google data/deployment/main unchanged.

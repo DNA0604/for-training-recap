@@ -2,9 +2,9 @@
 
 **Satu Perjalanan Pelatihan, dari Persiapan hingga Evaluasi**
 
-Versi 0.2 • 13 November 2026
+Versi 0.3 • 13 November 2026
 
-Tahap konsep dinyatakan selesai oleh pengguna. Draf produksi v0.2 menambahkan intro tiga logo; durasi dan transisi tetap dapat disesuaikan saat produksi.
+Tahap konsep selesai. Aset tiga logo sudah diterima dan pratinjau visual intro delapan detik dibuat untuk ditinjau; produksi video utama belum dimulai.
 
 ## Dasar yang disepakati
 
@@ -20,7 +20,7 @@ Layout kerja yang disarankan 16:9. Rasio/resolusi akhir, karakter suara, musik, 
 
 Logo yang diminta: **Politeknik STIA LAN Jakarta, LAN, dan Komdigi**, disusun satu baris pada latar putih. Logo masuk lembut, ditahan agar terbaca, lalu tersambung ke judul dashboard. Warna dan proporsi asli dipertahankan.
 
-Gambar kiriman terlihat dalam percakapan; berkas sumber PNG/SVG belum tersedia lokal untuk render. Draf ini menetapkan penempatan dan waktu, belum memuat atau merender ketiga gambar tersebut.
+Ketiga PNG asli sudah diterima melalui Logo-Logo.zip. [Pratinjau visual intro delapan detik](intro/README.md) sudah dibuat, dengan warna/proporsi asli dan tanpa musik/narasi. Berkas sumber tidak diubah; viewport STIA dibatasi ke logo utama untuk menghindari ruang kosong dan fragmen terpisah di sisi kanan.
 
 ## Ringkasan alur
 
@@ -67,7 +67,7 @@ Tanpa narasi; musik pembuka ringan masih berupa usulan.
 
 **Transisi:** Narasi dan animasi perjalanan pelatihan mulai pada detik 8.
 
-**Catatan produksi:** Logo dipakai sesuai aset asli; tidak menggambar ulang atau mengubah bentuk/warna. Berkas sumber diperlukan untuk render. Urutan logo mengikuti kiriman pengguna tanpa label kerja sama atau dukungan resmi tambahan.
+**Catatan produksi:** Logo dipakai sesuai aset asli; tidak menggambar ulang atau mengubah bentuk/warna. Berkas sumber sudah tersedia; pratinjau intro memakai ketiga PNG asli kiriman. Urutan logo mengikuti kiriman pengguna tanpa label kerja sama atau dukungan resmi tambahan.
 
 ### 02. Perjalanan sebuah pelatihan — 00:08–00:33
 
@@ -226,4 +226,4 @@ Setiap tindakan diikuti hasil yang terlihat. Tahan tampilan setelah konfirmasi s
 - Keseimbangan porsi pengalaman penggunaan dan manfaat jangka panjang.
 - Format akhir, karakter suara, musik dan kredit penutup sebelum produksi.
 
-Draf ini merupakan storyboard tertulis untuk pembahasan. Belum ada animatic, rekaman narasi, musik terpilih atau video final. Render intro memerlukan berkas sumber ketiga logo yang dikirim. Pengambilan UI produksi nantinya memakai data simulasi yang konsisten dan sumber aplikasi saat ini, tanpa mengubah kode, data Google atau deployment.
+Draf ini merupakan storyboard tertulis untuk pembahasan. Pratinjau visual intro delapan detik sudah tersedia. Rekaman narasi, musik terpilih, animasi adegan utama dan video promosi lengkap belum diproduksi. Pengambilan UI produksi nantinya memakai data simulasi yang konsisten dan sumber aplikasi saat ini, tanpa mengubah kode, data Google atau deployment.
