@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-13 — study three motion-graphics promotional references
+- User requested a 3–5-minute motion-graphics promo combining text and animated product use, and asked to study three uploaded videos before production. Recorded source hashes/dimensions/durations and examined chronological frames plus short transition sequences.
+- Added visual findings and a proposed blend of focused product UI, kinetic text/components and interaction emphasis, with an indicative four-minute structure. Landscape format, timing split, script/audio/audience are proposals or undecided, not approvals. No film produced, audio assessment, application/data/deployment/main changes; prior manuals and all 19 app sources unchanged.
+
 ## 2026-11-10 — final role guide: Pengajar; participant guide cancelled
 - User requested Pengajar as the last guide and cancelled the participant manual. Current manual scope is three separate illustrated editable Word files: Admin, Petugas and Pengajar. Video/handover remain separate pending work.
 - Added Panduan_Pengajar.docx v1.0 with 6 chapters, 22 tasks and 17 current role-specific screenshots; 76 native numbered steps and 6 editable tables. Covers session-scoped reading, six-aspect evaluation, per-page saves, results/pagination, edits/source-change review and logout/troubleshooting; excludes performance history.
