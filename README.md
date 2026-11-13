@@ -5,6 +5,7 @@ Jangan salin atau mencuri data ini tanpa persetujuan pemilik. Data ini merupakan
 
 Repository khusus kode aplikasi Google Apps Script untuk rekapitulasi dan monitoring pelatihan pegawai Pusat Pengembangan Aparatur Komdigi.
 
+- [Video promosi — pratinjau lengkap 4 menit 8 detik](apps-script/absensi-dashboard/video-promosi/film/README.md)
 - [Panduan Admin Pelatihan — Word yang dapat disunting](apps-script/absensi-dashboard/panduan/admin/README.md)
 - [Panduan Petugas Kelas — Word bergambar sesuai akses](apps-script/absensi-dashboard/panduan/petugas/README.md)
 - [Panduan Pengajar — Word bergambar untuk evaluasi peserta](apps-script/absensi-dashboard/panduan/pengajar/README.md)

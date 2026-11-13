@@ -2,17 +2,23 @@
 
 Konsep yang disetujui: **Satu Perjalanan Pelatihan, dari Persiapan hingga Evaluasi**. Video ditujukan kepada pimpinan, pegawai pengelola dan stakeholder termasuk dosen/teman pengguna. Tujuannya agar penonton memahami konsep dashboard, merasakan pengalaman penggunaan, dan melihat manfaat jangka panjangnya.
 
+## Pratinjau lengkap
+
+**[Putar / unduh video lengkap 4 menit 8 detik](https://github.com/DNA0604/for-training-recap/blob/video/promosi-dashboard-lengkap/apps-script/absensi-dashboard/video-promosi/film/Pratinjau_Dashboard_Lengkap.mp4?raw=true)**
+
+[Lihat ringkasan adegan dan sumber yang dapat disunting](film/README.md). Versi pertama ini memuat animasi dan teks tanpa musik/narasi suara. Intro yang sudah disetujui dipertahankan; tahap suara masih terbuka.
+
 ## Pratinjau intro
 
-**[Putar / unduh MP4 intro delapan detik](https://github.com/DNA0604/for-training-recap/blob/video/pratinjau-intro-logo/apps-script/absensi-dashboard/video-promosi/intro/Pratinjau_Intro_Logo.mp4?raw=true)**
+**[Putar / unduh MP4 intro delapan detik](https://github.com/DNA0604/for-training-recap/blob/video/promosi-dashboard-lengkap/apps-script/absensi-dashboard/video-promosi/intro/Pratinjau_Intro_Logo.mp4?raw=true)**
 
 [Lihat GIF dan sumber animasi](intro/README.md). Pratinjau 1920 × 1080, 30 fps, tanpa musik/narasi.
 
 ## Draf untuk ditinjau
 
-**[Unduh Draf_Naskah_Storyboard.docx](https://github.com/DNA0604/for-training-recap/blob/video/pratinjau-intro-logo/apps-script/absensi-dashboard/video-promosi/Draf_Naskah_Storyboard.docx?raw=true)**
+**[Unduh Draf_Naskah_Storyboard.docx](https://github.com/DNA0604/for-training-recap/blob/video/promosi-dashboard-lengkap/apps-script/absensi-dashboard/video-promosi/Draf_Naskah_Storyboard.docx?raw=true)**
 
-Versi 0.3 berisi **9 bagian, 26 rencana tampilan dan 419 kata narasi**, termasuk intro logo sekitar delapan detik. Alokasi saat ini **4 menit 8 detik**, dengan kelonggaran hingga 4 menit 20 detik sesuai arahan pengguna. Word memakai teks dan tabel yang dapat disunting; 11 halaman pada pemeriksaan tata letak lokal. Ini storyboard tertulis dengan uraian visual/interaksi, teks layar, transisi dan catatan produksi. Pratinjau visual intro delapan detik sudah tersedia. Rekaman suara, musik terpilih dan film promosi lengkap belum diproduksi.
+Versi 0.3 berisi **9 bagian, 26 rencana tampilan dan 419 kata narasi**, termasuk intro logo sekitar delapan detik. Alokasi saat ini **4 menit 8 detik**, dengan kelonggaran hingga 4 menit 20 detik sesuai arahan pengguna. Word memakai teks dan tabel yang dapat disunting; 11 halaman pada pemeriksaan tata letak lokal. Ini storyboard tertulis dengan uraian visual/interaksi, teks layar, transisi dan catatan produksi. Pratinjau visual intro delapan detik sudah tersedia. Pratinjau visual lengkap sudah tersedia pada bagian di atas. Rekaman suara dan musik terpilih belum diproduksi.
 
 - [Baca naskah dan storyboard di GitHub](NASKAH_STORYBOARD.md)
 - [Pratinjau konsep](Pratinjau_Konsep.png)

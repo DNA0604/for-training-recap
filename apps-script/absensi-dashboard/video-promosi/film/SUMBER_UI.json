@@ -1,0 +1,349 @@
+{
+  "source_application": "7dacfb0",
+  "capture": "Actual server-rendered UI with role-scoped synthetic backend fixture states. No Google login/data access. QR historical row/receipt are synthetic seeds; manual/evaluation/verification/JP snapshots from actual local handlers.",
+  "case": {
+    "source": "7dacfb0",
+    "case": "Four synthetic participants, one 90-minute session, no Google access. QR historical record and public receipt are synthetic; manual/evaluation/verification/JP responses from actual local backend handlers.",
+    "summary": [
+      {
+        "name": "Peserta Contoh A",
+        "jp": 2,
+        "grade": 86.67,
+        "status": "lengkap"
+      },
+      {
+        "name": "Peserta Contoh B",
+        "jp": 1.6666666666666667,
+        "grade": 86.67,
+        "status": "lengkap"
+      },
+      {
+        "name": "Peserta Contoh C",
+        "jp": 0,
+        "grade": null,
+        "status": "tidak_dinilai"
+      },
+      {
+        "name": "Peserta Contoh D",
+        "jp": 2,
+        "grade": 86.67,
+        "status": "lengkap"
+      }
+    ]
+  },
+  "images": [
+    {
+      "file": "assets/login.png",
+      "focus": {
+        "x": 0.7648536836200449,
+        "y": 0.3937720070422535
+      },
+      "selector": "#panitiaAuth>section",
+      "role": "admin",
+      "stage": "initial",
+      "sha256": "6c00c7f936b2466070df5cafdbcca75b9ec03e8b084a2ae95a561c975c591c13"
+    },
+    {
+      "file": "assets/beranda.png",
+      "focus": {},
+      "selector": "body",
+      "role": "admin",
+      "stage": "initial",
+      "sha256": "f4fd9d4d26d3c1f611b44ad508a9d3c798941899c6089bf4651580eaadb485b9"
+    },
+    {
+      "file": "assets/pengelolaan.png",
+      "focus": {},
+      "selector": "#app",
+      "role": "admin",
+      "stage": "initial",
+      "sha256": "aa9e96bf463e293b711ca9dfaedd23c8cc3c98ec76481370b205aeef8382a234"
+    },
+    {
+      "file": "assets/peserta.png",
+      "focus": {},
+      "selector": "#app",
+      "role": "admin",
+      "stage": "initial",
+      "sha256": "9d204cafe8f08bc8221910933a5ee20e48de239987d635846cc7af1ef6bd758e"
+    },
+    {
+      "file": "assets/sesi.png",
+      "focus": {
+        "x": 0.7523194444444444,
+        "y": 0.6003188944990699
+      },
+      "selector": "section:has(#calculate)",
+      "role": "staff",
+      "stage": "initial",
+      "sha256": "155f1179a4153dc350ba67822dbcb90a11fad78477bdd20b2db8b8ef66d0645f"
+    },
+    {
+      "file": "assets/sebelum-presensi.png",
+      "focus": {},
+      "selector": "#sessionPanel",
+      "role": "staff",
+      "stage": "initial",
+      "sha256": "1b7afed8a3391e7a6f9921fa22e6c27b5cac4ea52240c5c87d439778f0a90b16"
+    },
+    {
+      "file": "assets/pilihan-presensi.png",
+      "focus": {},
+      "selector": "#presensiDialog",
+      "role": "staff",
+      "stage": "initial",
+      "sha256": "146818cbeb9e41ae60b4878c9c865333499a498b9ef56a9c42bfd97a3395f244"
+    },
+    {
+      "file": "assets/qr-form.png",
+      "focus": {
+        "x": 0.5,
+        "y": 0.3720432409290378
+      },
+      "selector": "#qrDialog",
+      "role": "staff",
+      "stage": "initial",
+      "sha256": "ca8a83614006faabf352a3e3484945a45990e4b32777fb140f36f5015a5142f2"
+    },
+    {
+      "file": "assets/qr-terbit.png",
+      "focus": {
+        "x": 0.5,
+        "y": 0.5461411647433194
+      },
+      "selector": "#qrDialog",
+      "role": "staff",
+      "stage": "initial",
+      "sha256": "7f8e6e9080daa4bf5c0554beb7cca46b96287ceea3604c1aed21e328055a3548"
+    },
+    {
+      "file": "assets/qr-peserta.png",
+      "focus": {
+        "x": 0.14930555555555555,
+        "y": 0.60084375
+      },
+      "selector": "body",
+      "role": "admin",
+      "stage": "initial",
+      "sha256": "1e475291447ca21a96b7d19ba1263ffab792c6a1adc765a7a1758289f217db39"
+    },
+    {
+      "file": "assets/qr-tercatat.png",
+      "focus": {
+        "x": 0.14930555555555555,
+        "y": 0.32359375
+      },
+      "selector": "body",
+      "role": "admin",
+      "stage": "initial",
+      "sha256": "a58fe2c473e71627ad92803e2a8eef7a418decac83abe1712009c999afe2663a"
+    },
+    {
+      "file": "assets/manual-kosong.png",
+      "focus": {
+        "x": 0.5,
+        "y": 0.37459990041966
+      },
+      "selector": "#manualDialog",
+      "role": "staff",
+      "stage": "qr",
+      "sha256": "3122a20783834d57149be3f0356c6a405737a0414f2fa4e84cd64cbc58353f1a"
+    },
+    {
+      "file": "assets/manual-terlambat.png",
+      "focus": {
+        "x": 0.5,
+        "y": 0.9060142010397912
+      },
+      "selector": "#manualDialog",
+      "role": "staff",
+      "stage": "qr",
+      "sha256": "331ed628c87816226821072f0ec69d96c5fb01e11604b9e17e10cd52281db678"
+    },
+    {
+      "file": "assets/manual-hasil.png",
+      "focus": {},
+      "selector": "#sessionPanel",
+      "role": "staff",
+      "stage": "manual",
+      "sha256": "e97eadf80359b067095b02dd5b159ffb71b86e719b8a719ef4cb49787fc2b831"
+    },
+    {
+      "file": "assets/manual-izin.png",
+      "focus": {
+        "x": 0.5,
+        "y": 0.9427430555555556
+      },
+      "selector": "#manualDialog",
+      "role": "staff",
+      "stage": "manual",
+      "sha256": "a7d3aa72317d4557e11a81d23e432c1a3eb4d2c140461f4bce8ba25fee1c507d"
+    },
+    {
+      "file": "assets/kehadiran.png",
+      "focus": {},
+      "selector": "#sessionPanel",
+      "role": "staff",
+      "stage": "attendance",
+      "sha256": "b01b9df6234f8c3adfe09fcd95ad5e46c4cb4e013245cd14d82d77430d084131"
+    },
+    {
+      "file": "assets/izin.png",
+      "focus": {},
+      "selector": "#izinPanel",
+      "role": "staff",
+      "stage": "attendance",
+      "sha256": "0d767ab572a3b424f76d262cf31a99ca48c4e4ea896f418fc21c9d613d92460c"
+    },
+    {
+      "file": "assets/evaluasi-pengajar-kosong.png",
+      "focus": {
+        "x": 0.21520833333333333,
+        "y": 0.27691176470588236
+      },
+      "selector": "#evaluasiPesertaDialog",
+      "role": "teacher",
+      "stage": "attendance",
+      "sha256": "824c6bbcf7e27bd51c8ff4966244de29e6e23af5f6d271741f9b32f4d028bffd"
+    },
+    {
+      "file": "assets/evaluasi-pengajar-isi.png",
+      "focus": {
+        "x": 0.9185872395833333,
+        "y": 0.9421231617647059
+      },
+      "selector": "#evaluasiPesertaDialog",
+      "role": "teacher",
+      "stage": "attendance",
+      "sha256": "03ba009e8c9fc13d516766610531afc7e0914b8c6615adedf1871a360e6cdcd7"
+    },
+    {
+      "file": "assets/evaluasi-pengajar-simpan.png",
+      "focus": {
+        "x": 0.5,
+        "y": 0.19173713235294118
+      },
+      "selector": "#evaluasiPesertaDialog",
+      "role": "teacher",
+      "stage": "teacher",
+      "sha256": "c6b230d4732d656acd6062307a5face844d2b8deaad52fd5a861fe49b21e77e5"
+    },
+    {
+      "file": "assets/evaluasi-panitia-kosong.png",
+      "focus": {
+        "x": 0.29811197916666665,
+        "y": 0.38090073529411766
+      },
+      "selector": "#evaluasiPanitiaDialog",
+      "role": "staff",
+      "stage": "teacher",
+      "sha256": "727dde4686828781e3dc6759e65849e3099f12079d772fb2247b08e083dbe055"
+    },
+    {
+      "file": "assets/evaluasi-panitia-isi.png",
+      "focus": {
+        "x": 0.9185872395833333,
+        "y": 0.9421231617647059
+      },
+      "selector": "#evaluasiPanitiaDialog",
+      "role": "staff",
+      "stage": "teacher",
+      "sha256": "f1868cf9121f9fb8491c24d60563300fc0917aa1f63cf49e911ebd64514403e8"
+    },
+    {
+      "file": "assets/evaluasi-panitia-simpan.png",
+      "focus": {
+        "x": 0.5,
+        "y": 0.2693841911764706
+      },
+      "selector": "#evaluasiPanitiaDialog",
+      "role": "staff",
+      "stage": "evaluated",
+      "sha256": "31e29c700972d69aad490d20968360cf2136e8ba613b2c2f8b9b1abb862f0479"
+    },
+    {
+      "file": "assets/catatan.png",
+      "focus": {},
+      "selector": "#behaviorPanel",
+      "role": "staff",
+      "stage": "evaluated",
+      "sha256": "c673f0e87d2adece55e442e3e491b74da3873f55fef3214e8247af1eeb383bc0"
+    },
+    {
+      "file": "assets/verifikasi.png",
+      "focus": {},
+      "selector": "#panitiaVerificationDialog",
+      "role": "staff",
+      "stage": "evaluated",
+      "sha256": "6fbf7257f4660cd5bacc13ed955e89b9ca9c6bfb556f87a8a21cb208b380368f"
+    },
+    {
+      "file": "assets/hitung-jp.png",
+      "focus": {
+        "x": 0.9263055555555556,
+        "y": 0.6122774382141908
+      },
+      "selector": "section:has(#calculate)",
+      "role": "admin",
+      "stage": "submitted",
+      "sha256": "a9b74348c5ceef7fd8f334587c0a378cbdc5fed16887782e529443ced420f410"
+    },
+    {
+      "file": "assets/rekap.png",
+      "focus": {
+        "x": 0.7629236111111111,
+        "y": 0.3170496323529412
+      },
+      "selector": "#recapPanel",
+      "role": "admin",
+      "stage": "submitted",
+      "sha256": "8ceca39c52c71fbb51e7b1f6915119eaa9fad4db646e2ad076a3036e987d671d"
+    },
+    {
+      "file": "assets/rincian-nilai.png",
+      "focus": {},
+      "selector": "#finalScoreDialog",
+      "role": "admin",
+      "stage": "submitted",
+      "sha256": "4ee35fbbb005f31025a21429a2608957a4a7ff7f07ff933606f90adabe28697d"
+    },
+    {
+      "file": "assets/pengelolaan-selesai.png",
+      "focus": {
+        "x": 0.9190972222222222,
+        "y": 0.3138595779220779
+      },
+      "selector": "#app",
+      "role": "admin",
+      "stage": "final",
+      "sha256": "d331e84247125017e8f3a5536f08ca144bc4bcf2e7313043dd4d7db6872ab43a"
+    },
+    {
+      "file": "assets/laporan-dialog.png",
+      "focus": {
+        "x": 0.8910256410256411,
+        "y": 0.8585674819756081
+      },
+      "selector": "#programReportDialog",
+      "role": "admin",
+      "stage": "final",
+      "sha256": "6cf640015d0504f198a40571a84c135c263de16fab8a396b96954ccba578177b"
+    },
+    {
+      "file": "assets/profil.png",
+      "focus": {},
+      "selector": "#content",
+      "role": "admin",
+      "stage": "final",
+      "sha256": "13c37cb6c655e3112b2989e73ec1287725938f8ece2ace675b48aaceb3219d42"
+    },
+    {
+      "file": "assets/peserta-daftar.png",
+      "focus": {},
+      "selector": ".panel:has(#participantsBody)",
+      "role": "admin",
+      "stage": "initial",
+      "sha256": "181480103ca29561f76473550ca0b34e8a68db3b39c4166a46c0a87538a0b6ab"
+    }
+  ]
+}

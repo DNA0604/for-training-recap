@@ -1,0 +1,9 @@
+{
+  "method": "Real-time local Chromium Canvas animation over actual role-scoped UI captures, then H.264 body encoding and stream-copy concat with accepted intro.",
+  "body_preroll_trim_seconds": 0.72,
+  "body_duration_target_seconds": 240,
+  "accepted_intro_seconds": 8,
+  "audio": "none; visual/text review version",
+  "browser_errors": [],
+  "color_conversion": "Recorder full-range YUV explicitly mapped to TV range for H.264, restoring source UI contrast."
+}

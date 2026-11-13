@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-13 — accepted intro and full 4:08 visual preview
+- User accepted intro and requested continuing. Added full HD 248-second/30fps visual-text film with 36 body shots, preserving accepted intro by stream copy. Includes actual role-scoped UI interactions, consistent four-person case, evaluation/JP/recap/report flow and long-term value.
+- Kept exact intro frames and logo bytes. Captured 32 actual current UI states with synthetic local backend data; two actual-source report pages rendered locally. Manual/evaluation/verification/JP results use real local handlers; QR row/receipt are synthetic. No Google data access.
+- Added editable Canvas/HTML player, timeline, 419-word SRT captions, offline source package and provenance/checks. Explicit full-to-TV color conversion preserves UI contrast. Encoding/decode/timing/intro-frame/color/source/player checks passed. This is visual-first review output without voice/music; narration preference asked asynchronously, unanswered. Source application, three manuals, Google data/deployment/main unchanged.
+
 ## 2026-11-13 — render first eight-second intro from supplied logo ZIP
 - User supplied Logo-Logo.zip; imported the exact three PNG originals and recorded hashes. Display-only viewport on STIA excludes blank space/detached right fragment; no source pixels, proportions or logo colors changed.
 - Produced silent 8-second 1920×1080 30fps H.264 faststart MP4 plus animated GIF/stills and editable HTML/offline package. Staggered logo entrance/hold transitions into dashboard title. No narration/music or full film produced.

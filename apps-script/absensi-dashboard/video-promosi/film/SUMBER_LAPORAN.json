@@ -1,0 +1,16 @@
+{
+  "source": "Actual LaporanTampilan.gs DOCX from the same synthetic case; local LibreOffice QA rendering, not a Google export test.",
+  "images": [
+    {
+      "file": "assets/laporan-sampul.png",
+      "local_report_page": 1,
+      "sha256": "ffdc311596d1a3f626a83b9ad2d045c5937de093b19f67f4b860a91fb196a096"
+    },
+    {
+      "file": "assets/laporan-hasil.png",
+      "local_report_page": 13,
+      "sha256": "4e2f65c3d22adbca3c8f66e88ae2f353883148f105430f41386add688d9b1b61"
+    }
+  ],
+  "local_qa_pdf_sha256": "fc3dffaa91fc564aeb148e34ac642b26906d35eacec0f013cd209fd77002e1c7"
+}
