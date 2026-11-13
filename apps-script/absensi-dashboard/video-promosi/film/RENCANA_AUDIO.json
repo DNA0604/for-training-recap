@@ -1,0 +1,49 @@
+{
+  "version": "audio-1",
+  "duration_seconds": 248,
+  "voiceover": false,
+  "music": {
+    "title": "Perjalanan Tertata",
+    "provenance": "Komposisi instrumental prosedural asli untuk video ini; seluruh nada, instrumen sintetis dan efek dibuat oleh buat_audio.py. Tidak memakai rekaman, lagu stok atau sampel pihak ketiga.",
+    "tempo_bpm": 96,
+    "meter": "4/4",
+    "key": "D major",
+    "seed": 13112026,
+    "style": "Modern, hangat dan tenang: pad lembut, petikan bernada, bas ringan dan perkusi terkendali.",
+    "sections": [
+      {"start": 0, "end": 8, "arrangement": "Pad dan nada logo, masuk perlahan"},
+      {"start": 8, "end": 33, "arrangement": "Motif pengenal ringan"},
+      {"start": 33, "end": 93, "arrangement": "Petikan, bas dan ketukan ringan untuk alur persiapan"},
+      {"start": 93, "end": 133, "arrangement": "Ritme lebih terisi untuk demonstrasi presensi"},
+      {"start": 133, "end": 173, "arrangement": "Motif lebih jarang untuk evaluasi"},
+      {"start": 173, "end": 208, "arrangement": "Motif kembali menguat untuk hasil dan laporan"},
+      {"start": 208, "end": 233, "arrangement": "Perkusi dikurangi untuk manfaat jangka panjang"},
+      {"start": 233, "end": 248, "arrangement": "Resolusi akor dan fade-out penutup"}
+    ]
+  },
+  "mix": {"target_lufs": -18, "true_peak_limit_dbtp": -1.8, "sample_rate": 48000, "channels": 2, "music_gain": 1.0, "effects_gain": 0.72, "fade_out_start": 244.5},
+  "effects": [
+    {"time": 0.45, "kind": "logo", "gain": 0.6, "note": "Masuk identitas institusi"},
+    {"time": 5.0, "kind": "shimmer", "gain": 0.45, "note": "Judul intro"},
+    {"time": 8.0, "kind": "whoosh", "gain": 0.48, "note": "Pembuka perjalanan"},
+    {"time": 33.0, "kind": "whoosh", "gain": 0.43, "note": "Pengenalan dashboard"},
+    {"time": 58.0, "kind": "whoosh", "gain": 0.43, "note": "Persiapan program"},
+    {"time": 75.5, "kind": "tap", "gain": 0.6, "note": "Daftar peserta"},
+    {"time": 93.0, "kind": "whoosh", "gain": 0.5, "note": "Bagian presensi"},
+    {"time": 103.8, "kind": "success", "gain": 0.5, "note": "Tanda terima presensi QR"},
+    {"time": 115.0, "kind": "tap", "gain": 0.65, "note": "Simpan manual Terlambat"},
+    {"time": 118.8, "kind": "success", "gain": 0.38, "note": "Hasil pencatatan manual"},
+    {"time": 133.0, "kind": "whoosh", "gain": 0.43, "note": "Bagian evaluasi"},
+    {"time": 141.0, "kind": "tap", "gain": 0.55, "note": "Simpan evaluasi Pengajar"},
+    {"time": 144.3, "kind": "success", "gain": 0.35, "note": "Hasil evaluasi Pengajar"},
+    {"time": 155.0, "kind": "tap", "gain": 0.55, "note": "Simpan evaluasi Panitia"},
+    {"time": 158.5, "kind": "success", "gain": 0.35, "note": "Hasil evaluasi Panitia"},
+    {"time": 173.0, "kind": "whoosh", "gain": 0.45, "note": "Bagian rekap dan laporan"},
+    {"time": 176.6, "kind": "tap", "gain": 0.6, "note": "Hitung JP"},
+    {"time": 194.6, "kind": "tap", "gain": 0.55, "note": "Ekspor CSV"},
+    {"time": 201.2, "kind": "shimmer", "gain": 0.38, "note": "Laporan tampil"},
+    {"time": 208.0, "kind": "whoosh", "gain": 0.38, "note": "Riwayat dan manfaat"},
+    {"time": 233.0, "kind": "whoosh", "gain": 0.43, "note": "Penutup"},
+    {"time": 241.6, "kind": "logo", "gain": 0.45, "note": "Identitas produk penutup"}
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "version": "audio-1",
+  "voiceover": false,
+  "music_provenance": "Komposisi instrumental prosedural asli untuk video ini; seluruh nada, instrumen sintetis dan efek dibuat oleh buat_audio.py. Tidak memakai rekaman, lagu stok atau sampel pihak ketiga.",
+  "original_score_title": "Perjalanan Tertata",
+  "source_peak_dbfs": -13.587154388427734,
+  "effects_count": 22,
+  "source_measurement": {
+    "input_i": "-30.02",
+    "input_tp": "-13.58",
+    "input_lra": "4.80",
+    "input_thresh": "-40.17",
+    "output_i": "-17.01",
+    "output_tp": "-1.80",
+    "output_lra": "5.10",
+    "output_thresh": "-27.04",
+    "normalization_type": "dynamic",
+    "target_offset": "-0.99"
+  },
+  "normalization": {
+    "input_i": "-30.02",
+    "input_tp": "-13.58",
+    "input_lra": "4.80",
+    "input_thresh": "-40.17",
+    "output_i": "-18.26",
+    "output_tp": "-2.33",
+    "output_lra": "5.40",
+    "output_thresh": "-28.40",
+    "normalization_type": "dynamic",
+    "target_offset": "0.26"
+  },
+  "encoded_mix_measurement": {
+    "input_i": "-18.29",
+    "input_tp": "-2.30",
+    "input_lra": "5.50",
+    "input_thresh": "-28.46",
+    "output_i": "-17.98",
+    "output_tp": "-1.80",
+    "output_lra": "6.50",
+    "output_thresh": "-28.01",
+    "normalization_type": "dynamic",
+    "target_offset": "-0.02"
+  },
+  "video_mux": "H.264 stream copy; original visual frames unchanged",
+  "audio_codec": "AAC stereo 48 kHz, 192 kb/s",
+  "files": {
+    "audio/Efek_Suara.m4a": {
+      "sha256": "b9b534d630dc8fd304de01946410be19ef66199696457df7b3a632c1e38b7d0a",
+      "bytes": 348135
+    },
+    "audio/Musik_Instrumental.m4a": {
+      "sha256": "9bd0dbe7c4996fe8a0f0393c1c3934493ecc6465c082157131d58458b0bd440c",
+      "bytes": 5213669
+    },
+    "audio/Musik_dan_Efek.m4a": {
+      "sha256": "5f2c89a33fa15252530bdbff2d4e153ea398b1fbdbdd8a0cf156c5dbf9c509cb",
+      "bytes": 6241519
+    },
+    "Video_Dashboard_Musik_Efek.mp4": {
+      "sha256": "090209abf7de67829fc12b369f9d69c94aa55061764ba7129c903a3ffbda8a96",
+      "bytes": 32019791
+    }
+  }
+}

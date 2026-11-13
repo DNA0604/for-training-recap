@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-13 — instrumental music and effects, without narration
+- User explicitly declined voiceover and requested music/SFX. Added original 96 BPM instrumental arrangement and 22 sparse synthesized effects; no third-party song/sample or voice recording.
+- Muxed AAC stereo onto the exact existing H.264 stream: same 4:08/full HD/30fps visuals, accepted intro and source logos. Separate music/effects/mix tracks and editable composition/cue source retained.
+- Normalized mix, synchronized authoring-player audio/mute/seek/pause/replay, renamed optional captions to text explanation and refreshed offline package. Technical AV/bitstream/audio/player and source/manual checks recorded separately from user listening review. No application, real Google data, deployment or main changes.
+
 ## 2026-11-13 — accepted intro and full 4:08 visual preview
 - User accepted intro and requested continuing. Added full HD 248-second/30fps visual-text film with 36 body shots, preserving accepted intro by stream copy. Includes actual role-scoped UI interactions, consistent four-person case, evaluation/JP/recap/report flow and long-term value.
 - Kept exact intro frames and logo bytes. Captured 32 actual current UI states with synthetic local backend data; two actual-source report pages rendered locally. Manual/evaluation/verification/JP results use real local handlers; QR row/receipt are synthetic. No Google data access.

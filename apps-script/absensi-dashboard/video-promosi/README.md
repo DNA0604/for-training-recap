@@ -4,9 +4,9 @@ Konsep yang disetujui: **Satu Perjalanan Pelatihan, dari Persiapan hingga Evalua
 
 ## Pratinjau lengkap
 
-**[Putar / unduh video lengkap 4 menit 8 detik](https://github.com/DNA0604/for-training-recap/blob/video/promosi-dashboard-lengkap/apps-script/absensi-dashboard/video-promosi/film/Pratinjau_Dashboard_Lengkap.mp4?raw=true)**
+**[Putar / unduh video lengkap 4 menit 8 detik](https://github.com/DNA0604/for-training-recap/blob/video/musik-efek-suara/apps-script/absensi-dashboard/video-promosi/film/Video_Dashboard_Musik_Efek.mp4?raw=true)**
 
-[Lihat ringkasan adegan dan sumber yang dapat disunting](film/README.md). Versi pertama ini memuat animasi dan teks tanpa musik/narasi suara. Intro yang sudah disetujui dipertahankan; tahap suara masih terbuka.
+[Lihat ringkasan adegan dan sumber yang dapat disunting](film/README.md). Versi terbaru memuat animasi, teks, musik instrumental asli dan efek suara ringan. **Narasi suara ditiadakan sesuai arahan terbaru pengguna.** Seluruh visual, termasuk intro yang disetujui, dipertahankan identik.
 
 ## Pratinjau intro
 
@@ -18,7 +18,7 @@ Konsep yang disetujui: **Satu Perjalanan Pelatihan, dari Persiapan hingga Evalua
 
 **[Unduh Draf_Naskah_Storyboard.docx](https://github.com/DNA0604/for-training-recap/blob/video/promosi-dashboard-lengkap/apps-script/absensi-dashboard/video-promosi/Draf_Naskah_Storyboard.docx?raw=true)**
 
-Versi 0.3 berisi **9 bagian, 26 rencana tampilan dan 419 kata narasi**, termasuk intro logo sekitar delapan detik. Alokasi saat ini **4 menit 8 detik**, dengan kelonggaran hingga 4 menit 20 detik sesuai arahan pengguna. Word memakai teks dan tabel yang dapat disunting; 11 halaman pada pemeriksaan tata letak lokal. Ini storyboard tertulis dengan uraian visual/interaksi, teks layar, transisi dan catatan produksi. Pratinjau visual intro delapan detik sudah tersedia. Pratinjau visual lengkap sudah tersedia pada bagian di atas. Rekaman suara dan musik terpilih belum diproduksi.
+Versi 0.3 berisi **9 bagian, 26 rencana tampilan dan 419 kata narasi**, termasuk intro logo sekitar delapan detik. Alokasi saat ini **4 menit 8 detik**, dengan kelonggaran hingga 4 menit 20 detik sesuai arahan pengguna. Word memakai teks dan tabel yang dapat disunting; 11 halaman pada pemeriksaan tata letak lokal. Ini storyboard tertulis dengan uraian visual/interaksi, teks layar, transisi dan catatan produksi. Pratinjau visual intro delapan detik sudah tersedia. Pratinjau visual lengkap sudah tersedia pada bagian di atas. Naskah narasi di dalam draf ini merupakan arsip tahap perencanaan; keputusan produksi terbaru memakai teks visual, musik dan efek, tanpa narasi suara.
 
 - [Baca naskah dan storyboard di GitHub](NASKAH_STORYBOARD.md)
 - [Pratinjau konsep](Pratinjau_Konsep.png)
@@ -44,7 +44,7 @@ Aset sumber sudah tersedia. Berkas logo asli disimpan identik; viewport STIA men
 8. Riwayat dan manfaat berkelanjutan.
 9. Penutup identitas produk dan instansi.
 
-Satu program dan peserta contoh digunakan sepanjang video agar tindakan dan hasilnya saling terhubung. Detail waktu dan redaksi masih merupakan draf. Layout kerja 16:9, karakter suara, pilihan musik dan kredit penutup masih perlu ditetapkan pada tahap berikutnya.
+Satu program dan peserta contoh digunakan sepanjang video agar tindakan dan hasilnya saling terhubung. Detail waktu dan redaksi masih merupakan draf. Hasil kerja saat ini 16:9 Full HD, durasi 4:08, dengan komposisi instrumental dan efek asli. Narasi suara tidak digunakan; penilaian video bersuara oleh pengguna menjadi langkah berikutnya.
 
 ## Bahan kerja
 
