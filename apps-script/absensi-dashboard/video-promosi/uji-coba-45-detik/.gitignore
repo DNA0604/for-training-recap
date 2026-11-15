@@ -1,0 +1,14 @@
+.hyperframes/
+*.log
+__pycache__/
+node_modules/
+frames-first/
+frames-refined/
+review-first/
+review-final/
+frames-final/
+frames-final-activity.png
+Preview_Editor.png
+media-probe.json
+.thumbnails/
+.waveform-cache/

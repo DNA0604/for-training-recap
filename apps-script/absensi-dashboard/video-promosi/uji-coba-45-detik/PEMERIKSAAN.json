@@ -1,0 +1,103 @@
+{
+  "file": "Dashboard_Pelatihan_45_Detik.mp4",
+  "bytes": 11147598,
+  "sha256": "d5647609557959837cfd44a8b9a63fd9d0907fea7545c2732ea923f3320f6c36",
+  "video": {
+    "codec_name": "h264",
+    "width": 1920,
+    "height": 1080,
+    "pix_fmt": "yuv420p",
+    "r_frame_rate": "30/1",
+    "nb_read_frames": "1350",
+    "duration": "45.000000"
+  },
+  "audio": {
+    "codec_name": "aac",
+    "sample_rate": "48000",
+    "channels": 2,
+    "duration": "44.900000"
+  },
+  "audio_measured": {
+    "integrated_lufs": -16.22,
+    "true_peak_dbtp": -1.93,
+    "loudness_range_lu": 1.3,
+    "listened_by_agent": false
+  },
+  "video_stream_preserved": true,
+  "video_stream_sha256": "SHA256=2224c9f43c308d2a8ab8b62ccc13747266c8220e81bb2c8e4c4dd7a373641053",
+  "complete_av_decode": "passed",
+  "composition_checks": {
+    "lint": {
+      "ok": true,
+      "errorCount": 0,
+      "warningCount": 0
+    },
+    "runtime": {
+      "ok": true,
+      "errorCount": 0,
+      "warningCount": 0
+    },
+    "layout": {
+      "ok": true,
+      "errorCount": 0,
+      "warningCount": 0,
+      "samples": [
+        1.25,
+        3.75,
+        6.25,
+        8.75,
+        11.25,
+        13.75,
+        16.25,
+        18.75,
+        21.25,
+        23.75,
+        26.25,
+        28.75,
+        31.25,
+        33.75,
+        36.25,
+        38.75,
+        41.25,
+        43.75
+      ]
+    },
+    "motion": {
+      "ok": true,
+      "enabled": false,
+      "errorCount": 0,
+      "warningCount": 0,
+      "samples": 0
+    },
+    "contrast": {
+      "ok": true,
+      "enabled": true,
+      "errorCount": 0,
+      "warningCount": 0,
+      "samples": [
+        1.25,
+        11.25,
+        21.25,
+        31.25,
+        43.75
+      ]
+    },
+    "craft": {
+      "ok": true,
+      "enabled": true,
+      "errorCount": 0,
+      "warningCount": 1,
+      "samples": 360
+    },
+    "audio": {
+      "ok": true,
+      "errorCount": 0,
+      "warningCount": 0
+    },
+    "warning_review": "Craft line_unread pada 90 menit efektif adalah fragmen transisi; teks terkonfirmasi pada frame 17,6/18,6/19,4. Lihat REVIEW.md. Motion sidecar tidak digunakan; urutan gerak diperiksa lewat snapshot dan frame ekspor."
+  },
+  "editor_preview": "Chromium opened HyperFrames Studio with composition/timeline and no page errors",
+  "data": "Synthetic fixture assets from the user repository; no Google account or production spreadsheet accessed",
+  "application_source_modified": false,
+  "main_modified": false
+}

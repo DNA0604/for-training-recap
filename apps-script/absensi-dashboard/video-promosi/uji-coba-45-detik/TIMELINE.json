@@ -1,0 +1,45 @@
+{
+  "duration": 45,
+  "fps": 30,
+  "size": [
+    1920,
+    1080
+  ],
+  "scenes": [
+    {
+      "id": "opening",
+      "start": 0,
+      "duration": 5.5
+    },
+    {
+      "id": "access",
+      "start": 5,
+      "duration": 5.5
+    },
+    {
+      "id": "overview",
+      "start": 10,
+      "duration": 6.75
+    },
+    {
+      "id": "hours",
+      "start": 16.25,
+      "duration": 8
+    },
+    {
+      "id": "activity",
+      "start": 23.75,
+      "duration": 6.75
+    },
+    {
+      "id": "report",
+      "start": 30,
+      "duration": 9.25
+    },
+    {
+      "id": "closing",
+      "start": 38.75,
+      "duration": 6.25
+    }
+  ]
+}

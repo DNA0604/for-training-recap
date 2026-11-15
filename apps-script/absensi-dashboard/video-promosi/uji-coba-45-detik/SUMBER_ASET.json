@@ -1,0 +1,68 @@
+{
+  "repository": "DNA0604/for-training-recap",
+  "source_commit": "0189ab12a864a949655c36fedb231e10b9e04442",
+  "ui": "Tangkapan UI asli dari video-promosi/film/assets; fixture sintetis. Berkas PNG disalin tanpa perubahan piksel. Framing dan pembesaran dilakukan di komposisi video.",
+  "logo": "Logo Komdigi asli dari video-promosi/intro/assets/logo-komdigi.png, byte dipertahankan.",
+  "music": {
+    "file": "assets/music.m4a",
+    "source": "video-promosi/film/audio/Musik_Instrumental.m4a",
+    "source_title": "Perjalanan Tertata",
+    "offset_seconds": 40,
+    "duration_seconds": 45,
+    "treatment": "Fade masuk 0,5 detik, fade keluar 3 detik, loudnorm -19 LUFS/-2dBTP. Tanpa narasi.",
+    "provenance": "Track yang telah ada di repository pemilik, bukan komposisi baru pada sesi ini."
+  },
+  "sfx": "Tiga efek bawaan Hyperframes media-use, lisensi Pixabay; lihat assets/sfx/CREDITS.md.",
+  "fonts": "Nunito dari @fontsource/nunito 5.2.7, OFL; lihat assets/fonts/LICENSE.",
+  "gsap": "GSAP 3.13.0 disalin dari dependensi Motion dengan header lisensi utuh; https://gsap.com/standard-license/",
+  "files": {
+    "pengelolaan-selesai.png": {
+      "bytes": 100778,
+      "sha256": "d331e84247125017e8f3a5536f08ca144bc4bcf2e7313043dd4d7db6872ab43a"
+    },
+    "laporan-sampul.png": {
+      "bytes": 3076048,
+      "sha256": "ffdc311596d1a3f626a83b9ad2d045c5937de093b19f67f4b860a91fb196a096"
+    },
+    "catatan.png": {
+      "bytes": 63337,
+      "sha256": "c673f0e87d2adece55e442e3e491b74da3873f55fef3214e8247af1eeb383bc0"
+    },
+    "kehadiran.png": {
+      "bytes": 143196,
+      "sha256": "b01b9df6234f8c3adfe09fcd95ad5e46c4cb4e013245cd14d82d77430d084131"
+    },
+    "login.png": {
+      "bytes": 768981,
+      "sha256": "6c00c7f936b2466070df5cafdbcca75b9ec03e8b084a2ae95a561c975c591c13"
+    },
+    "beranda.png": {
+      "bytes": 170205,
+      "sha256": "f4fd9d4d26d3c1f611b44ad508a9d3c798941899c6089bf4651580eaadb485b9"
+    },
+    "laporan-hasil.png": {
+      "bytes": 120918,
+      "sha256": "4e2f65c3d22adbca3c8f66e88ae2f353883148f105430f41386add688d9b1b61"
+    },
+    "rekap.png": {
+      "bytes": 119165,
+      "sha256": "8ceca39c52c71fbb51e7b1f6915119eaa9fad4db646e2ad076a3036e987d671d"
+    },
+    "logo-komdigi.png": {
+      "bytes": 85600,
+      "sha256": "b7e073519bb82e0fcfe070e702e2fbcc42df406fd0ac9415f6f7216454fcdab5"
+    },
+    "music.m4a": {
+      "bytes": 1161471,
+      "sha256": "51f9d33d477c8a4052544264bf47872de689b29c92d212f33fa302b31df7b624"
+    },
+    "laporan-dialog.png": {
+      "bytes": 75267,
+      "sha256": "6cf640015d0504f198a40571a84c135c263de16fab8a396b96954ccba578177b"
+    },
+    "hitung-jp.png": {
+      "bytes": 21695,
+      "sha256": "a9b74348c5ceef7fd8f334587c0a378cbdc5fed16887782e529443ced420f410"
+    }
+  }
+}
