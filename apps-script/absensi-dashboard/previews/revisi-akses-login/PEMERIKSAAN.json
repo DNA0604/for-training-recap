@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-16",
+  "timezone": "Asia/Jakarta",
+  "branch": "fix/akses-tombol-login",
+  "changed_application_files": [
+    "Akses.gs"
+  ],
+  "backend_tests": {
+    "passed": 100,
+    "failed": 0
+  },
+  "browser_scripts_passed": [
+    "tests/browser/akses_browser.py",
+    "tests/browser/sesi_akses_browser.py"
+  ],
+  "coverage": [
+    "native/web management without owner label",
+    "successful diagnostic offers normal login navigation on configured deployment",
+    "desktop/mobile",
+    "same-tab link target",
+    "link hidden before success, on missing browser state, on RPC failure or inactive app",
+    "normal login/session/role/gateway/sidebar regressions"
+  ],
+  "syntax_checked_files": 19,
+  "script_blocks": 37,
+  "apps_script_output_placeholders_substituted_for_static_parse": 1,
+  "generated_proof_and_web_access_html_scripts_parsed": true,
+  "generated_html_duplicate_ids": false,
+  "unchanged_other_application_sources": 18,
+  "google_services": "mocked; no live deployment/data access",
+  "app_source_sha256": "cdc4f1c14deef57132fffd66ff458a1d48c4f6713ba5918bd5a899a962113a1a",
+  "diagnostics_render_before_database_setup": true
+}

@@ -3,6 +3,10 @@
 Current accepted application source for Pusat Pengembangan Aparatur Komdigi.
 Read ../../PROJECT_CONTEXT.md and ../../AGENTS.md first. These supersede the earlier flat UI package notes and old preview/test reports.
 
+## Revisi akses — 16 November 2026
+
+Keterangan Pengelola pada Manajemen Akses dihapus. Hasil uji identitas yang berhasil menyediakan tombol **Ke Halaman Login** saat login aplikasi aktif. Ganti **Akses.gs** saja, kemudian perbarui versi deployment yang sama. [Berkas, pemasangan, pratinjau dan hasil pengujian](docs/REVISI_AKSES_LOGIN.md).
+
 ## Files to use in Google Apps Script
 NilaiAkhir.gs, PresensiManual.gs, Code.gs, Laporan.gs, LaporanTampilan.gs, Hapus.gs, Jenjang.gs, Akses.gs, Evaluasi.gs, PemetaanJenjang.gs, Beranda.html, Index.html, Pengelolaan.html, Peserta.html, Profil.html, ManajemenAkses.html, Absensi.html, AdminQR.html, PratinjauJenjang.html.
 The project must remain bound to its existing Google Sheet. Retain the deployed manifest/scopes and deployment configuration.

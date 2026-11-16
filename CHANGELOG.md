@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-16 — hide access manager label and link verified diagnostics to login
+- Remove the Pengelola email paragraph/load assignment from shared native/web Manajemen Akses UI. Keep directory/backend authorization and data contracts intact.
+- Add Ke Halaman Login after successful identity diagnostics when application login is active, using the configured deployment and normal ?page=masuk route in the same tab. No diagnostic-created session; link remains hidden before success or on failure.
+- Production replacement: Akses.gs only. Added installation guide/dummy previews and extended existing browser assertions. 100 related backend tests, native/full-session desktop/mobile browser suites, source/generated script parsing and HTML IDs passed locally with mocked Google. No live data/deployment/main, manual or video changes.
+
 ## 2026-11-13 — instrumental music and effects, without narration
 - User explicitly declined voiceover and requested music/SFX. Added original 96 BPM instrumental arrangement and 22 sparse synthesized effects; no third-party song/sample or voice recording.
 - Muxed AAC stereo onto the exact existing H.264 stream: same 4:08/full HD/30fps visuals, accepted intro and source logos. Separate music/effects/mix tracks and editable composition/cue source retained.
