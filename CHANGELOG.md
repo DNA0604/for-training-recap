@@ -1,5 +1,208 @@
 # Changelog
 
+## 2026-11-18 — lighter write path (stage 1 of loading performance)
+- Code.gs only. Batch post-write verification (one validated read per sheet, ID index in memory), header read once per sheet in create transactions, grouped append/flush per sheet run, Jenjang column resolved once per import batch, and registry reuse for fresh import batches. Import no longer grows per participant: 67 sheet reads for 1 or 20 rows (was 81 to 290 with 22 participants; 602,471 to 78,689 cells at 500 participants). Program/session creation changes little; remaining cost is per-call authorization and whole-data integrity validation (not part of this stage).
+- 18 before/after comparisons produced identical responses and sheet contents; 451 backend tests pass (6 new, including failed-verification and partial-write retries). Service-call counts use mocked Google services, not Google latency. No browser, deployment, data, schema, UI, access-rule or main changes.
+
+## 2026-11-16 — hide access manager label and link verified diagnostics to login
+- Remove the Pengelola email paragraph/load assignment from shared native/web Manajemen Akses UI. Keep directory/backend authorization and data contracts intact.
+- Add Ke Halaman Login after successful identity diagnostics when application login is active, using the configured deployment and normal ?page=masuk route in the same tab. No diagnostic-created session; link remains hidden before success or on failure.
+- Production replacement: Akses.gs only. Added installation guide/dummy previews and extended existing browser assertions. 100 related backend tests, native/full-session desktop/mobile browser suites, source/generated script parsing and HTML IDs passed locally with mocked Google. No live data/deployment/main, manual or video changes.
+
+## 2026-11-13 — instrumental music and effects, without narration
+- User explicitly declined voiceover and requested music/SFX. Added original 96 BPM instrumental arrangement and 22 sparse synthesized effects; no third-party song/sample or voice recording.
+- Muxed AAC stereo onto the exact existing H.264 stream: same 4:08/full HD/30fps visuals, accepted intro and source logos. Separate music/effects/mix tracks and editable composition/cue source retained.
+- Normalized mix, synchronized authoring-player audio/mute/seek/pause/replay, renamed optional captions to text explanation and refreshed offline package. Technical AV/bitstream/audio/player and source/manual checks recorded separately from user listening review. No application, real Google data, deployment or main changes.
+
+## 2026-11-13 — accepted intro and full 4:08 visual preview
+- User accepted intro and requested continuing. Added full HD 248-second/30fps visual-text film with 36 body shots, preserving accepted intro by stream copy. Includes actual role-scoped UI interactions, consistent four-person case, evaluation/JP/recap/report flow and long-term value.
+- Kept exact intro frames and logo bytes. Captured 32 actual current UI states with synthetic local backend data; two actual-source report pages rendered locally. Manual/evaluation/verification/JP results use real local handlers; QR row/receipt are synthetic. No Google data access.
+- Added editable Canvas/HTML player, timeline, 419-word SRT captions, offline source package and provenance/checks. Explicit full-to-TV color conversion preserves UI contrast. Encoding/decode/timing/intro-frame/color/source/player checks passed. This is visual-first review output without voice/music; narration preference asked asynchronously, unanswered. Source application, three manuals, Google data/deployment/main unchanged.
+
+## 2026-11-13 — render first eight-second intro from supplied logo ZIP
+- User supplied Logo-Logo.zip; imported the exact three PNG originals and recorded hashes. Display-only viewport on STIA excludes blank space/detached right fragment; no source pixels, proportions or logo colors changed.
+- Produced silent 8-second 1920×1080 30fps H.264 faststart MP4 plus animated GIF/stills and editable HTML/offline package. Staggered logo entrance/hold transitions into dashboard title. No narration/music or full film produced.
+- Encoding/full decode, source hashes, timeline geometry, mobile player/reduced-motion checks passed. Written storyboard refreshed to v0.3 with blocker resolved; 248-second allocation and narration unchanged. All 19 app sources and three role manuals unchanged; no Google data/deployment/main changes. Intro user review pending.
+
+## 2026-11-13 — plan supplied three-logo intro within flexible duration
+- Record concept phase closed and user timing flexibility up to 4:20. User requested STIA LAN Jakarta, LAN and Komdigi logos in the opening. Added eight-second prelude to written storyboard v0.2: white background, original proportions/colors, soft entrance/hold/title transition; later scenes shift by eight seconds.
+- Updated editable Word/Markdown/JSON to 9 scenes, 26 planned shots, 248 seconds and unchanged 419-word narration. Native 11-page layout/timing/source checks passed. Supplied inline logo files are not available locally for exact rendering; source PNG/SVG attachments are required. No logos redrawn/substituted/embedded or video produced. Application sources, three role guides, Google data/deployment/main unchanged.
+
+## 2026-11-13 — accepted promo concept and editable script/storyboard draft
+- Record user agreement on one training journey, mixed leadership/Admin/stakeholder audience, natural professional Indonesian narration, approximately four minutes, usage experience and long-term value.
+- Added draft v0.1 in editable Word, Markdown and JSON: 8 scenes, 23 planned shots, 419 narration words and 240 seconds of contiguous editorial timings. Includes per-scene voiceover, UI/role interactions, text, transitions and coherent simulated participants.
+- Written script/storyboard is for user review; final format/voice/music/credits remain open. Native Word content and local 10-page layout checked. No animatic/audio/film produced; 19 application sources and three prior Word guides unchanged. No Google data/deployment/main changes.
+
+## 2026-11-13 — study three motion-graphics promotional references
+- User requested a 3–5-minute motion-graphics promo combining text and animated product use, and asked to study three uploaded videos before production. Recorded source hashes/dimensions/durations and examined chronological frames plus short transition sequences.
+- Added visual findings and a proposed blend of focused product UI, kinetic text/components and interaction emphasis, with an indicative four-minute structure. Landscape format, timing split, script/audio/audience are proposals or undecided, not approvals. No film produced, audio assessment, application/data/deployment/main changes; prior manuals and all 19 app sources unchanged.
+
+## 2026-11-10 — final role guide: Pengajar; participant guide cancelled
+- User requested Pengajar as the last guide and cancelled the participant manual. Current manual scope is three separate illustrated editable Word files: Admin, Petugas and Pengajar. Video/handover remain separate pending work.
+- Added Panduan_Pengajar.docx v1.0 with 6 chapters, 22 tasks and 17 current role-specific screenshots; 76 native numbered steps and 6 editable tables. Covers session-scoped reading, six-aspect evaluation, per-page saves, results/pagination, edits/source-change review and logout/troubleshooting; excludes performance history.
+- Actual server-rendered UI captured using synthetic teacher-scoped backend fixtures/mocked Google; 11 restricted methods or other-session calls denied and combined grades withheld. Word/XML/content/image/source checks and local 24-page rendering/page references passed. Prior Admin/Petugas documents and all 19 application sources unchanged at 7dacfb0. Word and PNG previews only; QA PDF outside repository. No Google data/deployment/main changes; Pengajar review pending.
+
+## 2026-11-10 — illustrated editable Word manual for Petugas Kelas
+- User accepted the Admin guide and requested Petugas next. Added Panduan_Petugas_Kelas.docx v1.0: 9 chapters, 30 tasks, 24 role-specific screenshots, 109 native numbered steps and 7 editable tables. Accepted Admin files remain unchanged.
+- Covers assigned classes, roster/profile viewing, attendance/absence/leave/corrections, behavior notes, Panitia evaluation, verification submission/pending/rejection/resubmission, JP follow-up and scoped recap/CSV/final details. Admin decisions/calculations and teacher-only evaluations are clearly separated.
+- Current server-rendered UI captured using synthetic staff-scoped backend fixtures/mocked Google; six restricted methods remain denied. Word/content/image/source checks and local 32-page pagination passed. Word plus PNG previews delivered; temporary QA PDF excluded. All 19 app sources unchanged at 7dacfb0, no Google data/deployment/main changes. Petugas user review and Pengajar/Peserta/video remain pending.
+
+## 2026-11-10 — illustrated editable Word manual for Admin
+- Created the first role manual: Panduan_Admin_Pelatihan.docx, version 1.0, with 12 chapters, 44 tasks and 39 illustrations. Instructions/headings/captions/170 numbered steps/9 tables remain editable Word elements; no flattened document pages or final PDF.
+- Captured 41 current server-rendered UI illustrations with synthetic fixtures/mocked Google; retained source selectors/hashes. Covers operational Admin workflows through evaluations, recap, reports and recovery while excluding performance history.
+- DOCX structure/content, native fields, local 46-page rendering and chapter page references checked. All 19 production source hashes unchanged; no Google data/deployment/main changes. User review pending; other three manuals/video remain pending.
+
+## 2026-11-10 — final manual format: editable Word
+- User found the visual sample sufficient and requested four editable .docx manuals as final deliverables, so they can change wording independently. Text/headings/steps/captions/tables remain native Word elements; screenshots are inserted images.
+- Existing PDF is a layout sample only. No final PDF manuals or full role manuals generated in this planning update; no application/deployment changes.
+
+## 2026-11-10 — agree separate illustrated manuals and prepare a visual sample
+- Record four audiences in separate documents: Admin, Petugas, Pengajar and a short public-QR participant guide. User requested screenshots with explanations and excluded performance measurements from user manuals.
+- Added a planning outline and one A4 login-page PDF/PNG sample with real current UI capture, three numbered document annotations and matching short instructions. Google services mocked; no real account data or operational RPCs. Complete manuals and video remain pending.
+- Documentation only; application source remains 7dacfb0, with no Apps Script installation, real data, deployment or main changes.
+
+## 2026-11-10 — record user-reported deployment loading time
+- User repeated the same test and reported 1 minute 44 seconds for the full login-to-logout workflow. Compared with the earlier approximate 2 minutes 30 seconds, this is about 46 seconds / 30.7% less elapsed time. This is user-reported workflow timing, not independent RPC profiling or a repeated-run average.
+- Documentation only; application source remains 7dacfb0. No new code installation/deployment, Google data or main change. Manual book/video remain pending; no further optimization requested.
+
+## 2026-11-10 — prioritize main data and remove duplicate startup reads
+- Scoped exclusively to loading as requested. Participant deep links apply Jenjang before one initial list request; route parameters load alongside program data on Peserta/Pengelolaan/Monitoring. Late Monitoring location callbacks retain session context.
+- Monitoring starts supplementary history after initial attendance settles, with no-session/error/manual and unavailable-location fallbacks. Read-only management participant summary uses request-local snapshots: source range reads 15→11, sheet lookups 20→11. Auth checks, four-method grouped gateway, writes/exports and other features preserved.
+- 445 backend tests and mocked Chromium loading/app/role/Jenjang/evaluation checks pass. All 24 complete before/after backend responses across 22/100/500 synthetic participants match; per-RPC Google latency remains unmeasured; the later user-reported total workflow time is recorded above. Install four complete files together; see PEMUATAN_PRIORITAS_UTAMA.md. No real data, deployment or main change.
+
+## 2026-11-09 — Verifikasi Akun from the welcome page
+- Replaced the role/session box with a Verifikasi Akun button, retaining the four-hour note separately. Added a Google identity flow for already registered active accounts that returns to the same welcome UI before deliberate application login.
+- Reuses audited account binding and purpose/nonce/PKCE/browser/config/expiry checks; verification returns minimal success without issuing/extending/revoking an app session or reading operational data. Main login, active-session restore, owner diagnostics, QR and gateway permissions remain.
+- Added installation guide and screenshots; 443 backend tests, mocked Chromium verification→login/auth/session/three-role regressions, source hashes/syntax/HTML IDs pass. Google deployment acceptance pending. No real Google data/deployment or main changes.
+
+## 2026-11-09 — implement the welcome login page
+- Integrated the previous preview photo and navy/white responsive welcome design into the existing guarded Google-login overlay in Akses.gs, including account help and four-hour access notes. Checking stays compact; valid sessions continue without an extra click or artwork download.
+- Fixed public artwork-only response defers the larger image until login/error is shown; no data/service reads or expanded operational gateway. Image failure does not block login. Google callback, live account/role checks, storage/revocation, QR and native-owner flow retained.
+- Added installation guide, actual application screenshots and asset provenance. 433 backend tests, mocked Chromium welcome/auth/three-role regressions, source hashes/syntax/HTML IDs pass. Google deployment acceptance pending; no real data, deployment or main changes.
+
+## 2026-11-09 — revise login concept building photo and remove eyebrow
+- Replaced the isolated prototype's old cover photo with a building-focused derivative made from the newly supplied inline photograph, and removed the small application-name label above the left headline. Right login panel, logo, production report cover and authentication unchanged.
+- Explicitly document image-generation provenance: preview crop/reframe is not pixel-identical to the original inline upload. Updated desktop/mobile screenshots and checked layouts/states at 1440/390/320 px. No production source, data, deployment or main change.
+
+## 2026-11-09 — initial login concept and isolated responsive preview
+- User requested concept/UI design before implementation. Added a separate navy/white welcome + Google-login preview with existing official logo/building artwork, responsive desktop/mobile views, account-help copy and illustrative checking/remembered/unregistered/error states.
+- Preserves the proposed continuation of valid four-hour sessions and existing role/Google verification; no public signup, role selector, real OAuth or operational source changes. Local Chromium layout/state checks passed at 1440/390/320 px. See previews/konsep-login-awal/README.md. Integration and user design acceptance pending; no live data/deployment/main changes.
+
+## 2026-11-04 — implement audited UI spacing, close icons and participant selector
+- User authorized the audited fixes. Standardize related action/card gaps at 12 px, including touching Jenjang/Program cards and mobile access controls; preserve tab/sidebar spacing. All covered dialogs now have one accessible 44×44 X with a 20px SVG, with sticky static headers for long forms.
+- Preserve old header IDs/handlers; added X buttons delegate to existing cancel actions and mirror disabled state, keeping save/upload/deletion/draft/retry behavior. Dynamic legacy review/verification and evaluation dialogs share close styling.
+- Peserta now shows Program before Jenjang, disables Jenjang without Program, and resets levels on Program changes while retaining single-level selection, role scope and import locks. No data/RPC/schema/scoring/login/sidebar changes.
+- Replace seven sources together; see docs/UI_JARAK_TUTUP_MODAL_PESERTA.md. 431 backend tests and mocked Chromium geometry for 66 modal occurrences, no-write cancellation/busy mirror/deletion-X/long-scroll, plus app/role/Jenjang/evaluation/manual/final-grade regressions pass. Native Google deployment acceptance pending; no real data/deployment/main change.
+
+## 2026-11-04 — UI spacing/modal/participant-selector audit only
+- User explicitly requested findings and design before code. Audited six Admin pages and injected modals at desktop/mobile with mocked Google: touching Jenjang/Program cards, mixed action gaps, inconsistent/missing X controls, and participant Jenjang order/disabled state.
+- Documented a proposed 12 px grouped spacing, 44×44 close button with 20 px icon, reuse of existing cancel/busy/dirty guards and Program→Jenjang behavior. No application code, source hashes, spreadsheet data or deployment changed. See docs/AUDIT_UI_2026-11-04.md; implementation awaits a subsequent instruction.
+
+## 2026-11-03 — loading audit and bounded date-computation reuse
+- User selected loading review and reported roughly 2.5 minutes across all Admin pages. Added reproducible 22/100/500 participant, seven-read before/after comparisons with identical responses; clearly distinguish mock CPU times from unmeasured Google latency.
+- Code.gs reuses bounded scalar date computations only within existing read snapshots, preserving lock-time invalidation and fresh writes. Initial selections avoid duplicate display reads; Rekap indexes attendance pairs/session notes while retaining duplicate and cross-person leave validation. Index QR library is async, allowing the page to load before the CDN completes.
+- Akses.gs exposes a bounded, in-memory per-page timing reader containing transport/method/duration/status only, no credentials, IDs, payloads, responses or error text. No schema/migration/login/scoring/permission/sidebar/grouped-read change. Replace these three files together.
+- 431 backend tests, 21 baseline comparisons and mocked Chromium delayed-CDN/QR/timing/privacy/mobile plus app/evaluation/final-score regressions pass; source parsing/IDs/hashes checked. Google deployment timing remains for user review. Guide: docs/PEMERIKSAAN_PEMUATAN_DATA.md. No live data/deployment/main change.
+
+## 2026-11-03 — pre-handover work list expanded
+- User added a manual book for application use and an animated introduction covering feature functions and usage, with the video completed before institutional handover. Recorded both as pending work alongside the loading review and handover; final application flows should inform the guide/video.
+- Planning documentation only. No manual/video production, loading audit, application changes or new deployment in this update; delivery dates and video specifications remain unspecified.
+
+## 2026-11-03 — participant final evaluation accepted by user
+- User tested one dummy participant and confirmed the overall score appeared in Rekap Program and the report, then confirmed "oke, semua sudah sesuai" after the remaining validation checklist. Close the final-evaluation update as completed for the exercised checks; do not generalize this to untested datasets/load/fault scenarios.
+- Documentation only: no application source, source hashes, spreadsheet data, Google deployment or main-branch change. No file replacement/redeployment needed.
+
+## 2026-11-03 — agreed participant final evaluation, program weights and shared exports
+- Added NilaiAkhir.gs: equal-aspect/session normalized teacher/Panitia means, default 60/40, audited per-program Admin weights, current-source/assignment checks, explicit absence exclusions, missing/unknown/stale/provisional statuses and no fabricated zero or passing decision. JP, behavior and Admin-to-instructor evaluation remain separate.
+- Added Admin weight modal and participant session breakdown in Rekap Program, profile result, values/status in the existing 23-column CSV and PDF section 6.4. Server scopes staff and withholds Panitia/final aggregates from teachers. Child source failure blocks CSV. Settings preserve live lock-time authorization, stale versions and same-ID retry/lost-receipt behavior.
+- Existing evaluation spreadsheet gains owned derived Rekap_Nilai_Akhir only on manual recap refresh. Source-version checks include attendance/settings/session phase; JP-only attendance outputs excluded. No operational migration, new spreadsheet, automatic source movement, login/sidebar change or widened grouped-read gateway.
+- Add NilaiAkhir.gs and replace seven sources together (19 total); see docs/NILAI_AKHIR_PESERTA.md. 425 backend tests, mocked Chromium final-score/CSV/settings/profile/mobile/privacy plus app/evaluation/manual regressions and local 2/13 participant DOCX/PDF previews pass. Native Google conversion/deployment still needs user checks; no live data/deployment/main change.
+
+## 2026-11-02 — one Evaluasi chooser and spaced summary actions
+- Added one Evaluasi action opening existing forms in the requested Admin order: Evaluasi Peserta (Panitia), Evaluasi Pengajar, Lihat Evaluasi Peserta (Pengajar). Descriptions clarify each purpose. Staff/teacher keep only their authorized choices; readonly Admin teacher results remain readonly. No backend/RPC/scoring/permission change.
+- Grouped Ringkasan Sesi buttons with a 12 px gap. Choice dialog closes before the target form, supports X/Escape/focus, makes no evaluation RPC itself, and follows existing disabled/form/draft/save/retry/recap behavior.
+- Replace Index.html and Evaluasi.gs together after fcb4c4f; no new source/sheet/migration. 407 backend tests and Chromium three-role desktop/mobile chooser plus evaluation and Presensi regressions pass; syntax/IDs/hashes checked. Deployment Google still needs user confirmation; no live data/deployment/main change. Guide: docs/PILIHAN_EVALUASI.md.
+
+## 2026-11-02 — compact Presensi UI and optional Sakit/Izin evidence
+- User requested five summary cards in one desktop row, a single clearable participant search with row prefill/blank standalone, Hadir/Tidak Hadir radio and conditional status list, optional Sakit/Izin evidence, and one Presensi chooser for manual/QR/izin. Implemented with responsive mobile/keyboard behavior; existing sidebar, pagination, JP, QR and scoring rules remain.
+- Existing scoped uploader validates optional PDF/JPG/PNG ≤5 MB. Store reference in Kehadiran.dasar_verifikasi and existing audit; combine typed Sakit/Izin with old leave notes in Daftar Izin & Sakit and verification without creating new behavior/leave notes. Sakit does not increment izin statistics; Tanpa Keterangan retains alpa. Preserve existing proof on edit, update on replacement and clear current reference on non-proof status; keep files/history. Upload/manual retries preserve their IDs and old pending payloads without evidence stay compatible.
+- Replace Index.html, PresensiManual.gs, Akses.gs together after 63e6a75; no new file/schema/book/migration. 407 backend tests, Chromium compact form/evidence/paging plus app/login/roles/evaluation regressions, syntax/IDs/hashes pass. Google deployment/Drive permissions remain for live testing; no production data/deployment/main change. Guide: docs/PRESENSI_RINGKAS_BUKTI.md.
+
+## 2026-11-02 — manual status attendance and bounded Monitoring table
+- User confirmed manual-only JP rules: Hadir full effective duration, Terlambat fixed 15-minute deduction, Sakit/Izin/Alpa JP 0 and no automatic behavior points. Added PresensiManual.gs on existing Kehadiran/audit schema, with verified actor/role/Jenjang/lock/stale checks, one participant-session row, timestamp-free manual facts, QR/log conflict protection and audited same-ID resumable writes. Pending drafts reload for initiator/Admin; related verification/recap/report remain protected until completion.
+- Combined Presensi Manual, QR Absensi and Catat Izin in one card; fixed independent table scroll/sticky header and 10 participants per page. Search/status filters cover all scoped rows and pagination makes no RPC. Typed absences, manual full-session leave and lateness propagate to session verification, JP/CSV/profile/Beranda/PDF without fabricated times or behavior notes. JP save invalidates old totals and retains Admin calculation; QR policy, sidebar and login stay intact.
+- Added request-local sheet references and cloned parsed tables within existing read allowlists. Local synthetic getSheetByName calls: initial 22→12, attendance 40→14, home 41→13; no cross-request authorization/data cache and no claim of measured Google latency.
+- Replace seven sources together and add PresensiManual.gs; complete installation guide/source hashes cover 18 HTML/GS files. 400 backend tests, Chromium app/auth/role/evaluation/manual pagination and syntax/unique-ID checks pass. Local synthetic manual PDF previews exercise 2/13 participants; native Google conversion/deployment tests remain for the user. No live data, deployment or main merge.
+
+## 2026-11-01 — flowing justified report paragraphs
+- User reported report output safe with improved design, requested tidier writing/alignment and retained current content. Replaced artificial per-line soft returns in narrative with original flowing paragraphs, explicit justified alignment and LTR direction; page splitting preserves original words/whitespace/Unicode. Explicit metadata breaks, heading/table alignment, data and section content stay intact. No AI added.
+- Replace LaporanTampilan.gs only after the report package. 379 backend tests pass, including two typography regressions. Regenerated local 2/13 participant PDFs keep 25/42 pages with matching TOC/footer, no blank body/overflow, and measured non-final narrative word edges aligned at both margins. Google conversion must still be checked on deployment. No Google writes/deployments/main merge.
+
+## 2026-11-01 — formal program PDF using the agreed institution template
+- Implemented the audited/clarified template: original cover, dynamic program/date, corrected distinct cover/body headers, Arial page standards, automatic TOC/page numbering, seven formal sections and landscape data appendices. Tables-only at ≤12 active participants; meaningful bounded charts above that threshold.
+- Added current three-rubric evaluations from existing validated journals, expected/filled/missing/stale counts and descriptive aspect means with explicit denominators. JP/behavior calculations, Jenjang obligations, account permissions and source sheets remain unchanged; no new score, sign-off, AI or text editor. Report ID/time/source hash distinguish publications.
+- Controlled DOCX is converted privately through Google Drive API; verify resulting PDF page count before download, recheck current access/program status and clean temporary imports including uncertain-response lookup. No operational writes. Replace Laporan.gs/Pengelolaan.html and add LaporanTampilan.gs; no sheet/migration needed.
+- 377 backend tests and mocked Chromium app/report/evaluation regressions pass. Local LibreOffice previews (2/13 participants and long-text stress) match TOC/page plans; source/IDs/hashes checked. Real Google conversion/deployment remains for user testing; Google Drive API must be enabled. Guide: docs/LAPORAN_TEMPLATE.md. No agent Google writes/deployment/main merge.
+
+## 2026-11-01 — six additional attendance/behavior statistics in program CSV
+- User supplied the legacy CSV and approved counts from approved notes only, distinct-session leave and rule point totals before positive cap/base. Added arrival/late/leave/positive/negative counts and net behavior points; keep existing headers including Jenjang and final-grade placeholders.
+- Attendance counts valid effective arrivals including non-JP sessions, lateness >10 minutes; no artificial attendance for leave. Approved leave is separate from negative event count. Scoring uses existing rule output and temporary status, not new grade formulas. Counts work without a scoring rule; absent points stay blank. Scope follows existing Program/Jenjang/teaching-session restrictions.
+- Replace Code.gs and Index.html together. 368 backend tests, actual Blob CSV downloads in mocked Chromium Admin/Petugas and app/evaluation regressions, syntax/ID/hash checks pass. No schema, Google write/deployment or main change. Guide: docs/CSV_STATISTIK_PROGRAM.md. Real deployment verification remains pending.
+
+## 2026-10-30 — prioritize primary dashboard data and group parallel recap/history reads
+- Load Beranda/Monitoring primary data before starting supplementary correction/verification history. Group the two Monitoring history reads and the JP/behavior recap pair into bounded read-only requests; refresh still reads new sources.
+- Fixed server allowlist and argument limits, live session/directory validation and per-member role/target checks retain isolation. No write/export/evaluation batching, cross-request business cache, sidebar or four-hour login-policy change. Failed members remain explicit errors; late results stay masked after logout/account change.
+- Only Akses.gs changes from c939a2b. If the login package is not installed yet, replace Akses.gs, Code.gs and Jenjang.gs together. Local fixture data-range reads fall 20→11 for Monitoring histories and 25→16 for recap; these are not production timing measurements. 359 backend tests and mocked Chromium application/evaluation suites pass; no Google data/deployment/main change. Guide: docs/PEMUATAN_DASHBOARD.md.
+
+## 2026-10-30 — persistent four-hour login and request-scoped read deduplication
+- User selected an absolute four-hour session including closed web pages, with no 30-minute idle logout. Added browser persistent storage with tab/memory fallback, server metadata independent of cache eviction, durable logout markers, cross-tab logout/account-change handling and preserved live scope/revocation checks.
+- Deduplicated values/formulas within allowlisted read requests only; new requests read afresh and lock-time rechecks discard the old snapshot. Operational write paths remain uncached. Local fixture data-range reads fall from 30 to 13 for Beranda and 26 to 14 for Monitoring; no claim of measured Google latency improvement.
+- Replace Akses.gs, Code.gs and Jenjang.gs together. No new source/book/setup. Passed 351 backend tests, source/generated parsing/IDs/hashes and mocked Chromium persistence/expiry plus prior app/evaluation/leave/access flows. No real Google writes/deployment/main merge. Guide: docs/LOGIN_PERSISTEN_PEMUATAN.md.
+
+## 2026-10-30 — Panitia evaluation accepted by user
+- User confirmed “sip, sudah aman” and requested login/loading next, postponing other work. Accepted cumulative application baseline: e7cfaa7 on feat/evaluasi-peserta-panitia. Specific live checks were not enumerated; do not claim exhaustive unrelated fault/Google coverage.
+
+## 2026-10-30 — Panitia evaluates participants after each session
+- Added the user's three aspects (discipline, cooperation, initiative), integer 1–5 per participant/session, optional comments and no dependency on detailed behavior notes or attendance. Writes open after scheduled session end, including active programs; Pengajar is denied, Admin/Petugas follow live Jenjang access.
+- A shared assessment retains verified actor and before/after history, source/row versions, batched idempotent retries and conflict protection. Added a scroll/sticky-header/X modal action in Ringkasan Sesi and Admin recap action. Existing teacher/instructor evaluation and JP/scoring remain separate.
+- Lazily adds Evaluasi_Peserta_Panitia and manual Rekap_Evaluasi_Panitia on the connected evaluation file, preserving deleted-source history, blank grades and no aggregate/final weights. Replace Evaluasi.gs and Akses.gs together; no new source/setup/book.
+- Passed 337 backend tests (17 new cases), generated/source parsing/IDs/hashes and mocked Chromium new and prior role/evaluation/leave/app/indicator flows. No real Google writes/deployment/main merge. Guide: docs/EVALUASI_PANITIA.md.
+## 2026-10-30 — leave without attendance accepted by user
+- User confirmed installing/updating and testing the latest package, with all normal. Accepted cumulative application baseline: e4a20e5 on feat/izin-peserta-tanpa-presensi. The specific exercised live/fault cases were not enumerated; do not claim exhaustive verification of unrelated indicator/JP/upload paths.
+- Documentation only. No application/source-hash changes, replacement files or deployment needed. Pending institution work remains persistent login, measured loading optimization and CSV columns awaiting a sample.
+
+## 2026-10-30 — leave notes for participants without attendance
+- Removed the web picker/save/upload dependency on an existing attendance row. Admin/scoped Petugas may record partial or full-session leave for active participants; Pengajar remains denied. Added a fill-session-times button and clearer leave guidance.
+- No synthetic attendance/scans or automatic JP. Notes use the existing session/membership relationship; later attendance calculations already match it. Existing attendance keeps version checks and JP invalidation. Pair-bound evidence, scope/revocation checks, same-interval duplicate prevention and pending audit checks cover unscanned targets.
+- Replace Code.gs, Akses.gs and Index.html together; includes 69ceb08 indicator-status fix. No new schema/setup/files. Passed 320 backend tests (12 new regressions), source/generated parsing/IDs/hashes and mocked Chromium Admin/staff desktop/mobile plus prior app/access/indicator flows. No real Google writes or deployment. Guide: docs/IZIN_TANPA_PRESENSI.md.
+
+## 2026-10-30 — indicator status edits no longer parse unrelated legacy rules
+- User confirmed new-indicator deletion but reported Konfigurasi aturan penilaian tidak valid when disabling MAKAN_SAAT_SESI. Reproduced the failure with malformed/blank historical rule configuration: indicator edit parsed every rule even when definition/type were unchanged. The exact live rule row was not supplied.
+- Check note/rule usage only when changing definition/type. Status and default-point edits preserve all stored rules/notes/grades, with IZIN_SESI, type/sign, duplicate-active-code, permissions, stale versions and audit/retry protections retained. Meaning changes and deletion still require their existing reference checks.
+- Replace Code.gs only after the preceding two-file indicator package. Passed 308 backend tests (eight new regressions) plus all source script parsing/HTML IDs. No Google writes, schema/legacy data repair, UI change or deployment performed.
+
+## 2026-10-30 — protected deletion of unused behavioral indicators
+- Added Admin indicator selection/deletion inside the existing Add/Edit modal, with usage proof, reason/acknowledgement and separate final confirmation. Default indicators and references in any program/rule/history/connected file remain protected; Nonaktif remains available.
+- Reused the audited backup/resume transaction, rechecked usage under lock and reserved retired IND IDs. No cascading note/rule/score/JP changes. Failed refresh keeps the result unconfirmed until a fresh catalog is available.
+- Replace Hapus.gs and Index.html together. Passed 300 backend tests and mocked Chromium indicator/retry/recovery plus existing app/evaluation/deletion regression checks. No Google data/deployment/main changes. Guide: docs/HAPUS_INDIKATOR.md.
+
+## 2026-10-30 — access dashboard accepted by user
+- User confirmed all behavior normal and requested the next stage. Accepted application baseline: 8e9a01b on ui/manajemen-akses-dashboard. This records reported acceptance without claiming exhaustive live fault/Google cases.
+
+## 2026-10-30 — dashboard shell for web Manajemen Akses
+- Added ManajemenAkses.html with the accepted institutional header/sidebar, active access navigation and responsive cards, reusing existing owner directory forms/handlers from Akses.gs without a Beranda data loader. Native owner setup/recovery panel and server permissions remain.
+- Scoped directory busy controls, retained sidebar interaction, preserved /dev+/exec and Program/Jenjang/session context on navigation, and made the auth overlay usable after logout from an open mobile drawer. No account/session policy changes.
+- Add HTML ManajemenAkses and replace Akses.gs together. Passed 283 backend tests, 66 source/generated script parses/IDs and mocked Chromium web/native directory, sidebar/navigation/mobile/logout and prior role/evaluation/recap regressions. No Google data/deployment/main changes.
+
+## 2026-10-30 — Admin-to-Pengajar evaluation accepted by user
+- User confirmed implementation and normal behavior. Accepted application baseline: 7683452 on feat/evaluasi-pengajar-admin. Marked the requested feature completed while distinguishing reported acceptance from unenumerated live/fault cases.
+- Documentation only; no application/hash changes, replacement files or deployment needed.
+
+## 2026-10-30 — Admin evaluation of Pengajar per session
+- Implemented the agreed five aspects on integer 1–5, with optional comments, verified Admin identity, before/after history, source/row versions and idempotent retry. Pengajar/Petugas cannot read/write instructor assessments. No weights/final grade.
+- Added the Admin session-summary action/modal and a lazily initialized Evaluasi_Pengajar journal on the existing evaluation file; legacy/empty journals remain compatible. Existing manual recap adds Rekap_Evaluasi_Pengajar with current and retained historical/deleted-source values.
+- Replace Evaluasi.gs and Akses.gs together. Passed 283 backend tests, mocked Chromium Admin/Teacher/Staff plus prior app/directory regressions and parsing/IDs. No Google data/deployment or main merge performed.
+
 ## 2026-10-30 — connected spreadsheet recap accepted by user
 - User confirmed the recap matches expectations. Accepted application baseline is a8f9e16 on feat/rekap-penilaian-spreadsheet. Recorded user acceptance separately from local mocked checks and unexercised live cases.
 - Updated pending institution-request statuses and the proposed next discussion. Documentation only; no source/hash changes, replacement files or deployment needed.
