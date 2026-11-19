@@ -1,6 +1,9 @@
 # Monitoring Pelatihan Pegawai — handoff
 
-Status updated: 18 November 2026, Asia/Jakarta. The accepted sidebar/navigation baseline originated on 24 October; the latest deletion feature and transaction fix were subsequently deployed, tested and accepted by the user on 27 October. Continue from this cumulative source, superseding the earlier flat-dashboard UI package.
+Status updated: 19 November 2026, Asia/Jakarta. The accepted sidebar/navigation baseline originated on 24 October; the latest deletion feature and transaction fix were subsequently deployed, tested and accepted by the user on 27 October. Continue from this cumulative source, superseding the earlier flat-dashboard UI package.
+
+## Pemuatan tahap 3: validasi integritas — 19 November 2026
+Approved by the user after stage 2. The whole-data integrity guard now reads each table once (always on, identical results). An owner-enabled, default-OFF 60-second marker lets only public QR attendance skip it. Row/column-limited reads are deferred pending real data sizes and because Monitoring's full-roster summary and client-side pagination are existing project rules. Not deployed or live-tested. [Details](apps-script/absensi-dashboard/docs/INTEGRITAS_TAHAP3.md).
 
 ## Pemuatan tahap 2: otorisasi per panggilan — 18 November 2026
 Approved by the user after stage 1. Akses.gs only; default OFF and owner-enabled. A short-lived per-user directory-validation cache (30-second bound for manual spreadsheet edits, immediate invalidation for in-app access changes) removes per-call directory reads, spreadsheet opens, owner checks and the script lock on warm read calls. Not deployed or live-tested. Pre-write re-check, session record, login configuration, Jenjang scope and Pengajar assignments stay live. [Details](apps-script/absensi-dashboard/docs/OTORISASI_TAHAP2.md).

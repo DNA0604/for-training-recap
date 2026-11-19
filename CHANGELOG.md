@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-19 — integrity validation (stage 3 of loading performance)
+- Jenjang.gs, Hapus.gs, Code.gs (one line), Akses.gs (two owner switches). Part A, always on: the whole-data integrity guard reads Jenjang, Sesi and Keikutsertaan once and reuses them (17 to 6 sheet reads per check; identical error order and messages), lightening all 22 mutation entry points (e.g. add program 32 to 21, add session 37 to 26, import 5 participants 45 to 34 data-sheet reads).
+- Part B, default OFF and owner-enabled (aktifkanValidasiCepatPresensiQR): a 60-second marker after a passing validation lets only public QR attendance skip the whole-data validation; other mutations always validate, failures clear the marker, manual spreadsheet corruption may go unnoticed by the QR path for up to 60 seconds.
+- Identical responses and sheet contents on 6 mutation actions, identical errors on 4 corrupted-data cases; 467 tests pass (7 new). Mocked-service counts, not Google latency. Row/column-limited reads deliberately not done (see docs). Not deployed or live-tested.
+
 ## 2026-11-18 — authorization cache (stage 2 of loading performance, default OFF)
 - Akses.gs only. Per-user directory-validation cache, enabled only when the owner runs aktifkanCacheOtorisasiPanitia (matikanCacheOtorisasiPanitia turns it off). Warm calls skip directory reads, spreadsheet opens, owner checks and the script lock: session check 8 to 2 sheet reads, data load 10 to 4, session entry 17 to 11 (mocked-service counts, not Google latency). Session record, login configuration, Jenjang scope, Pengajar session assignments and the pre-write re-check remain live.
 - In-app access changes invalidate the cache immediately through a directory version stamp bumped on every access audit/write; manual spreadsheet edits lag at most 30 seconds. Identical responses with cache off and on in 10 comparisons; 9 new tests (460 total). Not deployed or live-tested; stage 3 not started.
