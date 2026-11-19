@@ -2970,7 +2970,7 @@ function simpanAbsensiPeserta(data) {
   const lock = LockService.getScriptLock();
   lock.waitLock(30000);
   try {
-    pastikanTidakAdaHapusTertunda_();
+    pastikanTidakAdaHapusTertunda_({izinkanLewatiBaru: true});
     const ss = databasePelatihan_();
     function tabel(nama, wajib) {
       const sheet = ss.getSheetByName(nama);
