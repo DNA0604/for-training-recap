@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-18 — authorization cache (stage 2 of loading performance, default OFF)
+- Akses.gs only. Per-user directory-validation cache, enabled only when the owner runs aktifkanCacheOtorisasiPanitia (matikanCacheOtorisasiPanitia turns it off). Warm calls skip directory reads, spreadsheet opens, owner checks and the script lock: session check 8 to 2 sheet reads, data load 10 to 4, session entry 17 to 11 (mocked-service counts, not Google latency). Session record, login configuration, Jenjang scope, Pengajar session assignments and the pre-write re-check remain live.
+- In-app access changes invalidate the cache immediately through a directory version stamp bumped on every access audit/write; manual spreadsheet edits lag at most 30 seconds. Identical responses with cache off and on in 10 comparisons; 9 new tests (460 total). Not deployed or live-tested; stage 3 not started.
+
 ## 2026-11-18 — lighter write path (stage 1 of loading performance)
 - Code.gs only. Batch post-write verification (one validated read per sheet, ID index in memory), header read once per sheet in create transactions, grouped append/flush per sheet run, Jenjang column resolved once per import batch, and registry reuse for fresh import batches. Import no longer grows per participant: 67 sheet reads for 1 or 20 rows (was 81 to 290 with 22 participants; 602,471 to 78,689 cells at 500 participants). Program/session creation changes little; remaining cost is per-call authorization and whole-data integrity validation (not part of this stage).
 - 18 before/after comparisons produced identical responses and sheet contents; 451 backend tests pass (6 new, including failed-verification and partial-write retries). Service-call counts use mocked Google services, not Google latency. No browser, deployment, data, schema, UI, access-rule or main changes.
