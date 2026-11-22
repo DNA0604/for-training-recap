@@ -1,5 +1,27 @@
 /** Sumber server tetap; ID database tidak diterima dari browser. */
-function databasePelatihan_(){const active=SpreadsheetApp.getActiveSpreadsheet();if(active)return active;if(typeof databaseAkses_==='function')return databaseAkses_();throw Error('Database pelatihan tidak tersedia pada konteks ini.');}
+/**
+ * Pemakaian ulang HANDLE (objek spreadsheet/sheet, bukan data) selama SATU panggilan gateway. Tidak ada isi sheet yang disimpan:
+ * setiap pembacaan nilai tetap langsung ke Google Sheets. Aktif hanya di dalam denganHandleMemo_, null di luar itu.
+ */
+var memoHandle_=null;
+function denganHandleMemo_(fn){if(memoHandle_)return fn();memoHandle_={};try{return fn();}finally{memoHandle_=null;}}
+function bungkusSheetMemo_(ss){const sheets=new Map();return new Proxy(ss,{get(target,prop){if(prop==='getSheetByName')return nama=>{const kunci=String(nama);if(sheets.has(kunci))return sheets.get(kunci);const sheet=target.getSheetByName(nama);if(sheet)sheets.set(kunci,sheet);return sheet;};const nilai=target[prop];return typeof nilai==='function'?nilai.bind(target):nilai;}});}
+/** Rincian waktu per tahap untuk log WAKTU (hanya nama tahap dan milidetik). Null di luar panggilan gateway. */
+var tahapWaktu_=null;
+function ukurTahap_(nama,fn){if(!tahapWaktu_)return fn();const t=Date.now();try{return fn();}finally{tahapWaktu_.push([nama,Date.now()-t]);}}
+/** Spreadsheet aktif (container). Satu pembungkus bersama untuk databasePelatihan_ dan databaseAkses_ selama satu panggilan gateway. */
+function spreadsheetAktifMemo_(){
+  if(memoHandle_&&memoHandle_.aktif!==undefined)return memoHandle_.aktif;
+  let ss=SpreadsheetApp.getActiveSpreadsheet()||null;
+  if(ss&&memoHandle_)ss=bungkusSheetMemo_(ss);
+  if(memoHandle_)memoHandle_.aktif=ss;
+  return ss;
+}
+function databasePelatihan_(){
+  const ss=spreadsheetAktifMemo_();if(ss)return ss;
+  if(typeof databaseAkses_==='function')return databaseAkses_();
+  throw Error('Database pelatihan tidak tersedia pada konteks ini.');
+}
 function doGet(e) {
   const parameter =
     e && e.parameter ? e.parameter : {};

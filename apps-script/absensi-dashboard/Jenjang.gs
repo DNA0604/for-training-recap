@@ -95,13 +95,13 @@ function validasiIntegritasOperasionalJenjang_(opsi){
   pastikanMigrasiJenjangSiap_();
   if(opsi&&opsi.izinkanLewatiBaru&&integritasQRCepatAktif_()&&integritasBaruLolos_())return;
   const jenjang=bacaMentahJenjang_('Jenjang',true);if(!jenjang)return;
-  try{
+  try{ukurTahap_('integritas',()=>{
     const sumber={jenjang,sesi:null,keikutsertaan:null};
     for(const name of ['Sesi','Keikutsertaan','Kehadiran','Catatan_Perilaku','Log_Absensi']){
       const tabel=bacaMentahJenjang_(name);if(name==='Sesi')sumber.sesi=tabel;if(name==='Keikutsertaan')sumber.keikutsertaan=tabel;
       validasiTabelJenjang_(name,tabel,sumber);
     }
-  }catch(e){hapusIntegritasLolos_();throw e;}
+  });}catch(e){hapusIntegritasLolos_();throw e;}
   catatIntegritasLolos_();
 }
 
