@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-20 — handle reuse, configurable cache TTL and stage timings (stage 4)
+- Code.gs, Akses.gs, Jenjang.gs. Within one gateway call the active spreadsheet, looked-up sheets and the access workbook (with its owner check) are reused; no sheet values are cached and everything resets when the call ends or fails. Before/after on five actions: identical responses and sheet contents, total service calls down 57 to 69 percent (for example manual attendance 329 to 102; getActiveSpreadsheet 142 to 1, getSheetByName 91 to 11, getOwner 6 to 2) with unchanged data reads. Mocked-service counts, not Google latency.
+- The authorization cache TTL can be set through the AKSES_CACHE_TTL_DETIK Script Property (5-600 seconds, default 30). The WAKTU log now includes jalankan_ms and per-stage milliseconds.
+- 475 tests pass (4 new); one existing metadata-calls test baseline adjusted to disable the new layer too. Not deployed or live-tested.
+
+## 2026-11-19 — per-call timing diagnostics
+- Akses.gs only. The RPC gateway logs one line per call (RPC name, total and authorization milliseconds, status; grouped dashboard reads include per-member milliseconds) so Executions shows which RPC is slow. No token, arguments or personal data are logged; a failing console never affects an RPC. No behavior, data, schema or access change; 471 tests pass (4 new).
+
 ## 2026-11-19 — integrity validation (stage 3 of loading performance)
 - Jenjang.gs, Hapus.gs, Code.gs (one line), Akses.gs (two owner switches). Part A, always on: the whole-data integrity guard reads Jenjang, Sesi and Keikutsertaan once and reuses them (17 to 6 sheet reads per check; identical error order and messages), lightening all 22 mutation entry points (e.g. add program 32 to 21, add session 37 to 26, import 5 participants 45 to 34 data-sheet reads).
 - Part B, default OFF and owner-enabled (aktifkanValidasiCepatPresensiQR): a 60-second marker after a passing validation lets only public QR attendance skip the whole-data validation; other mutations always validate, failures clear the marker, manual spreadsheet corruption may go unnoticed by the QR path for up to 60 seconds.

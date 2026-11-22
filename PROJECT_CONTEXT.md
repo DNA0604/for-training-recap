@@ -1,6 +1,12 @@
 # Monitoring Pelatihan Pegawai — handoff
 
-Status updated: 19 November 2026, Asia/Jakarta. The accepted sidebar/navigation baseline originated on 24 October; the latest deletion feature and transaction fix were subsequently deployed, tested and accepted by the user on 27 October. Continue from this cumulative source, superseding the earlier flat-dashboard UI package.
+Status updated: 20 November 2026, Asia/Jakarta. The accepted sidebar/navigation baseline originated on 24 October; the latest deletion feature and transaction fix were subsequently deployed, tested and accepted by the user on 27 October. Continue from this cumulative source, superseding the earlier flat-dashboard UI package.
+
+## Pemuatan tahap 4: pemakaian ulang handle — 20 November 2026
+Real timing logs (cache on but 30-second TTL shorter than the gaps between actions) showed authorization still about 5 seconds and writes 16-29 seconds. Stage 4 reuses spreadsheet/sheet/access-workbook handles within one gateway call only (no values cached), makes the cache TTL owner-configurable via the AKSES_CACHE_TTL_DETIK Script Property, and adds per-stage timings to the WAKTU log. Not deployed or live-tested. [Details](apps-script/absensi-dashboard/docs/HANDLE_TAHAP4.md).
+
+## Diagnostik waktu per panggilan — 19 November 2026
+After the user's first timing test, Executions showed only the generic gateway name. Akses.gs now logs one timing line per gateway call (RPC name, milliseconds, status; no token or data) so the slow RPCs can be identified before further changes. [Details](apps-script/absensi-dashboard/docs/DIAGNOSTIK_WAKTU.md).
 
 ## Pemuatan tahap 3: validasi integritas — 19 November 2026
 Approved by the user after stage 2. The whole-data integrity guard now reads each table once (always on, identical results). An owner-enabled, default-OFF 60-second marker lets only public QR attendance skip it. Row/column-limited reads are deferred pending real data sizes and because Monitoring's full-roster summary and client-side pagination are existing project rules. Not deployed or live-tested. [Details](apps-script/absensi-dashboard/docs/INTEGRITAS_TAHAP3.md).
