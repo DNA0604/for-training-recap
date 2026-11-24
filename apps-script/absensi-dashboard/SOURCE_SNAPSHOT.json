@@ -1,25 +1,25 @@
 {
-  "snapshot_date": "2026-11-20",
+  "snapshot_date": "2026-11-24",
   "timezone": "Asia/Jakarta",
   "files": {
     "Absensi.html": "496053b5dd8ca245d75c0db314d015e8e25d27ccf9a2d7b9f7e9416509280092",
     "AdminQR.html": "d7d2624329bee14cc73eb3bbb5b447a9d39371ae73ae2083a94ae7774a726f43",
-    "Akses.gs": "da50a3a464e9c90db38562216d0bccffac8fca801443d4e635b0b0ac17773eae",
+    "Akses.gs": "ebf3478f82b4ec4b76b366d3c1f72d7ddfbba88b7fdc64e620b7be213d83685f",
     "Beranda.html": "35d26eb54ac7812b05003922146d99bb7d7c6144904d9565e522c0278e60225f",
-    "Code.gs": "6b3d69cc5fd7b4358fc027cf56184fe1d67fa50729605dba51ae5e50a487a27f",
-    "Evaluasi.gs": "01ab9b4402edaf8325621b8a78a408d7dc4bbca3e8fbb16059e69aedd44097b2",
+    "Code.gs": "8140dd7370a24d08ce7e13bd91ae8e541003ba25434276f8ef267e33a42a98b1",
+    "Evaluasi.gs": "0595d1fca52a363d7ee9beb89edccf1fb31b451867511166f8ad09c66530dda3",
     "Hapus.gs": "9f9dbdc787b95ec409b49ee1cc8930d213126c7111e4ea634df05bf7c163d4f8",
-    "Index.html": "c630a8e21e5765103024cfe16fe25b9b8af0ea1eb04beda25064919bd03d947b",
+    "Index.html": "57ffc93712d926fc887bdd37e2c32609278830b49e3ce2367c2fba3130cd8b90",
     "Jenjang.gs": "0c8734f491dc374f6cc30f0dfa927dffb9cb293ecbcc77f387f0088899d0a3cd",
-    "Laporan.gs": "20ef05d6712cfafc67b2d1c2916e14fd4ff5d5d457e1df0e68fb3bd45a03e95d",
-    "LaporanTampilan.gs": "c9a14814c27797f60013174b9be303d7b286b20eadc563c323c2ad8a760614f9",
-    "ManajemenAkses.html": "74c2462cbfcc61d147f13eca80f9ae53ba7a38ce1f56d5942b3f9967a865aead",
-    "NilaiAkhir.gs": "788c20a93e67f62116f6030035ba958e1295286237d95d7fa7b083d696b833d3",
+    "Laporan.gs": "b7efac46feb6472a89dd85f54fdbcf5f013b1704db5db5d3adb84498822c064d",
+    "LaporanTampilan.gs": "45fed40d63d5d0e1e92a8255f0e94e24296fc3ff71591524bd966d1b7f2817aa",
+    "ManajemenAkses.html": "155d9dd46532bbf516c36df1e7289c985c534a6a57a75dd4d9f55e4dba0ed620",
+    "NilaiAkhir.gs": "686557bdffae6f26310f2367eb2e54f5e72808fe7a64bcecff487b3dbac101ed",
     "PemetaanJenjang.gs": "8a68b67c199ff7fecf71e83eedeaa96d7bed42a06ea9dd4884dd7cd41bacd027",
-    "Pengelolaan.html": "7540457da03c8d464a713390591fff2a6cbfafd65d72a911cac6e9709d59a0b7",
-    "Peserta.html": "a16ea9fa9d5e97f5a55edb45638a36e07ad8c012920feff9c8a5e4f1e6287d0c",
+    "Pengelolaan.html": "bb0c6d5c80630a450d48c18b541d07bcb5de074300d64fcc376d42af9be768ef",
+    "Peserta.html": "ab23db65852876ac38dd6660ada3942deead3c01cbfe66b4e237cbbf1ee510d9",
     "PratinjauJenjang.html": "d849c1678abaa32090161c3a72ee5f847eeb7dd329f787385cd922da3d297f67",
-    "PresensiManual.gs": "2dae93df928993700c86b89cecaf4e5ffd70ff5ebaa4e016cdf11b9740387aee",
-    "Profil.html": "d2440f4084563e94791c651aaa15c6f040a0d0a2e2a526025d30663aaaa2c406"
+    "PresensiManual.gs": "f675dd40af3c99ed61246e3fa489746b4609259570653dfeb7c4c3ed47a47258",
+    "Profil.html": "8155f55db25a840427f5dc298eb4149e0405300f9bcb7fa8811eda464f99dd12"
   }
 }
