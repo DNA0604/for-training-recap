@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-24 — single-pass Riwayat_Akses, version-checked write re-check and expanded fast integrity (stage 5)
+- Akses.gs, Code.gs, PresensiManual.gs.
+- 5A (Akses.gs): kelompokTransaksiAkses_ accepts optional pre-read history table; bacaSesiPanitiaTerkunci_, muatManajemenAksesPanitia, identitasDirektoriAkses_, and aturLoginAplikasiPanitia pass dir.history to eliminate duplicate reads of Riwayat_Akses (-1 read per directory validation).
+- 5B (Akses.gs): periksaUlangSesiPanitia_ before transactional writes uses the fast-path directory version cache verification under lock when authorization cache is active. Account/assignment changes via application immediately bump the directory version and invalidate the cache. Sesi tersimpan revocation remains live and fails closed immediately.
+- 5C (Code.gs, PresensiManual.gs): extended {izinkanLewatiBaru: true} integrity validation skip marker to buatTokenQR_ (terbitkanQRAbsensiDariGenerator) and simpanPresensiManualIndex when validasi cepat presensi QR is enabled by the owner. Other data mutations continue to run full whole-data integrity checks.
+- 9 new unit tests in tahap5.test.mjs; all 92 core tests pass. [Details](apps-script/absensi-dashboard/docs/HANDLE_TAHAP5.md).
+
 ## 2026-11-20 — handle reuse, configurable cache TTL and stage timings (stage 4)
 - Code.gs, Akses.gs, Jenjang.gs. Within one gateway call the active spreadsheet, looked-up sheets and the access workbook (with its owner check) are reused; no sheet values are cached and everything resets when the call ends or fails. Before/after on five actions: identical responses and sheet contents, total service calls down 57 to 69 percent (for example manual attendance 329 to 102; getActiveSpreadsheet 142 to 1, getSheetByName 91 to 11, getOwner 6 to 2) with unchanged data reads. Mocked-service counts, not Google latency.
 - The authorization cache TTL can be set through the AKSES_CACHE_TTL_DETIK Script Property (5-600 seconds, default 30). The WAKTU log now includes jalankan_ms and per-stage milliseconds.
