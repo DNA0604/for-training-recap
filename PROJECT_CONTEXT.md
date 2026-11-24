@@ -1,6 +1,13 @@
 # Monitoring Pelatihan Pegawai — handoff
 
-Status updated: 20 November 2026, Asia/Jakarta. The accepted sidebar/navigation baseline originated on 24 October; the latest deletion feature and transaction fix were subsequently deployed, tested and accepted by the user on 27 October. Continue from this cumulative source, superseding the earlier flat-dashboard UI package.
+Status updated: 24 November 2026, Asia/Jakarta. The accepted sidebar/navigation baseline originated on 24 October; the latest deletion feature and transaction fix were subsequently deployed, tested and accepted by the user on 27 October. Continue from this cumulative source, superseding the earlier flat-dashboard UI package.
+
+## Pemuatan tahap 5: optimasi jalur tulis — 24 November 2026
+Following Version 61 live tests (QR issue down from 16.1s to 8.5s, session attendance from 11.3s to 5.4s), Tahap 5 targets write paths:
+- 5A: Single-pass Riwayat_Akses parsing eliminates redundant table reads across bacaSesiPanitiaTerkunci_, muatManajemenAksesPanitia, identitasDirektoriAkses_, and aturLoginAplikasiPanitia.
+- 5B: periksaUlangSesiPanitia_ before transactional writes checks the directory version cache fast-path under lock when authorization cache is enabled, invalidating immediately on in-app changes.
+- 5C: The 60-second integrity validation skip marker is extended to QR token issuance (buatTokenQR_) and manual attendance (simpanPresensiManualIndex) when validasi cepat presensi QR is enabled by the owner.
+- 9 new unit tests in tahap5.test.mjs; all 92 core tests pass. [Details](apps-script/absensi-dashboard/docs/HANDLE_TAHAP5.md).
 
 ## Pemuatan tahap 4: pemakaian ulang handle — 20 November 2026
 Real timing logs (cache on but 30-second TTL shorter than the gaps between actions) showed authorization still about 5 seconds and writes 16-29 seconds. Stage 4 reuses spreadsheet/sheet/access-workbook handles within one gateway call only (no values cached), makes the cache TTL owner-configurable via the AKSES_CACHE_TTL_DETIK Script Property, and adds per-stage timings to the WAKTU log. Not deployed or live-tested. [Details](apps-script/absensi-dashboard/docs/HANDLE_TAHAP4.md).
