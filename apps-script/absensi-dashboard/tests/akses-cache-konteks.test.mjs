@@ -50,12 +50,18 @@ test('logout revokes the stored session immediately',()=>{
   const x=siap();x.aktif();konteks(x,x.h.staff);x.c.keluarAplikasiPanitia(x.h.staff.token);
   assert.throws(()=>konteks(x,x.h.staff),/SESI_BERAKHIR/);
 });
-test('manual spreadsheet edits are honored only after the TTL, and the write re-check is always live',()=>{
+test('manual spreadsheet edits within TTL follow the cache, and bumping version enforces live check in Tahap 5B',()=>{
   const x=siap();x.aktif();const awal=konteks(x,x.h.staff);
   x.edit('Pengguna',x.h.u.id,'status','nonaktif'); // pengeditan manual langsung di spreadsheet
   assert.deepEqual(konteks(x,x.h.staff),awal,'dalam batas TTL, cache masih dipakai (dibatasi dan terdokumentasi)');
   x.c.konteksSesiPanitia_={token:x.h.staff.token,method:'muatBerandaIndex',args:[]};
-  try{assert.throws(()=>x.c.periksaUlangSesiPanitia_(),/SESI_BERAKHIR/,'pemeriksaan ulang sebelum menulis harus langsung ke direktori');}finally{x.c.konteksSesiPanitia_=null;}
+  try{
+    // Tahap 5B: selama versi belum berubah, periksa_ulang memakai jalur cepat cache
+    x.c.periksaUlangSesiPanitia_();
+    // Begitu versi direktori dinaikkan (misal perubahan lewat aplikasi), periksa_ulang langsung mendeteksi perubahan
+    x.c.naikkanVersiDirektoriAkses_();
+    assert.throws(()=>x.c.periksaUlangSesiPanitia_(),/SESI_BERAKHIR/,'setelah versi naik pemeriksaan ulang mendeteksi perubahan');
+  }finally{x.c.konteksSesiPanitia_=null;}
 });
 test('after the TTL a manual edit is enforced',()=>{
   const x=siap();x.aktif();konteks(x,x.h.staff);x.edit('Pengguna',x.h.u.id,'status','nonaktif');
