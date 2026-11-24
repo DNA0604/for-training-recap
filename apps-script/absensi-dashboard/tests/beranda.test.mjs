@@ -22,7 +22,7 @@ function harness(data = empty(), authorized = true) {
     ScriptApp:{getService:()=>({getUrl:()=> 'https://script.google.com/macros/s/demo/exec'})},
     HtmlService:{createHtmlOutputFromFile:name=>({name,setTitle(title){this.title=title;return this;},addMetaTag(){return this;}})}
   });
-  vm.runInContext(source,context);
+  vm.runInContext(source,context);vm.runInContext(fs.readFileSync(new URL('../PresensiManual.gs',import.meta.url),'utf8'),context);
   return {context,reads,summary:(d=data,time=now,zone='Asia/Jakarta')=>JSON.parse(JSON.stringify(context.ringkasBeranda_(d,time,zone)))};
 }
 function empty() {return {program:[],peserta:[],ikut:[],sesi:[],hadir:[],catatan:[]};}
