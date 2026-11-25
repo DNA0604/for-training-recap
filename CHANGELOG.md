@@ -1,5 +1,31 @@
 # Changelog
 
+## 2026-11-24 — single-pass Riwayat_Akses, version-checked write re-check and wider fast integrity marker (stage 5)
+- Akses.gs, Code.gs (one line), PresensiManual.gs (one line); adopted from the user's branch update-tahap-5-pemuatan-data and verified on the complete repository.
+- 5A: kelompokTransaksiAkses_ accepts the already-read history table (four call sites), so a full directory validation parses Riwayat_Akses once. 5B: with the authorization cache on, periksaUlangSesiPanitia_ uses the version-checked fast path before falling back to the full read; in-app changes, pending access transactions and session revocation still block immediately, manual spreadsheet edits lag at most the cache TTL. 5C: buatTokenQR_ and simpanPresensiManualIndex may use the 60-second integrity marker when the owner switch is on; all other mutations still validate fully.
+- Warm-state comparison (mocked services, not Google latency; identical responses and sheet contents): QR issuance 59 to 31 service calls, manual attendance 88 to 63. New tests/tahap5.test.mjs (11 tests) added because the source branch lacked it; one stage-2 test updated for 5B. [Details](apps-script/absensi-dashboard/docs/TAHAP5_JALUR_TULIS.md).
+
+## 2026-11-20 — handle reuse, configurable cache TTL and stage timings (stage 4)
+- Code.gs, Akses.gs, Jenjang.gs. Within one gateway call the active spreadsheet, looked-up sheets and the access workbook (with its owner check) are reused; no sheet values are cached and everything resets when the call ends or fails. Before/after on five actions: identical responses and sheet contents, total service calls down 57 to 69 percent (for example manual attendance 329 to 102; getActiveSpreadsheet 142 to 1, getSheetByName 91 to 11, getOwner 6 to 2) with unchanged data reads. Mocked-service counts, not Google latency.
+- The authorization cache TTL can be set through the AKSES_CACHE_TTL_DETIK Script Property (5-600 seconds, default 30). The WAKTU log now includes jalankan_ms and per-stage milliseconds.
+- 475 tests pass (4 new); one existing metadata-calls test baseline adjusted to disable the new layer too. Not deployed or live-tested.
+
+## 2026-11-19 — per-call timing diagnostics
+- Akses.gs only. The RPC gateway logs one line per call (RPC name, total and authorization milliseconds, status; grouped dashboard reads include per-member milliseconds) so Executions shows which RPC is slow. No token, arguments or personal data are logged; a failing console never affects an RPC. No behavior, data, schema or access change; 471 tests pass (4 new).
+
+## 2026-11-19 — integrity validation (stage 3 of loading performance)
+- Jenjang.gs, Hapus.gs, Code.gs (one line), Akses.gs (two owner switches). Part A, always on: the whole-data integrity guard reads Jenjang, Sesi and Keikutsertaan once and reuses them (17 to 6 sheet reads per check; identical error order and messages), lightening all 22 mutation entry points (e.g. add program 32 to 21, add session 37 to 26, import 5 participants 45 to 34 data-sheet reads).
+- Part B, default OFF and owner-enabled (aktifkanValidasiCepatPresensiQR): a 60-second marker after a passing validation lets only public QR attendance skip the whole-data validation; other mutations always validate, failures clear the marker, manual spreadsheet corruption may go unnoticed by the QR path for up to 60 seconds.
+- Identical responses and sheet contents on 6 mutation actions, identical errors on 4 corrupted-data cases; 467 tests pass (7 new). Mocked-service counts, not Google latency. Row/column-limited reads deliberately not done (see docs). Not deployed or live-tested.
+
+## 2026-11-18 — authorization cache (stage 2 of loading performance, default OFF)
+- Akses.gs only. Per-user directory-validation cache, enabled only when the owner runs aktifkanCacheOtorisasiPanitia (matikanCacheOtorisasiPanitia turns it off). Warm calls skip directory reads, spreadsheet opens, owner checks and the script lock: session check 8 to 2 sheet reads, data load 10 to 4, session entry 17 to 11 (mocked-service counts, not Google latency). Session record, login configuration, Jenjang scope, Pengajar session assignments and the pre-write re-check remain live.
+- In-app access changes invalidate the cache immediately through a directory version stamp bumped on every access audit/write; manual spreadsheet edits lag at most 30 seconds. Identical responses with cache off and on in 10 comparisons; 9 new tests (460 total). Not deployed or live-tested; stage 3 not started.
+
+## 2026-11-18 — lighter write path (stage 1 of loading performance)
+- Code.gs only. Batch post-write verification (one validated read per sheet, ID index in memory), header read once per sheet in create transactions, grouped append/flush per sheet run, Jenjang column resolved once per import batch, and registry reuse for fresh import batches. Import no longer grows per participant: 67 sheet reads for 1 or 20 rows (was 81 to 290 with 22 participants; 602,471 to 78,689 cells at 500 participants). Program/session creation changes little; remaining cost is per-call authorization and whole-data integrity validation (not part of this stage).
+- 18 before/after comparisons produced identical responses and sheet contents; 451 backend tests pass (6 new, including failed-verification and partial-write retries). Service-call counts use mocked Google services, not Google latency. No browser, deployment, data, schema, UI, access-rule or main changes.
+
 ## 2026-11-16 — hide access manager label and link verified diagnostics to login
 - Remove the Pengelola email paragraph/load assignment from shared native/web Manajemen Akses UI. Keep directory/backend authorization and data contracts intact.
 - Add Ke Halaman Login after successful identity diagnostics when application login is active, using the configured deployment and normal ?page=masuk route in the same tab. No diagnostic-created session; link remains hidden before success or on failure.
