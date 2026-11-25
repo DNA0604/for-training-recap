@@ -1,0 +1,329 @@
+{
+  "catatan": "Hitungan panggilan layanan tiruan; bukan waktu Google.",
+  "hasil": [
+    {
+      "peserta": 22,
+      "aksi": "tambah_program",
+      "sebelum": {
+        "baca": 52,
+        "appendRow": 4,
+        "flush": 4,
+        "sheet": 75,
+        "sel": 5487
+      },
+      "sesudah": {
+        "baca": 48,
+        "appendRow": 4,
+        "flush": 4,
+        "sheet": 67,
+        "sel": 5372
+      }
+    },
+    {
+      "peserta": 22,
+      "aksi": "tambah_sesi_3_jeda",
+      "sebelum": {
+        "baca": 68,
+        "appendRow": 6,
+        "flush": 6,
+        "sheet": 108,
+        "sel": 6301
+      },
+      "sesudah": {
+        "baca": 55,
+        "appendRow": 6,
+        "flush": 4,
+        "sheet": 77,
+        "sel": 5907
+      }
+    },
+    {
+      "peserta": 22,
+      "aksi": "impor_1",
+      "sebelum": {
+        "baca": 81,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 117,
+        "sel": 9453
+      },
+      "sesudah": {
+        "baca": 67,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 90,
+        "sel": 7679
+      }
+    },
+    {
+      "peserta": 22,
+      "aksi": "impor_5",
+      "sebelum": {
+        "baca": 125,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 197,
+        "sel": 15685
+      },
+      "sesudah": {
+        "baca": 67,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 90,
+        "sel": 7735
+      }
+    },
+    {
+      "peserta": 22,
+      "aksi": "impor_10",
+      "sebelum": {
+        "baca": 180,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 297,
+        "sel": 24735
+      },
+      "sesudah": {
+        "baca": 67,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 90,
+        "sel": 7805
+      }
+    },
+    {
+      "peserta": 22,
+      "aksi": "impor_20",
+      "sebelum": {
+        "baca": 290,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 497,
+        "sel": 47035
+      },
+      "sesudah": {
+        "baca": 67,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 90,
+        "sel": 7945
+      }
+    },
+    {
+      "peserta": 100,
+      "aksi": "tambah_program",
+      "sebelum": {
+        "baca": 52,
+        "appendRow": 4,
+        "flush": 4,
+        "sheet": 75,
+        "sel": 12507
+      },
+      "sesudah": {
+        "baca": 48,
+        "appendRow": 4,
+        "flush": 4,
+        "sheet": 67,
+        "sel": 12392
+      }
+    },
+    {
+      "peserta": 100,
+      "aksi": "tambah_sesi_3_jeda",
+      "sebelum": {
+        "baca": 68,
+        "appendRow": 6,
+        "flush": 6,
+        "sheet": 108,
+        "sel": 13945
+      },
+      "sesudah": {
+        "baca": 55,
+        "appendRow": 6,
+        "flush": 4,
+        "sheet": 77,
+        "sel": 13551
+      }
+    },
+    {
+      "peserta": 100,
+      "aksi": "impor_1",
+      "sebelum": {
+        "baca": 81,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 117,
+        "sel": 25989
+      },
+      "sesudah": {
+        "baca": 67,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 90,
+        "sel": 19223
+      }
+    },
+    {
+      "peserta": 100,
+      "aksi": "impor_5",
+      "sebelum": {
+        "baca": 125,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 197,
+        "sel": 47821
+      },
+      "sesudah": {
+        "baca": 67,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 90,
+        "sel": 19279
+      }
+    },
+    {
+      "peserta": 100,
+      "aksi": "impor_10",
+      "sebelum": {
+        "baca": 180,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 297,
+        "sel": 76371
+      },
+      "sesudah": {
+        "baca": 67,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 90,
+        "sel": 19349
+      }
+    },
+    {
+      "peserta": 100,
+      "aksi": "impor_20",
+      "sebelum": {
+        "baca": 290,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 497,
+        "sel": 137671
+      },
+      "sesudah": {
+        "baca": 67,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 90,
+        "sel": 19489
+      }
+    },
+    {
+      "peserta": 500,
+      "aksi": "tambah_program",
+      "sebelum": {
+        "baca": 52,
+        "appendRow": 4,
+        "flush": 4,
+        "sheet": 75,
+        "sel": 48507
+      },
+      "sesudah": {
+        "baca": 48,
+        "appendRow": 4,
+        "flush": 4,
+        "sheet": 67,
+        "sel": 48392
+      }
+    },
+    {
+      "peserta": 500,
+      "aksi": "tambah_sesi_3_jeda",
+      "sebelum": {
+        "baca": 68,
+        "appendRow": 6,
+        "flush": 6,
+        "sheet": 108,
+        "sel": 53145
+      },
+      "sesudah": {
+        "baca": 55,
+        "appendRow": 6,
+        "flush": 4,
+        "sheet": 77,
+        "sel": 52751
+      }
+    },
+    {
+      "peserta": 500,
+      "aksi": "impor_1",
+      "sebelum": {
+        "baca": 81,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 117,
+        "sel": 110789
+      },
+      "sesudah": {
+        "baca": 67,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 90,
+        "sel": 78423
+      }
+    },
+    {
+      "peserta": 500,
+      "aksi": "impor_5",
+      "sebelum": {
+        "baca": 125,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 197,
+        "sel": 212621
+      },
+      "sesudah": {
+        "baca": 67,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 90,
+        "sel": 78479
+      }
+    },
+    {
+      "peserta": 500,
+      "aksi": "impor_10",
+      "sebelum": {
+        "baca": 180,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 297,
+        "sel": 341171
+      },
+      "sesudah": {
+        "baca": 67,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 90,
+        "sel": 78549
+      }
+    },
+    {
+      "peserta": 500,
+      "aksi": "impor_20",
+      "sebelum": {
+        "baca": 290,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 497,
+        "sel": 602471
+      },
+      "sesudah": {
+        "baca": 67,
+        "appendRow": 2,
+        "flush": 4,
+        "sheet": 90,
+        "sel": 78689
+      }
+    }
+  ]
+}
