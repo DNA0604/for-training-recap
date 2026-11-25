@@ -9,10 +9,13 @@ function emailAkses_(v){const s=teksAkses_(v).toLowerCase();if(s.length>254||!/^
 function serialAkses_(value){return JSON.stringify(value,function(k,v){return v&&typeof v==='object'&&!Array.isArray(v)?Object.fromEntries(Object.keys(v).sort().map(key=>[key,v[key]])):v;});}
 function hashAkses_(v){return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,String(v),Utilities.Charset.UTF_8).map(b=>('0'+(b&255).toString(16)).slice(-2)).join('');}
 function databaseAkses_(){
-  const active=SpreadsheetApp.getActiveSpreadsheet();if(active)return active;
+  const aktif=spreadsheetAktifMemo_();if(aktif)return aktif;
+  if(memoHandle_&&memoHandle_.dba)return memoHandle_.dba;
   const id=PropertiesService.getScriptProperties().getProperty('AKSES_DATABASE_ID');
   if(!id)throw Error('Pemilik perlu menyiapkan direktori dari menu spreadsheet sebelum uji login.');
-  return SpreadsheetApp.openById(id);
+  let ss=SpreadsheetApp.openById(id);
+  if(memoHandle_)ss=memoHandle_.dba=bungkusSheetMemo_(ss);
+  return ss;
 }
 function kunciKonfigurasiAkses_(){return 'AKSES_PANITIA|'+databaseAkses_().getId();}
 function konfigurasiAkses_(){const raw=PropertiesService.getScriptProperties().getProperty(kunciKonfigurasiAkses_());return raw?JSON.parse(raw):null;}
@@ -26,10 +29,12 @@ function idSpreadsheetAkses_(input){
   return id;
 }
 function bukuAkses_(pending){
+  if(!pending&&memoHandle_&&memoHandle_.buku)return memoHandle_.buku;
   const cfg=konfigurasiAkses_();if(!cfg||(!pending&&cfg.status!=='SIAP')||cfg.schema!==1)throw Error('Manajemen akses belum disiapkan. Buka panel dari menu spreadsheet.');
   if(cfg.id===databaseAkses_().getId())throw Error('Konfigurasi akses tidak boleh menunjuk database utama.');
   const book=SpreadsheetApp.openById(cfg.id),owner=book.getOwner(),mainOwner=databaseAkses_().getOwner();
   if(!owner||!mainOwner||emailAkses_(owner.getEmail())!==emailAkses_(mainOwner.getEmail()))throw Error('Kepemilikan spreadsheet akses berubah/tidak sesuai dengan database utama.');
+  if(!pending&&memoHandle_)return memoHandle_.buku=bungkusSheetMemo_(book);
   return book;
 }
 var bacaanPermintaanAkses_=null;
@@ -64,10 +69,10 @@ function direktoriAkses_(book){
   const pi=new Set(),pairs=new Set();penugasan.records.forEach(r=>{const d=r.data,id=teksAkses_(d.id_penugasan),pair=JSON.stringify([teksAkses_(d.id_pengguna),teksAkses_(d.id_jenjang)]);if(!id||pi.has(id)||pairs.has(pair)||!ids.has(teksAkses_(d.id_pengguna))||!teksAkses_(d.id_program)||!teksAkses_(d.id_jenjang)||!['aktif','nonaktif'].includes(teksAkses_(d.status)))throw Error('Penugasan tidak valid/duplikat pada baris '+r.baris+'.');pi.add(id);pairs.add(pair);});
   return {pengguna,penugasan,history};
 }
-function kelompokTransaksiAkses_(book){const groups=new Map();tabelAkses_(book,'Riwayat_Akses').records.forEach(r=>{const id=teksAkses_(r.data.id_permintaan),status=teksAkses_(r.data.status_transaksi).toUpperCase();if(!id||!status)throw Error('Riwayat akses memiliki transaksi/status kosong pada baris '+r.baris+'.');groups.set(id,r.data);});return groups;}
+function kelompokTransaksiAkses_(book,riwayatTable){const groups=new Map(),table=riwayatTable||tabelAkses_(book,'Riwayat_Akses');table.records.forEach(r=>{const id=teksAkses_(r.data.id_permintaan),status=teksAkses_(r.data.status_transaksi).toUpperCase();if(!id||!status)throw Error('Riwayat akses memiliki transaksi/status kosong pada baris '+r.baris+'.');groups.set(id,r.data);});return groups;}
 function auditAkses_(book,plan,status,actor){
   const t=tabelAkses_(book,'Riwayat_Akses'),r={id_riwayat:'AKR-'+Utilities.getUuid(),jenis_data:plan.sheet,id_target:plan.id,aksi:plan.action,sebelum:JSON.stringify(plan.before),sesudah:JSON.stringify(plan),oleh:actor,waktu:new Date(),id_permintaan:plan.tx,status_transaksi:status};
-  t.sheet.appendRow(t.header.map(k=>r[k]===undefined?'':r[k]));SpreadsheetApp.flush();
+  t.sheet.appendRow(t.header.map(k=>r[k]===undefined?'':r[k]));SpreadsheetApp.flush();naikkanVersiDirektoriAkses_();
 }
 /** Single-row transactional write; caller holds ScriptLock. Replay only before/after snapshots. */
 function terapkanRencanaAkses_(book,plan,actor){
@@ -80,7 +85,7 @@ function terapkanRencanaAkses_(book,plan,actor){
     const row=table.header.map(k=>{const v=plan.after[k];return ['created_at','updated_at'].includes(k)&&v?new Date(v):v===undefined?'':v;});
     const targetRow=matches[0]?matches[0].baris:table.sheet.getLastRow()+1;
     if(plan.sheet==='Pengguna')table.sheet.getRange(targetRow,table.header.indexOf('google_sub')+1,1,1).setNumberFormat('@');
-    table.sheet.getRange(targetRow,1,1,table.header.length).setValues([row]);SpreadsheetApp.flush();
+    table.sheet.getRange(targetRow,1,1,table.header.length).setValues([row]);SpreadsheetApp.flush();naikkanVersiDirektoriAkses_();
     const verify=tabelAkses_(book,plan.sheet).records.filter(r=>teksAkses_(r.data[key])===plan.id);
     if(verify.length!==1||!same(verify[0].data,plan.after))throw Error('Verifikasi penyimpanan akses gagal.');
   }
@@ -126,7 +131,7 @@ function identitasDirektoriAkses_(identity,state){
   const lock=LockService.getScriptLock();lock.waitLock(30000);
   try{
     const book=bukuAkses_(),dir=direktoriAkses_(book);
-    if(Array.from(kelompokTransaksiAkses_(book).values()).some(r=>teksAkses_(r.status_transaksi).toUpperCase()!=='SELESAI'))throw Error('Direktori memiliki perubahan belum selesai. Minta pemilik memeriksa transaksi akses.');
+    if(Array.from(kelompokTransaksiAkses_(book,dir.history).values()).some(r=>teksAkses_(r.status_transaksi).toUpperCase()!=='SELESAI'))throw Error('Direktori memiliki perubahan belum selesai. Minta pemilik memeriksa transaksi akses.');
     const user=dir.pengguna.records.find(r=>emailAkses_(r.data.email_google)===identity.email);if(!user||user.data.status!=='aktif')throw Error('Akun Google ini belum terdaftar aktif sebagai panitia.');
     const d=user.data;if(d.google_sub&&d.google_sub!==identity.sub)throw Error('Identitas Google berbeda dari akun yang sudah ditautkan. Hubungi pemilik.');
     if(dir.pengguna.records.some(r=>r.data.id_pengguna!==d.id_pengguna&&teksAkses_(r.data.google_sub)===identity.sub))throw Error('Identitas Google sudah tertaut pada akun panitia lain.');
@@ -290,7 +295,7 @@ function muatManajemenAksesPanitia(){
   if(!cfg||cfg.status!=='SIAP')return base;
   const lock=LockService.getScriptLock();lock.waitLock(30000);
   try{
-    const book=bukuAkses_(),dir=direktoriAkses_(book),groups=kelompokTransaksiAkses_(book);let levels=[],warning='';try{levels=daftarJenjangAkses_();}catch(e){warning='Daftar Jenjang belum tersedia. Pastikan persiapan struktur selesai.';}
+    const book=bukuAkses_(),dir=direktoriAkses_(book),groups=kelompokTransaksiAkses_(book,dir.history);let levels=[],warning='';try{levels=daftarJenjangAkses_();}catch(e){warning='Daftar Jenjang belum tersedia. Pastikan persiapan struktur selesai.';}
     const valid=new Set(levels.map(j=>j.id+'|'+j.program));
     return Object.assign(base,{pengguna:dir.pengguna.records.map(r=>{const d=r.data;return {id:d.id_pengguna,nama:d.nama,email:d.email_google,peran:d.peran,status:d.status,google_terhubung:Boolean(d.google_sub),versi:hashAkses_(JSON.stringify(d))};}),
       penugasan:dir.penugasan.records.map(r=>{const d=r.data;return {id:d.id_penugasan,pengguna:d.id_pengguna,program:d.id_program,jenjang:d.id_jenjang,status:d.status,relasi_valid:valid.has(d.id_jenjang+'|'+d.id_program),versi:hashAkses_(JSON.stringify(d))};}),jenjang:levels,peringatan:warning,
@@ -345,7 +350,7 @@ function aturLoginAplikasiPanitia(d){
     if(d.aktif){const book=bukuAkses_(),dir=direktoriAkses_(book),owner=emailAkses_(databaseAkses_().getOwner().getEmail());
       if(!konfigurasiGoogleAkses_()||!callbackGoogleAkses_())throw Error('Siapkan dan uji konfigurasi Google terlebih dahulu.');
       if(!dir.pengguna.records.some(r=>r.data.email_google===owner&&r.data.status==='aktif'&&r.data.peran==='admin_pelatihan'&&r.data.google_sub))throw Error('Selesaikan uji identitas Google dengan akun pemilik Admin terlebih dahulu.');
-      if([...kelompokTransaksiAkses_(book).values()].some(r=>r.status_transaksi!=='SELESAI'))throw Error('Pulihkan transaksi akses yang belum selesai.');
+      if([...kelompokTransaksiAkses_(book,dir.history).values()].some(r=>r.status_transaksi!=='SELESAI'))throw Error('Pulihkan transaksi akses yang belum selesai.');
       pastikanMigrasiJenjangSiap_();validasiIntegritasOperasionalJenjang_();periksaPaketLoginPanitia_();
     }
     const m={schema:1,aktif:d.aktif,epoch:Utilities.getUuid(),updated_at:new Date().toISOString()};
@@ -381,7 +386,43 @@ function simpanSesiPanitia_(identity){
   cacheLoginAkses_().put('SESI-PANITIA|'+hashAkses_(token),value,4*3600);
   return {sukses:true,tujuan:'aplikasi',token,expires:record.expires,storage_key:kunciBrowserSesiAkses_(),url:callbackGoogleAkses_(),nama:user.data.nama,email:user.data.email_google,peran:user.data.peran,jenjang:identity.jenjang,pembatasan_aplikasi_aktif:true,pesan:'Berhasil masuk. Pilih Buka Aplikasi untuk melanjutkan.'};
 }
-function bacaSesiPanitia_(token,diDalamLock){if(diDalamLock)return bacaSesiPanitiaTerkunci_(token,false);const run=()=>{const lock=LockService.getScriptLock();lock.waitLock(10000);try{return bacaSesiPanitiaTerkunci_(token,true);}finally{lock.releaseLock();}};return bacaanPermintaanAkses_?run():denganBacaanPermintaan_(true,run);}
+/**
+ * Cache konteks direktori (Tahap 2). DEFAULT MATI: aktif hanya setelah pemilik menjalankan aktifkanCacheOtorisasiPanitia.
+ * Yang disimpan hanya hasil validasi direktori per pengguna (bukan sesi, token, atau data pelatihan), berkunci ID spreadsheet akses + versi direktori + ID pengguna.
+ * Sesi tersimpan, konfigurasi login, daftar Jenjang, dan penugasan sesi Pengajar tetap diperiksa langsung di setiap panggilan.
+ * Setiap perubahan direktori lewat aplikasi menaikkan versi (cache lama otomatis tidak terpakai). Pengeditan manual langsung di spreadsheet
+ * paling lambat berlaku setelah TTL_KONTEKS_AKSES_DETIK_. Pemeriksaan ulang di dalam lock sebelum menulis selalu langsung ke direktori.
+ */
+var TTL_KONTEKS_AKSES_DETIK_=30;
+/** Pemilik dapat mengubah batas lewat Script Property AKSES_CACHE_TTL_DETIK (5-600 detik). Nilai lain/kosong = bawaan 30 detik. */
+function ttlKonteksAkses_(){const n=Number(PropertiesService.getScriptProperties().getProperty('AKSES_CACHE_TTL_DETIK'));return Number.isFinite(n)&&n>=5&&n<=600?Math.floor(n):TTL_KONTEKS_AKSES_DETIK_;}
+function kunciSakelarCacheAkses_(){return 'AKSES_CACHE_KONTEKS|'+databaseAkses_().getId();}
+function kunciVersiDirektoriAkses_(){return 'AKSES_VERSI_DIREKTORI|'+databaseAkses_().getId();}
+function cacheKonteksAktif_(){return PropertiesService.getScriptProperties().getProperty(kunciSakelarCacheAkses_())==='aktif';}
+function versiDirektoriAkses_(){return PropertiesService.getScriptProperties().getProperty(kunciVersiDirektoriAkses_())||'awal';}
+function naikkanVersiDirektoriAkses_(){PropertiesService.getScriptProperties().setProperty(kunciVersiDirektoriAkses_(),Utilities.getUuid());}
+function kunciKonteksAkses_(idBuku,versi,uid){return 'KONTEKS-AKSES|'+idBuku+'|'+versi+'|'+uid;}
+/** Mengembalikan konteks yang identik dengan jalur penuh, atau null (jalur penuh yang menentukan galat/pencabutan). Tidak pernah menulis. */
+function bacaSesiPanitiaCepat_(token){
+  if(!cacheKonteksAktif_())return null;
+  if(!aplikasiPanitiaAktif_()||!/^[a-f0-9]{64}$/i.test(teksAkses_(token)))return null;
+  const raw=PropertiesService.getScriptProperties().getProperty(kunciSesiTersimpan_(token)),now=Date.now();if(!raw)return null;
+  let saved;try{saved=JSON.parse(raw);}catch(e){return null;}
+  if(saved.revoked||!saved.uid||!Number.isFinite(saved.created)||!Number.isFinite(saved.expires)||saved.expires>saved.created+4*3600000||saved.expires<=now||saved.konfigurasi!==hashKonfigurasiSesiAkses_())return null;
+  const cfg=konfigurasiAkses_();if(!cfg||cfg.status!=='SIAP'||cfg.schema!==1)return null;
+  const rawKonteks=cacheLoginAkses_().get(kunciKonteksAkses_(cfg.id,versiDirektoriAkses_(),saved.uid));if(!rawKonteks)return null;
+  let e;try{e=JSON.parse(rawKonteks);}catch(x){return null;}
+  if(!e||e.uid!==saved.uid||!Number.isFinite(e.dibuat)||now-e.dibuat>ttlKonteksAkses_()*1000||e.dibuat>now+5000||e.status!=='aktif'||e.sub!==saved.sub||e.versi!==saved.versi||!Array.isArray(e.penugasan))return null;
+  const levels=daftarJenjangAkses_(),sesi=e.peran==='pengajar'?sesiPengajarAktif_(e.uid):[],
+    jenjang=e.peran==='pengajar'?levels.filter(j=>sesi.some(s=>s.id_jenjang===j.id&&s.id_program===j.program)):e.penugasan.map(p=>levels.find(j=>j.id===p.id_jenjang&&j.program===p.id_program)).filter(Boolean);
+  return {id:e.uid,nama:e.nama,email:e.email,peran:e.peran,jenjang,sesi,expires:saved.expires};
+}
+function aktifkanCacheOtorisasiPanitia(){pemilikAkses_();PropertiesService.getScriptProperties().setProperty(kunciSakelarCacheAkses_(),'aktif');naikkanVersiDirektoriAkses_();if(typeof console!=='undefined')console.log('Cache otorisasi AKTIF. Perubahan akses lewat aplikasi berlaku langsung; edit manual di spreadsheet berlaku paling lambat '+ttlKonteksAkses_()+' detik.');return {sukses:true,aktif:true,ttl_detik:ttlKonteksAkses_()};}
+function matikanCacheOtorisasiPanitia(){pemilikAkses_();PropertiesService.getScriptProperties().deleteProperty(kunciSakelarCacheAkses_());naikkanVersiDirektoriAkses_();if(typeof console!=='undefined')console.log('Cache otorisasi MATI. Semua panggilan memeriksa direktori langsung.');return {sukses:true,aktif:false};}
+/** Sakelar jalur cepat presensi QR (Tahap 3). Hanya pemilik; default mati. Lihat docs/INTEGRITAS_TAHAP3.md. */
+function aktifkanValidasiCepatPresensiQR(){pemilikAkses_();PropertiesService.getScriptProperties().setProperty(kunciSakelarIntegritasQR_(),'aktif');hapusIntegritasLolos_();if(typeof console!=='undefined')console.log('Validasi cepat presensi QR AKTIF. Presensi QR, buat token QR, dan presensi manual melewati validasi seluruh data dalam '+TTL_INTEGRITAS_QR_DETIK_+' detik setelah validasi penuh yang lolos.');return {sukses:true,aktif:true,ttl_detik:TTL_INTEGRITAS_QR_DETIK_};}
+function matikanValidasiCepatPresensiQR(){pemilikAkses_();PropertiesService.getScriptProperties().deleteProperty(kunciSakelarIntegritasQR_());hapusIntegritasLolos_();if(typeof console!=='undefined')console.log('Validasi cepat presensi QR MATI. Semua jalur memvalidasi seluruh data setiap kali.');return {sukses:true,aktif:false};}
+function bacaSesiPanitia_(token,diDalamLock){if(diDalamLock)return bacaSesiPanitiaTerkunci_(token,false);const cepat=ukurTahap_('jalur_cepat',()=>bacaSesiPanitiaCepat_(token));if(cepat)return cepat;const run=()=>{const lock=LockService.getScriptLock();ukurTahap_('tunggu_lock',()=>lock.waitLock(10000));try{return bacaSesiPanitiaTerkunci_(token,true);}finally{lock.releaseLock();}};return ukurTahap_('auth_penuh',()=>bacaanPermintaanAkses_?run():denganBacaanPermintaan_(true,run));}
 function bacaSesiPanitiaTerkunci_(token,perbarui){
   if(!aplikasiPanitiaAktif_())throw Error('SESI_BERAKHIR: Login aplikasi tidak aktif.');
   if(!/^[a-f0-9]{64}$/i.test(teksAkses_(token)))throw Error('SESI_BERAKHIR: Silakan masuk kembali.');
@@ -389,15 +430,16 @@ function bacaSesiPanitiaTerkunci_(token,perbarui){
   if(!raw)throw Error('SESI_BERAKHIR: Silakan masuk kembali.');
   let saved;try{saved=JSON.parse(raw);}catch(e){cabutSesiTersimpan_(token);throw Error('SESI_BERAKHIR: Sesi tidak valid. Silakan masuk kembali.');}
   if(saved.revoked||!saved.uid||!Number.isFinite(saved.created)||!Number.isFinite(saved.expires)||saved.expires>saved.created+4*3600000||saved.expires<=now||saved.konfigurasi!==hashKonfigurasiSesiAkses_()){cache.remove(key);if(!saved.revoked)cabutSesiTersimpan_(token);throw Error('SESI_BERAKHIR: Sesi kedaluwarsa atau konfigurasi berubah. Silakan masuk kembali.');}
-  const book=bukuAkses_(),dir=direktoriAkses_(book);
-  if([...kelompokTransaksiAkses_(book).values()].some(r=>r.status_transaksi!=='SELESAI'))throw Error('AKSES_DITAHAN: Ada transaksi akses belum selesai. Hubungi Admin.');
+  const versiAwal=versiDirektoriAkses_(),mulaiBaca=Date.now(),book=ukurTahap_('buku_akses',()=>bukuAkses_()),dir=ukurTahap_('direktori',()=>direktoriAkses_(book));
+  if([...kelompokTransaksiAkses_(book,dir.history).values()].some(r=>r.status_transaksi!=='SELESAI'))throw Error('AKSES_DITAHAN: Ada transaksi akses belum selesai. Hubungi Admin.');
   const found=dir.pengguna.records.find(r=>r.data.id_pengguna===saved.uid),u=found&&found.data;
   if(!u||u.status!=='aktif'||u.google_sub!==saved.sub||hashAkses_(serialAkses_(u))!==saved.versi){cabutSesiTersimpan_(token);throw Error('SESI_BERAKHIR: Akun berubah atau dinonaktifkan. Silakan masuk kembali.');}
   const levels=daftarJenjangAkses_(),sesi=u.peran==='pengajar'?sesiPengajarAktif_(u.id_pengguna):[],jenjang=u.peran==='pengajar'?levels.filter(j=>sesi.some(s=>s.id_jenjang===j.id&&s.id_program===j.program)):dir.penugasan.records.filter(r=>r.data.id_pengguna===u.id_pengguna&&r.data.status==='aktif').map(r=>levels.find(j=>j.id===r.data.id_jenjang&&j.program===r.data.id_program)).filter(Boolean);
   if(!persistent){const value=JSON.stringify(saved);props.setProperty(persistentKey,value);if(props.getProperty(persistentKey)!==value)throw Error('Penyimpanan sesi belum terkonfirmasi.');}
+  if(cacheKonteksAktif_()){try{const cfg=konfigurasiAkses_();cache.put(kunciKonteksAkses_(cfg.id,versiAwal,u.id_pengguna),JSON.stringify({uid:u.id_pengguna,dibuat:mulaiBaca,nama:u.nama,email:u.email_google,peran:u.peran,status:u.status,sub:u.google_sub,versi:hashAkses_(serialAkses_(u)),penugasan:dir.penugasan.records.filter(r=>r.data.id_pengguna===u.id_pengguna&&r.data.status==='aktif').map(r=>({id_program:r.data.id_program,id_jenjang:r.data.id_jenjang}))}),ttlKonteksAkses_());}catch(ignored){}}
   return {id:u.id_pengguna,nama:u.nama,email:u.email_google,peran:u.peran,jenjang,sesi,expires:saved.expires};
 }
-function muatSesiAplikasiPanitia(token){const i=bacaSesiPanitia_(token);return Object.assign({sukses:true},i);}
+function muatSesiAplikasiPanitia(token){return denganHandleMemo_(()=>{const i=bacaSesiPanitia_(token);return Object.assign({sukses:true},i);});}
 function keluarAplikasiPanitia(token){const lock=LockService.getScriptLock();lock.waitLock(10000);try{if(/^[a-f0-9]{64}$/i.test(teksAkses_(token)))cabutSesiTersimpan_(token);return {sukses:true};}finally{lock.releaseLock();}}
 function petugasDalamKonteksAkses_(){return !!konteksSesiPanitia_&&konteksSesiPanitia_.peran==='petugas_kelas';}
 function pengajarDalamKonteksAkses_(){return !!konteksSesiPanitia_&&konteksSesiPanitia_.peran==='pengajar';}
@@ -456,12 +498,18 @@ function periksaIzinFungsiPanitia_(name,args){
   }
   throw Error('AKSES_DITOLAK: Tindakan ini hanya untuk Admin Pelatihan.');
 }
+/** Diagnostik waktu: satu baris log per panggilan gateway (nama RPC + milidetik + status). Tanpa token, argumen, atau data pengguna. Terlihat di Executions. */
+function catatWaktuPanggilan_(rpc,mulai,selesaiAuth,status,rincian){try{const tahap={};(tahapWaktu_||[]).forEach(([n,ms])=>{tahap[n]=(tahap[n]||0)+ms;});if(typeof console!=='undefined')console.log('WAKTU '+JSON.stringify({rpc,total_ms:Date.now()-mulai,auth_ms:selesaiAuth==null?null:selesaiAuth-mulai,jalankan_ms:selesaiAuth==null?null:Date.now()-selesaiAuth,tahap,status,rincian:rincian||undefined}));}catch(ignored){}}
 function panggilAplikasiPanitia(d){
-  d=d||{};const name=teksAkses_(d.nama),functions=fungsiAplikasiPanitia_();
+  const mulai=Date.now();d=d||{};const name=teksAkses_(d.nama),functions=fungsiAplikasiPanitia_();
   if(!Object.prototype.hasOwnProperty.call(functions,name)||!Array.isArray(d.args)||d.args.length>8)throw Error('Fungsi aplikasi tidak tersedia.');
   if(konteksSesiPanitia_)throw Error('Permintaan aplikasi bertingkat tidak diizinkan.');
-  return denganBacaanPermintaan_(pembacaanRinganAkses_(name),()=>{const context=bacaSesiPanitia_(d.token);context.token=d.token;context.method=name;context.args=d.args;konteksSesiPanitia_=context;
-  try{periksaIzinFungsiPanitia_(name,d.args);return functions[name].apply(null,d.args);}finally{konteksSesiPanitia_=null;}});
+  let selesaiAuth=null,status='ok';tahapWaktu_=[];
+  try{
+    return denganHandleMemo_(()=>denganBacaanPermintaan_(pembacaanRinganAkses_(name),()=>{const context=bacaSesiPanitia_(d.token);selesaiAuth=Date.now();context.token=d.token;context.method=name;context.args=d.args;konteksSesiPanitia_=context;
+    try{periksaIzinFungsiPanitia_(name,d.args);return functions[name].apply(null,d.args);}finally{konteksSesiPanitia_=null;}}));
+  }catch(e){status='galat';throw e;}
+  finally{try{catatWaktuPanggilan_(name,mulai,selesaiAuth,status);}finally{tahapWaktu_=null;}}
 }
 /** Fixed, read-only dashboard group. Never accept mutation names or arbitrary payloads. */
 function bacaanDashboardPanitia_(){return {
@@ -472,16 +520,21 @@ function panggilBacaanDashboardPanitia(d){
  d=d||{};const allowed=bacaanDashboardPanitia_(),calls=d.permintaan;
  if(!Array.isArray(calls)||!calls.length||calls.length>6||calls.some(p=>!p||!Object.prototype.hasOwnProperty.call(allowed,p.nama)||!Array.isArray(p.args)||p.args.length!==allowed[p.nama]||p.args.some(v=>typeof v!=='string'||!v.trim()||v.length>200)))throw Error('Kelompok pembacaan dashboard tidak valid.');
  if(konteksSesiPanitia_)throw Error('Permintaan aplikasi bertingkat tidak diizinkan.');
- return denganBacaanPermintaan_(true,()=>{
-  const context=bacaSesiPanitia_(d.token),functions=fungsiAplikasiPanitia_();
-  try{return {sukses:true,hasil:calls.map(p=>{
-   konteksSesiPanitia_=Object.assign({},context,{token:d.token,method:p.nama,args:p.args});
-   try{periksaIzinFungsiPanitia_(p.nama,p.args);return {sukses:true,data:functions[p.nama].apply(null,p.args)};}
-   catch(e){if(/SESI_BERAKHIR|SESI_DIPERLUKAN|AKSES_DITAHAN/.test(e.message||''))throw e;return {sukses:false,pesan:e.message||'Data belum dapat dimuat.'};}
-  })};}finally{konteksSesiPanitia_=null;}
- });
+ const mulai=Date.now(),rincian=[];let selesaiAuth=null,status='ok';tahapWaktu_=[];
+ try{
+  return denganHandleMemo_(()=>denganBacaanPermintaan_(true,()=>{
+   const context=bacaSesiPanitia_(d.token),functions=fungsiAplikasiPanitia_();selesaiAuth=Date.now();
+   try{return {sukses:true,hasil:calls.map(p=>{
+    konteksSesiPanitia_=Object.assign({},context,{token:d.token,method:p.nama,args:p.args});const t=Date.now();
+    try{periksaIzinFungsiPanitia_(p.nama,p.args);return {sukses:true,data:functions[p.nama].apply(null,p.args)};}
+    catch(e){if(/SESI_BERAKHIR|SESI_DIPERLUKAN|AKSES_DITAHAN/.test(e.message||''))throw e;return {sukses:false,pesan:e.message||'Data belum dapat dimuat.'};}
+    finally{rincian.push({rpc:p.nama,ms:Date.now()-t});}
+   })};}finally{konteksSesiPanitia_=null;}
+  }));
+ }catch(e){status='galat';throw e;}
+ finally{try{catatWaktuPanggilan_('kelompok',mulai,selesaiAuth,status,rincian);}finally{tahapWaktu_=null;}}
 }
-function periksaUlangSesiPanitia_(){if(!konteksSesiPanitia_)return;if(bacaanPermintaanAkses_)bacaanPermintaanAkses_={nilai:new Map(),rumus:new Map()};const old=konteksSesiPanitia_,current=bacaSesiPanitia_(old.token,true);konteksSesiPanitia_=Object.assign(current,{token:old.token,method:old.method,args:old.args,verifikasi_id:old.verifikasi_id});periksaIzinFungsiPanitia_(old.method,old.args);}
+function periksaUlangSesiPanitia_(){if(!konteksSesiPanitia_)return;if(bacaanPermintaanAkses_)bacaanPermintaanAkses_={nilai:new Map(),rumus:new Map()};const old=konteksSesiPanitia_,current=ukurTahap_('periksa_ulang',()=>{if(cacheKonteksAktif_()){const cepat=bacaSesiPanitiaCepat_(old.token);if(cepat)return cepat;}return bacaSesiPanitia_(old.token,true);});konteksSesiPanitia_=Object.assign(current,{token:old.token,method:old.method,args:old.args,verifikasi_id:old.verifikasi_id});periksaIzinFungsiPanitia_(old.method,old.args);}
 function saringAwalPanitia_(r){if(!terbatasDalamKonteksAkses_())return r;const data=r.data;data.program=data.program.filter(p=>programDalamAkses_(p.id_program));data.sesi=data.sesi.filter(dalamJenjangAkses_);data.jenjang=(data.jenjang||[]).filter(j=>dalamJenjangAkses_({id_jenjang:j.id,id_program:j.id_program}));data.program.forEach(p=>p.jenjang=data.jenjang.filter(j=>j.id_program===p.id_program).map(j=>j.nama).join(', '));return r;}
 function saringBerandaPanitia_(d){
  if(!terbatasDalamKonteksAkses_())return d;

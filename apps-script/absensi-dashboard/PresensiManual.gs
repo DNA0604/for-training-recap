@@ -37,7 +37,7 @@ function simpanPresensiManualIndex(d){
   if(input.keterangan.length>2000||/^=/.test(input.keterangan))throw Error('Keterangan maksimal 2.000 karakter dan tidak boleh berupa rumus.');
   const tx='PRESENSI-MANUAL|'+req,lock=LockService.getScriptLock();lock.waitLock(30000);
   try{
-    pastikanTidakAdaHapusTertunda_();blokirEditTertunda_();
+    pastikanTidakAdaHapusTertunda_({izinkanLewatiBaru: true});blokirEditTertunda_();
     // Seluruh relasi/peran diperiksa kembali di bawah lock, termasuk permintaan ulang.
     const target=targetIzinIndex_(input),s=target.sesi;
     if(typeof wajibSesiTargetAkses_==='function'&&typeof konteksSesiPanitia_!=='undefined'&&konteksSesiPanitia_)wajibSesiTargetAkses_(input.id_sesi);

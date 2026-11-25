@@ -1,5 +1,27 @@
 /** Sumber server tetap; ID database tidak diterima dari browser. */
-function databasePelatihan_(){const active=SpreadsheetApp.getActiveSpreadsheet();if(active)return active;if(typeof databaseAkses_==='function')return databaseAkses_();throw Error('Database pelatihan tidak tersedia pada konteks ini.');}
+/**
+ * Pemakaian ulang HANDLE (objek spreadsheet/sheet, bukan data) selama SATU panggilan gateway. Tidak ada isi sheet yang disimpan:
+ * setiap pembacaan nilai tetap langsung ke Google Sheets. Aktif hanya di dalam denganHandleMemo_, null di luar itu.
+ */
+var memoHandle_=null;
+function denganHandleMemo_(fn){if(memoHandle_)return fn();memoHandle_={};try{return fn();}finally{memoHandle_=null;}}
+function bungkusSheetMemo_(ss){const sheets=new Map();return new Proxy(ss,{get(target,prop){if(prop==='getSheetByName')return nama=>{const kunci=String(nama);if(sheets.has(kunci))return sheets.get(kunci);const sheet=target.getSheetByName(nama);if(sheet)sheets.set(kunci,sheet);return sheet;};const nilai=target[prop];return typeof nilai==='function'?nilai.bind(target):nilai;}});}
+/** Rincian waktu per tahap untuk log WAKTU (hanya nama tahap dan milidetik). Null di luar panggilan gateway. */
+var tahapWaktu_=null;
+function ukurTahap_(nama,fn){if(!tahapWaktu_)return fn();const t=Date.now();try{return fn();}finally{tahapWaktu_.push([nama,Date.now()-t]);}}
+/** Spreadsheet aktif (container). Satu pembungkus bersama untuk databasePelatihan_ dan databaseAkses_ selama satu panggilan gateway. */
+function spreadsheetAktifMemo_(){
+  if(memoHandle_&&memoHandle_.aktif!==undefined)return memoHandle_.aktif;
+  let ss=SpreadsheetApp.getActiveSpreadsheet()||null;
+  if(ss&&memoHandle_)ss=bungkusSheetMemo_(ss);
+  if(memoHandle_)memoHandle_.aktif=ss;
+  return ss;
+}
+function databasePelatihan_(){
+  const ss=spreadsheetAktifMemo_();if(ss)return ss;
+  if(typeof databaseAkses_==='function')return databaseAkses_();
+  throw Error('Database pelatihan tidak tersedia pada konteks ini.');
+}
 function doGet(e) {
   const parameter =
     e && e.parameter ? e.parameter : {};
@@ -1986,7 +2008,7 @@ function buatTokenQR_(idSesi, jenisScan, berlakuMenit) {
   lock.waitLock(30000);
 
   try {
-    pastikanTidakAdaHapusTertunda_();
+    pastikanTidakAdaHapusTertunda_({izinkanLewatiBaru: true});
     const ss = databasePelatihan_();
     const sheetSesi = ss.getSheetByName("Sesi");
     const sheetToken = ss.getSheetByName("Token_QR");
@@ -2970,7 +2992,7 @@ function simpanAbsensiPeserta(data) {
   const lock = LockService.getScriptLock();
   lock.waitLock(30000);
   try {
-    pastikanTidakAdaHapusTertunda_();
+    pastikanTidakAdaHapusTertunda_({izinkanLewatiBaru: true});
     const ss = databasePelatihan_();
     function tabel(nama, wajib) {
       const sheet = ss.getSheetByName(nama);
@@ -3967,11 +3989,16 @@ function pembuatanKelola_(jenis,input,request,builder){
   const hasil=Object.assign({sukses:true},plan.hasil),payload={sidik_input:signature,data:plan.writes,hasil:hasil};
   const as=ss.getSheetByName('Riwayat_Validasi');
   function audit(st){const r={id_riwayat:'RV-'+Utilities.getUuid(),jenis_data:jenis,id_referensi:plan.id,jenis_tindakan:'tambah_'+jenis.toLowerCase(),kolom_diubah:JSON.stringify(plan.writes.map(w=>w.sheet)),nilai_sebelum:'null',nilai_sesudah:JSON.stringify(payload),alasan_perubahan:plan.alasan||'Penambahan melalui panel Program & Sesi.',diubah_oleh:wajibPemilikIndex_(),waktu_perubahan:new Date(),id_transaksi_perubahan:tx,status_transaksi:st};as.appendRow(a.header.map(h=>r[h]===undefined?'':r[h]));SpreadsheetApp.flush();}
-  // Semua header diperiksa sebelum ada penulisan data.
-  plan.writes.forEach(w=>tabelIndex_(w.sheet,Object.keys(w.record)));
+  // Semua header diperiksa sebelum ada penulisan data; satu pembacaan tervalidasi per sheet.
+  const kolomTulis=new Map(),tabelTulis=new Map();
+  plan.writes.forEach(w=>{if(!kolomTulis.has(w.sheet))kolomTulis.set(w.sheet,new Set());Object.keys(w.record).concat([w.id_column]).forEach(k=>kolomTulis.get(w.sheet).add(k));});
+  kolomTulis.forEach((cols,nama)=>tabelTulis.set(nama,tabelIndex_(nama,Array.from(cols))));
+  // Penulisan berurutan tetap dipertahankan: induk (mis. Sesi) diverifikasi sebelum anak (Jeda_Sesi) ditambahkan.
+  const kelompok=[];plan.writes.forEach(w=>{const akhir=kelompok[kelompok.length-1];if(akhir&&akhir[0].sheet===w.sheet)akhir.push(w);else kelompok.push([w]);});
   audit('PENDING');
-  try{for(const w of plan.writes){const table=tabelIndex_(w.sheet,[w.id_column]),sheet=ss.getSheetByName(w.sheet);const row=table.header.map(h=>w.record[h]===undefined?'':w.record[h]);sheet.appendRow(row);SpreadsheetApp.flush();
-      verifikasiWriteKelola_(w);}
+  try{for(const grup of kelompok){const sheet=ss.getSheetByName(grup[0].sheet),header=tabelTulis.get(grup[0].sheet).header;
+      grup.forEach(w=>sheet.appendRow(header.map(h=>w.record[h]===undefined?'':w.record[h])));SpreadsheetApp.flush();
+      verifikasiBanyakWriteKelola_(grup);}
     audit('SELESAI');
   }catch(e){try{audit('PERLU_PEMULIHAN');}catch(ignored){}throw new Error('Transaksi belum selesai. Jangan menambah ulang sebelum memeriksa riwayat: '+e.message);}
   return hasil;
@@ -4043,12 +4070,21 @@ function cocokRecordKelola_(row,header,record,zona){
     if(!sama)beda.push(k);
   });return beda;
 }
-function verifikasiWriteKelola_(w){
-  const table=tabelIndex_(w.sheet,Object.keys(w.record));const ss=databasePelatihan_();
-  const rows=ss.getSheetByName(w.sheet).getDataRange().getValues().slice(1).filter(r=>String(r[table.header.indexOf(w.id_column)])===String(w.record[w.id_column]));
-  if(rows.length!==1)throw new Error(w.sheet+': ID tidak ditemukan atau duplikat.');
-  const beda=cocokRecordKelola_(rows[0],table.header,w.record,ss.getSpreadsheetTimeZone());if(beda.length)throw new Error(w.sheet+': nilai berbeda pada '+beda.join(', ')+'.');
+/** Memverifikasi banyak penulisan sekaligus: satu pembacaan tervalidasi per sheet, lalu pencocokan lewat indeks ID di memori. Pesan galat sama dengan verifikasi satu per satu. */
+function verifikasiBanyakWriteKelola_(writes){
+  if(!Array.isArray(writes)||!writes.length)return;
+  const ss=databasePelatihan_(),zona=ss.getSpreadsheetTimeZone(),kolom=new Map(),tabel=new Map(),indeks=new Map();
+  writes.forEach(w=>{if(!kolom.has(w.sheet))kolom.set(w.sheet,new Set());Object.keys(w.record).forEach(k=>kolom.get(w.sheet).add(k));});
+  kolom.forEach((cols,nama)=>tabel.set(nama,tabelIndex_(nama,Array.from(cols))));
+  writes.forEach(w=>{
+    const table=tabel.get(w.sheet),kunci=w.sheet+'|'+w.id_column;
+    if(!indeks.has(kunci)){const at=table.header.indexOf(w.id_column),peta=new Map();if(at>=0)table.rows.forEach(r=>{const id=String(r[at]);if(!peta.has(id))peta.set(id,[]);peta.get(id).push(r);});indeks.set(kunci,peta);}
+    const rows=indeks.get(kunci).get(String(w.record[w.id_column]))||[];
+    if(rows.length!==1)throw new Error(w.sheet+': ID tidak ditemukan atau duplikat.');
+    const beda=cocokRecordKelola_(rows[0],table.header,w.record,zona);if(beda.length)throw new Error(w.sheet+': nilai berbeda pada '+beda.join(', ')+'.');
+  });
 }
+function verifikasiWriteKelola_(w){verifikasiBanyakWriteKelola_([w]);}
 function pulihkanPembuatanSesiIndex(idProgram){
   if(typeof wajibEndpointAkses_==='function')wajibEndpointAkses_('pulihkanPembuatanSesiIndex');
   const petugas=wajibPemilikIndex_();idProgram=String(idProgram||'').trim();if(!idProgram)throw new Error('Pilih program terlebih dahulu.');
@@ -4081,7 +4117,7 @@ function pulihkanPembuatanSesiIndex(idProgram){
         }
         // Semua konflik diperiksa sebelum menambahkan jeda yang belum tersimpan.
         for(const w of missing){const t=tabelIndex_(w.sheet,Object.keys(w.record));const record=Object.assign({},w.record);['created_at','updated_at'].forEach(k=>{if(record[k])record[k]=new Date(record[k]);});ss.getSheetByName(w.sheet).appendRow(t.header.map(h=>record[h]===undefined?'':record[h]));SpreadsheetApp.flush();verifikasiWriteKelola_(w);}
-        writes.forEach(verifikasiWriteKelola_);
+        verifikasiBanyakWriteKelola_(writes);
         const r=Object.assign({},awal,{id_riwayat:'RV-'+Utilities.getUuid(),jenis_tindakan:'pemulihan_pembuatan_sesi',alasan_perubahan:'Seluruh nilai sesi dan jeda telah diverifikasi; jeda yang belum ada dilengkapi sesuai rencana awal.',diubah_oleh:petugas,waktu_perubahan:new Date(),status_transaksi:'SELESAI'});
         ss.getSheetByName('Riwayat_Validasi').appendRow(a.header.map(h=>r[h]===undefined?'':r[h]));SpreadsheetApp.flush();hasil.dipulihkan++;hasil.dilengkapi+=missing.length;
       }catch(e){hasil.masalah.push(String(awal.id_referensi)+': '+e.message);}
@@ -4162,48 +4198,52 @@ function imporPesertaProgramIndex(d){
     pastikanTidakAdaHapusTertunda_();
     pastikanProgramPeserta_(idProgram);const ss=databasePelatihan_();
     const a=tabelIndex_('Riwayat_Validasi',['id_riwayat','jenis_data','id_referensi','jenis_tindakan','kolom_diubah','nilai_sebelum','nilai_sesudah','alasan_perubahan','diubah_oleh','waktu_perubahan','id_transaksi_perubahan','status_transaksi']);
-    const prior=a.records.filter(r=>r.id_transaksi_perubahan===tx);let plan;
+    const prior=a.records.filter(r=>r.id_transaksi_perubahan===tx);let plan,reg=null;
     if(prior.length){try{plan=JSON.parse(prior.find(r=>r.status_transaksi==='PENDING').nilai_sesudah);}catch(e){throw new Error('Audit batch tidak lengkap; periksa Riwayat_Validasi.');}if(plan.sidik_input!==signature)throw new Error('ID batch digunakan untuk data berbeda.');if(prior[prior.length-1].status_transaksi==='SELESAI')return plan.hasil;}
     else{
       // Hindari batch baru menabrak impor program yang belum selesai.
       const statuses=new Map();a.records.filter(r=>r.jenis_data==='Impor_Peserta'&&String(r.id_referensi)===idProgram).forEach(r=>statuses.set(r.id_transaksi_perubahan,r.status_transaksi));if(Array.from(statuses.entries()).some(([id,status])=>id!==tx&&status!=='SELESAI'))throw new Error('Ada batch impor program ini yang belum selesai. Lanjutkan proses impor sebelumnya sebelum membuat impor baru.');
-      const reg=bacaRegistriPeserta_(),checked=periksaBarisImporPeserta_(idProgram,d.baris,reg);
+      reg=bacaRegistriPeserta_();const checked=periksaBarisImporPeserta_(idProgram,d.baris,reg);
       const expected=d.baris;
       for(let i=0;i<checked.length;i++){
         const r=checked[i],old=expected[i];if(r.status==='error')throw new Error('Baris '+r.nomor+': '+r.pesan);
         if(r.status!==old.status||r.id_peserta!==String(old.id_peserta||'')||r.versi_peserta!==String(old.versi_peserta||'')||r.versi_keikutsertaan!==String(old.versi_keikutsertaan||''))throw new Error('Data berubah sejak pratinjau pada baris '+r.nomor+'. Buat pratinjau baru sebelum melanjutkan.');
       }
-      const ps=reg.p.records.slice(),ks=reg.k.records.slice(),writes=[],checks=[],now=new Date(),counts={baru:0,daftar:0,lewati:0};
+      const ps=reg.p.records.slice(),ks=reg.k.records.slice(),writes=[],checks=[],now=new Date(),counts={baru:0,daftar:0,lewati:0},kolomJ=kolomJenjangData_(idProgram,d.id_jenjang);
       for(const r of checked){
         counts[r.status]++;if(r.status==='lewati')continue;let id=r.id_peserta;
         if(r.status==='baru'){id=nomorIdKelola_(ps,'id_peserta','PST');const record={id_peserta:id,nip:r.nip,nama_pegawai:r.nama,unit_kerja:r.unit,created_at:now,updated_at:now};ps.push(record);writes.push({sheet:'Peserta',id_column:'id_peserta',record:record});}
         else checks.push({id_peserta:id,versi:r.versi_peserta});
-        const idk=nomorIdKelola_(ks,'id_keikutsertaan','KST'),record={...kolomJenjangData_(idProgram,d.id_jenjang),id_keikutsertaan:idk,id_program:idProgram,id_peserta:id,unit_kerja_saat_pelatihan:r.unit,status_keikutsertaan:'terdaftar',created_at:now,updated_at:now};ks.push(record);writes.push({sheet:'Keikutsertaan',id_column:'id_keikutsertaan',record:record});
+        const idk=nomorIdKelola_(ks,'id_keikutsertaan','KST'),record={...kolomJ,id_keikutsertaan:idk,id_program:idProgram,id_peserta:id,unit_kerja_saat_pelatihan:r.unit,status_keikutsertaan:'terdaftar',created_at:now,updated_at:now};ks.push(record);writes.push({sheet:'Keikutsertaan',id_column:'id_keikutsertaan',record:record});
       }
-      plan={sidik_input:signature,id_program:idProgram,...kolomJenjangData_(idProgram,d.id_jenjang),baris_asal:d.baris,writes:writes,checks:checks,hasil:{sukses:true,baru:counts.baru,daftar:counts.daftar,lewati:counts.lewati}};
+      plan={sidik_input:signature,id_program:idProgram,...kolomJ,baris_asal:d.baris,writes:writes,checks:checks,hasil:{sukses:true,baru:counts.baru,daftar:counts.daftar,lewati:counts.lewati}};
       if(JSON.stringify(plan).length>45000)throw new Error('Isi batch terlalu panjang. Kurangi jumlah peserta atau panjang nama/unit.');
     }
     const as=ss.getSheetByName('Riwayat_Validasi');
     function audit(status){const r={id_riwayat:'RV-'+Utilities.getUuid(),jenis_data:'Impor_Peserta',id_referensi:idProgram,jenis_tindakan:'impor_peserta_program',kolom_diubah:JSON.stringify(['Peserta','Keikutsertaan']),nilai_sebelum:'null',nilai_sesudah:JSON.stringify(plan),alasan_perubahan:'Impor peserta program, batch '+(d.batch+1),diubah_oleh:petugas,waktu_perubahan:new Date(),id_transaksi_perubahan:tx,status_transaksi:status};as.appendRow(a.header.map(h=>r[h]===undefined?'':r[h]));SpreadsheetApp.flush();}
     // Preflight seluruh rencana termasuk retry setelah penulisan parsial.
-    const registry=bacaRegistriPeserta_();for(const check of plan.checks){const p=registry.byId.get(check.id_peserta);if(!p||versiBarisIndex_(p)!==check.versi)throw new Error('Identitas peserta lama berubah saat proses impor. Periksa batch tertunda.');}
-    const missing=[];for(const w of plan.writes){
-      const t=tabelIndex_(w.sheet,Object.keys(w.record)),matches=t.records.filter(r=>String(r[w.id_column])===String(w.record[w.id_column]));
-      if(matches.length){verifikasiWriteKelola_(w);continue;}
+    // Batch baru: registri yang baru dibaca di atas masih berlaku (belum ada penulisan). Retry wajib membaca ulang.
+    const registry=reg||bacaRegistriPeserta_();for(const check of plan.checks){const p=registry.byId.get(check.id_peserta);if(!p||versiBarisIndex_(p)!==check.versi)throw new Error('Identitas peserta lama berubah saat proses impor. Periksa batch tertunda.');}
+    const missing=[],existing=[],tabelImpor=new Map([['Peserta',registry.p],['Keikutsertaan',registry.k]]),idAda=new Map();for(const w of plan.writes){
+      const t=tabelImpor.get(w.sheet);if(!t)throw new Error('Sheet pada rencana batch tidak dikenali: '+w.sheet+'.');
+      Object.keys(w.record).forEach(k=>{if(!t.header.includes(k))throw new Error('Kolom '+k+' tidak ditemukan di '+w.sheet);});
+      const kunciId=w.sheet+'|'+w.id_column;if(!idAda.has(kunciId))idAda.set(kunciId,new Set(t.records.map(r=>String(r[w.id_column]))));
+      if(idAda.get(kunciId).has(String(w.record[w.id_column]))){existing.push(w);continue;}
       if(w.sheet==='Peserta'&&registry.byNip.has(w.record.nip))throw new Error('NIP pada batch tertunda sudah digunakan peserta lain. Periksa manual.');
       if(w.sheet==='Keikutsertaan'&&registry.byPair.has(idProgram+'|'+w.record.id_peserta))throw new Error('Keikutsertaan batch tertunda sudah tercatat dengan ID lain. Periksa manual.');
       missing.push(w);
     }
+    if(existing.length)verifikasiBanyakWriteKelola_(existing);
     if(!prior.length)audit('PENDING');
     try{
       for(const name of ['Peserta','Keikutsertaan']){
         const items=missing.filter(w=>w.sheet===name);if(!items.length)continue;
-        const sheet=ss.getSheetByName(name),t=tabelIndex_(name,[]),start=sheet.getLastRow()+1;
+        const sheet=ss.getSheetByName(name),t=tabelImpor.get(name),start=sheet.getLastRow()+1;
         if(name==='Peserta')sheet.getRange(start,t.header.indexOf('nip')+1,items.length,1).setNumberFormat('@');
         const rows=items.map(w=>t.header.map(h=>{const v=w.record[h];if(v===undefined)return '';if(['created_at','updated_at'].includes(h)&&typeof v==='string')return new Date(v);return v;}));
         sheet.getRange(start,1,rows.length,t.header.length).setValues(rows);SpreadsheetApp.flush();
       }
-      plan.writes.forEach(verifikasiWriteKelola_);audit('SELESAI');
+      verifikasiBanyakWriteKelola_(plan.writes);audit('SELESAI');
     }catch(e){try{audit('PERLU_PEMULIHAN');}catch(ignored){}throw new Error('Batch belum selesai. Klik Lanjutkan Impor dengan data yang sama agar tidak menggandakan peserta: '+e.message);}
     return plan.hasil;
   }finally{lock.releaseLock();}

@@ -56,17 +56,17 @@ function tambahJenjangProgramIndex(d){
   }finally{lock.releaseLock();}
 }
 /** Called by tabelIndex_ without recursively calling that reader. */
-function validasiTabelJenjang_(name,table){
+function validasiTabelJenjang_(name,table,sumber){
   pastikanMigrasiJenjangSiap_();
   if(!['Sesi','Keikutsertaan','Kehadiran','Catatan_Perilaku','Log_Absensi'].includes(name))return;
-  const jenjang=bacaMentahJenjang_('Jenjang',true);if(!jenjang)return;
+  const jenjang=sumber&&sumber.jenjang?sumber.jenjang:bacaMentahJenjang_('Jenjang',true);if(!jenjang)return;
   const txt=v=>String(v==null?'':v).trim(),js=new Map();
   jenjang.records.forEach(j=>{const id=txt(j.id_jenjang);if(!id||js.has(id))throw Error('ID Jenjang kosong/duplikat.');js.set(id,j);});
   if(['Sesi','Keikutsertaan'].includes(name)){
     if(!table.header.includes('id_jenjang'))throw Error('Kolom id_jenjang belum tersedia pada '+name+'.');
     table.records.forEach(r=>{const j=js.get(txt(r.id_jenjang));if(!j||txt(j.id_program)!==txt(r.id_program))throw Error('Relasi Jenjang tidak sesuai pada '+name+' '+txt(r.id_sesi||r.id_keikutsertaan)+'.');});
   }else{
-    const sessions=bacaMentahJenjang_('Sesi').records,members=bacaMentahJenjang_('Keikutsertaan').records;
+    const sessions=(sumber&&sumber.sesi||bacaMentahJenjang_('Sesi')).records,members=(sumber&&sumber.keikutsertaan||bacaMentahJenjang_('Keikutsertaan')).records;
     const unique=(list,key)=>{const m=new Map();list.forEach(r=>{const id=txt(r[key]);if(!id||m.has(id))throw Error('ID relasi kosong/duplikat pada '+key+'.');m.set(id,r);});return m;};
     const sm=unique(sessions,'id_sesi'),km=unique(members,'id_keikutsertaan');
     table.records.forEach(r=>{
@@ -77,11 +77,32 @@ function validasiTabelJenjang_(name,table){
     });
   }
 }
-/** Shared mutation guard also covers older entry points that use their own raw readers. */
-function validasiIntegritasOperasionalJenjang_(){
+/**
+ * Jalur cepat presensi QR (Tahap 3, DEFAULT MATI, dinyalakan pemilik lewat aktifkanValidasiCepatPresensiQR).
+ * Setelah validasi integritas seluruh data lolos, penanda singkat disimpan; HANYA simpanAbsensiPeserta (QR peserta) yang boleh
+ * melewati validasi seluruh data selama penanda masih berlaku. Semua jalur ubah-data lain tetap memvalidasi penuh setiap kali,
+ * dan pemeriksaan penghapusan/verifikasi tertunda tetap langsung. Kegagalan validasi menghapus penanda.
+ */
+var TTL_INTEGRITAS_QR_DETIK_=60;
+function kunciSakelarIntegritasQR_(){return 'INTEGRITAS_QR_CEPAT|'+databasePelatihan_().getId();}
+function kunciIntegritasLolos_(){return 'INTEGRITAS-LOLOS|'+databasePelatihan_().getId();}
+function integritasQRCepatAktif_(){return PropertiesService.getScriptProperties().getProperty(kunciSakelarIntegritasQR_())==='aktif';}
+function integritasBaruLolos_(){try{return Boolean(CacheService.getScriptCache().get(kunciIntegritasLolos_()));}catch(e){return false;}}
+function catatIntegritasLolos_(){try{if(integritasQRCepatAktif_())CacheService.getScriptCache().put(kunciIntegritasLolos_(),String(Date.now()),TTL_INTEGRITAS_QR_DETIK_);}catch(ignored){}}
+function hapusIntegritasLolos_(){try{CacheService.getScriptCache().remove(kunciIntegritasLolos_());}catch(ignored){}}
+/** Shared mutation guard also covers older entry points that use their own raw readers. Setiap tabel dan Jenjang dibaca satu kali per pemeriksaan. */
+function validasiIntegritasOperasionalJenjang_(opsi){
   pastikanMigrasiJenjangSiap_();
-  if(!bacaMentahJenjang_('Jenjang',true))return;
-  for(const name of ['Sesi','Keikutsertaan','Kehadiran','Catatan_Perilaku','Log_Absensi'])validasiTabelJenjang_(name,bacaMentahJenjang_(name));
+  if(opsi&&opsi.izinkanLewatiBaru&&integritasQRCepatAktif_()&&integritasBaruLolos_())return;
+  const jenjang=bacaMentahJenjang_('Jenjang',true);if(!jenjang)return;
+  try{ukurTahap_('integritas',()=>{
+    const sumber={jenjang,sesi:null,keikutsertaan:null};
+    for(const name of ['Sesi','Keikutsertaan','Kehadiran','Catatan_Perilaku','Log_Absensi']){
+      const tabel=bacaMentahJenjang_(name);if(name==='Sesi')sumber.sesi=tabel;if(name==='Keikutsertaan')sumber.keikutsertaan=tabel;
+      validasiTabelJenjang_(name,tabel,sumber);
+    }
+  });}catch(e){hapusIntegritasLolos_();throw e;}
+  catatIntegritasLolos_();
 }
 
 /** Migrasi eksplisit untuk SALINAN database: satu Jenjang yang ditinjau per program lama. */

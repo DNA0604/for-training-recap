@@ -25,11 +25,11 @@ function transaksiHapus_() {
   auditHapus_().records.filter(r=>teksHapus_(r.jenis_tindakan).toLowerCase()==='hapus_data').forEach(r=>{const status=statusTransaksiHapus_(r.status_transaksi);if(status)m.set(teksHapus_(r.id_transaksi_perubahan)||'TANPA-ID-BARIS-'+r.__baris,Object.assign({},r,{status_transaksi:status}));});
   return m;
 }
-function pastikanTidakAdaHapusTertunda_() {
+function pastikanTidakAdaHapusTertunda_(opsi) {
   if(typeof periksaUlangSesiPanitia_==='function')periksaUlangSesiPanitia_();
   if(typeof pastikanTidakAdaVerifikasiTertunda_==='function')pastikanTidakAdaVerifikasiTertunda_();
   if(typeof pastikanMigrasiJenjangSiap_==='function')pastikanMigrasiJenjangSiap_();
-  if(typeof validasiIntegritasOperasionalJenjang_==='function')validasiIntegritasOperasionalJenjang_();
+  if(typeof validasiIntegritasOperasionalJenjang_==='function')validasiIntegritasOperasionalJenjang_(opsi);
   if(Array.from(transaksiHapus_().values()).some(r=>!['SELESAI','DIBATALKAN'].includes(r.status_transaksi)))
     throw Error('Ada penghapusan belum selesai. Buka Pengelolaan atau Peserta → Penghapusan tertunda → Periksa / lanjutkan.');
 }

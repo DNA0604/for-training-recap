@@ -1,16 +1,16 @@
 {
-  "snapshot_date": "2026-11-10",
+  "snapshot_date": "2026-11-24",
   "timezone": "Asia/Jakarta",
   "files": {
     "Absensi.html": "496053b5dd8ca245d75c0db314d015e8e25d27ccf9a2d7b9f7e9416509280092",
     "AdminQR.html": "d7d2624329bee14cc73eb3bbb5b447a9d39371ae73ae2083a94ae7774a726f43",
-    "Akses.gs": "ee367240f40bfcfc3123984adf1f70337fb271f5245691235231f21528749750",
+    "Akses.gs": "91bffed3a0d717e4b7d4ce01ec5b2eac4b39fd147b8c31dbeed4a4249528d168",
     "Beranda.html": "35d26eb54ac7812b05003922146d99bb7d7c6144904d9565e522c0278e60225f",
-    "Code.gs": "6e7128573f1ef750e2e54fe5a1baab8c814abe1fac71857e0bf988a8caa5c435",
+    "Code.gs": "45cfa63ae7c53fd07312627a5a758a882d9c08af1dd8ddf7f3e8767f37f34d71",
     "Evaluasi.gs": "01ab9b4402edaf8325621b8a78a408d7dc4bbca3e8fbb16059e69aedd44097b2",
-    "Hapus.gs": "9e7fb3de2ac67b55864a558b94612b5c45d8e1869e9f3e56cb7d4d264b1344e7",
+    "Hapus.gs": "9f9dbdc787b95ec409b49ee1cc8930d213126c7111e4ea634df05bf7c163d4f8",
     "Index.html": "c630a8e21e5765103024cfe16fe25b9b8af0ea1eb04beda25064919bd03d947b",
-    "Jenjang.gs": "e3c3e83ac0a0fbdd5e257caf4de2f83a329bdf9e4fcbeedadc4c798044bdac85",
+    "Jenjang.gs": "0c8734f491dc374f6cc30f0dfa927dffb9cb293ecbcc77f387f0088899d0a3cd",
     "Laporan.gs": "20ef05d6712cfafc67b2d1c2916e14fd4ff5d5d457e1df0e68fb3bd45a03e95d",
     "LaporanTampilan.gs": "c9a14814c27797f60013174b9be303d7b286b20eadc563c323c2ad8a760614f9",
     "ManajemenAkses.html": "74c2462cbfcc61d147f13eca80f9ae53ba7a38ce1f56d5942b3f9967a865aead",
@@ -19,7 +19,7 @@
     "Pengelolaan.html": "7540457da03c8d464a713390591fff2a6cbfafd65d72a911cac6e9709d59a0b7",
     "Peserta.html": "a16ea9fa9d5e97f5a55edb45638a36e07ad8c012920feff9c8a5e4f1e6287d0c",
     "PratinjauJenjang.html": "d849c1678abaa32090161c3a72ee5f847eeb7dd329f787385cd922da3d297f67",
-    "PresensiManual.gs": "2dae93df928993700c86b89cecaf4e5ffd70ff5ebaa4e016cdf11b9740387aee",
+    "PresensiManual.gs": "8833d23fdf9fabc677fe9a52bd0013568ee4d6b60b0e2231ac139752fbfedc01",
     "Profil.html": "d2440f4084563e94791c651aaa15c6f040a0d0a2e2a526025d30663aaaa2c406"
   }
 }
