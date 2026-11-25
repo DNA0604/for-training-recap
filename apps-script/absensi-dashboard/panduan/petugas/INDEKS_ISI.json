@@ -1,0 +1,187 @@
+{
+  "chapters": 9,
+  "sections": 30,
+  "figures": 24,
+  "items": [
+    {
+      "chapter": 1,
+      "section": 1,
+      "title": "Tujuan panduan dan penugasan kelas",
+      "image": null
+    },
+    {
+      "chapter": 1,
+      "section": 2,
+      "title": "Urutan kerja dan pembagian tanggung jawab",
+      "image": null
+    },
+    {
+      "chapter": 2,
+      "section": 1,
+      "title": "Verifikasi akun dan login",
+      "image": "01-login.png"
+    },
+    {
+      "chapter": 2,
+      "section": 2,
+      "title": "Membaca Beranda sesuai penugasan",
+      "image": "02-beranda.png"
+    },
+    {
+      "chapter": 2,
+      "section": 3,
+      "title": "Menggunakan menu Petugas",
+      "image": "03-menu.png"
+    },
+    {
+      "chapter": 3,
+      "section": 1,
+      "title": "Memilih Program, Jenjang dan Sesi",
+      "image": "06-filter-sesi.png"
+    },
+    {
+      "chapter": 3,
+      "section": 2,
+      "title": "Membaca dan mencari peserta pada sesi",
+      "image": "07-kehadiran.png"
+    },
+    {
+      "chapter": 3,
+      "section": 3,
+      "title": "Melihat daftar dan profil peserta",
+      "image": "04-peserta.png"
+    },
+    {
+      "chapter": 3,
+      "section": 4,
+      "title": "Membaca profil peserta",
+      "image": "05-profil.png"
+    },
+    {
+      "chapter": 4,
+      "section": 1,
+      "title": "Memilih cara pencatatan presensi",
+      "image": "08-pilihan-presensi.png"
+    },
+    {
+      "chapter": 4,
+      "section": 2,
+      "title": "Menerbitkan QR datang dan pulang",
+      "image": "09-qr.png"
+    },
+    {
+      "chapter": 4,
+      "section": 3,
+      "title": "Mencatat peserta Hadir secara manual",
+      "image": "10-manual-hadir.png"
+    },
+    {
+      "chapter": 4,
+      "section": 4,
+      "title": "Mencatat peserta Tidak Hadir",
+      "image": "11-manual-tidak-hadir.png"
+    },
+    {
+      "chapter": 4,
+      "section": 5,
+      "title": "Mencatat izin berdasarkan rentang waktu",
+      "image": "12-izin.png"
+    },
+    {
+      "chapter": 4,
+      "section": 6,
+      "title": "Melengkapi atau mengoreksi waktu kehadiran",
+      "image": "13-koreksi-langsung.png"
+    },
+    {
+      "chapter": 5,
+      "section": 1,
+      "title": "Mencatat kejadian sikap dan perilaku",
+      "image": "14-catatan-perilaku.png"
+    },
+    {
+      "chapter": 5,
+      "section": 2,
+      "title": "Memeriksa status catatan dan izin",
+      "image": "15-daftar-perilaku.png"
+    },
+    {
+      "chapter": 5,
+      "section": 3,
+      "title": "Membaca Daftar Izin Peserta",
+      "image": "16-daftar-izin.png"
+    },
+    {
+      "chapter": 6,
+      "section": 1,
+      "title": "Membuka evaluasi yang menjadi tugas Petugas",
+      "image": "17-pilihan-evaluasi.png"
+    },
+    {
+      "chapter": 6,
+      "section": 2,
+      "title": "Mengisi dan menyimpan tiga aspek",
+      "image": "18-evaluasi-panitia.png"
+    },
+    {
+      "chapter": 7,
+      "section": 1,
+      "title": "Menyiapkan pencatatan sebelum pengajuan",
+      "image": null
+    },
+    {
+      "chapter": 7,
+      "section": 2,
+      "title": "Mengirim pengajuan verifikasi",
+      "image": "19-ajukan-verifikasi.png"
+    },
+    {
+      "chapter": 7,
+      "section": 3,
+      "title": "Memantau pengajuan yang menunggu",
+      "image": "22-verifikasi-menunggu.png"
+    },
+    {
+      "chapter": 7,
+      "section": 4,
+      "title": "Membaca alasan penolakan",
+      "image": "23-verifikasi-ditolak.png"
+    },
+    {
+      "chapter": 7,
+      "section": 5,
+      "title": "Mengajukan kembali setelah perbaikan",
+      "image": "24-ajukan-ulang.png"
+    },
+    {
+      "chapter": 8,
+      "section": 1,
+      "title": "Menindaklanjuti JP yang belum diperbarui",
+      "image": null
+    },
+    {
+      "chapter": 8,
+      "section": 2,
+      "title": "Membaca Rekap Program dan mengunduh CSV",
+      "image": "20-rekap.png"
+    },
+    {
+      "chapter": 8,
+      "section": 3,
+      "title": "Memahami rincian nilai akhir peserta",
+      "image": "21-rincian-nilai.png"
+    },
+    {
+      "chapter": 9,
+      "section": 1,
+      "title": "Mengakhiri pekerjaan kelas",
+      "image": null
+    },
+    {
+      "chapter": 9,
+      "section": 2,
+      "title": "Kendala yang umum dijumpai",
+      "image": null
+    }
+  ]
+}

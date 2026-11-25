@@ -1,0 +1,139 @@
+{
+  "chapters": 6,
+  "sections": 22,
+  "figures": 17,
+  "items": [
+    {
+      "chapter": 1,
+      "section": 1,
+      "title": "Tujuan panduan dan cakupan penugasan",
+      "image": null
+    },
+    {
+      "chapter": 1,
+      "section": 2,
+      "title": "Urutan kerja dan pembagian tanggung jawab",
+      "image": null
+    },
+    {
+      "chapter": 2,
+      "section": 1,
+      "title": "Verifikasi akun dan login",
+      "image": "01-login.png"
+    },
+    {
+      "chapter": 2,
+      "section": 2,
+      "title": "Membaca Beranda sesuai sesi mengajar",
+      "image": "02-beranda.png"
+    },
+    {
+      "chapter": 2,
+      "section": 3,
+      "title": "Menggunakan menu Pengajar",
+      "image": "03-menu.png"
+    },
+    {
+      "chapter": 3,
+      "section": 1,
+      "title": "Memilih Program, Jenjang dan Sesi",
+      "image": "06-filter-sesi.png"
+    },
+    {
+      "chapter": 3,
+      "section": 2,
+      "title": "Melihat daftar Peserta Program",
+      "image": "04-peserta.png"
+    },
+    {
+      "chapter": 3,
+      "section": 3,
+      "title": "Membaca profil peserta",
+      "image": "05-profil.png"
+    },
+    {
+      "chapter": 4,
+      "section": 1,
+      "title": "Memantau kehadiran peserta",
+      "image": "07-kehadiran.png"
+    },
+    {
+      "chapter": 4,
+      "section": 2,
+      "title": "Membaca Catatan Perilaku",
+      "image": "08-catatan.png"
+    },
+    {
+      "chapter": 4,
+      "section": 3,
+      "title": "Membaca Daftar Izin Peserta",
+      "image": "09-izin.png"
+    },
+    {
+      "chapter": 4,
+      "section": 4,
+      "title": "Melihat Rekap Program dan mengunduh CSV",
+      "image": "10-rekap.png"
+    },
+    {
+      "chapter": 5,
+      "section": 1,
+      "title": "Membuka Isi Evaluasi Peserta",
+      "image": "11-pilihan-evaluasi.png"
+    },
+    {
+      "chapter": 5,
+      "section": 2,
+      "title": "Mengenal enam aspek dan skala nilai",
+      "image": "12-evaluasi-kosong.png"
+    },
+    {
+      "chapter": 5,
+      "section": 3,
+      "title": "Mengisi nilai dan menyimpan halaman",
+      "image": "13-evaluasi-isian.png"
+    },
+    {
+      "chapter": 5,
+      "section": 4,
+      "title": "Memastikan hasil benar-benar tersimpan",
+      "image": "14-evaluasi-tersimpan.png"
+    },
+    {
+      "chapter": 5,
+      "section": 5,
+      "title": "Mengisi peserta pada halaman berikutnya",
+      "image": "17-evaluasi-halaman-berikutnya.png"
+    },
+    {
+      "chapter": 5,
+      "section": 6,
+      "title": "Memperbaiki nilai yang sudah tersimpan",
+      "image": "15-evaluasi-perbaikan.png"
+    },
+    {
+      "chapter": 5,
+      "section": 7,
+      "title": "Menindaklanjuti penanda sumber berubah",
+      "image": "16-sumber-berubah.png"
+    },
+    {
+      "chapter": 6,
+      "section": 1,
+      "title": "Memeriksa kelengkapan dan berkoordinasi",
+      "image": null
+    },
+    {
+      "chapter": 6,
+      "section": 2,
+      "title": "Keluar dari aplikasi",
+      "image": null
+    },
+    {
+      "chapter": 6,
+      "section": 3,
+      "title": "Kendala yang umum dijumpai",
+      "image": null
+    }
+  ]
+}

@@ -1,0 +1,296 @@
+{
+  "source_application": "7dacfb0",
+  "capture": "Current server-injected HTML, Chromium and synthetic fixtures. Google services mocked; no real account/operational writes.",
+  "images": [
+    {
+      "file": "assets/01-login.png",
+      "selector": ".login-content",
+      "caption": "Panel login dan verifikasi akun",
+      "markers": [
+        "#panitiaVerify",
+        "#panitiaLogin"
+      ],
+      "sha256": "b896ed8d2e2bc1551eb5c0aa467f6db22da00909886b4b9a4c5c2626dc88f136"
+    },
+    {
+      "file": "assets/02-beranda.png",
+      "selector": "#dashContent",
+      "caption": "Beranda Admin Pelatihan",
+      "markers": [],
+      "sha256": "dceed8b555e8bb754de42ed8afd626c14caba061c6a035791a3e118acbaca1c3"
+    },
+    {
+      "file": "assets/03-menu.png",
+      "selector": "#dashSidebar",
+      "caption": "Menu navigasi Admin",
+      "markers": [],
+      "sha256": "db84f4c65c3a6ba67caff5490a6d827fd5d69beba67bc6e57e93c99e5311111e"
+    },
+    {
+      "file": "assets/04-akun.png",
+      "selector": "#userForm",
+      "caption": "Formulir akun pengguna",
+      "markers": [],
+      "sha256": "aa2816bcf843e371e0b284c0129669c95ec2788da7db4436193b5041d2cc9118"
+    },
+    {
+      "file": "assets/05-penugasan.png",
+      "selector": "#assignmentForm",
+      "caption": "Penugasan Petugas pada Program dan Jenjang",
+      "markers": [],
+      "sha256": "2e1fdec2c5241da7c9a4b53386aa0aab74ec13cdf785e932357181280f5d9460"
+    },
+    {
+      "file": "assets/06-daftar-akun.png",
+      "selector": "#users",
+      "caption": "Daftar akun dan tindakan perubahan status",
+      "markers": [],
+      "sha256": "fb607c7d5c6a54dc34e7e0d1be20bcc63f72df3ab01e4caff40785dbebef8b1a"
+    },
+    {
+      "file": "assets/07-pengelolaan.png",
+      "selector": "#managePanel",
+      "caption": "Halaman Pengelolaan program dan sesi",
+      "markers": [],
+      "sha256": "70be22d43ec62b578639be7ea98c72af0cf40a265eb597c8756fa06745159355"
+    },
+    {
+      "file": "assets/41-periksa-data.png",
+      "selector": "section.panel:has(#checkData)",
+      "caption": "Pemeriksaan konsistensi data program",
+      "markers": [],
+      "sha256": "cc2bea1f6ec33016514b80dec4c44931adbb17c6c01ba082e608379ea87fe4d5"
+    },
+    {
+      "file": "assets/08-program.png",
+      "selector": "#newProgramDetails",
+      "caption": "Formulir Tambah Program Pelatihan",
+      "markers": [],
+      "sha256": "8dd26ca4fa817108f43ac36b6f07302df13d34721e409ade4d4b662ad61dbc1f"
+    },
+    {
+      "file": "assets/09-jenjang.png",
+      "selector": "#newJenjangDialog",
+      "caption": "Formulir Tambah Jenjang Program",
+      "markers": [],
+      "sha256": "62f87454b0b8b2ad9eccc8b937032bd0374900a85d4156f428816b119edb8f89"
+    },
+    {
+      "file": "assets/10-sesi.png",
+      "selector": "#newSessionDetails",
+      "caption": "Formulir sesi, perhitungan JP dan jeda",
+      "markers": [],
+      "sha256": "ab150cbe7af1c86edf779430adc72e67c55a308b06d5beedece43a65d5fcda03"
+    },
+    {
+      "file": "assets/11-pengajar-sesi.png",
+      "selector": "#kelolaPengajarSesi",
+      "caption": "Penetapan Pengajar untuk setiap sesi",
+      "markers": [],
+      "sha256": "7e9bd7b56f7955bc7025c67dfe31b77579edc7988e4a7c233bcefd09a8ee2e87"
+    },
+    {
+      "file": "assets/12-laporan.png",
+      "selector": "#programReportDialog",
+      "caption": "Pembuatan laporan program yang sudah selesai",
+      "markers": [],
+      "sha256": "a5b06bd215bfc07d5bcb34d4ec6891b32504a203354c4169b931b5376889720d"
+    },
+    {
+      "file": "assets/13-peserta.png",
+      "selector": "#participantsPanel",
+      "caption": "Pemilihan Program dan Jenjang serta daftar peserta",
+      "markers": [],
+      "sha256": "0a1cacafecfa40fa1c77e9361409b05375cb6c7a93c73b1299627e764382898a"
+    },
+    {
+      "file": "assets/14-tambah-peserta.png",
+      "selector": "#singleParticipantDialog",
+      "caption": "Pendaftaran peserta baru atau peserta lama",
+      "markers": [],
+      "sha256": "640cdc6942f5643bb7608629b2794be36231c1f254a808470de6b9fc46c3f108"
+    },
+    {
+      "file": "assets/15-pratinjau-impor.png",
+      "selector": "#participantPreviewCard",
+      "caption": "Pratinjau hasil pemeriksaan impor peserta",
+      "markers": [],
+      "sha256": "6d32461f90e6011b4f1e704867cca0121bddade998bbc8147e27c8f50c5f9d55"
+    },
+    {
+      "file": "assets/16-monitoring.png",
+      "selector": "#sessionPanel",
+      "caption": "Kehadiran peserta per sesi",
+      "markers": [],
+      "sha256": "2fcf683792b97ce7995207e1d260ebdc2d30750daf012cc54f87f44110df6108"
+    },
+    {
+      "file": "assets/40-filter-jp.png",
+      "selector": "section:has(#calculate)",
+      "caption": "Pemilihan sesi dan tombol Hitung JP Sesi",
+      "markers": [],
+      "sha256": "f0d2a4b07efa0baab409e44c6db9f5920e8deef00e7f27e6edcdc8e773fcbd9b"
+    },
+    {
+      "file": "assets/17-pilihan-presensi.png",
+      "selector": "#presensiDialog",
+      "caption": "Tiga pilihan pada tombol Presensi",
+      "markers": [],
+      "sha256": "cd44cc7fc0480793c7fe007677fc1772e5733b7b2e7ed2bdf3e1fe2aab0c53ae"
+    },
+    {
+      "file": "assets/18-manual.png",
+      "selector": "#manualDialog",
+      "caption": "Pencatatan status kehadiran manual",
+      "markers": [],
+      "sha256": "a353c6cfca818883fc126fce526dd0683644a7aee0bcd73f64f58f9b921986b7"
+    },
+    {
+      "file": "assets/19-qr.png",
+      "selector": "#qrDialog",
+      "caption": "Pengaturan QR absensi datang atau pulang",
+      "markers": [],
+      "sha256": "f4770ab001d98c2dd686b47915e52f5e7c25c703bce3aa5c2b811a2cdfddfd65"
+    },
+    {
+      "file": "assets/20-izin.png",
+      "selector": "#editDialog",
+      "caption": "Pencatatan izin, termasuk peserta yang belum presensi",
+      "markers": [],
+      "sha256": "089a0bda61575d10e9a378cbd6d00fb6e02d0cf2133011b10f39b0cac35f3743"
+    },
+    {
+      "file": "assets/21-catatan-perilaku.png",
+      "selector": "#behaviorDialog",
+      "caption": "Formulir Catat Sikap dan Perilaku",
+      "markers": [],
+      "sha256": "6cabb9966fd4eb58b975d4764cf6cbfe8cb8430572dedc4517f1c6c870748a00"
+    },
+    {
+      "file": "assets/38-validasi-catatan.png",
+      "selector": "#validationDialog",
+      "caption": "Pemeriksaan status, bukti dan alasan validasi catatan",
+      "markers": [],
+      "sha256": "c9d3e89ce783d640c721caad73937a9201bde0dbee09354e580b68c63897a000"
+    },
+    {
+      "file": "assets/22-daftar-perilaku.png",
+      "selector": "#behaviorPanel",
+      "caption": "Daftar catatan dan tindakan validasi",
+      "markers": [],
+      "sha256": "fa5425c6cbf0215b237ae777bf1951b3fa22e5266d5a8b787c4822bc5281aa89"
+    },
+    {
+      "file": "assets/23-aturan-perilaku.png",
+      "selector": "#scorePanel",
+      "caption": "Pengaturan nilai dan aturan perilaku program",
+      "markers": [],
+      "sha256": "a6ea54822881c41f16fa6ad6736809af399cbcc32f2ccc55d1295575115fd6ce"
+    },
+    {
+      "file": "assets/24-indikator.png",
+      "selector": "#indicatorDialog",
+      "caption": "Tambah atau kelola indikator perilaku",
+      "markers": [],
+      "sha256": "c4ca1794cef44470de71a49a8a00846de5902ef8b42692b468d6bf375a3a1893"
+    },
+    {
+      "file": "assets/25-pilihan-evaluasi.png",
+      "selector": "#evaluasiChoices",
+      "caption": "Tiga jenis evaluasi untuk Admin",
+      "markers": [],
+      "sha256": "f677749fe4f22a5f5f765a3f9aafd17ae180ea7a377cd000a45183022abbad0c"
+    },
+    {
+      "file": "assets/26-evaluasi-panitia.png",
+      "selector": "#evaluasiPanitiaDialog",
+      "caption": "Evaluasi peserta oleh panitia: tiga aspek",
+      "markers": [],
+      "sha256": "c532ced32a392140a8acb16e5136c4382bfe49883fff6f3f6da50fd020b2e084"
+    },
+    {
+      "file": "assets/27-evaluasi-pengajar.png",
+      "selector": "#evaluasiPengajarAdminDialog",
+      "caption": "Evaluasi Pengajar oleh Admin",
+      "markers": [],
+      "sha256": "6c48c3643fb7cb8eccd3915fd8b14ee1d5e39e45290c3159dbcd9cf66f7915ea"
+    },
+    {
+      "file": "assets/28-evaluasi-peserta-pengajar.png",
+      "selector": "#evaluasiPesertaDialog",
+      "caption": "Tampilan baca evaluasi peserta oleh Pengajar",
+      "markers": [],
+      "sha256": "7ad956191866dcfc1446ebac8b2da675d970d34e8f523edf1f69b6f82c31517e"
+    },
+    {
+      "file": "assets/39-rekap-spreadsheet.png",
+      "selector": "#evaluasiPesertaDialog .evaluasi-actions",
+      "caption": "Tombol pembaruan rekap pada spreadsheet penilaian",
+      "markers": [],
+      "sha256": "8929d20c4218a0b1faea2b0430a3caed589f0d83ff3e73a5781941fc4d9ff9ae"
+    },
+    {
+      "file": "assets/37-koreksi-langsung.png",
+      "selector": "#editDialog",
+      "caption": "Melengkapi atau mengoreksi waktu kehadiran",
+      "markers": [],
+      "sha256": "e17c4a06e22507c85f70d957c81d52cf5c9483b3880f08f1fc9ec531306337d9"
+    },
+    {
+      "file": "assets/29-rekap.png",
+      "selector": "#recapPanel",
+      "caption": "Rekap Program, nilai akhir dan unduh CSV",
+      "markers": [],
+      "sha256": "f4dd527d600a78be75f9fdf53794711d2dc89bd6d53873c7294ca5cd4a7e2e4d"
+    },
+    {
+      "file": "assets/30-bobot.png",
+      "selector": "#finalWeightsDialog",
+      "caption": "Pengaturan bobot Pengajar dan Panitia",
+      "markers": [],
+      "sha256": "8caf82f7b39fb2e4c15ff0191feb60e757e0c10a59dfeb37d589b97afeb88eab"
+    },
+    {
+      "file": "assets/31-rincian-nilai.png",
+      "selector": "#finalScoreDialog",
+      "caption": "Rincian komponen dan kelengkapan nilai akhir",
+      "markers": [],
+      "sha256": "539768fc4fd1636ad9d1935647ddffce010496770c7c5f062bdad27d641fdde3"
+    },
+    {
+      "file": "assets/32-verifikasi.png",
+      "selector": "#panitiaVerificationDialog",
+      "caption": "Pemeriksaan pengajuan verifikasi sesi",
+      "markers": [],
+      "sha256": "a3c456f53cb1e16db02b8c216f5864d27fe898eb7a16a8e3315942e208690e3a"
+    },
+    {
+      "file": "assets/33-koreksi.png",
+      "selector": "#panitiaReview",
+      "caption": "Pemeriksaan pengajuan koreksi dari Petugas",
+      "markers": [],
+      "sha256": "10e6cf6c45bec670e2e2d0dbb46c0492c2f4c6401ce2cc7c3c89d972bdf8a8f2"
+    },
+    {
+      "file": "assets/34-profil.png",
+      "selector": "#content",
+      "caption": "Profil peserta dan riwayat program",
+      "markers": [],
+      "sha256": "efb29e24b0d51254a28507cc6d657f3086db4c45f9b699f88b8ff7ab0f0fd4d1"
+    },
+    {
+      "file": "assets/35-edit.png",
+      "selector": "#dataEditDialog",
+      "caption": "Formulir perubahan data dan alasan perubahan",
+      "markers": [],
+      "sha256": "15afd6f5e4073aa62479481b9c3a60ec3c12bdd547b915ebdb890a8464a1ea73"
+    },
+    {
+      "file": "assets/36-hapus.png",
+      "selector": "#deleteDataDialog",
+      "caption": "Pratinjau dampak penghapusan dan konfirmasi",
+      "markers": [],
+      "sha256": "97e1246f4a1dd67bdc3a3402667d0f0cec526d1f50727e904429ff0524251888"
+    }
+  ]
+}

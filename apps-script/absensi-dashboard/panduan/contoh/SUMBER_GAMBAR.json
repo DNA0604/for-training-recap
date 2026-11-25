@@ -1,0 +1,22 @@
+{
+  "source_commit": "f13cab41abcea53ac64605edabf47351917db06a",
+  "application_source": "7dacfb0 (unchanged by documentation work)",
+  "screen": "#panitiaAuth .login-content from the actual server-injected Beranda renderer",
+  "capture": "Chromium, synthetic fixtures, mocked Google services; no private app data or real Google login",
+  "markers": {
+    "1": {
+      "x": 0,
+      "y": 56.597
+    },
+    "2": {
+      "x": 0,
+      "y": 36.075
+    },
+    "3": {
+      "x": 0,
+      "y": 89.291
+    }
+  },
+  "screenshot_sha256": "6578af4116ff126956bfcb3c50d82bec6454d2445cb43e802a574b09ae6d717a",
+  "status": "One-page visual/layout sample, not a completed role manual"
+}

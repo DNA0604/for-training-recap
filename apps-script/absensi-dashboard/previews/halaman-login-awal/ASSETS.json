@@ -1,0 +1,12 @@
+{
+  "photo_source": "../konsep-login-awal/gedung-komdigi-baru.png",
+  "source_sha256": "73279dc83647e0cafdc8409ed3bd59759c17424873b474dbab3d697d8dd8a7a1",
+  "encoding": "JPEG quality 84, optimize; same 1122 x 1402 dimensions; no recrop",
+  "jpeg_sha256": "dcd74f5b0eade9b8d76a68f92b3ad8723c1cadbd9e43d2cfd565843aaa485c13",
+  "jpeg_bytes": 328714,
+  "delivery": "Fixed public muatIlustrasiLoginPanitia() in Akses.gs; lazy, decorative only",
+  "logo_source": "../konsep-login-awal/logo-komdigi.png",
+  "logo_sha256": "53d63f5e5eacbce7eca95d9a27ecfa57aca46f43b8efb15ee00cb0ee236ad4c7",
+  "provenance": "Uses the previous image-generation derivative, not the latest aerial inline photo. See concept ASSETS.json.",
+  "screenshots": "Actual server-injected application in Chromium, synthetic accounts and mocked Google services."
+}

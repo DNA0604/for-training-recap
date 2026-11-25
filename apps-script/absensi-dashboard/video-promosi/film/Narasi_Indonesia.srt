@@ -1,0 +1,143 @@
+1
+00:00:08,600 --> 00:00:14,400
+Setiap pelatihan memiliki perjalanan yang perlu diperhatikan. Ada peserta yang mengikuti kegiatan, kehadiran
+
+2
+00:00:14,550 --> 00:00:20,350
+yang perlu dicatat, serta perkembangan yang perlu dinilai. Setelah sesi selesai, informasi tersebut
+
+3
+00:00:20,500 --> 00:00:26,300
+menjadi bahan untuk meninjau pelaksanaan dan menyusun laporan. Bagaimana seluruh proses ini dapat
+
+4
+00:00:26,450 --> 00:00:32,250
+dipantau dengan lebih tertata?
+
+5
+00:00:33,600 --> 00:00:39,400
+Inilah Monitoring Pelatihan Pegawai, dashboard pendukung pengelolaan pelatihan di Pusat Pengembangan Aparatur Komdigi.
+
+6
+00:00:39,550 --> 00:00:45,350
+Melalui satu alur aplikasi, informasi program, peserta, kehadiran dan evaluasi dapat ditelusuri sesuai
+
+7
+00:00:45,500 --> 00:00:51,300
+akses pengguna. Admin Pelatihan, Petugas Kelas dan Pengajar menjalankan perannya masing-masing, dengan informasi
+
+8
+00:00:51,450 --> 00:00:57,250
+yang saling mendukung sepanjang kegiatan.
+
+9
+00:00:58,600 --> 00:01:05,210
+Perjalanan dimulai dari persiapan. Admin menyiapkan program, menentukan Jenjang dan sesi, lalu mendaftarkan
+
+10
+00:01:05,360 --> 00:01:11,970
+peserta pada kelas yang sesuai. Penugasan Petugas Kelas dan Pengajar membantu membagi tanggung
+
+11
+00:01:12,120 --> 00:01:18,730
+jawab pelaksanaan. Saat program dipilih, informasi yang ditampilkan mengikuti konteks kegiatan tersebut. Susunan
+
+12
+00:01:18,880 --> 00:01:25,490
+ini membantu pengguna mengetahui kelas yang sedang ditangani, peserta yang terdaftar, dan sesi
+
+13
+00:01:25,640 --> 00:01:32,250
+yang akan dilaksanakan.
+
+14
+00:01:33,600 --> 00:01:39,917
+Saat sesi berlangsung, Petugas Kelas dapat menyiapkan presensi melalui QR. Peserta membuka tautan
+
+15
+00:01:40,067 --> 00:01:46,383
+dari pemindaian, lalu mencatat kedatangan atau kepulangan sesuai jenis presensi. Untuk pelaksanaan yang
+
+16
+00:01:46,533 --> 00:01:52,850
+memerlukan pencatatan oleh petugas, tersedia presensi manual. Status hadir, terlambat, sakit, izin, atau
+
+17
+00:01:53,000 --> 00:01:59,317
+tanpa keterangan dipilih sesuai keadaan peserta. Setelah pencatatan disimpan dan data dimuat ulang,
+
+18
+00:01:59,467 --> 00:02:05,783
+hasilnya dapat diperiksa pada Monitoring. Informasi izin dan bukti pendukung juga membantu petugas
+
+19
+00:02:05,933 --> 00:02:12,250
+menelusuri keadaan peserta selama kegiatan.
+
+20
+00:02:13,600 --> 00:02:19,917
+Setelah kegiatan, Pengajar menilai peserta berdasarkan pengamatan selama sesi. Enam aspek mencakup keaktifan,
+
+21
+00:02:20,067 --> 00:02:26,383
+kedisiplinan, kerapian, kesopanan, kreativitas dan kerja sama. Nilai serta catatan disimpan melalui formulir
+
+22
+00:02:26,533 --> 00:02:32,850
+evaluasi. Admin atau Petugas Kelas juga mengisi evaluasi Panitia, yang berfokus pada kedisiplinan,
+
+23
+00:02:33,000 --> 00:02:39,317
+kerja sama dan prakarsa. Kejadian sikap dan perilaku dicatat melalui bagian tersendiri. Setiap
+
+24
+00:02:39,467 --> 00:02:45,783
+sumber tetap dapat dibedakan, sehingga hasil penilaian memiliki konteks yang jelas untuk ditinjau
+
+25
+00:02:45,933 --> 00:02:52,250
+oleh pihak yang berwenang.
+
+26
+00:02:53,600 --> 00:03:00,210
+Dari pencatatan tersebut, Admin dapat memeriksa kelengkapan data dan menjalankan perhitungan jam pelajaran
+
+27
+00:03:00,360 --> 00:03:06,970
+atau JP. Rekap Program membantu membaca hasil kehadiran, catatan perilaku dan nilai evaluasi
+
+28
+00:03:07,120 --> 00:03:13,730
+peserta beserta statusnya. Data dapat diunduh dalam CSV untuk kebutuhan pengolahan lebih lanjut.
+
+29
+00:03:13,880 --> 00:03:20,490
+Setelah program selesai, laporan program dapat disusun melalui sistem sebagai bahan pendukung peninjauan.
+
+30
+00:03:20,640 --> 00:03:27,250
+Hasilnya membantu penanggung jawab memahami pelaksanaan dan mengambil keputusan sesuai kewenangannya.
+
+31
+00:03:28,600 --> 00:03:34,400
+Manfaat dashboard berlanjut setelah pelatihan selesai. Riwayat yang tersimpan membantu penelusuran kegiatan dan
+
+32
+00:03:34,550 --> 00:03:40,350
+pemeriksaan kembali saat dibutuhkan. Rekap serta laporan dapat menjadi bahan evaluasi dan pertimbangan
+
+33
+00:03:40,500 --> 00:03:46,300
+untuk merencanakan pelatihan berikutnya. Dengan pencatatan yang konsisten dan pembagian tugas yang jelas,
+
+34
+00:03:46,450 --> 00:03:52,250
+pengelolaan informasi dapat diteruskan untuk mendukung kebutuhan instansi dalam jangka panjang.
+
+35
+00:03:53,600 --> 00:04:00,350
+Monitoring Pelatihan Pegawai. Mendukung perjalanan pelatihan, dari persiapan hingga evaluasi. Pelatihan terpantau, data
+
+36
+00:04:00,500 --> 00:04:07,250
+tertata, dan informasi siap menjadi bahan tindak lanjut. Pusat Pengembangan Aparatur Komdigi.
