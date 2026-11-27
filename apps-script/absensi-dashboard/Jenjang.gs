@@ -90,6 +90,15 @@ function integritasQRCepatAktif_(){return PropertiesService.getScriptProperties(
 function integritasBaruLolos_(){try{return Boolean(CacheService.getScriptCache().get(kunciIntegritasLolos_()));}catch(e){return false;}}
 function catatIntegritasLolos_(){try{if(integritasQRCepatAktif_())CacheService.getScriptCache().put(kunciIntegritasLolos_(),String(Date.now()),TTL_INTEGRITAS_QR_DETIK_);}catch(ignored){}}
 function hapusIntegritasLolos_(){try{CacheService.getScriptCache().remove(kunciIntegritasLolos_());}catch(ignored){}}
+/**
+ * Tahap 6B: pemakaian ulang hasil baca HANYA selama fase sebelum penulisan presensi manual (bukan snapshot lintas penulisan).
+ * Aktif hanya bila sakelar jalur cepat presensi menyala. Dihentikan tepat sebelum penulisan pertama, sehingga seluruh tanda terima dan verifikasi tulis tetap membaca langsung.
+ */
+function mulaiBacaanSebelumTulis_(){
+  if(typeof bacaanPermintaanAkses_==='undefined'||!integritasQRCepatAktif_())return null;
+  const lama=bacaanPermintaanAkses_;bacaanPermintaanAkses_={nilai:new Map(),rumus:new Map()};return {lama,selesai:false};
+}
+function akhiriBacaanSebelumTulis_(token){if(token&&!token.selesai){token.selesai=true;bacaanPermintaanAkses_=token.lama;}}
 /** Shared mutation guard also covers older entry points that use their own raw readers. Setiap tabel dan Jenjang dibaca satu kali per pemeriksaan. */
 function validasiIntegritasOperasionalJenjang_(opsi){
   pastikanMigrasiJenjangSiap_();

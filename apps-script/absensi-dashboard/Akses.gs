@@ -31,13 +31,26 @@ function idSpreadsheetAkses_(input){
 function bukuAkses_(pending){
   if(!pending&&memoHandle_&&memoHandle_.buku)return memoHandle_.buku;
   const cfg=konfigurasiAkses_();if(!cfg||(!pending&&cfg.status!=='SIAP')||cfg.schema!==1)throw Error('Manajemen akses belum disiapkan. Buka panel dari menu spreadsheet.');
-  if(cfg.id===databaseAkses_().getId())throw Error('Konfigurasi akses tidak boleh menunjuk database utama.');
-  const book=SpreadsheetApp.openById(cfg.id),owner=book.getOwner(),mainOwner=databaseAkses_().getOwner();
-  if(!owner||!mainOwner||emailAkses_(owner.getEmail())!==emailAkses_(mainOwner.getEmail()))throw Error('Kepemilikan spreadsheet akses berubah/tidak sesuai dengan database utama.');
+  const idUtama=databaseAkses_().getId();
+  if(cfg.id===idUtama)throw Error('Konfigurasi akses tidak boleh menunjuk database utama.');
+  const book=ukurTahap_('buka_buku',()=>SpreadsheetApp.openById(cfg.id)),kunciPemilik='PEMILIK-BUKU-AKSES|'+cfg.id+'|'+idUtama,pakaiCache=!pending&&cacheKonteksAktif_();
+  if(!(pakaiCache&&pemilikBukuSahBaru_(kunciPemilik))){
+    ukurTahap_('cek_pemilik',()=>{const owner=book.getOwner(),mainOwner=databaseAkses_().getOwner();
+      if(!owner||!mainOwner||emailAkses_(owner.getEmail())!==emailAkses_(mainOwner.getEmail()))throw Error('Kepemilikan spreadsheet akses berubah/tidak sesuai dengan database utama.');});
+    if(pakaiCache)catatPemilikSah_(kunciPemilik);
+  }
   if(!pending&&memoHandle_)return memoHandle_.buku=bungkusSheetMemo_(book);
   return book;
 }
 var bacaanPermintaanAkses_=null;
+/**
+ * Tahap 6C: hasil pemeriksaan "buku akses dimiliki akun yang sama dengan database utama" disimpan singkat, hanya bila cache otorisasi menyala.
+ * Penggantian pemilik buku akses baru terdeteksi setelah batas ini (bawaan 600 detik; Script Property AKSES_PEMILIK_TTL_DETIK 30-3600). Mode persiapan selalu memeriksa langsung.
+ */
+var TTL_PEMILIK_BUKU_DETIK_=600;
+function ttlPemilikBukuAkses_(){const n=Number(PropertiesService.getScriptProperties().getProperty('AKSES_PEMILIK_TTL_DETIK'));return Number.isFinite(n)&&n>=30&&n<=3600?Math.floor(n):TTL_PEMILIK_BUKU_DETIK_;}
+function pemilikBukuSahBaru_(kunci){try{const v=Number(cacheLoginAkses_().get(kunci));return Number.isFinite(v)&&v>0&&v<=Date.now()+5000&&Date.now()-v<=ttlPemilikBukuAkses_()*1000;}catch(e){return false;}}
+function catatPemilikSah_(kunci){try{cacheLoginAkses_().put(kunci,String(Date.now()),ttlPemilikBukuAkses_());}catch(ignored){}}
 function denganBacaanPermintaan_(aktif,run){const old=bacaanPermintaanAkses_;bacaanPermintaanAkses_=aktif?{nilai:new Map(),rumus:new Map()}:null;try{return run();}finally{bacaanPermintaanAkses_=old;}}
 function nilaiSheetPermintaan_(sheet,bookId,rumus){
  const read=()=>rumus?sheet.getDataRange().getFormulas():sheet.getDataRange().getValues(),memo=bacaanPermintaanAkses_;
@@ -404,16 +417,22 @@ function naikkanVersiDirektoriAkses_(){PropertiesService.getScriptProperties().s
 function kunciKonteksAkses_(idBuku,versi,uid){return 'KONTEKS-AKSES|'+idBuku+'|'+versi+'|'+uid;}
 /** Mengembalikan konteks yang identik dengan jalur penuh, atau null (jalur penuh yang menentukan galat/pencabutan). Tidak pernah menulis. */
 function bacaSesiPanitiaCepat_(token){
-  if(!cacheKonteksAktif_())return null;
-  if(!aplikasiPanitiaAktif_()||!/^[a-f0-9]{64}$/i.test(teksAkses_(token)))return null;
-  const raw=PropertiesService.getScriptProperties().getProperty(kunciSesiTersimpan_(token)),now=Date.now();if(!raw)return null;
-  let saved;try{saved=JSON.parse(raw);}catch(e){return null;}
-  if(saved.revoked||!saved.uid||!Number.isFinite(saved.created)||!Number.isFinite(saved.expires)||saved.expires>saved.created+4*3600000||saved.expires<=now||saved.konfigurasi!==hashKonfigurasiSesiAkses_())return null;
-  const cfg=konfigurasiAkses_();if(!cfg||cfg.status!=='SIAP'||cfg.schema!==1)return null;
-  const rawKonteks=cacheLoginAkses_().get(kunciKonteksAkses_(cfg.id,versiDirektoriAkses_(),saved.uid));if(!rawKonteks)return null;
+  // Tahap 6A: setiap bagian diberi penanda waktu (cepat_properti, cepat_cache, cepat_jenjang, cepat_sesi_pengajar) untuk log WAKTU.
+  const awal=ukurTahap_('cepat_properti',()=>{
+    if(!cacheKonteksAktif_())return null;
+    if(!aplikasiPanitiaAktif_()||!/^[a-f0-9]{64}$/i.test(teksAkses_(token)))return null;
+    const raw=PropertiesService.getScriptProperties().getProperty(kunciSesiTersimpan_(token)),now=Date.now();if(!raw)return null;
+    let saved;try{saved=JSON.parse(raw);}catch(e){return null;}
+    if(saved.revoked||!saved.uid||!Number.isFinite(saved.created)||!Number.isFinite(saved.expires)||saved.expires>saved.created+4*3600000||saved.expires<=now||saved.konfigurasi!==hashKonfigurasiSesiAkses_())return null;
+    const cfg=konfigurasiAkses_();if(!cfg||cfg.status!=='SIAP'||cfg.schema!==1)return null;
+    return {saved,cfg,now,versi:versiDirektoriAkses_(),ttl:ttlKonteksAkses_()};
+  });
+  if(!awal)return null;
+  const {saved,cfg,now}=awal;
+  const rawKonteks=ukurTahap_('cepat_cache',()=>cacheLoginAkses_().get(kunciKonteksAkses_(cfg.id,awal.versi,saved.uid)));if(!rawKonteks)return null;
   let e;try{e=JSON.parse(rawKonteks);}catch(x){return null;}
-  if(!e||e.uid!==saved.uid||!Number.isFinite(e.dibuat)||now-e.dibuat>ttlKonteksAkses_()*1000||e.dibuat>now+5000||e.status!=='aktif'||e.sub!==saved.sub||e.versi!==saved.versi||!Array.isArray(e.penugasan))return null;
-  const levels=daftarJenjangAkses_(),sesi=e.peran==='pengajar'?sesiPengajarAktif_(e.uid):[],
+  if(!e||e.uid!==saved.uid||!Number.isFinite(e.dibuat)||now-e.dibuat>awal.ttl*1000||e.dibuat>now+5000||e.status!=='aktif'||e.sub!==saved.sub||e.versi!==saved.versi||!Array.isArray(e.penugasan))return null;
+  const levels=ukurTahap_('cepat_jenjang',()=>daftarJenjangAkses_()),sesi=e.peran==='pengajar'?ukurTahap_('cepat_sesi_pengajar',()=>sesiPengajarAktif_(e.uid)):[],
     jenjang=e.peran==='pengajar'?levels.filter(j=>sesi.some(s=>s.id_jenjang===j.id&&s.id_program===j.program)):e.penugasan.map(p=>levels.find(j=>j.id===p.id_jenjang&&j.program===p.id_program)).filter(Boolean);
   return {id:e.uid,nama:e.nama,email:e.email,peran:e.peran,jenjang,sesi,expires:saved.expires};
 }

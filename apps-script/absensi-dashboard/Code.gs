@@ -9,6 +9,7 @@ function bungkusSheetMemo_(ss){const sheets=new Map();return new Proxy(ss,{get(t
 /** Rincian waktu per tahap untuk log WAKTU (hanya nama tahap dan milidetik). Null di luar panggilan gateway. */
 var tahapWaktu_=null;
 function ukurTahap_(nama,fn){if(!tahapWaktu_)return fn();const t=Date.now();try{return fn();}finally{tahapWaktu_.push([nama,Date.now()-t]);}}
+function tandaiTahap_(nama,mulai){if(tahapWaktu_)tahapWaktu_.push([nama,Date.now()-mulai]);}
 /** Spreadsheet aktif (container). Satu pembungkus bersama untuk databasePelatihan_ dan databaseAkses_ selama satu panggilan gateway. */
 function spreadsheetAktifMemo_(){
   if(memoHandle_&&memoHandle_.aktif!==undefined)return memoHandle_.aktif;

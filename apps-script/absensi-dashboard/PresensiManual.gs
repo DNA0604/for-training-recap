@@ -35,8 +35,9 @@ function simpanPresensiManualIndex(d){
   const req=txt(d.id_permintaan);if(!/^[a-zA-Z0-9_-]{16,100}$/.test(req))throw Error('ID permintaan manual tidak valid.');
   if(!['hadir','terlambat','sakit','izin','alpa'].includes(input.status)||!input.id_sesi||!input.id_keikutsertaan)throw Error('Pilih peserta, sesi dan status presensi.');
   if(input.keterangan.length>2000||/^=/.test(input.keterangan))throw Error('Keterangan maksimal 2.000 karakter dan tidak boleh berupa rumus.');
-  const tx='PRESENSI-MANUAL|'+req,lock=LockService.getScriptLock();lock.waitLock(30000);
+  const tx='PRESENSI-MANUAL|'+req,lock=LockService.getScriptLock();lock.waitLock(30000);let bsT=null;
   try{
+    const tMulai=Date.now();bsT=mulaiBacaanSebelumTulis_();
     pastikanTidakAdaHapusTertunda_({izinkanLewatiBaru: true});blokirEditTertunda_();
     // Seluruh relasi/peran diperiksa kembali di bawah lock, termasuk permintaan ulang.
     const target=targetIzinIndex_(input),s=target.sesi;
@@ -81,15 +82,16 @@ function simpanPresensiManualIndex(d){
       const receipt=tabelIndex_('Riwayat_Validasi',['id_riwayat']).records.filter(x=>x.id_riwayat===id);
       if(receipt.length!==1||receipt[0].nilai_sesudah!==r.nilai_sesudah||receipt[0].status_transaksi!==status)throw Error('Tanda terima belum terkonfirmasi. Coba lagi dengan permintaan yang sama.');
     }
+    akhiriBacaanSebelumTulis_(bsT);tandaiTahap_('pra_tulis',tMulai);const tTulis=Date.now();
     if(!history.length)journal('PENDING');
     if(!eq(norm(row),plan.after)){
       const values=plan.after.map(v=>v&&typeof v==='object'&&v.$date?new Date(v.$date):v),n=at>=0?at+2:sheet.getLastRow()+1;
       sheet.getRange(n,1,1,values.length).setValues([values]);SpreadsheetApp.flush();
       if(!eq(norm(sheet.getRange(n,1,1,values.length).getValues()[0]),plan.after))throw Error('Penyimpanan belum terkonfirmasi. Coba lagi dengan permintaan yang sama.');
     }
-    journal('SELESAI');
+    journal('SELESAI');tandaiTahap_('tulis',tTulis);
     return {sukses:true,id_kehadiran:plan.id,pesan:'Presensi manual tersimpan. Hitung JP untuk memperbarui rekap; tidak ada poin perilaku otomatis.'};
-  }finally{lock.releaseLock();}
+  }finally{akhiriBacaanSebelumTulis_(bsT);lock.releaseLock();}
 }
 
 /** Hanya draft belum selesai milik aktor/lingkup yang berwenang yang dikirim untuk retry. */
