@@ -1,4 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
+import {TANPA_FORCE} from './support/lock-rpc.mjs';
 import {sessionHarness} from './support/sesi-harness.mjs';
 const plain=o=>JSON.parse(JSON.stringify(o));
 const TABEL=['Jenjang','Sesi','Keikutsertaan','Kehadiran','Catatan_Perilaku','Log_Absensi'];
@@ -22,7 +23,7 @@ test('broken relations raise the same errors as before',()=>{
   const b=siap();b.t.h.patch('Kehadiran','KHD001','id_kehadiran',{id_sesi:'SES-TIDAK-ADA'});
   assert.throws(()=>b.c.validasiIntegritasOperasionalJenjang_(),/Relasi sesi \/ peserta lintas Jenjang pada Kehadiran/);
 });
-test('QR fast path is off by default: every QR guard validates the whole data',()=>{
+test('QR fast path is off by default: every QR guard validates the whole data',TANPA_FORCE,()=>{
   const x=siap(),a=x.ukur(()=>qr(x.c)),b=x.ukur(()=>qr(x.c));
   assert.equal(a.galat,null);assert.equal(a.data,6);assert.equal(b.data,6);
 });

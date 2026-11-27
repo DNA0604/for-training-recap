@@ -1,4 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
+import {TANPA_FORCE} from './support/lock-rpc.mjs';
 import {loadingHarness,instrumentLoading} from './support/pemuatan-audit-harness.mjs';
 const plain=o=>JSON.parse(JSON.stringify(o));
 const DIREKTORI=/^access\/(Pengguna|Penugasan_Jenjang|Riwayat_Akses)\//;
@@ -13,7 +14,7 @@ function siap(){
   return {h,c,spy,ukur,aktif,pemilik,geser,edit};
 }
 const konteks=(x,who)=>x.c.bacaSesiPanitia_(who.token);
-test('cache is off by default: every call reads the directory',()=>{
+test('cache is off by default: every call reads the directory',TANPA_FORCE,()=>{
   const x=siap(),a=x.ukur(()=>konteks(x,x.h.staff)),b=x.ukur(()=>konteks(x,x.h.staff));
   assert.ok(a.direktori>0&&b.direktori===a.direktori&&b.openById>0&&b.getOwner>0&&b.lock>0);
 });
@@ -23,7 +24,7 @@ test('warm call returns the same context and skips directory reads, owner checks
     const penuh=x.ukur(()=>konteks(x,who));x.aktif();konteks(x,who); // isi cache
     const hangat=x.ukur(()=>konteks(x,who));
     assert.deepEqual(hangat.hasil,penuh.hasil,'konteks harus identik: '+nama);
-    assert.ok(penuh.direktori>0&&penuh.openById>0&&penuh.getOwner>0&&penuh.lock>0,'jalur penuh membaca direktori: '+nama);
+    assert.ok(penuh.direktori>0&&penuh.openById>0&&penuh.lock>0,'jalur penuh membaca direktori: '+nama); // pemeriksaan pemilik buku akses dapat berasal dari cache (Tahap 6C); diuji di tahap6.test.mjs
     assert.equal(hangat.direktori,0,'tidak boleh membaca direktori: '+nama);assert.equal(hangat.lock,0);
     // Penugasan sesi Pengajar sengaja tetap diperiksa langsung (buku evaluasi); Admin/Petugas tidak membuka spreadsheet mana pun.
     if(nama!=='teacher'){assert.equal(hangat.openById,0);assert.equal(hangat.getOwner,0);}

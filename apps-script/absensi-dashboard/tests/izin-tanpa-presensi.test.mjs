@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {LOCK_RPC} from './support/lock-rpc.mjs';
 import assert from 'node:assert/strict';
 import {rekapHarness,plain} from './support/rekap-evaluasi-harness.mjs';
 
@@ -97,7 +98,7 @@ test('attendance added after earlier partial/full leave subtracts the interval b
 
 test('assignment revocation while waiting for the leave write lock prevents an unscanned-participant note',()=>{
   const h=fixture(),before=plain(h.t.h.store),original=h.t.c.LockService.getScriptLock;let count=0;
-  h.t.c.LockService.getScriptLock=()=>{const lock=original(),wait=lock.waitLock;lock.waitLock=(...args)=>{if(++count===2){const r=h.t.access.records('Penugasan_Jenjang').find(r=>r.id_jenjang==='JEN001');h.t.access.patch('Penugasan_Jenjang',r.id_penugasan,'id_penugasan',{status:'nonaktif'});}return wait(...args);};return lock;};
+  h.t.c.LockService.getScriptLock=()=>{const lock=original(),wait=lock.waitLock;lock.waitLock=(...args)=>{if(++count===LOCK_RPC){const r=h.t.access.records('Penugasan_Jenjang').find(r=>r.id_jenjang==='JEN001');h.t.access.patch('Penugasan_Jenjang',r.id_penugasan,'id_penugasan',{status:'nonaktif'});}return wait(...args);};return lock;};
   assert.throws(()=>h.save(),/AKSES_DITOLAK|SESI_BERAKHIR/);assert.deepEqual(plain(h.t.h.store),before);
 });
 

@@ -1,4 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
+import {LOCK_RPC} from './support/lock-rpc.mjs';
 import {sessionHarness,plain} from './support/sesi-harness.mjs';
 import {reportHarness} from './support/laporan-template-harness.mjs';
 function fixture(){const h=sessionHarness(),{t}=h;const v=t.h.store.Kehadiran.values,ix=v[0].indexOf('id_kehadiran');t.h.put('Kehadiran',v.filter((r,i)=>i===0||r[ix]!=='KHD001'));let n=0;
@@ -46,7 +47,7 @@ test('manual absences in PDF are explicit known statuses, excluded from attendan
 });
 test('teacher cannot save manual attendance, and actor revocation while waiting for lock prevents writes',async()=>{
  const {pengajarHarness}=await import('./support/pengajar-harness.mjs');const h=pengajarHarness();assert.throws(()=>h.call(h.teacher,'simpanPresensiManualIndex',{id_sesi:'SES001',id_keikutsertaan:'KST001',status:'hadir',id_permintaan:'teacher_manual_request_00001'}),/AKSES_DITOLAK/);
- const f=fixture(),d=f.payload(),original=f.t.c.LockService.getScriptLock;let revoked=false,waits=0;f.t.c.LockService.getScriptLock=()=>{const l=original(),wait=l.waitLock;l.waitLock=(...a)=>{if(++waits===2&&!revoked){revoked=true;const u=f.t.access.records('Pengguna').find(u=>u.email_google==='petugas@gmail.com');f.t.access.patch('Pengguna',u.id_pengguna,'id_pengguna',{status:'nonaktif'});}return wait(...a);};return l;};const before=f.t.h.writes.length;assert.throws(()=>f.save(d),/SESI_BERAKHIR/);assert.equal(f.t.h.writes.length,before);
+ const f=fixture(),d=f.payload(),original=f.t.c.LockService.getScriptLock;let revoked=false,waits=0;f.t.c.LockService.getScriptLock=()=>{const l=original(),wait=l.waitLock;l.waitLock=(...a)=>{if(++waits===LOCK_RPC&&!revoked){revoked=true;const u=f.t.access.records('Pengguna').find(u=>u.email_google==='petugas@gmail.com');f.t.access.patch('Pengguna',u.id_pengguna,'id_pengguna',{status:'nonaktif'});}return wait(...a);};return l;};const before=f.t.h.writes.length;assert.throws(()=>f.save(d),/SESI_BERAKHIR/);assert.equal(f.t.h.writes.length,before);
 });
 test('QR cannot overwrite manual attendance or a pending manual create; other participants still use QR',async()=>{
  const {createHash}=await import('node:crypto');for(const pending of [false,true]){

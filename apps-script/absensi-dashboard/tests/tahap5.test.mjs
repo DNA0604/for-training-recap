@@ -1,4 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
+import {TANPA_FORCE} from './support/lock-rpc.mjs';
 import {sessionHarness} from './support/sesi-harness.mjs';
 const plain=o=>JSON.parse(JSON.stringify(o));
 const DIREKTORI=/^access:(Pengguna|Penugasan_Jenjang|Riwayat_Akses)$/;
@@ -22,7 +23,7 @@ test('5A: a full directory validation parses Riwayat_Akses once instead of twice
   assert.equal(r.galat,null);assert.equal(r.bacaan['access:Riwayat_Akses'],2,'nilai + rumus, satu kali');
 });
 // ---------------- 5B ----------------
-test('5B: with the cache on, the write re-check skips the directory; with it off it reads the directory',()=>{
+test('5B: with the cache on, the write re-check skips the directory; with it off it reads the directory',TANPA_FORCE,()=>{
   const x=siap();x.periksaUlang(x.staff);const mati=x.ukur(()=>x.periksaUlang(x.staff));assert.equal(mati.galat,null);assert.ok(mati.direktori>0);
   x.nyalakan();x.c.bacaSesiPanitia_(x.staff.token);
   const hangat=x.ukur(()=>x.periksaUlang(x.staff));assert.equal(hangat.galat,null);assert.equal(hangat.direktori,0);
@@ -69,7 +70,7 @@ test('5C: manual attendance skips whole-data validation within 60 s when the swi
   assert.equal(a.galat,null);assert.equal(b.galat,null);
   assert.ok(a.bacaan['main:Catatan_Perilaku']>=1,'pertama: validasi penuh');assert.ok(!b.bacaan['main:Catatan_Perilaku'],'kedua dalam 60 detik: dilewati');
 });
-test('5C: with the switch off, QR issuance and manual attendance always validate the whole data',()=>{
+test('5C: with the switch off, QR issuance and manual attendance always validate the whole data',TANPA_FORCE,()=>{
   const x=siap(),{staff,call}=x;
   const a=x.ukur(()=>call(staff,'terbitkanQRAbsensiDariGenerator','SES001','datang',5)),b=x.ukur(()=>call(staff,'terbitkanQRAbsensiDariGenerator','SES001','pulang',5));
   assert.ok(a.bacaan['main:Catatan_Perilaku']>=1&&b.bacaan['main:Catatan_Perilaku']>=1);
