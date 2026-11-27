@@ -1,6 +1,9 @@
 # Monitoring Pelatihan Pegawai — handoff
 
-Status updated: 24 November 2026, Asia/Jakarta. The accepted sidebar/navigation baseline originated on 24 October; the latest deletion feature and transaction fix were subsequently deployed, tested and accepted by the user on 27 October. Continue from this cumulative source, superseding the earlier flat-dashboard UI package.
+Status updated: 27 November 2026, Asia/Jakarta. The accepted sidebar/navigation baseline originated on 24 October; the latest deletion feature and transaction fix were subsequently deployed, tested and accepted by the user on 27 October. Continue from this cumulative source, superseding the earlier flat-dashboard UI package.
+
+## Pemuatan tahap 6: absen manual dan pemilik buku akses — 27 November 2026
+Real stage 5 timings (26 November) showed manual attendance at 13.8 seconds (about 10.7 inside the function) and the first access-workbook touch costing about 1.5-2 seconds. Stage 6 adds finer timings, a read-phase-only reuse of table reads for manual attendance under the fast-attendance switch, and a 600-second memory of the access-workbook owner check under the authorization cache; approved by the user. Not deployed or live-tested. [Details](apps-script/absensi-dashboard/docs/TAHAP6_ABSEN_MANUAL_DAN_PEMILIK_BUKU.md).
 
 ## Pemuatan tahap 5: jalur tulis — 24 November 2026
 The user's branch update-tahap-5-pemuatan-data implemented 5A/5B/5C. The branch itself was an out-of-sync snapshot (missing NilaiAkhir.gs, LaporanTampilan.gs, ManajemenAkses.html, older Evaluasi.gs and several HTML pages, no tahap5 tests; 144 of 291 tests failing), so the three changed source files were verified on the complete repository and re-delivered with tests, docs and the agent-rule exceptions. Not deployed or live-tested. [Details](apps-script/absensi-dashboard/docs/TAHAP5_JALUR_TULIS.md).

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-27 — finer timings, manual attendance read reuse and owner-check cache (stage 6)
+- Akses.gs, Jenjang.gs, Code.gs (one helper), PresensiManual.gs. 6A: fast-path and access-workbook sub-stage timings plus pra_tulis/tulis for manual attendance in the WAKTU log. 6B: with the fast-attendance switch on, simpanPresensiManualIndex reuses table reads only until just before its first write (restored in finally); receipts and verification read live. 6C: with the authorization cache on, the access-workbook owner check is remembered for 600 seconds (AKSES_PEMILIK_TTL_DETIK), setup mode always checks live.
+- Warm-state comparison (mocked services, not Google latency; identical responses and sheet contents): manual attendance data reads 38 to 18, service calls 63 to 41, getOwner 2 to 0. 495 tests pass (9 new; seven fail on stage 5 code); FORCE_JALUR_CEPAT=1 npm test runs the existing behavior tests on the fast path (488 pass, 7 default-off assertions skipped). Not deployed or live-tested. [Details](apps-script/absensi-dashboard/docs/TAHAP6_ABSEN_MANUAL_DAN_PEMILIK_BUKU.md).
+
 ## 2026-11-24 — single-pass Riwayat_Akses, version-checked write re-check and wider fast integrity marker (stage 5)
 - Akses.gs, Code.gs (one line), PresensiManual.gs (one line); adopted from the user's branch update-tahap-5-pemuatan-data and verified on the complete repository.
 - 5A: kelompokTransaksiAkses_ accepts the already-read history table (four call sites), so a full directory validation parses Riwayat_Akses once. 5B: with the authorization cache on, periksaUlangSesiPanitia_ uses the version-checked fast path before falling back to the full read; in-app changes, pending access transactions and session revocation still block immediately, manual spreadsheet edits lag at most the cache TTL. 5C: buatTokenQR_ and simpanPresensiManualIndex may use the 60-second integrity marker when the owner switch is on; all other mutations still validate fully.
