@@ -1,0 +1,59 @@
+{
+  "catatan": "Hitungan panggilan layanan tiruan, kondisi hangat; bukan waktu Google.",
+  "hasil": [
+    {
+      "aksi": "buat_qr",
+      "lama": {
+        "getActive": 1,
+        "sheet": 12,
+        "openById": 1,
+        "getOwner": 2,
+        "baca": 27,
+        "lastRC": 13,
+        "append": 1,
+        "setv": 1,
+        "flush": 1
+      },
+      "baru": {
+        "getActive": 1,
+        "sheet": 6,
+        "openById": 1,
+        "getOwner": 2,
+        "baca": 13,
+        "lastRC": 5,
+        "append": 1,
+        "setv": 1,
+        "flush": 1
+      },
+      "total_lama": 59,
+      "total_baru": 31
+    },
+    {
+      "aksi": "absen_manual",
+      "lama": {
+        "getActive": 1,
+        "sheet": 11,
+        "openById": 1,
+        "getOwner": 2,
+        "baca": 52,
+        "lastRC": 13,
+        "append": 2,
+        "setv": 3,
+        "flush": 3
+      },
+      "baru": {
+        "getActive": 1,
+        "sheet": 8,
+        "openById": 1,
+        "getOwner": 2,
+        "baca": 38,
+        "lastRC": 5,
+        "append": 2,
+        "setv": 3,
+        "flush": 3
+      },
+      "total_lama": 88,
+      "total_baru": 63
+    }
+  ]
+}

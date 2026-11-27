@@ -1,0 +1,127 @@
+{
+  "catatan": "Hitungan pembacaan sheet pada layanan tiruan; bukan waktu Google.",
+  "hasil": [
+    {
+      "peserta": 22,
+      "aksi": "guard_integritas",
+      "lama": 17,
+      "baru": 6,
+      "per_lama": {
+        "Jenjang": 6,
+        "Sesi": 4,
+        "Keikutsertaan": 4,
+        "Kehadiran": 1,
+        "Catatan_Perilaku": 1,
+        "Log_Absensi": 1
+      },
+      "per_baru": {
+        "Jenjang": 1,
+        "Sesi": 1,
+        "Keikutsertaan": 1,
+        "Kehadiran": 1,
+        "Catatan_Perilaku": 1,
+        "Log_Absensi": 1
+      }
+    },
+    {
+      "peserta": 500,
+      "aksi": "guard_integritas",
+      "lama": 17,
+      "baru": 6,
+      "per_lama": {
+        "Jenjang": 6,
+        "Sesi": 4,
+        "Keikutsertaan": 4,
+        "Kehadiran": 1,
+        "Catatan_Perilaku": 1,
+        "Log_Absensi": 1
+      },
+      "per_baru": {
+        "Jenjang": 1,
+        "Sesi": 1,
+        "Keikutsertaan": 1,
+        "Kehadiran": 1,
+        "Catatan_Perilaku": 1,
+        "Log_Absensi": 1
+      }
+    },
+    {
+      "peserta": 22,
+      "aksi": "galat_sesi_jenjang_asing",
+      "lama": 3,
+      "baru": 2,
+      "galat": "Relasi Jenjang tidak sesuai pada Sesi SES001."
+    },
+    {
+      "peserta": 22,
+      "aksi": "galat_kehadiran_sesi_hilang",
+      "lama": 9,
+      "baru": 4,
+      "galat": "Relasi sesi / peserta lintas Jenjang pada Kehadiran. Periksa data terlebih dahulu."
+    },
+    {
+      "peserta": 22,
+      "aksi": "galat_keikutsertaan_ganda",
+      "lama": 9,
+      "baru": 4,
+      "galat": "ID relasi kosong/duplikat pada id_keikutsertaan."
+    },
+    {
+      "peserta": 22,
+      "aksi": "galat_kehadiran_lintas_jenjang",
+      "lama": 9,
+      "baru": 4,
+      "galat": "Relasi sesi / peserta Jenjang belum lengkap pada Kehadiran."
+    },
+    {
+      "peserta": 22,
+      "aksi": "guard_qr_mati_vs_hangat",
+      "mati": 7,
+      "hangat": 1,
+      "jalur_lain_tetap_penuh": 7
+    },
+    {
+      "peserta": 500,
+      "aksi": "guard_qr_mati_vs_hangat",
+      "mati": 7,
+      "hangat": 1,
+      "jalur_lain_tetap_penuh": 7
+    },
+    {
+      "peserta": 22,
+      "aksi": "ubah_tambah_program",
+      "lama": 32,
+      "baru": 21
+    },
+    {
+      "peserta": 22,
+      "aksi": "ubah_tambah_sesi",
+      "lama": 37,
+      "baru": 26
+    },
+    {
+      "peserta": 22,
+      "aksi": "ubah_impor_5",
+      "lama": 45,
+      "baru": 34
+    },
+    {
+      "peserta": 500,
+      "aksi": "ubah_tambah_program",
+      "lama": 32,
+      "baru": 21
+    },
+    {
+      "peserta": 500,
+      "aksi": "ubah_tambah_sesi",
+      "lama": 37,
+      "baru": 26
+    },
+    {
+      "peserta": 500,
+      "aksi": "ubah_impor_5",
+      "lama": 45,
+      "baru": 34
+    }
+  ]
+}

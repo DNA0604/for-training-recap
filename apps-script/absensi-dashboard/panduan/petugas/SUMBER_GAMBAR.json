@@ -1,0 +1,186 @@
+{
+  "source_application": "7dacfb0",
+  "role": "petugas_kelas",
+  "capture": "Current server-injected HTML, actual staff-scoped synthetic backend fixtures; Google mocked; no real data or application changes.",
+  "permissions_checked": {
+    "hitungJPSesiIndex": "AKSES_DITOLAK: Tindakan ini hanya untuk Admin Pelatihan.",
+    "muatKelolaProgramIndex": "AKSES_DITOLAK: Tindakan ini hanya untuk Admin Pelatihan.",
+    "muatManajemenAksesPanitia": "AKSES_DITOLAK: Tindakan ini hanya untuk Admin Pelatihan.",
+    "muatEvaluasiPengajarSesi": "AKSES_DITOLAK: Tindakan ini hanya untuk Admin Pelatihan.",
+    "muatEvaluasiPesertaSesi": "AKSES_DITOLAK: Evaluasi hanya untuk Pengajar dan Admin.",
+    "muatBobotNilaiAkhirIndex": "AKSES_DITOLAK: Tindakan ini hanya untuk Admin Pelatihan."
+  },
+  "images": [
+    {
+      "file": "assets/01-login.png",
+      "selector": ".login-content",
+      "caption": "Login dan verifikasi akun Petugas",
+      "markers": [
+        "#panitiaVerify",
+        "#panitiaLogin"
+      ],
+      "sha256": "b896ed8d2e2bc1551eb5c0aa467f6db22da00909886b4b9a4c5c2626dc88f136"
+    },
+    {
+      "file": "assets/02-beranda.png",
+      "selector": "#dashContent",
+      "caption": "Beranda sesuai penugasan Petugas",
+      "markers": [],
+      "sha256": "9ab0a186972e84bc3794a3a42d835db28fe25e5e191df33f519a83532278cd8d"
+    },
+    {
+      "file": "assets/03-menu.png",
+      "selector": "#dashSidebar",
+      "caption": "Menu Petugas Kelas",
+      "markers": [],
+      "sha256": "0f4bc9054c6ebf27a736b24aaf796fbd96b1e7e2ee5861d117ec400cea57d606"
+    },
+    {
+      "file": "assets/04-peserta.png",
+      "selector": "#app",
+      "caption": "Daftar peserta pada Program dan Jenjang penugasan",
+      "markers": [],
+      "sha256": "fd8d4228fab6511536547de1fbadb06e8876988530baea68f86aeff4fd13e618"
+    },
+    {
+      "file": "assets/05-profil.png",
+      "selector": "#content",
+      "caption": "Profil peserta dalam cakupan penugasan",
+      "markers": [],
+      "sha256": "6908e83080ba1de45774b0f1477e22aeaa1fc3985936eb2ec5ec8a50337b5205"
+    },
+    {
+      "file": "assets/06-filter-sesi.png",
+      "selector": "section:has(#calculate)",
+      "caption": "Pemilihan Program, Jenjang dan Sesi oleh Petugas",
+      "markers": [],
+      "sha256": "f414609b20d03398ffcd58edadfa40bd23055df9d5fe9b5933b2e6959f981f32"
+    },
+    {
+      "file": "assets/07-kehadiran.png",
+      "selector": "#sessionPanel",
+      "caption": "Kehadiran peserta pada sesi yang ditugaskan",
+      "markers": [],
+      "sha256": "22d5549d0be81fd417d8f9cd33e9395eb16bfa4da00f36c5ba27da895bd07b22"
+    },
+    {
+      "file": "assets/08-pilihan-presensi.png",
+      "selector": "#presensiDialog",
+      "caption": "Pilihan Presensi Manual, QR Absensi dan Catat Izin",
+      "markers": [],
+      "sha256": "3c7c32186aa88f0aa9ef5541cd41854211f42682e801b3bdaac3a21750baae09"
+    },
+    {
+      "file": "assets/09-qr.png",
+      "selector": "#qrDialog",
+      "caption": "Pengaturan QR datang atau pulang",
+      "markers": [],
+      "sha256": "e0c53d1670a62df6ab205f837a108d9f6cd2116411856a13a9d7271c76da70ee"
+    },
+    {
+      "file": "assets/10-manual-hadir.png",
+      "selector": "#manualDialog",
+      "caption": "Presensi Manual untuk status Hadir",
+      "markers": [],
+      "sha256": "e47cca79974ec56657a5216af004d4705d21ccc576e9c1070ce438fcdfab45a2"
+    },
+    {
+      "file": "assets/11-manual-tidak-hadir.png",
+      "selector": "#manualDialog",
+      "caption": "Presensi Manual untuk Sakit dan bukti pendukung opsional",
+      "markers": [],
+      "sha256": "1bcc7540c882e1b5f835b254ecf8598547ac6c3846514420bd29bfdb8a5bb962"
+    },
+    {
+      "file": "assets/12-izin.png",
+      "selector": "#editDialog",
+      "caption": "Catat Izin Sesi untuk peserta yang dipilih",
+      "markers": [],
+      "sha256": "52a7ab4602207f2d3c8dccc3c977a36443ba601998616c4508d5aac41355555b"
+    },
+    {
+      "file": "assets/13-koreksi-langsung.png",
+      "selector": "#editDialog",
+      "caption": "Formulir Koreksi Petugas Kelas",
+      "markers": [],
+      "sha256": "de7f5cfba4bfa5622450bf732f4cf743ff0ec8194f6210455ea29e9457d14e59"
+    },
+    {
+      "file": "assets/14-catatan-perilaku.png",
+      "selector": "#behaviorDialog",
+      "caption": "Pencatatan sikap dan perilaku oleh Petugas",
+      "markers": [],
+      "sha256": "b8282da479744779e281c2f27d3103bcc16d96efb1a11df9b35346126c66193d"
+    },
+    {
+      "file": "assets/15-daftar-perilaku.png",
+      "selector": "#behaviorPanel",
+      "caption": "Catatan dan status pemeriksaan yang dapat dilihat Petugas",
+      "markers": [],
+      "sha256": "ccb2a73edcbc812c0f5468e0a6c7b2b6c18ae780b43bb14a1c2edacd1beda2aa"
+    },
+    {
+      "file": "assets/16-daftar-izin.png",
+      "selector": "#izinPanel",
+      "caption": "Daftar Izin Peserta pada sesi penugasan",
+      "markers": [],
+      "sha256": "f6b2844b33c424f7da1c56cc4b0ce95dc3ad0bb0aced183c3e0d2d715d010dbd"
+    },
+    {
+      "file": "assets/17-pilihan-evaluasi.png",
+      "selector": "#evaluasiChoices",
+      "caption": "Pilihan evaluasi yang tersedia untuk Petugas",
+      "markers": [],
+      "sha256": "6d1601a0b36684e859b2a362f7f6ef9d7c9c9c2a58c93d1e9a10e214c38bbefa"
+    },
+    {
+      "file": "assets/18-evaluasi-panitia.png",
+      "selector": "#evaluasiPanitiaDialog",
+      "caption": "Evaluasi peserta oleh Panitia sesuai penugasan",
+      "markers": [],
+      "sha256": "5822ee4d174d5653f4cb80a8434f97f50d56d2783e967defbc3f8d8d0cd89a14"
+    },
+    {
+      "file": "assets/19-ajukan-verifikasi.png",
+      "selector": "#panitiaVerificationDialog",
+      "caption": "Paket verifikasi sesi sebelum diajukan Petugas",
+      "markers": [],
+      "sha256": "3a07995ae80f14e5320596e8455dfb7dab10d766f79151f9205d7827a39f6741"
+    },
+    {
+      "file": "assets/20-rekap.png",
+      "selector": "#recapPanel",
+      "caption": "Rekap Program dalam cakupan Jenjang Petugas",
+      "markers": [],
+      "sha256": "08a6b8d28d908d72153af674ee6b86a2c410fe00f76557035945bf7bc17d3426"
+    },
+    {
+      "file": "assets/21-rincian-nilai.png",
+      "selector": "#finalScoreDialog",
+      "caption": "Rincian nilai akhir peserta yang dapat dilihat Petugas",
+      "markers": [],
+      "sha256": "56ba36620864c77149932a60cd1e042736e398c4d3b95d00ea7fe6f886252fdd"
+    },
+    {
+      "file": "assets/22-verifikasi-menunggu.png",
+      "selector": "#panitiaVerification",
+      "caption": "Status pengajuan sesi yang menunggu keputusan Admin",
+      "markers": [],
+      "sha256": "bafc754a785f5ba9b296113f0110448e6cc0ed9894f0d0ded9d2e6acd25172a8"
+    },
+    {
+      "file": "assets/23-verifikasi-ditolak.png",
+      "selector": "#panitiaVerification",
+      "caption": "Status ditolak dan alasan keputusan Admin",
+      "markers": [],
+      "sha256": "e7b34b9251f085352f21f9fda3e112421587046463c88df6b536c2c134234ae6"
+    },
+    {
+      "file": "assets/24-ajukan-ulang.png",
+      "selector": "#panitiaVerificationDialog",
+      "caption": "Pemeriksaan paket dan pengajuan kembali setelah penolakan",
+      "markers": [],
+      "sha256": "d942e8ec38da2d59e7ebf44265107aef60827229d1a1bbfb954495b6e8bcf430"
+    }
+  ]
+}

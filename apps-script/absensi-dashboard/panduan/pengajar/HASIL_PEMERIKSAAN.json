@@ -1,0 +1,24 @@
+{
+  "application_source": "7dacfb0",
+  "format": "editable .docx",
+  "chapters": 6,
+  "sections": 22,
+  "figures_used": 17,
+  "native_paragraphs": 315,
+  "native_tables": 6,
+  "native_numbered_steps": 76,
+  "embedded_image_files": 18,
+  "screenshots_captured": 17,
+  "restricted_methods_and_other_session_denied": 11,
+  "production_source_hashes_unchanged": 19,
+  "accepted_admin_docx_unchanged": true,
+  "previous_petugas_docx_unchanged": true,
+  "docx_sha256": "56729456442f230103adb7098ff2db87c8975a88eab5b9162ebfef3470e6454f",
+  "excludes_performance_history": true,
+  "local_render": {
+    "engine": "LibreOffice, QA only; no PDF delivered",
+    "pages": 24,
+    "chapter_page_references_match": true,
+    "no_blank_pages_or_out_of_page_text": true
+  }
+}

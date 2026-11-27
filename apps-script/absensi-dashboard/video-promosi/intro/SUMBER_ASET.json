@@ -1,0 +1,37 @@
+{
+  "archive": "Logo-Logo.zip",
+  "archive_sha256": "83f38d120bdb13195fb3f6c550203ca5de809d284fb06d9beca94f53eb55641a",
+  "source": "User-provided ZIP; all three originals used without color, alpha or pixel edits. STIA display viewport excludes transparent padding and the detached right-side fragment; original file unchanged.",
+  "logos": [
+    {
+      "archive_entry": "Logo poltek STIA LAN.png",
+      "file": "assets/logo-stia-lan.png",
+      "sha256": "bdffbe45bdd66b57962bee6eee89b66f68b115206f3969cc750ce4e966a3dabe",
+      "dimensions": [
+        796,
+        217
+      ],
+      "original_bytes_preserved": true
+    },
+    {
+      "archive_entry": "logo-lan.png",
+      "file": "assets/logo-lan.png",
+      "sha256": "8c988e0666a4a437b07b63e5768c0db3f232df072f507005b4da4f1c2ea882c5",
+      "dimensions": [
+        2017,
+        824
+      ],
+      "original_bytes_preserved": true
+    },
+    {
+      "archive_entry": "Logo Komdigi no bg.png",
+      "file": "assets/logo-komdigi.png",
+      "sha256": "b7e073519bb82e0fcfe070e702e2fbcc42df406fd0ac9415f6f7216454fcdab5",
+      "dimensions": [
+        474,
+        474
+      ],
+      "original_bytes_preserved": true
+    }
+  ]
+}

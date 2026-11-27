@@ -1,0 +1,19 @@
+{
+  "revision_date": "2026-11-09",
+  "building": {
+    "file": "gedung-komdigi-baru.png",
+    "source": "New user-supplied inline photograph of the Komdigi building, 9 November 2026",
+    "processing": "Building-focused crop/reframe preview made with image generation from the user reference; not a pixel-identical extraction of the original photograph. Original local upload was unavailable.",
+    "dimensions_px": [
+      1122,
+      1402
+    ],
+    "bytes": 2584419,
+    "sha256": "73279dc83647e0cafdc8409ed3bd59759c17424873b474dbab3d697d8dd8a7a1"
+  },
+  "logo": {
+    "file": "logo-komdigi.png",
+    "source": "Unchanged user-provided logo from the report template",
+    "sha256": "53d63f5e5eacbce7eca95d9a27ecfa57aca46f43b8efb15ee00cb0ee236ad4c7"
+  }
+}
