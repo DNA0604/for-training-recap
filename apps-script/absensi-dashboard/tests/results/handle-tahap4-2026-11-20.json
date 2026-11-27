@@ -1,0 +1,150 @@
+{
+  "catatan": "Hitungan panggilan layanan tiruan; bukan waktu Google.",
+  "hasil": [
+    {
+      "aksi": "muat_kehadiran",
+      "lama": {
+        "getActive": 60,
+        "sheet": 14,
+        "openById": 1,
+        "getOwner": 2,
+        "baca": 15,
+        "lastRC": 8,
+        "append": 0,
+        "setv": 0,
+        "flush": 0,
+        "lock": 0
+      },
+      "baru": {
+        "getActive": 1,
+        "sheet": 12,
+        "openById": 1,
+        "getOwner": 2,
+        "baca": 15,
+        "lastRC": 8,
+        "append": 0,
+        "setv": 0,
+        "flush": 0,
+        "lock": 0
+      },
+      "total_lama": 100,
+      "total_baru": 39
+    },
+    {
+      "aksi": "muat_beranda",
+      "lama": {
+        "getActive": 63,
+        "sheet": 13,
+        "openById": 1,
+        "getOwner": 2,
+        "baca": 13,
+        "lastRC": 8,
+        "append": 0,
+        "setv": 0,
+        "flush": 0,
+        "lock": 0
+      },
+      "baru": {
+        "getActive": 1,
+        "sheet": 10,
+        "openById": 1,
+        "getOwner": 2,
+        "baca": 13,
+        "lastRC": 8,
+        "append": 0,
+        "setv": 0,
+        "flush": 0,
+        "lock": 0
+      },
+      "total_lama": 100,
+      "total_baru": 35
+    },
+    {
+      "aksi": "buat_qr",
+      "lama": {
+        "getActive": 64,
+        "sheet": 38,
+        "openById": 3,
+        "getOwner": 6,
+        "baca": 33,
+        "lastRC": 21,
+        "append": 1,
+        "setv": 1,
+        "flush": 1,
+        "lock": 0
+      },
+      "baru": {
+        "getActive": 1,
+        "sheet": 12,
+        "openById": 1,
+        "getOwner": 2,
+        "baca": 33,
+        "lastRC": 21,
+        "append": 1,
+        "setv": 1,
+        "flush": 1,
+        "lock": 0
+      },
+      "total_lama": 168,
+      "total_baru": 73
+    },
+    {
+      "aksi": "absen_manual",
+      "lama": {
+        "getActive": 142,
+        "sheet": 91,
+        "openById": 3,
+        "getOwner": 6,
+        "baca": 58,
+        "lastRC": 21,
+        "append": 2,
+        "setv": 3,
+        "flush": 3,
+        "lock": 0
+      },
+      "baru": {
+        "getActive": 1,
+        "sheet": 11,
+        "openById": 1,
+        "getOwner": 2,
+        "baca": 58,
+        "lastRC": 21,
+        "append": 2,
+        "setv": 3,
+        "flush": 3,
+        "lock": 0
+      },
+      "total_lama": 329,
+      "total_baru": 102
+    },
+    {
+      "aksi": "tambah_program",
+      "lama": {
+        "getActive": 95,
+        "sheet": 56,
+        "openById": 3,
+        "getOwner": 6,
+        "baca": 37,
+        "lastRC": 22,
+        "append": 4,
+        "setv": 4,
+        "flush": 4,
+        "lock": 0
+      },
+      "baru": {
+        "getActive": 1,
+        "sheet": 11,
+        "openById": 1,
+        "getOwner": 2,
+        "baca": 37,
+        "lastRC": 22,
+        "append": 4,
+        "setv": 4,
+        "flush": 4,
+        "lock": 0
+      },
+      "total_lama": 231,
+      "total_baru": 86
+    }
+  ]
+}
