@@ -23,6 +23,12 @@ export function sessionHarness(){
  const call=(who,name,...args)=>plain(t.c.panggilAplikasiPanitia({token:who.token,nama:name,args}));
  const legacy=(who,data)=>{const context=t.c.bacaSesiPanitia_(who.token);Object.assign(context,{token:who.token,method:'simpanKoreksiIndex',args:[data]});t.c.konteksSesiPanitia_=context;try{return plain(t.c.ajukanKoreksiPanitia_(data));}finally{t.c.konteksSesiPanitia_=null;}};
  const asOwner=()=>{t.h.c.Session={getActiveUser:()=>({getEmail:()=> 'owner@test.invalid'})};};
+ // Mode verifikasi opsional: FORCE_JALUR_CEPAT=1 menyalakan cache otorisasi dan sakelar jalur cepat presensi sebelum tes dijalankan,
+ // agar seluruh tes perilaku yang ada dapat diulang pada jalur cepat. Tidak aktif pada npm test biasa.
+ if(process.env.FORCE_JALUR_CEPAT==='1'){const lama=t.h.c.Session;asOwner();t.c.aktifkanCacheOtorisasiPanitia();t.c.aktifkanValidasiCepatPresensiQR();t.h.c.Session=lama;
+  // Tes lama mensimulasikan pencabutan akses dengan menambal sheet langsung. Pada mode ini setiap tambalan dianggap perubahan lewat aplikasi
+  // (menaikkan versi direktori), sehingga yang diuji adalah bahwa pembatalan cache berversi menutup celah tersebut. Edit manual sungguhan dibatasi TTL (terdokumentasi).
+  const tambal=t.access.patch;t.access.patch=(...a)=>{const r=tambal(...a);t.c.naikkanVersiDirektoriAkses_();return r;};}
  const correction=(who=staff,id='SES001')=>{const r=call(who,'muatKehadiranIndex',id).peserta[0];return {id_kehadiran:r.id_kehadiran,versi:r.versi,datang:'2026-10-20T08:05',pulang:'',alasan:'Perbaikan waktu datang',dasar:'Pemeriksaan petugas'};};
  
  return {t,admin,staff,other:otherLogin,call,asOwner,append,columns,correction,u,legacy};
