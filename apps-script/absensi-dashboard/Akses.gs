@@ -416,7 +416,11 @@ function versiDirektoriAkses_(){return PropertiesService.getScriptProperties().g
 function naikkanVersiDirektoriAkses_(){PropertiesService.getScriptProperties().setProperty(kunciVersiDirektoriAkses_(),Utilities.getUuid());}
 function kunciKonteksAkses_(idBuku,versi,uid){return 'KONTEKS-AKSES|'+idBuku+'|'+versi+'|'+uid;}
 /** Mengembalikan konteks yang identik dengan jalur penuh, atau null (jalur penuh yang menentukan galat/pencabutan). Tidak pernah menulis. */
-function bacaSesiPanitiaCepat_(token){
+/**
+ * Tahap 7B: bila tundaJenjangAdmin, untuk Admin daftar Jenjang (dua pembacaan sheet) baru dibaca saat properti `jenjang` benar-benar diakses.
+ * Pemeriksaan server memakai `jenjang` hanya untuk peran terbatas (Petugas Kelas/Pengajar), sehingga Admin tidak pernah mengaksesnya. Respons boot ke klien tetap penuh.
+ */
+function bacaSesiPanitiaCepat_(token,tundaJenjangAdmin){
   // Tahap 6A: setiap bagian diberi penanda waktu (cepat_properti, cepat_cache, cepat_jenjang, cepat_sesi_pengajar) untuk log WAKTU.
   const awal=ukurTahap_('cepat_properti',()=>{
     if(!cacheKonteksAktif_())return null;
@@ -432,16 +436,19 @@ function bacaSesiPanitiaCepat_(token){
   const rawKonteks=ukurTahap_('cepat_cache',()=>cacheLoginAkses_().get(kunciKonteksAkses_(cfg.id,awal.versi,saved.uid)));if(!rawKonteks)return null;
   let e;try{e=JSON.parse(rawKonteks);}catch(x){return null;}
   if(!e||e.uid!==saved.uid||!Number.isFinite(e.dibuat)||now-e.dibuat>awal.ttl*1000||e.dibuat>now+5000||e.status!=='aktif'||e.sub!==saved.sub||e.versi!==saved.versi||!Array.isArray(e.penugasan))return null;
-  const levels=ukurTahap_('cepat_jenjang',()=>daftarJenjangAkses_()),sesi=e.peran==='pengajar'?ukurTahap_('cepat_sesi_pengajar',()=>sesiPengajarAktif_(e.uid)):[],
-    jenjang=e.peran==='pengajar'?levels.filter(j=>sesi.some(s=>s.id_jenjang===j.id&&s.id_program===j.program)):e.penugasan.map(p=>levels.find(j=>j.id===p.id_jenjang&&j.program===p.id_program)).filter(Boolean);
-  return {id:e.uid,nama:e.nama,email:e.email,peran:e.peran,jenjang,sesi,expires:saved.expires};
+  const tunda=Boolean(tundaJenjangAdmin)&&e.peran==='admin_pelatihan',sesi=e.peran==='pengajar'?ukurTahap_('cepat_sesi_pengajar',()=>sesiPengajarAktif_(e.uid)):[],
+    hitungJenjang=()=>{const levels=daftarJenjangAkses_();return e.peran==='pengajar'?levels.filter(j=>sesi.some(s=>s.id_jenjang===j.id&&s.id_program===j.program)):e.penugasan.map(p=>levels.find(j=>j.id===p.id_jenjang&&j.program===p.id_program)).filter(Boolean);};
+  const konteks={id:e.uid,nama:e.nama,email:e.email,peran:e.peran,jenjang:null,sesi,expires:saved.expires};
+  if(!tunda){konteks.jenjang=ukurTahap_('cepat_jenjang',hitungJenjang);return konteks;}
+  Object.defineProperty(konteks,'jenjang',{enumerable:true,configurable:true,get(){const nilai=hitungJenjang();Object.defineProperty(konteks,'jenjang',{value:nilai,enumerable:true,writable:true,configurable:true});return nilai;},set(nilai){Object.defineProperty(konteks,'jenjang',{value:nilai,enumerable:true,writable:true,configurable:true});}});
+  return konteks;
 }
 function aktifkanCacheOtorisasiPanitia(){pemilikAkses_();PropertiesService.getScriptProperties().setProperty(kunciSakelarCacheAkses_(),'aktif');naikkanVersiDirektoriAkses_();if(typeof console!=='undefined')console.log('Cache otorisasi AKTIF. Perubahan akses lewat aplikasi berlaku langsung; edit manual di spreadsheet berlaku paling lambat '+ttlKonteksAkses_()+' detik.');return {sukses:true,aktif:true,ttl_detik:ttlKonteksAkses_()};}
 function matikanCacheOtorisasiPanitia(){pemilikAkses_();PropertiesService.getScriptProperties().deleteProperty(kunciSakelarCacheAkses_());naikkanVersiDirektoriAkses_();if(typeof console!=='undefined')console.log('Cache otorisasi MATI. Semua panggilan memeriksa direktori langsung.');return {sukses:true,aktif:false};}
 /** Sakelar jalur cepat presensi QR (Tahap 3). Hanya pemilik; default mati. Lihat docs/INTEGRITAS_TAHAP3.md. */
 function aktifkanValidasiCepatPresensiQR(){pemilikAkses_();PropertiesService.getScriptProperties().setProperty(kunciSakelarIntegritasQR_(),'aktif');hapusIntegritasLolos_();if(typeof console!=='undefined')console.log('Validasi cepat presensi QR AKTIF. Presensi QR, buat token QR, dan presensi manual melewati validasi seluruh data dalam '+TTL_INTEGRITAS_QR_DETIK_+' detik setelah validasi penuh yang lolos.');return {sukses:true,aktif:true,ttl_detik:TTL_INTEGRITAS_QR_DETIK_};}
 function matikanValidasiCepatPresensiQR(){pemilikAkses_();PropertiesService.getScriptProperties().deleteProperty(kunciSakelarIntegritasQR_());hapusIntegritasLolos_();if(typeof console!=='undefined')console.log('Validasi cepat presensi QR MATI. Semua jalur memvalidasi seluruh data setiap kali.');return {sukses:true,aktif:false};}
-function bacaSesiPanitia_(token,diDalamLock){if(diDalamLock)return bacaSesiPanitiaTerkunci_(token,false);const cepat=ukurTahap_('jalur_cepat',()=>bacaSesiPanitiaCepat_(token));if(cepat)return cepat;const run=()=>{const lock=LockService.getScriptLock();ukurTahap_('tunggu_lock',()=>lock.waitLock(10000));try{return bacaSesiPanitiaTerkunci_(token,true);}finally{lock.releaseLock();}};return ukurTahap_('auth_penuh',()=>bacaanPermintaanAkses_?run():denganBacaanPermintaan_(true,run));}
+function bacaSesiPanitia_(token,diDalamLock,tundaJenjangAdmin){if(diDalamLock)return bacaSesiPanitiaTerkunci_(token,false);const cepat=ukurTahap_('jalur_cepat',()=>bacaSesiPanitiaCepat_(token,tundaJenjangAdmin));if(cepat)return cepat;const run=()=>{const lock=LockService.getScriptLock();ukurTahap_('tunggu_lock',()=>lock.waitLock(10000));try{return bacaSesiPanitiaTerkunci_(token,true);}finally{lock.releaseLock();}};return ukurTahap_('auth_penuh',()=>bacaanPermintaanAkses_?run():denganBacaanPermintaan_(true,run));}
 function bacaSesiPanitiaTerkunci_(token,perbarui){
   if(!aplikasiPanitiaAktif_())throw Error('SESI_BERAKHIR: Login aplikasi tidak aktif.');
   if(!/^[a-f0-9]{64}$/i.test(teksAkses_(token)))throw Error('SESI_BERAKHIR: Silakan masuk kembali.');
@@ -525,7 +532,7 @@ function panggilAplikasiPanitia(d){
   if(konteksSesiPanitia_)throw Error('Permintaan aplikasi bertingkat tidak diizinkan.');
   let selesaiAuth=null,status='ok';tahapWaktu_=[];
   try{
-    return denganHandleMemo_(()=>denganBacaanPermintaan_(pembacaanRinganAkses_(name),()=>{const context=bacaSesiPanitia_(d.token);selesaiAuth=Date.now();context.token=d.token;context.method=name;context.args=d.args;konteksSesiPanitia_=context;
+    return denganHandleMemo_(()=>denganBacaanPermintaan_(pembacaanRinganAkses_(name),()=>{const context=bacaSesiPanitia_(d.token,false,true);selesaiAuth=Date.now();context.token=d.token;context.method=name;context.args=d.args;konteksSesiPanitia_=context;
     try{periksaIzinFungsiPanitia_(name,d.args);return functions[name].apply(null,d.args);}finally{konteksSesiPanitia_=null;}}));
   }catch(e){status='galat';throw e;}
   finally{try{catatWaktuPanggilan_(name,mulai,selesaiAuth,status);}finally{tahapWaktu_=null;}}
@@ -542,7 +549,7 @@ function panggilBacaanDashboardPanitia(d){
  const mulai=Date.now(),rincian=[];let selesaiAuth=null,status='ok';tahapWaktu_=[];
  try{
   return denganHandleMemo_(()=>denganBacaanPermintaan_(true,()=>{
-   const context=bacaSesiPanitia_(d.token),functions=fungsiAplikasiPanitia_();selesaiAuth=Date.now();
+   const context=bacaSesiPanitia_(d.token,false,true),functions=fungsiAplikasiPanitia_();selesaiAuth=Date.now();
    try{return {sukses:true,hasil:calls.map(p=>{
     konteksSesiPanitia_=Object.assign({},context,{token:d.token,method:p.nama,args:p.args});const t=Date.now();
     try{periksaIzinFungsiPanitia_(p.nama,p.args);return {sukses:true,data:functions[p.nama].apply(null,p.args)};}
@@ -553,7 +560,7 @@ function panggilBacaanDashboardPanitia(d){
  }catch(e){status='galat';throw e;}
  finally{try{catatWaktuPanggilan_('kelompok',mulai,selesaiAuth,status,rincian);}finally{tahapWaktu_=null;}}
 }
-function periksaUlangSesiPanitia_(){if(!konteksSesiPanitia_)return;if(bacaanPermintaanAkses_)bacaanPermintaanAkses_={nilai:new Map(),rumus:new Map()};const old=konteksSesiPanitia_,current=ukurTahap_('periksa_ulang',()=>{if(cacheKonteksAktif_()){const cepat=bacaSesiPanitiaCepat_(old.token);if(cepat)return cepat;}return bacaSesiPanitia_(old.token,true);});konteksSesiPanitia_=Object.assign(current,{token:old.token,method:old.method,args:old.args,verifikasi_id:old.verifikasi_id});periksaIzinFungsiPanitia_(old.method,old.args);}
+function periksaUlangSesiPanitia_(){if(!konteksSesiPanitia_)return;if(bacaanPermintaanAkses_)bacaanPermintaanAkses_={nilai:new Map(),rumus:new Map()};const old=konteksSesiPanitia_,current=ukurTahap_('periksa_ulang',()=>{if(cacheKonteksAktif_()){const cepat=bacaSesiPanitiaCepat_(old.token,true);if(cepat)return cepat;}return bacaSesiPanitia_(old.token,true);});konteksSesiPanitia_=Object.assign(current,{token:old.token,method:old.method,args:old.args,verifikasi_id:old.verifikasi_id});periksaIzinFungsiPanitia_(old.method,old.args);}
 function saringAwalPanitia_(r){if(!terbatasDalamKonteksAkses_())return r;const data=r.data;data.program=data.program.filter(p=>programDalamAkses_(p.id_program));data.sesi=data.sesi.filter(dalamJenjangAkses_);data.jenjang=(data.jenjang||[]).filter(j=>dalamJenjangAkses_({id_jenjang:j.id,id_program:j.id_program}));data.program.forEach(p=>p.jenjang=data.jenjang.filter(j=>j.id_program===p.id_program).map(j=>j.nama).join(', '));return r;}
 function saringBerandaPanitia_(d){
  if(!terbatasDalamKonteksAkses_())return d;
@@ -586,7 +593,11 @@ function ajukanKoreksiPanitia_(d){
 }
 function muatPengajuanKoreksiPanitia_(){
  const rows=[...daftarPengajuanKoreksi_(bukuAkses_()).values()].filter(p=>!petugasDalamKonteksAkses_()||p.pengaju===konteksSesiPanitia_.id&&dalamJenjangAkses_(p));
- const people=tabelIndex_('Peserta',['id_peserta','nama_pegawai']).records,links=tabelIndex_('Keikutsertaan',['id_keikutsertaan','id_peserta']).records,sessions=tabelIndex_('Sesi',['id_sesi','nama_sesi']).records;return {sukses:true,pengajuan:rows.sort((a,b)=>b.created_at.localeCompare(a.created_at)).slice(0,100).map(p=>{const k=links.find(k=>teksAkses_(k.id_keikutsertaan)===p.id_keikutsertaan),person=k&&people.find(x=>teksAkses_(x.id_peserta)===teksAkses_(k.id_peserta)),s=sessions.find(s=>teksAkses_(s.id_sesi)===p.id_sesi);return Object.assign({},p,{nama_peserta:person?teksAkses_(person.nama_pegawai):p.id_keikutsertaan,nama_sesi:s?teksAkses_(s.nama_sesi):p.id_sesi});})};
+ // Tahap 7A: tanpa pengajuan tidak ada nama yang perlu dicari, jadi tiga tabel besar (Peserta, Keikutsertaan, Sesi) tidak dibaca.
+ if(!rows.length)return {sukses:true,pengajuan:[]};
+ const pertama=(records,kunci)=>{const m=new Map();records.forEach(r=>{const id=teksAkses_(r[kunci]);if(!m.has(id))m.set(id,r);});return m;};
+ const people=pertama(tabelIndex_('Peserta',['id_peserta','nama_pegawai']).records,'id_peserta'),links=pertama(tabelIndex_('Keikutsertaan',['id_keikutsertaan','id_peserta']).records,'id_keikutsertaan'),sessions=pertama(tabelIndex_('Sesi',['id_sesi','nama_sesi']).records,'id_sesi');
+ return {sukses:true,pengajuan:rows.sort((a,b)=>b.created_at.localeCompare(a.created_at)).slice(0,100).map(p=>{const k=links.get(p.id_keikutsertaan),person=k&&people.get(teksAkses_(k.id_peserta)),s=sessions.get(p.id_sesi);return Object.assign({},p,{nama_peserta:person?teksAkses_(person.nama_pegawai):p.id_keikutsertaan,nama_sesi:s?teksAkses_(s.nama_sesi):p.id_sesi});})};
 }
 function statusKoreksiOperasionalAkses_(id){const rows=tabelIndex_('Riwayat_Validasi',['id_transaksi_perubahan','status_transaksi']).records.filter(r=>r.id_transaksi_perubahan==='KOREKSI-PANITIA|'+id);return rows.length?teksAkses_(rows[rows.length-1].status_transaksi):'';}
 function putuskanPengajuanKoreksiPanitia_(d){
