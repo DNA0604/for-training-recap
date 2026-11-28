@@ -1,6 +1,9 @@
 # Monitoring Pelatihan Pegawai — handoff
 
-Status updated: 27 November 2026, Asia/Jakarta. The accepted sidebar/navigation baseline originated on 24 October; the latest deletion feature and transaction fix were subsequently deployed, tested and accepted by the user on 27 October. Continue from this cumulative source, superseding the earlier flat-dashboard UI package.
+Status updated: 28 November 2026, Asia/Jakarta. The accepted sidebar/navigation baseline originated on 24 October; the latest deletion feature and transaction fix were subsequently deployed, tested and accepted by the user on 27 October. Continue from this cumulative source, superseding the earlier flat-dashboard UI package.
+
+## Pemuatan tahap 7: pengajuan koreksi dan Jenjang Admin — 28 November 2026
+Stage 6 timings (27 November) showed muatPengajuanKoreksiPanitia at 2.3 seconds and cepat_jenjang at 0.56-1.13 seconds of the fast path. Stage 7 (Akses.gs only, no switches, no rule exceptions) skips the three big table reads when there are no correction requests and defers the Admin's Jenjang list until it is accessed. Not deployed or live-tested. [Details](apps-script/absensi-dashboard/docs/TAHAP7_PENGAJUAN_KOREKSI_DAN_JENJANG_ADMIN.md).
 
 ## Pemuatan tahap 6: absen manual dan pemilik buku akses — 27 November 2026
 Real stage 5 timings (26 November) showed manual attendance at 13.8 seconds (about 10.7 inside the function) and the first access-workbook touch costing about 1.5-2 seconds. Stage 6 adds finer timings, a read-phase-only reuse of table reads for manual attendance under the fast-attendance switch, and a 600-second memory of the access-workbook owner check under the authorization cache; approved by the user. Not deployed or live-tested. [Details](apps-script/absensi-dashboard/docs/TAHAP6_ABSEN_MANUAL_DAN_PEMILIK_BUKU.md).
