@@ -1,0 +1,35 @@
+{
+  "duration_seconds": 248.0,
+  "voiceover": false,
+  "video_bitstream_identical_to_accepted_visual_movie": true,
+  "video_stream_sha256": "SHA256=4988da30ad840cb706e5d6db51b29b255283a1b1813a7462530488692860d7f0",
+  "video_frames": 7440,
+  "full_av_decode_ok": true,
+  "audio": {
+    "codec": "aac",
+    "sample_rate": 48000,
+    "channels": 2,
+    "integrated_lufs": -18.29,
+    "true_peak_dbtp": -2.3,
+    "loudness_range_lu": 5.5,
+    "sample_peak_dbfs": -2.3018226623535156,
+    "no_sample_clipping": true,
+    "no_unintended_silent_seconds": true,
+    "closing_fade_verified": true
+  },
+  "player_checks": [
+    {
+      "mobile": false,
+      "sync_delta_seconds": 0.06824599998807912,
+      "play_pause_seek_mute_replay": true
+    },
+    {
+      "mobile": true,
+      "sync_delta_seconds": 0.05045000001192079,
+      "play_pause_seek_mute_replay": true
+    }
+  ],
+  "browser_errors": [],
+  "movie_sha256": "090209abf7de67829fc12b369f9d69c94aa55061764ba7129c903a3ffbda8a96",
+  "listening_review": "Pemeriksaan teknis lokal; penilaian rasa musik/volume oleh pengguna tetap diperlukan."
+}

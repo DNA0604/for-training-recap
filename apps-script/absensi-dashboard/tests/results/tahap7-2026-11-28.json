@@ -1,0 +1,113 @@
+{
+  "catatan": "Hitungan panggilan layanan tiruan, kondisi hangat; bukan waktu Google.",
+  "hasil": [
+    {
+      "aksi": "koreksi_kosong_admin",
+      "lama": {
+        "getActive": 1,
+        "sheet": 6,
+        "openById": 1,
+        "getOwner": 0,
+        "baca": 7,
+        "lastRC": 2,
+        "append": 0,
+        "setv": 0,
+        "flush": 0
+      },
+      "baru": {
+        "getActive": 1,
+        "sheet": 1,
+        "openById": 1,
+        "getOwner": 0,
+        "baca": 2,
+        "lastRC": 2,
+        "append": 0,
+        "setv": 0,
+        "flush": 0
+      },
+      "total_lama": 17,
+      "total_baru": 7
+    },
+    {
+      "aksi": "muat_kehadiran_admin",
+      "lama": {
+        "getActive": 1,
+        "sheet": 9,
+        "openById": 0,
+        "getOwner": 0,
+        "baca": 9,
+        "lastRC": 0,
+        "append": 0,
+        "setv": 0,
+        "flush": 0
+      },
+      "baru": {
+        "getActive": 1,
+        "sheet": 8,
+        "openById": 0,
+        "getOwner": 0,
+        "baca": 8,
+        "lastRC": 0,
+        "append": 0,
+        "setv": 0,
+        "flush": 0
+      },
+      "total_lama": 19,
+      "total_baru": 17
+    },
+    {
+      "aksi": "absen_manual_admin",
+      "lama": {
+        "getActive": 1,
+        "sheet": 8,
+        "openById": 1,
+        "getOwner": 0,
+        "baca": 14,
+        "lastRC": 5,
+        "append": 2,
+        "setv": 3,
+        "flush": 3
+      },
+      "baru": {
+        "getActive": 1,
+        "sheet": 7,
+        "openById": 1,
+        "getOwner": 0,
+        "baca": 11,
+        "lastRC": 5,
+        "append": 2,
+        "setv": 3,
+        "flush": 3
+      },
+      "total_lama": 37,
+      "total_baru": 33
+    },
+    {
+      "aksi": "buat_qr_admin",
+      "lama": {
+        "getActive": 1,
+        "sheet": 6,
+        "openById": 1,
+        "getOwner": 0,
+        "baca": 9,
+        "lastRC": 5,
+        "append": 1,
+        "setv": 1,
+        "flush": 1
+      },
+      "baru": {
+        "getActive": 1,
+        "sheet": 5,
+        "openById": 1,
+        "getOwner": 0,
+        "baca": 5,
+        "lastRC": 5,
+        "append": 1,
+        "setv": 1,
+        "flush": 1
+      },
+      "total_lama": 25,
+      "total_baru": 20
+    }
+  ]
+}

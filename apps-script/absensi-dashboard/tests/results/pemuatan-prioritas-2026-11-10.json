@@ -1,0 +1,1230 @@
+{
+  "base": "511f9df",
+  "note": "Synthetic source-call counts and Node CPU milliseconds; not Google latency. All complete responses compared.",
+  "scenarios": [
+    {
+      "size": 22,
+      "label": "initial",
+      "before": {
+        "ms": 5,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 10,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "getSpreadsheetTimeZone": 1
+        }
+      },
+      "after": {
+        "ms": 4,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 10,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "getSpreadsheetTimeZone": 1
+        }
+      }
+    },
+    {
+      "size": 22,
+      "label": "home",
+      "before": {
+        "ms": 13,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 13,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "formatDate": 43,
+          "parseDate": 3
+        }
+      },
+      "after": {
+        "ms": 10,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 13,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "formatDate": 43,
+          "parseDate": 3
+        }
+      }
+    },
+    {
+      "size": 22,
+      "label": "attendance",
+      "before": {
+        "ms": 13,
+        "calls": {
+          "openById": 2,
+          "getOwner": 4,
+          "getSheetByName": 15,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "formatDate": 55,
+          "parseDate": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Riwayat_Validasi/getValues": 1,
+          "main/Indikator_Perilaku/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "eval/Pengajar_Sesi/getValues": 1,
+          "eval/Pengajar_Sesi/getFormulas": 1
+        }
+      },
+      "after": {
+        "ms": 10,
+        "calls": {
+          "openById": 2,
+          "getOwner": 4,
+          "getSheetByName": 15,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "formatDate": 55,
+          "parseDate": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Riwayat_Validasi/getValues": 1,
+          "main/Indikator_Perilaku/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "eval/Pengajar_Sesi/getValues": 1,
+          "eval/Pengajar_Sesi/getFormulas": 1
+        }
+      }
+    },
+    {
+      "size": 22,
+      "label": "recap",
+      "before": {
+        "ms": 24,
+        "calls": {
+          "openById": 4,
+          "getOwner": 8,
+          "getSheetByName": 20,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Riwayat_Validasi/getValues": 1,
+          "getSpreadsheetTimeZone": 3,
+          "main/Sesi/getValues": 1,
+          "main/Jeda_Sesi/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "main/Indikator_Perilaku/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "formatDate": 73,
+          "parseDate": 3,
+          "eval/Pengajar_Sesi/getValues": 1,
+          "eval/Pengajar_Sesi/getFormulas": 1,
+          "eval/Evaluasi_Peserta/getValues": 1,
+          "eval/Evaluasi_Peserta/getFormulas": 1,
+          "eval/Evaluasi_Peserta_Panitia/getValues": 2,
+          "eval/Evaluasi_Peserta_Panitia/getFormulas": 1
+        }
+      },
+      "after": {
+        "ms": 18,
+        "calls": {
+          "openById": 4,
+          "getOwner": 8,
+          "getSheetByName": 20,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Riwayat_Validasi/getValues": 1,
+          "getSpreadsheetTimeZone": 3,
+          "main/Sesi/getValues": 1,
+          "main/Jeda_Sesi/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "main/Indikator_Perilaku/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "formatDate": 73,
+          "parseDate": 3,
+          "eval/Pengajar_Sesi/getValues": 1,
+          "eval/Pengajar_Sesi/getFormulas": 1,
+          "eval/Evaluasi_Peserta/getValues": 1,
+          "eval/Evaluasi_Peserta/getFormulas": 1,
+          "eval/Evaluasi_Peserta_Panitia/getValues": 2,
+          "eval/Evaluasi_Peserta_Panitia/getFormulas": 1
+        }
+      }
+    },
+    {
+      "size": 22,
+      "label": "manage",
+      "before": {
+        "ms": 4,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "main/Jeda_Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "formatDate": 11,
+          "parseDate": 3
+        }
+      },
+      "after": {
+        "ms": 3,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "main/Jeda_Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "formatDate": 11,
+          "parseDate": 3
+        }
+      }
+    },
+    {
+      "size": 22,
+      "label": "participants",
+      "before": {
+        "ms": 4,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1
+        }
+      },
+      "after": {
+        "ms": 3,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1
+        }
+      }
+    },
+    {
+      "size": 22,
+      "label": "evaluation",
+      "before": {
+        "ms": 5,
+        "calls": {
+          "openById": 3,
+          "getOwner": 6,
+          "getSheetByName": 19,
+          "access/Pengguna/getValues": 2,
+          "access/Pengguna/getFormulas": 2,
+          "access/Penugasan_Jenjang/getValues": 2,
+          "access/Penugasan_Jenjang/getFormulas": 2,
+          "access/Riwayat_Akses/getValues": 2,
+          "access/Riwayat_Akses/getFormulas": 2,
+          "main/Program/getValues": 2,
+          "main/Jenjang/getValues": 2,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "formatDate": 3,
+          "parseDate": 2,
+          "eval/Evaluasi_Peserta_Panitia/getValues": 2,
+          "eval/Evaluasi_Peserta_Panitia/getFormulas": 1
+        }
+      },
+      "after": {
+        "ms": 6,
+        "calls": {
+          "openById": 3,
+          "getOwner": 6,
+          "getSheetByName": 19,
+          "access/Pengguna/getValues": 2,
+          "access/Pengguna/getFormulas": 2,
+          "access/Penugasan_Jenjang/getValues": 2,
+          "access/Penugasan_Jenjang/getFormulas": 2,
+          "access/Riwayat_Akses/getValues": 2,
+          "access/Riwayat_Akses/getFormulas": 2,
+          "main/Program/getValues": 2,
+          "main/Jenjang/getValues": 2,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "formatDate": 3,
+          "parseDate": 2,
+          "eval/Evaluasi_Peserta_Panitia/getValues": 2,
+          "eval/Evaluasi_Peserta_Panitia/getFormulas": 1
+        }
+      }
+    },
+    {
+      "size": 22,
+      "label": "participant_summary",
+      "before": {
+        "ms": 2,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 20,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 2,
+          "main/Jenjang/getValues": 3,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 2,
+          "main/Peserta/getValues": 1
+        }
+      },
+      "after": {
+        "ms": 2,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1
+        }
+      }
+    },
+    {
+      "size": 100,
+      "label": "initial",
+      "before": {
+        "ms": 4,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 10,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "getSpreadsheetTimeZone": 1
+        }
+      },
+      "after": {
+        "ms": 3,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 10,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "getSpreadsheetTimeZone": 1
+        }
+      }
+    },
+    {
+      "size": 100,
+      "label": "home",
+      "before": {
+        "ms": 27,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 13,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "formatDate": 106,
+          "parseDate": 3
+        }
+      },
+      "after": {
+        "ms": 26,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 13,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "formatDate": 106,
+          "parseDate": 3
+        }
+      }
+    },
+    {
+      "size": 100,
+      "label": "attendance",
+      "before": {
+        "ms": 31,
+        "calls": {
+          "openById": 2,
+          "getOwner": 4,
+          "getSheetByName": 15,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "formatDate": 181,
+          "parseDate": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Riwayat_Validasi/getValues": 1,
+          "main/Indikator_Perilaku/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "eval/Pengajar_Sesi/getValues": 1,
+          "eval/Pengajar_Sesi/getFormulas": 1
+        }
+      },
+      "after": {
+        "ms": 31,
+        "calls": {
+          "openById": 2,
+          "getOwner": 4,
+          "getSheetByName": 15,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "formatDate": 181,
+          "parseDate": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Riwayat_Validasi/getValues": 1,
+          "main/Indikator_Perilaku/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "eval/Pengajar_Sesi/getValues": 1,
+          "eval/Pengajar_Sesi/getFormulas": 1
+        }
+      }
+    },
+    {
+      "size": 100,
+      "label": "recap",
+      "before": {
+        "ms": 62,
+        "calls": {
+          "openById": 4,
+          "getOwner": 8,
+          "getSheetByName": 20,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Riwayat_Validasi/getValues": 1,
+          "getSpreadsheetTimeZone": 3,
+          "main/Sesi/getValues": 1,
+          "main/Jeda_Sesi/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "main/Indikator_Perilaku/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "formatDate": 199,
+          "parseDate": 3,
+          "eval/Pengajar_Sesi/getValues": 1,
+          "eval/Pengajar_Sesi/getFormulas": 1,
+          "eval/Evaluasi_Peserta/getValues": 1,
+          "eval/Evaluasi_Peserta/getFormulas": 1,
+          "eval/Evaluasi_Peserta_Panitia/getValues": 2,
+          "eval/Evaluasi_Peserta_Panitia/getFormulas": 1
+        }
+      },
+      "after": {
+        "ms": 58,
+        "calls": {
+          "openById": 4,
+          "getOwner": 8,
+          "getSheetByName": 20,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Riwayat_Validasi/getValues": 1,
+          "getSpreadsheetTimeZone": 3,
+          "main/Sesi/getValues": 1,
+          "main/Jeda_Sesi/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "main/Indikator_Perilaku/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "formatDate": 199,
+          "parseDate": 3,
+          "eval/Pengajar_Sesi/getValues": 1,
+          "eval/Pengajar_Sesi/getFormulas": 1,
+          "eval/Evaluasi_Peserta/getValues": 1,
+          "eval/Evaluasi_Peserta/getFormulas": 1,
+          "eval/Evaluasi_Peserta_Panitia/getValues": 2,
+          "eval/Evaluasi_Peserta_Panitia/getFormulas": 1
+        }
+      }
+    },
+    {
+      "size": 100,
+      "label": "manage",
+      "before": {
+        "ms": 9,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "main/Jeda_Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "formatDate": 11,
+          "parseDate": 3
+        }
+      },
+      "after": {
+        "ms": 5,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "main/Jeda_Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "formatDate": 11,
+          "parseDate": 3
+        }
+      }
+    },
+    {
+      "size": 100,
+      "label": "participants",
+      "before": {
+        "ms": 6,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1
+        }
+      },
+      "after": {
+        "ms": 5,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1
+        }
+      }
+    },
+    {
+      "size": 100,
+      "label": "evaluation",
+      "before": {
+        "ms": 11,
+        "calls": {
+          "openById": 3,
+          "getOwner": 6,
+          "getSheetByName": 19,
+          "access/Pengguna/getValues": 2,
+          "access/Pengguna/getFormulas": 2,
+          "access/Penugasan_Jenjang/getValues": 2,
+          "access/Penugasan_Jenjang/getFormulas": 2,
+          "access/Riwayat_Akses/getValues": 2,
+          "access/Riwayat_Akses/getFormulas": 2,
+          "main/Program/getValues": 2,
+          "main/Jenjang/getValues": 2,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "formatDate": 3,
+          "parseDate": 2,
+          "eval/Evaluasi_Peserta_Panitia/getValues": 2,
+          "eval/Evaluasi_Peserta_Panitia/getFormulas": 1
+        }
+      },
+      "after": {
+        "ms": 11,
+        "calls": {
+          "openById": 3,
+          "getOwner": 6,
+          "getSheetByName": 19,
+          "access/Pengguna/getValues": 2,
+          "access/Pengguna/getFormulas": 2,
+          "access/Penugasan_Jenjang/getValues": 2,
+          "access/Penugasan_Jenjang/getFormulas": 2,
+          "access/Riwayat_Akses/getValues": 2,
+          "access/Riwayat_Akses/getFormulas": 2,
+          "main/Program/getValues": 2,
+          "main/Jenjang/getValues": 2,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "formatDate": 3,
+          "parseDate": 2,
+          "eval/Evaluasi_Peserta_Panitia/getValues": 2,
+          "eval/Evaluasi_Peserta_Panitia/getFormulas": 1
+        }
+      }
+    },
+    {
+      "size": 100,
+      "label": "participant_summary",
+      "before": {
+        "ms": 4,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 20,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 2,
+          "main/Jenjang/getValues": 3,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 2,
+          "main/Peserta/getValues": 1
+        }
+      },
+      "after": {
+        "ms": 5,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1
+        }
+      }
+    },
+    {
+      "size": 500,
+      "label": "initial",
+      "before": {
+        "ms": 11,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 10,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "getSpreadsheetTimeZone": 1
+        }
+      },
+      "after": {
+        "ms": 10,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 10,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "getSpreadsheetTimeZone": 1
+        }
+      }
+    },
+    {
+      "size": 500,
+      "label": "home",
+      "before": {
+        "ms": 131,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 13,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "formatDate": 426,
+          "parseDate": 3
+        }
+      },
+      "after": {
+        "ms": 144,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 13,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "formatDate": 426,
+          "parseDate": 3
+        }
+      }
+    },
+    {
+      "size": 500,
+      "label": "attendance",
+      "before": {
+        "ms": 152,
+        "calls": {
+          "openById": 2,
+          "getOwner": 4,
+          "getSheetByName": 15,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "formatDate": 821,
+          "parseDate": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Riwayat_Validasi/getValues": 1,
+          "main/Indikator_Perilaku/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "eval/Pengajar_Sesi/getValues": 1,
+          "eval/Pengajar_Sesi/getFormulas": 1
+        }
+      },
+      "after": {
+        "ms": 144,
+        "calls": {
+          "openById": 2,
+          "getOwner": 4,
+          "getSheetByName": 15,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "formatDate": 821,
+          "parseDate": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Riwayat_Validasi/getValues": 1,
+          "main/Indikator_Perilaku/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "eval/Pengajar_Sesi/getValues": 1,
+          "eval/Pengajar_Sesi/getFormulas": 1
+        }
+      }
+    },
+    {
+      "size": 500,
+      "label": "recap",
+      "before": {
+        "ms": 288,
+        "calls": {
+          "openById": 4,
+          "getOwner": 8,
+          "getSheetByName": 20,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Riwayat_Validasi/getValues": 1,
+          "getSpreadsheetTimeZone": 3,
+          "main/Sesi/getValues": 1,
+          "main/Jeda_Sesi/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "main/Indikator_Perilaku/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "formatDate": 839,
+          "parseDate": 3,
+          "eval/Pengajar_Sesi/getValues": 1,
+          "eval/Pengajar_Sesi/getFormulas": 1,
+          "eval/Evaluasi_Peserta/getValues": 1,
+          "eval/Evaluasi_Peserta/getFormulas": 1,
+          "eval/Evaluasi_Peserta_Panitia/getValues": 2,
+          "eval/Evaluasi_Peserta_Panitia/getFormulas": 1
+        }
+      },
+      "after": {
+        "ms": 281,
+        "calls": {
+          "openById": 4,
+          "getOwner": 8,
+          "getSheetByName": 20,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Riwayat_Validasi/getValues": 1,
+          "getSpreadsheetTimeZone": 3,
+          "main/Sesi/getValues": 1,
+          "main/Jeda_Sesi/getValues": 1,
+          "main/Kehadiran/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Catatan_Perilaku/getValues": 1,
+          "main/Indikator_Perilaku/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "formatDate": 839,
+          "parseDate": 3,
+          "eval/Pengajar_Sesi/getValues": 1,
+          "eval/Pengajar_Sesi/getFormulas": 1,
+          "eval/Evaluasi_Peserta/getValues": 1,
+          "eval/Evaluasi_Peserta/getFormulas": 1,
+          "eval/Evaluasi_Peserta_Panitia/getValues": 2,
+          "eval/Evaluasi_Peserta_Panitia/getFormulas": 1
+        }
+      }
+    },
+    {
+      "size": 500,
+      "label": "manage",
+      "before": {
+        "ms": 13,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "main/Jeda_Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "formatDate": 11,
+          "parseDate": 3
+        }
+      },
+      "after": {
+        "ms": 13,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "main/Sesi/getValues": 1,
+          "main/Jeda_Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "formatDate": 11,
+          "parseDate": 3
+        }
+      }
+    },
+    {
+      "size": 500,
+      "label": "participants",
+      "before": {
+        "ms": 20,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1
+        }
+      },
+      "after": {
+        "ms": 25,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1
+        }
+      }
+    },
+    {
+      "size": 500,
+      "label": "evaluation",
+      "before": {
+        "ms": 107,
+        "calls": {
+          "openById": 3,
+          "getOwner": 6,
+          "getSheetByName": 19,
+          "access/Pengguna/getValues": 2,
+          "access/Pengguna/getFormulas": 2,
+          "access/Penugasan_Jenjang/getValues": 2,
+          "access/Penugasan_Jenjang/getFormulas": 2,
+          "access/Riwayat_Akses/getValues": 2,
+          "access/Riwayat_Akses/getFormulas": 2,
+          "main/Program/getValues": 2,
+          "main/Jenjang/getValues": 2,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "formatDate": 3,
+          "parseDate": 2,
+          "eval/Evaluasi_Peserta_Panitia/getValues": 2,
+          "eval/Evaluasi_Peserta_Panitia/getFormulas": 1
+        }
+      },
+      "after": {
+        "ms": 104,
+        "calls": {
+          "openById": 3,
+          "getOwner": 6,
+          "getSheetByName": 19,
+          "access/Pengguna/getValues": 2,
+          "access/Pengguna/getFormulas": 2,
+          "access/Penugasan_Jenjang/getValues": 2,
+          "access/Penugasan_Jenjang/getFormulas": 2,
+          "access/Riwayat_Akses/getValues": 2,
+          "access/Riwayat_Akses/getFormulas": 2,
+          "main/Program/getValues": 2,
+          "main/Jenjang/getValues": 2,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1,
+          "getSpreadsheetTimeZone": 1,
+          "formatDate": 3,
+          "parseDate": 2,
+          "eval/Evaluasi_Peserta_Panitia/getValues": 2,
+          "eval/Evaluasi_Peserta_Panitia/getFormulas": 1
+        }
+      }
+    },
+    {
+      "size": 500,
+      "label": "participant_summary",
+      "before": {
+        "ms": 17,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 20,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 2,
+          "main/Jenjang/getValues": 3,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 2,
+          "main/Peserta/getValues": 1
+        }
+      },
+      "after": {
+        "ms": 21,
+        "calls": {
+          "openById": 1,
+          "getOwner": 2,
+          "getSheetByName": 11,
+          "access/Pengguna/getValues": 1,
+          "access/Pengguna/getFormulas": 1,
+          "access/Penugasan_Jenjang/getValues": 1,
+          "access/Penugasan_Jenjang/getFormulas": 1,
+          "access/Riwayat_Akses/getValues": 1,
+          "access/Riwayat_Akses/getFormulas": 1,
+          "main/Program/getValues": 1,
+          "main/Jenjang/getValues": 1,
+          "main/Sesi/getValues": 1,
+          "main/Keikutsertaan/getValues": 1,
+          "main/Peserta/getValues": 1
+        }
+      }
+    }
+  ]
+}

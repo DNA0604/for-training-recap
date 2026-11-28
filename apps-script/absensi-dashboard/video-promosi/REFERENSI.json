@@ -1,0 +1,36 @@
+{
+  "review_date": "2026-11-13",
+  "scope": "Visual review of chronological frame sequences, including transition samples 0.25\u20130.3 seconds apart. No audio transcription or soundtrack assessment performed. No video production or application changes.",
+  "references": [
+    {
+      "reference": 1,
+      "filename": "4721e1ffd29f1ed04ae091ff7d21fce6.mp4",
+      "sha256": "493e4fa0de9e40ad9cd98f8122db3e8aa64f9638cb1846b18395b4032e880ff4",
+      "duration_seconds": 14.067,
+      "width": 576,
+      "height": 1024,
+      "fps": "30/1",
+      "audio_present": true
+    },
+    {
+      "reference": 2,
+      "filename": "b08f134f07209b426ee1ef5f183c1d24.mp4",
+      "sha256": "6abc4a82b4aac4b8f7a8dbe406c44851439211fa3ead27fbd43f82b790dc4ae9",
+      "duration_seconds": 40.797,
+      "width": 576,
+      "height": 1024,
+      "fps": "30/1",
+      "audio_present": true
+    },
+    {
+      "reference": 3,
+      "filename": "35de181d912cafa1caeafc57e81adcc6.mp4",
+      "sha256": "2d14ce41fc864df3030fd45cf7e7f3160ff344e3981900f0abca05378d624e67",
+      "duration_seconds": 34.033,
+      "width": 1024,
+      "height": 576,
+      "fps": "30/1",
+      "audio_present": true
+    }
+  ]
+}

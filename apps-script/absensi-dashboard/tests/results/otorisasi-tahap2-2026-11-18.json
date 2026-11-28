@@ -1,0 +1,185 @@
+{
+  "catatan": "Hitungan panggilan layanan tiruan; bukan waktu Google. Panggilan hangat = cache sudah terisi.",
+  "hasil": [
+    {
+      "peserta": 22,
+      "aksi": "boot_sesi",
+      "mati": {
+        "baca": 8,
+        "dir": 6,
+        "openById": 1,
+        "getOwner": 2,
+        "lock": 1
+      },
+      "aktif": {
+        "baca": 2,
+        "dir": 0,
+        "openById": 0,
+        "getOwner": 0,
+        "lock": 0
+      }
+    },
+    {
+      "peserta": 22,
+      "aksi": "data_awal",
+      "mati": {
+        "baca": 10,
+        "dir": 6,
+        "openById": 1,
+        "getOwner": 2,
+        "lock": 1
+      },
+      "aktif": {
+        "baca": 4,
+        "dir": 0,
+        "openById": 0,
+        "getOwner": 0,
+        "lock": 0
+      }
+    },
+    {
+      "peserta": 22,
+      "aksi": "masuk_sesi",
+      "mati": {
+        "baca": 17,
+        "dir": 6,
+        "openById": 2,
+        "getOwner": 4,
+        "lock": 1
+      },
+      "aktif": {
+        "baca": 11,
+        "dir": 0,
+        "openById": 1,
+        "getOwner": 2,
+        "lock": 0
+      }
+    },
+    {
+      "peserta": 22,
+      "aksi": "daftar_peserta",
+      "mati": {
+        "baca": 11,
+        "dir": 6,
+        "openById": 1,
+        "getOwner": 2,
+        "lock": 1
+      },
+      "aktif": {
+        "baca": 5,
+        "dir": 0,
+        "openById": 0,
+        "getOwner": 0,
+        "lock": 0
+      }
+    },
+    {
+      "peserta": 22,
+      "aksi": "tambah_program",
+      "mati": {
+        "baca": 48,
+        "dir": 16,
+        "openById": 3,
+        "getOwner": 6,
+        "lock": 2
+      },
+      "aktif": {
+        "baca": 42,
+        "dir": 10,
+        "openById": 2,
+        "getOwner": 4,
+        "lock": 1
+      }
+    },
+    {
+      "peserta": 500,
+      "aksi": "boot_sesi",
+      "mati": {
+        "baca": 8,
+        "dir": 6,
+        "openById": 1,
+        "getOwner": 2,
+        "lock": 1
+      },
+      "aktif": {
+        "baca": 2,
+        "dir": 0,
+        "openById": 0,
+        "getOwner": 0,
+        "lock": 0
+      }
+    },
+    {
+      "peserta": 500,
+      "aksi": "data_awal",
+      "mati": {
+        "baca": 10,
+        "dir": 6,
+        "openById": 1,
+        "getOwner": 2,
+        "lock": 1
+      },
+      "aktif": {
+        "baca": 4,
+        "dir": 0,
+        "openById": 0,
+        "getOwner": 0,
+        "lock": 0
+      }
+    },
+    {
+      "peserta": 500,
+      "aksi": "masuk_sesi",
+      "mati": {
+        "baca": 17,
+        "dir": 6,
+        "openById": 2,
+        "getOwner": 4,
+        "lock": 1
+      },
+      "aktif": {
+        "baca": 11,
+        "dir": 0,
+        "openById": 1,
+        "getOwner": 2,
+        "lock": 0
+      }
+    },
+    {
+      "peserta": 500,
+      "aksi": "daftar_peserta",
+      "mati": {
+        "baca": 11,
+        "dir": 6,
+        "openById": 1,
+        "getOwner": 2,
+        "lock": 1
+      },
+      "aktif": {
+        "baca": 5,
+        "dir": 0,
+        "openById": 0,
+        "getOwner": 0,
+        "lock": 0
+      }
+    },
+    {
+      "peserta": 500,
+      "aksi": "tambah_program",
+      "mati": {
+        "baca": 48,
+        "dir": 16,
+        "openById": 3,
+        "getOwner": 6,
+        "lock": 2
+      },
+      "aktif": {
+        "baca": 42,
+        "dir": 10,
+        "openById": 2,
+        "getOwner": 4,
+        "lock": 1
+      }
+    }
+  ]
+}

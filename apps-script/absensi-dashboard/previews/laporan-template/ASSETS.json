@@ -1,0 +1,22 @@
+{
+  "source_document": "Template_Laporan_Pelatihan.docx",
+  "purpose": "User-approved cover/header artwork, embedded without image regeneration.",
+  "assets": {
+    "cover": {
+      "source_part": "word/media/image2.jpg",
+      "dimensions_px": [
+        1414,
+        2000
+      ],
+      "sha256": "b1b98b84a395acc35dc863d79b790b0052e27507062a622e07328878cdd02164"
+    },
+    "logo": {
+      "source_part": "word/media/image1.png",
+      "dimensions_px": [
+        259,
+        259
+      ],
+      "sha256": "53d63f5e5eacbce7eca95d9a27ecfa57aca46f43b8efb15ee00cb0ee236ad4c7"
+    }
+  }
+}
